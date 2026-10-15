@@ -1,0 +1,19 @@
+/*
+ | medias — bloc <style> de ./medias.html, repris VERBATIM.
+ |
+ | Le prototype declare ces regles EN LIGNE dans sa page. L'extraction du shell
+ | ne prend que le balisage : sans ce fichier, les classes ci-dessous n'ont
+ | aucun effet et la page sort sans ses pastilles, ses cartes ou ses badges.
+ |
+ | Charge par la vue via @push('styles'), donc APRES tailwind.css — la place
+ | qu'occupe le bloc dans le prototype, et d'ou il tire sa specificite.
+ |
+ | Une feuille PAR PAGE et non un fichier commun : deux pages definissent
+ | `.hub-pill` et `.no-scrollbar` differemment, un fichier unique en ecraserait
+ | une.
+ */
+
+.press-tile { aspect-ratio:4/3; border:1px dashed #c7cbd1; border-radius:1rem; background:#f8f9fb; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#85878a; text-align:center; padding:1rem; }
+  .press-tile.on-dark { background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.3); color:#fff; }
+  .press-card { border:1px solid #edeef1; border-radius:1rem; background:#fff; }
+  .press-logo { width:56px; height:56px; border-radius:50%; background:#f5f7fa; display:flex; align-items:center; justify-content:center; color:#85878a; font-weight:700; }

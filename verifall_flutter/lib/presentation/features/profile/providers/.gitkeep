@@ -1,0 +1,4 @@
+Ce dossier est vide a dessein : il fait partie de l'arborescence gelee du
+socle, pour que les cinq parcours sachent ou poser leurs fichiers sans avoir
+a inventer un emplacement. Un parcours qui cree son propre dossier ailleurs
+oblige les quatre autres a chercher.

@@ -1,0 +1,16 @@
+/*
+ | fonctionnalites — bloc <style> de ./fonctionnalites.html, repris VERBATIM.
+ |
+ | Le prototype declare ces regles EN LIGNE dans sa page. L'extraction du shell
+ | ne prend que le balisage : sans ce fichier, les classes ci-dessous n'ont
+ | aucun effet et la page sort sans ses pastilles, ses cartes ou ses badges.
+ |
+ | Charge par la vue via @push('styles'), donc APRES tailwind.css — la place
+ | qu'occupe le bloc dans le prototype, et d'ou il tire sa specificite.
+ |
+ | Une feuille PAR PAGE et non un fichier commun : deux pages definissent
+ | `.hub-pill` et `.no-scrollbar` differemment, un fichier unique en ecraserait
+ | une.
+ */
+
+.feat-tab.is-active { background: #09B850; color: #fff; }

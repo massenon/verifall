@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mes Tutoriels — Vérif'All</title>
+<meta name="description" content="Votre parcours d'apprentissage : cours prioritaire, quiz à reprendre, exercices à échéance, guides pratiques et certificats.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/mes-tutoriels.html">
+<meta property="og:title" content="Mes Tutoriels — Vérif'All">
+<meta property="og:description" content="Votre parcours d'apprentissage : cours prioritaire, quiz à reprendre, exercices à échéance, guides pratiques et certificats.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link is-active" href="mes-tutoriels.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+    <div><nav class="text-xs text-slate2 mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-primary">Dashboard</a> <span class="text-line" aria-hidden="true">/</span> <span class="text-ink font-medium">Apprentissage</span> <span class="text-line" aria-hidden="true">/</span> <span class="text-ink font-medium">Mes Tutoriels</span></nav>
+      <h1 class="text-2xl md:text-3xl font-display font-bold text-ink leading-tight">Mes Tutoriels</h1><p class="text-slate2 mt-1 mb-0">Votre parcours d'apprentissage — continuez vos cours, reprenez vos quiz et développez vos réflexes pour mieux vérifier l'information.</p>
+    </div><div class="flex flex-wrap items-center gap-2"><a href="catalogue.html" class="hidden" data-hero-continue></a><a href="catalogue.html" class="inline-flex items-center gap-1.5 rounded-xl border border-line bg-surface text-sm font-semibold text-ink px-4 py-2.5 hover:bg-canvas min-h-[44px]">Catalogue</a></div>
+  </div>
+  <nav class="flex gap-2 overflow-x-auto pb-1 mb-6 no-scrollbar" aria-label="Accès rapides">
+    <a href="live-classes.html" class="vf-quick"><span class="material-symbols-rounded !text-[19px] text-primary" aria-hidden="true">videocam</span> Live class</a>
+    <a href="evaluations.html" class="vf-quick"><span class="material-symbols-rounded !text-[19px] text-primary" aria-hidden="true">quiz</span> Mes Quiz</a>
+    <a href="exercices.html" class="vf-quick"><span class="material-symbols-rounded !text-[19px] text-primary" aria-hidden="true">assignment</span> Exercices</a>
+    <a href="catalogue.html" class="vf-quick"><span class="material-symbols-rounded !text-[19px] text-primary" aria-hidden="true">school</span> Catalogue</a>
+  </nav>
+
+  <section data-kpi-accordion class="mb-8">
+    <button type="button" class="kpi-toggle w-full items-center justify-between card px-4 py-3 mb-3" aria-expanded="false">
+      <span class="text-sm font-display font-bold text-ink">Résumé de mon apprentissage</span>
+      <span class="material-symbols-rounded transition-transform" aria-hidden="true">expand_more</span>
+    </button>
+    <div class="kpi-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="vf-kpi"><p class="vf-kpi-label">Moyenne Quiz</p><p class="vf-kpi-value" data-kt-avg>—</p></div>
+      <div class="vf-kpi"><p class="vf-kpi-label">Unités investies</p><p class="vf-kpi-value" data-kt-invested>0</p></div>
+      <div class="vf-kpi"><p class="vf-kpi-label">Unités gagnées</p><p class="vf-kpi-value text-vtrue" data-kt-earned>0</p></div>
+      <div class="vf-kpi"><p class="vf-kpi-label">Certificats obtenus</p><p class="vf-kpi-value text-xp" data-kt-certs>0</p></div>
+    </div>
+  </section>
+
+  <section class="mb-12 hidden" data-continue-wrap>
+    <p class="vf-eyebrow">Continuer</p>
+    <h2 class="text-xl lg:text-2xl font-display font-bold text-ink mb-4">Continuer votre apprentissage</h2>
+    <div class="card overflow-hidden sm:flex" data-continue-card></div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-xl font-display font-bold text-ink mb-4">Cours en cours</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" data-list-progress></div>
+    <div class="hidden card p-10 text-center" data-empty-progress>
+      <span class="text-3xl block mb-2" aria-hidden="true">🎓</span>
+      <p class="text-base font-display font-bold text-ink mb-1">Votre parcours commence ici</p>
+      <p class="text-sm text-slate2 mb-4">Découvrez les tutoriels Vérif'All et développez vos réflexes de vérification.</p>
+      <a href="catalogue.html" class="inline-flex rounded-xl bg-primary text-white text-sm font-semibold px-6 py-3 hover:bg-primary-dark min-h-[44px] items-center">Découvrir le catalogue</a>
+    </div>
+  </section>
+
+  <section class="mb-12 hidden" data-retry-wrap>
+    <h2 class="text-xl font-display font-bold text-ink mb-1">Quiz à reprendre</h2>
+    <p class="text-sm text-slate2 mb-4">Vous pouvez progresser — chaque tentative compte.</p>
+    <div class="space-y-3" data-retry-list></div>
+  </section>
+
+  <section class="mb-12 hidden" data-due-wrap>
+    <h2 class="text-xl font-display font-bold text-ink mb-4">Exercices à terminer</h2>
+    <div class="space-y-3" data-due-list></div>
+  </section>
+
+  <section class="mb-12">
+    <h2 class="text-xl font-display font-bold text-ink mb-1">Guides pratiques</h2>
+    <p class="text-sm text-slate2 mb-4">Des formats courts pour apprendre un réflexe précis en quelques minutes.</p>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <article class="card p-5 flex flex-col">
+        <p class="text-[10px] font-bold tracking-[.1em] text-slate2 uppercase mb-2">Débutant · 3 min</p>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Vérifier une image en 3 minutes</h3>
+        <p class="text-sm text-slate2 mb-4">La recherche inversée expliquée pas à pas, avec un cas réel d'image recyclée.</p>
+        <a href="../tutoriels-details.html?id=verifier-image" class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary self-start min-h-[44px]">Lire le guide <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+      </article>
+      <article class="card p-5 flex flex-col">
+        <p class="text-[10px] font-bold tracking-[.1em] text-slate2 uppercase mb-2">Débutant · 4 min</p>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Repérer une arnaque au recrutement</h3>
+        <p class="text-sm text-slate2 mb-4">Les 5 signaux d'alerte des fausses offres d'emploi et les bons réflexes.</p>
+        <a href="../tutoriels-details.html?id=reperer-arnaque" class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary self-start min-h-[44px]">Lire le guide <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+      </article>
+      <article class="card p-5 flex flex-col">
+        <p class="text-[10px] font-bold tracking-[.1em] text-slate2 uppercase mb-2">Débutant · 2 min</p>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Lire un rapport Vérif'All</h3>
+        <p class="text-sm text-slate2 mb-4">Score, verdict, sources croisées : comprendre chaque élément de votre rapport.</p>
+        <a href="../tutoriels-details.html?id=lire-rapport" class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary self-start min-h-[44px]">Lire le guide <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+      </article>
+      <article class="card p-5 flex flex-col">
+        <p class="text-[10px] font-bold tracking-[.1em] text-slate2 uppercase mb-2">Intermédiaire · 5 min</p>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Que faire face à un audio suspect ?</h3>
+        <p class="text-sm text-slate2 mb-4">Voix clonées et audios sortis de leur contexte : la marche à suivre complète.</p>
+        <a href="../tutoriels-details.html?id=audio-suspect" class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary self-start min-h-[44px]">Lire le guide <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-display font-bold text-ink mb-4">Tutoriels terminés</h2>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" data-list-done></div>
+    <div class="hidden card p-8 text-center" data-empty-done>
+      <p class="text-sm text-slate2 mb-0">Terminez un cours à 100 % pour le retrouver ici avec son certificat.</p>
+    </div>
+  </section>
+<script>
+window.VFPage = function (VF, S) {
+  function esc(x) { return String(x).replace(/</g, '&lt;'); }
+
+  /* ——— KPIs ——— */
+  var scores = [], invested = 0, earned = 0, certs = 0;
+  S.COURSES.forEach(function (c) {
+    var st = S.courseState(c.id);
+    c.quizzes.forEach(function (q) { var r = st.quizzes[q.id]; if (r) scores.push(r.score); });
+    if (st.certId) certs++;
+  });
+  S.state.transactions.forEach(function (t) {
+    if (t.label.indexOf('Achat cours') === 0 && t.delta < 0) invested += -t.delta;
+    if (t.label.indexOf('Bonus cours terminé') === 0 && t.delta > 0) earned += t.delta;
+  });
+  document.querySelector('[data-kt-avg]').textContent = scores.length
+    ? Math.round(scores.reduce(function (a, b) { return a + b; }, 0) / scores.length) + ' %' : '—';
+  document.querySelector('[data-kt-invested]').textContent = invested;
+  document.querySelector('[data-kt-earned]').textContent = earned;
+  document.querySelector('[data-kt-certs]').textContent = certs;
+
+  /* ——— Smart Resume : libellé contextuel ——— */
+  function resumeLabel(prog, enrolled) {
+    if (!enrolled) return 'Découvrir';
+    if (prog <= 0) return 'Commencer';
+    if (prog < 100) return 'Reprendre';
+    return 'Revoir';
+  }
+
+  /* ——— Cours prioritaire (Continuer) ——— */
+  var inProgress = [], done = [];
+  S.COURSES.forEach(function (c) {
+    var status = S.courseStatus(c.id);
+    if (status === 'COMPLETED') done.push(c);
+    else if (status === 'IN_PROGRESS' || status === 'ENROLLED') inProgress.push(c);
+  });
+  inProgress.sort(function (a, b) { return S.progress(b.id) - S.progress(a.id); });
+
+  if (inProgress.length) {
+    var top = inProgress[0];
+    var tp = S.progress(top.id);
+    var next = S.nextLesson(top.id);
+    var stTop = S.courseState(top.id);
+    var href = next ? 'lecon.html?c=' + top.id + '&l=' + next.id : 'cours.html?c=' + top.id;
+    document.querySelector('[data-continue-wrap]').classList.remove('hidden');
+    document.querySelector('[data-continue-card]').innerHTML =
+      '<img src="' + top.cover + '" alt="" class="w-full sm:w-64 object-cover shrink-0" style="aspect-ratio:16/9" aria-hidden="true">'
+      + '<div class="p-6 flex flex-col flex-1">'
+      + '<h3 class="text-lg font-display font-bold text-ink leading-snug mb-2">' + esc(top.title) + '</h3>'
+      + '<div class="flex items-center gap-3 mb-1.5"><span class="progress flex-1"><span style="width:' + tp + '%"></span></span><strong class="text-sm">' + tp + ' %</strong></div>'
+      + '<p class="text-sm text-slate2 mb-1">' + stTop.completedLessons.length + ' / ' + top.lessons.length + ' leçons terminées</p>'
+      + (next ? '<p class="text-sm text-slate2 mb-4">Prochaine leçon : <strong class="text-ink">' + esc(next.title) + '</strong></p>' : '')
+      + '<a href="' + href + '" class="mt-auto self-start inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-6 py-3 hover:bg-primary-dark min-h-[44px]">' + resumeLabel(tp, true) + ' le cours ' + '<span class="material-symbols-rounded !text-[17px]">arrow_forward</span></a>'
+      + '</div>';
+    var heroBtn = document.querySelector('[data-hero-continue]');
+    heroBtn.className = 'inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-4 py-2.5 hover:bg-primary-dark min-h-[44px]';
+    heroBtn.href = href;
+    heroBtn.textContent = 'Continuer mon apprentissage';
+  }
+
+  /* ——— Cours en cours (hors prioritaire) ——— */
+  var rest = inProgress.slice(1).length ? inProgress.slice(1) : inProgress.slice(0, 0);
+  var listP = inProgress.length > 1 ? inProgress.slice(1) : [];
+  /* si un seul cours en cours, la section grid montre aussi les cours à commencer (catalogue teaser) */
+  var lp = document.querySelector('[data-list-progress]');
+  var cardsHtml = (listP.length ? listP : inProgress).map(function (c) {
+    var prog = S.progress(c.id);
+    var st = S.courseState(c.id);
+    var next = S.nextLesson(c.id);
+    var href = st.enrolled && next ? 'lecon.html?c=' + c.id + '&l=' + next.id : 'cours.html?c=' + c.id;
+    return '<article class="card p-5 flex flex-col">'
+      + '<span class="vbadge vbadge-progress self-start mb-3">EN COURS</span>'
+      + '<h3 class="text-base font-display font-bold text-ink leading-snug mb-3">' + esc(c.title) + '</h3>'
+      + '<div class="flex items-center gap-2.5 mb-1"><span class="progress flex-1"><span style="width:' + prog + '%"></span></span><strong class="text-sm">' + prog + ' %</strong></div>'
+      + '<p class="text-xs text-slate2 mb-4">' + st.completedLessons.length + ' / ' + c.lessons.length + ' leçons</p>'
+      + '<a href="' + href + '" class="mt-auto self-start inline-flex items-center rounded-xl border border-primary text-primary text-sm font-semibold px-5 py-2.5 hover:bg-primary hover:text-white transition-colors min-h-[44px]">' + resumeLabel(prog, st.enrolled) + '</a>'
+      + '</article>';
+  }).join('');
+  lp.innerHTML = cardsHtml;
+  document.querySelector('[data-empty-progress]').classList.toggle('hidden', inProgress.length > 0);
+  if (inProgress.length === 1) lp.innerHTML = '';
+
+  /* ——— Quiz à reprendre (échoués) ——— */
+  var retries = [];
+  S.COURSES.forEach(function (c) {
+    var st = S.courseState(c.id);
+    c.quizzes.forEach(function (q) {
+      var r = st.quizzes[q.id];
+      if (r && !r.passed) retries.push({ c: c, q: q, r: r });
+    });
+  });
+  if (retries.length) {
+    document.querySelector('[data-retry-wrap]').classList.remove('hidden');
+    document.querySelector('[data-retry-list]').innerHTML = retries.map(function (x) {
+      return '<article class="card p-5 flex flex-wrap items-center gap-4" style="border-color:rgba(214,164,25,.35);background:#FFFDF5">'
+        + '<div class="min-w-0 flex-1"><p class="text-sm font-display font-bold text-ink mb-0.5">' + esc(x.q.title) + '</p>'
+        + '<p class="text-xs text-slate2 mb-0">' + esc(x.c.title) + ' · Score : ' + x.r.score + ' % · Seuil : ' + x.q.passScore + ' %</p></div>'
+        + '<a href="quiz.html?c=' + x.c.id + '&q=' + x.q.id + '" class="inline-flex items-center rounded-xl bg-primary text-white text-sm font-semibold px-5 py-2.5 hover:bg-primary-dark min-h-[44px]">Reprendre le quiz</a>'
+        + '</article>';
+    }).join('');
+  }
+
+  /* ——— Exercices à échéance ——— */
+  var DEADLINES = { DB1: ['24 août 2026', 6], DC1: ['31 août 2026', 13] };
+  var dues = [];
+  S.COURSES.forEach(function (c) {
+    var st = S.courseState(c.id);
+    if (!st.enrolled) return;
+    c.assignments.forEach(function (a) {
+      if (!st.assignments[a.id] || st.assignments[a.id] === 'failed') {
+        dues.push({ c: c, a: a, dl: DEADLINES[a.id] });
+      }
+    });
+  });
+  if (dues.length) {
+    document.querySelector('[data-due-wrap]').classList.remove('hidden');
+    document.querySelector('[data-due-list]').innerHTML = dues.map(function (x) {
+      return '<article class="card p-5 flex flex-wrap items-center gap-4">'
+        + '<div class="min-w-0 flex-1"><p class="text-sm font-display font-bold text-ink mb-0.5">' + esc(x.a.title) + '</p>'
+        + '<p class="text-xs text-slate2 mb-0">' + esc(x.c.title)
+        + (x.dl ? ' · <strong class="text-vinvest">⏱ À rendre avant le ' + x.dl[0] + '</strong>' : '') + '</p></div>'
+        + '<a href="exercices.html" class="inline-flex items-center rounded-xl border border-primary text-primary text-sm font-semibold px-5 py-2.5 hover:bg-primary hover:text-white transition-colors min-h-[44px]">Ouvrir l\'exercice</a>'
+        + '</article>';
+    }).join('');
+  }
+
+  /* ——— Tutoriels terminés ——— */
+  var ld = document.querySelector('[data-list-done]');
+  ld.innerHTML = done.map(function (c) {
+    var st = S.courseState(c.id);
+    var sc = [];
+    c.quizzes.forEach(function (q) { var r = st.quizzes[q.id]; if (r) sc.push(r.score); });
+    var avg = sc.length ? Math.round(sc.reduce(function (a, b) { return a + b; }, 0) / sc.length) : null;
+    return '<article class="card p-5 flex flex-col">'
+      + '<span class="vbadge vbadge-true self-start mb-3">✓ TERMINÉ</span>'
+      + '<h3 class="text-base font-display font-bold text-ink leading-snug mb-1">' + esc(c.title) + '</h3>'
+      + '<p class="text-sm text-slate2 mb-4">Terminé le ' + (st.completedAt || '—') + (avg !== null ? ' · Score final : <strong class="text-ink">' + avg + ' %</strong>' : '') + '</p>'
+      + '<div class="mt-auto flex flex-wrap gap-2">'
+      + '<a href="cours.html?c=' + c.id + '" class="inline-flex items-center rounded-xl border border-line text-sm font-semibold text-ink px-4 py-2.5 hover:bg-canvas min-h-[44px]">Voir le cours</a>'
+      + (st.certId
+          ? '<a href="certificat.html?c=' + c.id + '" class="inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-4 py-2.5 hover:bg-primary-dark min-h-[44px]"><span class="material-symbols-rounded !text-[17px]">workspace_premium</span> Télécharger le certificat</a>'
+            + '<a href="recompenses.html" class="inline-flex items-center gap-1 text-sm font-semibold text-primary min-h-[44px] px-1">Voir ma récompense</a>'
+          : '')
+      + '</div></article>';
+  }).join('');
+  document.querySelector('[data-empty-done]').classList.toggle('hidden', done.length > 0);
+};
+</script>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+<a href="verifier.html" class="fab lg:hidden" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[28px]" aria-hidden="true">add</span></a>
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "Vérifier une information": "verifier_une_information",
+  "Choisissez le format, donnez-nous le contenu, ajoutez du contexte : notre laboratoire s'occupe du reste.": "choisissez_le_format_donnez_nous_le_contenu",
+  "Masquer": "masquer",
+  "① Quel type de contenu voulez-vous vérifier ?": "1_quel_type_de_contenu_voulez_vous",
+  "② Donnez-nous le contenu": "2_donnez_nous_le_contenu",
+  "Collez le message, la rumeur ou l'affirmation à vérifier…": "collez_le_message_la_rumeur_ou_l",
+  "Collez l'adresse de la page ou de la publication": "collez_l_adresse_de_la_page_ou",
+  "③ Un contexte à ajouter ? <span class=\"font-normal text-slate2\">(facultatif)</span>": "3_un_contexte_a_ajouter_facultatif",
+  "Où l'avez-vous vu ? Depuis quand circule-t-il ?": "ou_l_avez_vous_vu_depuis_quand",
+  "💡 Le saviez-vous ?": "le_saviez_vous",
+  "Un contexte précis (source, date de réception) améliore la pertinence du recoupement de sources.": "un_contexte_precis_source_date_de_reception",
+  "🪙 Votre solde": "votre_solde",
+  "🧰 Vérifier soi-même ?": "verifier_soi_meme",
+  "Le répertoire d'outils OSINT vous forme à l'autonomie.": "le_repertoire_d_outils_osint_vous_forme"
+}

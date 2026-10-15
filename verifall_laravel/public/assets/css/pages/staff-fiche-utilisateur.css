@@ -1,0 +1,160 @@
+/* ------------------------------------------------------------------------
+   Fiche d'un compte (admin/utilisateurs/{uuid}) — 14 septembre 2026.
+
+   Le build Tailwind est figé : la grille à deux colonnes, l'avatar et la
+   liste de définitions n'y existent pas. Tout est préfixé `vfu-` et ne vit
+   que sur cet écran.
+
+   Desktop : carte d'identité à gauche (20 rem), onglets à droite.
+   Sous 1024 px : la carte passe au-dessus, les onglets défilent
+   horizontalement (`.st-tabs` le fait déjà), rien ne sort de l'écran.
+   ------------------------------------------------------------------------ */
+
+.vfu-grille {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .vfu-grille {
+    grid-template-columns: 20rem minmax(0, 1fr);
+  }
+
+  .vfu-carte {
+    position: sticky;
+    top: 5rem;
+  }
+}
+
+/* `minmax(0, …)` et `min-width: 0` : sans eux, une table large pousse la
+   colonne au-delà de l'écran au lieu de se laisser replier par Responsive. */
+.vfu-historique,
+.vfu-carte {
+  min-width: 0;
+}
+
+.vfu-entete {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  margin-bottom: 1rem;
+}
+
+.vfu-entete-texte {
+  min-width: 0;
+}
+
+.vfu-avatar {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 999px;
+  background: #D1FAE5;
+  color: #065F46;
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: .02em;
+}
+
+.vfu-coupure {
+  overflow-wrap: anywhere;
+}
+
+.vfu-alerte {
+  border-radius: .75rem;
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  color: #78350F;
+  padding: .75rem .9rem;
+  overflow-wrap: anywhere;
+}
+
+.vfu-champs {
+  margin: 0 0 1rem;
+  display: grid;
+  gap: .6rem;
+}
+
+.vfu-champs > div {
+  display: grid;
+  gap: .1rem;
+}
+
+.vfu-champs dt {
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #64748B;
+}
+
+.vfu-champs dd {
+  margin: 0;
+  font-size: .875rem;
+  color: #0F172A;
+  overflow-wrap: anywhere;
+}
+
+.vfu-compteurs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .5rem;
+  border-top: 1px solid #E2E8F0;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.vfu-compteur-valeur {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.vfu-compteur-libelle {
+  margin: 0;
+  font-size: .72rem;
+  color: #64748B;
+}
+
+.vfu-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  border-top: 1px solid #E2E8F0;
+  padding-top: 1rem;
+}
+
+.vfu-pastille {
+  display: inline-block;
+  margin-left: .35rem;
+  min-width: 1.5rem;
+  padding: .05rem .45rem;
+  border-radius: 999px;
+  background: #F1F5F9;
+  color: #475569;
+  font-size: .72rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.st-tab.is-active .vfu-pastille {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+/* Le mouvement d'unités ou de points : signe ET couleur, jamais la couleur seule. */
+[data-vdt] .vfu-ton-ok { color: #047857; font-weight: 700; }
+[data-vdt] .vfu-ton-alerte { color: #B91C1C; font-weight: 700; }
+
+/* Sous 640 px, recherche et filtres de l'onglet prennent toute la largeur. */
+@media (max-width: 639px) {
+  .vfu-historique [data-vdt] select.st-input {
+    width: 100%;
+  }
+}

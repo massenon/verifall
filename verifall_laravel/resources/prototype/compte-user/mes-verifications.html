@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mes Vérifications — Vérif'All</title>
+<meta name="description" content="Historique de vos vérifications : filtrez par type, statut, verdict et retrouvez chaque rapport.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/mes-verifications.html">
+<meta property="og:title" content="Mes Vérifications — Vérif'All">
+<meta property="og:description" content="Historique de vos vérifications : filtrez par type, statut, verdict et retrouvez chaque rapport.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link is-active" href="mes-verifications.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+    <div><nav class="text-xs text-slate2 mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-primary">Dashboard</a> <span class="text-line" aria-hidden="true">/</span> <span class="text-ink font-medium">Mes Vérifications</span></nav>
+      <h1 class="text-2xl md:text-3xl font-display font-bold text-ink leading-tight">Mes Vérifications</h1><p class="text-slate2 mt-1 mb-0">Votre laboratoire personnel de vérification — <span data-count-verifs>4</span> contenus analysés.<span class="block text-xs text-slate2 mt-1" data-last-verif></span></p>
+    </div><div class="flex flex-wrap items-center gap-2"><a href="verifier.html" class="inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-4 py-2.5 hover:opacity-90 min-h-[44px]"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> <span class="hidden sm:inline">Vérifier un contenu</span><span class="sm:hidden">Vérifier</span></a></div>
+  </div>
+  <section data-kpi-accordion class="mb-6">
+    <button type="button" class="kpi-toggle w-full items-center justify-between card px-4 py-3 mb-3" aria-expanded="false">
+      <span class="text-sm font-display font-bold text-ink">Votre activité de vérification</span>
+      <span class="material-symbols-rounded transition-transform" aria-hidden="true">expand_more</span>
+    </button>
+    <div class="kpi-grid grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="vf-kpi"><p class="vf-kpi-value" data-kv-total>0</p><p class="vf-kpi-label !mb-0 mt-1.5">Contenus soumis</p></div>
+      <div class="vf-kpi"><p class="vf-kpi-value text-vinfo" data-kv-pending>0</p><p class="vf-kpi-label !mb-0 mt-1.5">En cours</p></div>
+      <div class="vf-kpi"><p class="vf-kpi-value text-vfalse" data-kv-intox>0</p><p class="vf-kpi-label !mb-0 mt-1.5">Intox détectées</p></div>
+      <div class="vf-kpi"><p class="vf-kpi-value text-vtrue" data-kv-fiables>0</p><p class="vf-kpi-label !mb-0 mt-1.5">Infos fiables</p></div>
+    </div>
+  </section>
+  <div class="card p-4 mb-4 flex flex-col md:flex-row gap-3">
+    <div class="relative flex-1">
+      <label class="sr-only" for="f-search">Rechercher</label>
+      <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-slate2 !text-[19px]" aria-hidden="true">search</span>
+      <input id="f-search" type="search" placeholder="Rechercher dans mes vérifications…" class="w-full bg-canvas border border-line rounded-xl pl-10 pr-3 py-2.5 text-sm outline-none focus:border-primary" data-f-search>
+    </div>
+    <select class="bg-canvas border border-line rounded-xl px-3 py-2.5 text-sm" data-f-type aria-label="Filtrer par type">
+      <option value="">Tous les types</option><option>Texte</option><option>URL</option><option>Image</option><option>Vidéo</option><option>Audio</option>
+    </select>
+    <select class="bg-canvas border border-line rounded-xl px-3 py-2.5 text-sm" data-f-verdict aria-label="Filtrer par verdict">
+      <option value="">Tous les verdicts</option><option>VRAI</option><option>FAUX</option><option>TROMPEUR</option><option value="EN COURS">En cours</option>
+    </select>
+  </div>
+
+  <div class="flex md:hidden gap-2 overflow-x-auto pb-1 mb-3 no-scrollbar" aria-label="Filtrer par verdict">
+    <button type="button" class="vchip is-active" data-chip="">Tous</button>
+    <button type="button" class="vchip" data-chip="VRAI">✓ Vrai</button>
+    <button type="button" class="vchip" data-chip="FAUX">✕ Faux</button>
+    <button type="button" class="vchip" data-chip="TROMPEUR">⚠ Trompeur</button>
+    <button type="button" class="vchip" data-chip="EN COURS">◌ En cours</button>
+  </div>
+  <p class="text-sm font-semibold text-ink mb-3"><span data-result-count>0</span> vérification(s)</p>
+  <div class="table-wrap card overflow-hidden">
+    <table class="data-table">
+      <thead><tr><th scope="col">Contenu</th><th scope="col">Type</th><th scope="col">Verdict</th><th scope="col">Confiance</th><th scope="col">Date</th><th scope="col"><span class="sr-only">Action</span></th></tr></thead>
+      <tbody data-rows></tbody>
+    </table>
+  </div>
+  <div class="cards-wrap space-y-3" data-cards></div>
+  <div class="hidden card p-10 text-center" data-empty>
+    <span class="text-3xl block mb-2" aria-hidden="true">🔎</span>
+    <p class="text-base font-display font-bold text-ink mb-1">Aucun résultat</p>
+    <p class="text-sm text-slate2 mb-4">Aucune vérification ne correspond à vos critères actuels.</p>
+    <button type="button" class="inline-flex rounded-xl border border-primary text-primary text-sm font-semibold px-5 py-2.5 hover:bg-primary hover:text-white transition-colors min-h-[44px] items-center" data-v-reset>Réinitialiser les filtres</button>
+  </div>
+  <div class="hidden card p-10 text-center" data-empty-history>
+    <span class="text-3xl block mb-2" aria-hidden="true">🧪</span>
+    <p class="text-base font-display font-bold text-ink mb-1">Votre laboratoire est encore vide</p>
+    <p class="text-sm text-slate2 mb-4">Commencez votre première vérification pour construire votre historique.</p>
+    <a href="verifier.html" class="inline-flex rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-2.5 min-h-[44px] items-center">Vérifier un contenu</a>
+  </div>
+
+<script>
+window.VFPage = function (VF, S) {
+  var VC = { 'FAUX': 'vbadge-false', 'VRAI': 'vbadge-true', 'TROMPEUR': 'vbadge-doubt', '': 'vbadge-progress' };
+  var search = document.querySelector('[data-f-search]');
+  var ftype = document.querySelector('[data-f-type]');
+  var fverdict = document.querySelector('[data-f-verdict]');
+  var chipV = '';
+  document.querySelector('[data-count-verifs]').textContent = S.state.verifications.length;
+  (function () {
+    var vs = S.state.verifications;
+    var pending = vs.filter(function (v) { return v.status !== 'COMPLETED'; }).length;
+    var intox = vs.filter(function (v) { return v.verdict === 'FAUX' || v.verdict === 'TROMPEUR'; }).length;
+    var fiables = vs.filter(function (v) { return v.verdict === 'VRAI'; }).length;
+    document.querySelector('[data-kv-total]').textContent = vs.length;
+    if (vs.length) {
+      var latest = vs.map(function (v) { return v.date; }).sort().pop();
+      var diffD = Math.max(0, Math.round((new Date('2026-08-18') - new Date(latest)) / 86400000));
+      var lastLbl = diffD === 0 ? "aujourd'hui" : diffD === 1 ? 'hier' : 'il y a ' + diffD + ' jours';
+      var lv = document.querySelector('[data-last-verif]');
+      if (lv) lv.textContent = 'Dernière vérification : ' + lastLbl;
+    }
+    document.querySelector('[data-kv-pending]').textContent = pending;
+    document.querySelector('[data-kv-intox]').textContent = intox;
+    document.querySelector('[data-kv-fiables]').textContent = fiables;
+  })();
+  function esc(s) { return String(s).replace(/</g, '&lt;'); }
+  function draw() {
+    var q = search.value.trim().toLowerCase();
+    var list = S.state.verifications.filter(function (v) {
+      var verdict = v.verdict || 'EN COURS';
+      if (q && v.title.toLowerCase().indexOf(q) === -1) return false;
+      if (ftype.value && v.type !== ftype.value) return false;
+      var fv = fverdict.value || chipV;
+      if (fv && verdict !== fv) return false;
+      return true;
+    });
+    document.querySelector('[data-result-count]').textContent = list.length;
+    document.querySelector('[data-rows]').innerHTML = list.map(function (v) {
+      var verdict = v.verdict || 'EN COURS';
+      var href = v.status === 'COMPLETED' ? 'rapport.html?u=' + v.uuid : 'verification-en-cours.html?u=' + v.uuid;
+      return '<tr><td class="max-w-[320px] truncate font-medium">' + esc(v.title) + '</td><td>' + v.type + '</td>'
+        + '<td><span class="vbadge ' + (VC[v.verdict] || 'vbadge-progress') + '">' + verdict + '</span></td>'
+        + '<td>' + (v.confidence ? v.confidence + ' %' : '—') + '</td><td class="text-slate2">' + v.date + '</td>'
+        + '<td class="whitespace-nowrap text-right">'
+        + (v.status === 'COMPLETED' ? '<button type="button" class="icon-act" data-pdf="' + v.uuid + '" title="Télécharger le rapport PDF" aria-label="Télécharger le rapport PDF"><span class="material-symbols-rounded !text-[19px]">picture_as_pdf</span></button>'
+          + '<button type="button" class="icon-act" data-share-v="' + v.uuid + '" title="Partager sur les réseaux sociaux" aria-label="Partager"><span class="material-symbols-rounded !text-[19px]">share</span></button>' : '')
+        + '<a class="inline-flex items-center gap-1 text-sm font-semibold text-primary ml-2" href="' + href + '">Rapport <span class="material-symbols-rounded !text-[16px]">arrow_forward</span></a></td></tr>';
+    }).join('');
+    document.querySelector('[data-cards]').innerHTML = list.map(function (v) {
+      var verdict = v.verdict || 'EN COURS';
+      var href = v.status === 'COMPLETED' ? 'rapport.html?u=' + v.uuid : 'verification-en-cours.html?u=' + v.uuid;
+      return '<article class="card p-4"><div class="flex items-center justify-between mb-2"><span class="vbadge ' + (VC[v.verdict] || 'vbadge-progress') + '">' + verdict + '</span><span class="text-xs text-slate2">' + v.type + ' · ' + v.date + '</span></div>'
+        + '<p class="text-sm font-medium text-ink mb-3">' + esc(v.title) + '</p>'
+        + '<div class="flex items-center gap-2">'
+        + '<a class="inline-flex items-center gap-1 text-sm font-semibold text-primary flex-1" href="' + href + '">Voir le rapport <span class="material-symbols-rounded !text-[16px]">arrow_forward</span></a>'
+        + (v.status === 'COMPLETED' ? '<button type="button" class="icon-act" data-pdf="' + v.uuid + '" title="Télécharger le rapport PDF" aria-label="Télécharger le rapport PDF"><span class="material-symbols-rounded !text-[19px]">picture_as_pdf</span></button>'
+          + '<button type="button" class="icon-act" data-share-v="' + v.uuid + '" title="Partager" aria-label="Partager"><span class="material-symbols-rounded !text-[19px]">share</span></button>' : '')
+        + '</div></article>';
+    }).join('');
+    var noHistory = S.state.verifications.length === 0;
+    document.querySelector('[data-empty]').classList.toggle('hidden', list.length > 0 || noHistory);
+    document.querySelector('[data-empty-history]').classList.toggle('hidden', !noHistory);
+  }
+  [search, ftype, fverdict].forEach(function (el) { el.addEventListener('input', draw); });
+  document.querySelectorAll('[data-chip]').forEach(function (c) {
+    c.addEventListener('click', function () {
+      document.querySelectorAll('[data-chip]').forEach(function (x) { x.classList.remove('is-active'); });
+      c.classList.add('is-active');
+      chipV = c.getAttribute('data-chip');
+      fverdict.value = '';
+      draw();
+    });
+  });
+  var vres = document.querySelector('[data-v-reset]');
+  if (vres) vres.addEventListener('click', function () {
+    search.value = ''; ftype.value = ''; fverdict.value = ''; chipV = '';
+    document.querySelectorAll('[data-chip]').forEach(function (x) { x.classList.toggle('is-active', x.getAttribute('data-chip') === ''); });
+    draw();
+  });
+  document.addEventListener('click', function (e) {
+    var pdf = e.target.closest('[data-pdf]');
+    if (pdf) { window.location.href = 'rapport.html?u=' + pdf.getAttribute('data-pdf') + '&print=1'; return; }
+    var sh = e.target.closest('[data-share-v]');
+    if (sh) {
+      var u = sh.getAttribute('data-share-v');
+      var v = S.verification(u);
+      var link = 'https://verifall.com/compte-user/rapport.html?u=' + u;
+      var text = 'Vérifié par Vérif\'All — verdict ' + v.verdict + ' (' + v.confidence + ' % de confiance) : ' + v.title;
+      if (navigator.share) {
+        navigator.share({ title: 'Rapport Vérif\'All', text: text, url: link }).catch(function () {});
+      } else if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text + ' ' + link);
+        VF.toast('Message + lien copiés — collez-les sur WhatsApp, Facebook ou X.');
+      } else {
+        VF.toast('Lien du rapport : ' + link);
+      }
+    }
+  });
+  draw();
+};
+</script>
+<style>.icon-act{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:.5rem;color:#64748B}.icon-act:hover{background:#F6F8F7;color:#111827}</style>
+<style>.vchip{display:inline-flex;align-items:center;min-height:44px;padding:0 1rem;border-radius:999px;border:1px solid var(--vf-line);background:#fff;font-size:.8rem;font-weight:600;color:#64748B;white-space:nowrap}.vchip.is-active{background:#063B2A;border-color:#063B2A;color:#fff}.no-scrollbar{scrollbar-width:none}.no-scrollbar::-webkit-scrollbar{display:none}</style>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+<a href="verifier.html" class="fab lg:hidden" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[28px]" aria-hidden="true">add</span></a>
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+*.log
+.DS_Store
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.fleet
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+Homestead.json
+Homestead.yaml
+Thumbs.db
+
+# Prototype de référence : les pages HTML/CSS/JS sont versionnées (contrat visuel),
+# les 220 images (86 Mo) ne le sont pas — elles alourdiraient le dépôt sans
+# apporter d'information de conception. Restauration :
+#   cp -r ../prototype_html/web/images resources/prototype/images
+/resources/prototype/images/
+
+# Clés de service (FCM, Search Console) — jamais versionnées
+/storage/keys/
+
+# ─────────────────────────────────────────────────────────── archives locales
+# `verifall_laravel.zip` fait 588 Mo et se trouvait à la racine, NON suivi et
+# NON ignoré : un `git add -A` réflexe l'aurait gravé dans l'historique, où
+# rien ne le retire sans réécrire tout le dépôt. Ajouté le 9 septembre 2026,
+# au moment de versionner onze lots restés hors de git.
+/verifall_laravel.zip
+*.zip
+
+# Journaux de production rapatriés pour analyse, et dumps de l'ancienne base :
+# ils portent des données personnelles réelles et n'ont rien à faire ici.
+/errors/
+/existingdb/

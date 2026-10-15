@@ -1,0 +1,23 @@
+{
+  "Community Fact-Checking Hub": "community_fact_checking_hub",
+  "Vérif'All Forum": "verif_all_forum",
+  "Que souhaitez-vous partager avec la communauté ?": "que_souhaitez_vous_partager_avec_la_communaute",
+  "Titre": "titre",
+  "Votre message": "votre_message",
+  "Rubrique": "rubrique",
+  "<input type=\"checkbox\" wire:model.live=\"signalementFakeNews\" class=\"mt-0.5 w-4 h-4 accent-[var(--vf-primary)]\"> <span class=\"text-sm\"> <strong class=\"text-ink\">Je signale une possible intox</strong> <span class=\"block text-slate2 text-xs\">La communauté pourra voter, et l'équipe pourra transmettre au laboratoire.</span> </span>": "je_signale_une_possible_intox_la_communaute",
+  "Lien de la source": "lien_de_la_source",
+  "<input type=\"checkbox\" wire:model.live=\"avecSondage\" class=\"mt-0.5 w-4 h-4 accent-[var(--vf-primary)]\"> <span class=\"text-sm\"> <strong class=\"text-ink\">J'ajoute un sondage</strong> <span class=\"block text-slate2 text-xs\">Une question, deux à six réponses. Chacun ne vote qu'une fois.</span> </span>": "j_ajoute_un_sondage_une_question_deux",
+  "Votre question": "votre_question",
+  "<span class=\"material-symbols-rounded !text-[18px]\" aria-hidden=\"true\">add</span> Ajouter une réponse": "add_ajouter_une_reponse",
+  "Annuler": "annuler",
+  "Publier <span class=\"material-symbols-rounded !text-[17px]\" aria-hidden=\"true\">send</span>": "publier_send",
+  "Publier un sujet": "publier_un_sujet",
+  "Tendances": "tendances",
+  "🔥 Rumeurs en tendance": "rumeurs_en_tendance",
+  "Communauté": "communaute",
+  "🏆 Contributeurs": "contributeurs",
+  "Laboratoire": "laboratoire",
+  "✓ Dernières vérifications": "dernieres_verifications",
+  "Verdicts officiels du laboratoire Vérif'All — distincts des avis de la communauté.": "verdicts_officiels_du_laboratoire_verif_all_distincts"
+}

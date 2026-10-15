@@ -1,0 +1,122 @@
+/*
+ | Transparence — journal des corrections, méthodologie, financement.
+ |
+ | Le build Tailwind est FIGÉ (voir CLAUDE.md) : une classe qui n'y figure pas
+ | s'écrit sans rien produire. Cette feuille ne contient donc QUE ce que le
+ | build ne fournit pas, et rien qui corrige le design system.
+ |
+ | Trois manques, vérifiés un par un dans `public/assets/css/tailwind.css` :
+ | `line-through`, `list-disc` et les puces numérotées. Tout le reste des trois
+ | pages est écrit avec des classes existantes.
+ */
+
+/* ------------------------------------------------------------------ verdicts */
+
+/*
+ | L'ancien verdict, barré.
+ |
+ | C'est LE signe visuel du journal : l'ancien verdict reste lisible, il est
+ | seulement marqué comme dépassé. Le masquer ou le remplacer reviendrait à
+ | réécrire l'histoire — exactement ce que cette page existe pour empêcher.
+ |
+ | Gris et non coloré : garder le rouge du « faux » à côté du vert du « vrai »
+ | ferait lire deux verdicts en vigueur là où il n'y en a qu'un.
+ */
+.verdict-ancien {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0.375rem 1rem;
+  font-weight: 700;
+  color: #6b7280;
+  background: #f1f2f4;
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+}
+
+/* La flèche « avant → après », alignée sur la ligne de base des deux pastilles. */
+.verdict-fleche {
+  color: #9ca3af;
+  flex: none;
+}
+
+/* ------------------------------------------------------------------- listes */
+
+/*
+ | Le build figé ne fournit ni `list-disc` ni `list-decimal` : les listes du
+ | prototype sont toutes rendues par `prose-vf`, qui ne s'applique qu'à un bloc
+ | éditorial entier. Ces deux règles servent les listes AUTONOMES des pages de
+ | transparence — les étapes du pipeline, les limites annoncées.
+ */
+.liste-puces {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+
+.liste-puces > li {
+  margin-bottom: 0.5rem;
+}
+
+/*
+ | Les étapes du pipeline, numérotées par CSS.
+ |
+ | Le numéro vient du compteur et non du balisage : une étape insérée ou
+ | retirée dans `EtapePipeline` renumérote la page toute seule. Un numéro écrit
+ | à la main finit toujours par mentir.
+ */
+.etapes-pipeline {
+  counter-reset: etape;
+  list-style: none;
+  padding-left: 0;
+}
+
+.etapes-pipeline > li {
+  counter-increment: etape;
+  position: relative;
+  padding-left: 3rem;
+  min-height: 2.25rem;
+}
+
+.etapes-pipeline > li::before {
+  content: counter(etape);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(9, 184, 80, .1);
+  color: var(--vf-primary, #09B850);
+  font-weight: 700;
+  font-size: 0.9375rem;
+}
+
+/* --------------------------------------------------------------- pondération */
+
+/*
+ | La barre de poids d'un moteur.
+ |
+ | Sa largeur est calculée depuis `config/factcheck.weights` et posée en ligne
+ | par la vue : c'est la seule valeur de ces trois pages qui ne pouvait pas
+ | être une classe, puisqu'elle change avec la configuration.
+ */
+.poids-piste {
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: #eceef0;
+  overflow: hidden;
+}
+
+.poids-barre {
+  height: 100%;
+  border-radius: 9999px;
+  background: var(--vf-primary, #09B850);
+}
+
+/* Un moteur qui ne PORTE pas de verdict : signal, jamais preuve. */
+.poids-barre--signal {
+  background: #cbd5e1;
+}

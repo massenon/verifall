@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quiz — Académie Vérif'All</title>
+<meta name="description" content="Quiz chronométré avec scoring réel, corrections expliquées (XAI) et confettis en cas de réussite.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/catalogue.html">
+<meta property="og:title" content="Quiz — Académie Vérif'All">
+<meta property="og:description" content="Quiz chronométré avec scoring réel, corrections expliquées (XAI) et confettis en cas de réussite.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link is-active" href="catalogue.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="max-w-2xl mx-auto" data-quiz-root></div>
+<script>
+window.VFPage = function (VF, S) {
+  var params = new URLSearchParams(location.search);
+  var cid = params.get('c'), qid = params.get('q');
+  var c = cid && S.course(cid);
+  var quiz = null;
+  if (c) c.quizzes.forEach(function (q) { if (q.id === qid) quiz = q; });
+  if (!c || !quiz) { location.replace('catalogue.html'); return; }
+  var st = S.courseState(cid);
+  if (!st.enrolled) { location.replace('cours.html?c=' + cid); return; }
+  var rec = st.quizzes[qid];
+  var root = document.querySelector('[data-quiz-root]');
+
+  if (rec && rec.passed) {
+    root.innerHTML = '<div class="card p-8 text-center"><span class="material-symbols-rounded text-vtrue !text-[52px] mb-3">verified</span>'
+      + '<h1 class="text-2xl font-display font-bold text-ink mb-2">Quiz déjà réussi</h1>'
+      + '<p class="text-sm text-slate2 mb-5">Vous avez validé « ' + quiz.title + ' » avec ' + rec.score + ' %. Une réussite n\'est enregistrée qu\'une fois — pas de double XP.</p>'
+      + '<a href="cours.html?c=' + cid + '" class="inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-5 py-2.5">Retour au cours</a></div>';
+    return;
+  }
+
+  var answers = new Array(quiz.questions.length).fill(null);
+  var current = 0;
+  var remaining = quiz.minutes * 60;
+  var submitted = false;
+  var timerInt = null;
+
+  function fmt(sec) { return Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0'); }
+
+  function renderQuestion() {
+    var q = quiz.questions[current];
+    var pct = Math.round(((current) / quiz.questions.length) * 100);
+    root.innerHTML = ''
+      + '<div class="card p-4 mb-4 flex items-center justify-between gap-3">'
+      + '<div class="flex-1 min-w-0"><p class="text-xs font-bold text-primary uppercase tracking-wide mb-0.5">' + quiz.title + '</p>'
+      + '<p class="text-sm text-ink font-medium mb-1">Question ' + (current + 1) + ' / ' + quiz.questions.length + '</p>'
+      + '<div class="progress"><span style="width:' + pct + '%"></span></div></div>'
+      + '<span class="shrink-0 inline-flex items-center gap-1.5 rounded-xl px-3 py-2 font-mono font-bold text-sm ' + (remaining <= 60 ? 'bg-vfalse/10 text-vfalse' : 'bg-canvas text-ink') + '" data-clock aria-live="polite"><span class="material-symbols-rounded !text-[18px]">timer</span>' + fmt(remaining) + '</span></div>'
+      + '<div class="card p-6"><h2 class="text-lg font-display font-bold text-ink mb-4">' + q.q + '</h2>'
+      + '<div class="space-y-2 mb-6">' + q.options.map(function (o, i) {
+          return '<label class="flex items-start gap-2.5 p-3.5 rounded-xl border cursor-pointer transition-colors ' + (answers[current] === i ? 'border-primary bg-primary-soft' : 'border-line hover:border-primary') + '">'
+            + '<input type="radio" name="q" value="' + i + '"' + (answers[current] === i ? ' checked' : '') + ' class="mt-0.5"> <span class="text-sm">' + o + '</span></label>';
+        }).join('') + '</div>'
+      + '<div class="flex items-center justify-between">'
+      + (current > 0 ? '<button type="button" class="rounded-xl border border-line text-sm font-semibold text-ink px-4 py-2.5 hover:bg-canvas" data-prev>Précédent</button>' : '<span></span>')
+      + '<button type="button" class="rounded-xl bg-primary text-white text-sm font-semibold px-5 py-2.5 hover:bg-primary-dark" data-next>' + (current === quiz.questions.length - 1 ? 'Soumettre le quiz' : 'Question suivante') + '</button>'
+      + '</div></div>';
+    Array.prototype.slice.call(root.querySelectorAll('input[name="q"]')).forEach(function (input) {
+      input.addEventListener('change', function () { answers[current] = parseInt(input.value, 10); renderQuestion(); });
+    });
+    var prev = root.querySelector('[data-prev]');
+    if (prev) prev.addEventListener('click', function () { current--; renderQuestion(); });
+    root.querySelector('[data-next]').addEventListener('click', function () {
+      if (answers[current] === null) { VF.toast('Choisissez une réponse avant de continuer.', 'danger'); return; }
+      if (current === quiz.questions.length - 1) submit();
+      else { current++; renderQuestion(); }
+    });
+  }
+
+  function submit() {
+    if (submitted) return;
+    submitted = true;
+    clearInterval(timerInt);
+    var filled = answers.map(function (a) { return a === null ? -1 : a; });
+    var r = S.submitQuiz(cid, qid, filled);
+    VF.render();
+    if (r.passed) {
+      VF.confetti();
+      root.innerHTML = '<div class="card p-8 text-center">'
+        + '<span class="material-symbols-rounded text-vtrue !text-[56px] mb-2">celebration</span>'
+        + '<h1 class="text-2xl font-display font-black text-ink mb-1">Quiz réussi !</h1>'
+        + '<p class="text-4xl font-display font-black text-vtrue mb-1">' + r.score + ' %</p>'
+        + '<p class="text-sm text-slate2 mb-1">' + r.correct + ' / ' + r.total + ' bonnes réponses · seuil ' + quiz.passScore + ' %</p>'
+        + '<p class="text-sm font-bold text-xp mb-6">+' + quiz.xp + ' XP</p>'
+        + '<div class="flex gap-2 justify-center flex-wrap">'
+        + (S.isComplete(cid) ? '<a href="certificat.html?c=' + cid + '" class="rounded-xl bg-ink text-white text-sm font-semibold px-5 py-2.5">🎓 Voir mon certificat</a>' : '')
+        + '<a href="cours.html?c=' + cid + '" class="rounded-xl bg-primary text-white text-sm font-semibold px-5 py-2.5">Continuer le cours</a></div></div>';
+      if (S.isComplete(cid)) setTimeout(function () { VF.confetti(); }, 900);
+    } else {
+      var errs = quiz.questions.map(function (q, i) {
+        if (filled[i] === q.answer) return '';
+        return '<div class="text-left border border-line rounded-xl p-4 mb-2">'
+          + '<p class="text-sm font-medium text-ink mb-1">' + q.q + '</p>'
+          + '<p class="text-xs text-vfalse mb-0.5">✗ Votre réponse : ' + (filled[i] >= 0 ? q.options[filled[i]] : 'aucune') + '</p>'
+          + '<p class="text-xs text-vtrue mb-1.5">✓ Bonne réponse : ' + q.options[q.answer] + '</p>'
+          + '<p class="text-xs text-slate2 mb-0"><strong>Pourquoi ?</strong> ' + q.xai + '</p></div>';
+      }).join('');
+      root.innerHTML = '<div class="card p-8 text-center mb-4">'
+        + '<span class="material-symbols-rounded text-vfalse !text-[52px] mb-2">sentiment_neutral</span>'
+        + '<h1 class="text-2xl font-display font-bold text-ink mb-1">Quiz non réussi</h1>'
+        + '<p class="text-4xl font-display font-black text-vfalse mb-1">' + r.score + ' %</p>'
+        + '<p class="text-sm text-slate2 mb-5">Il fallait au moins ' + quiz.passScore + ' %. Relisez les corrections ci-dessous et réessayez — seule votre réussite sera enregistrée.</p>'
+        + '<a href="quiz.html?c=' + cid + '&q=' + qid + '" class="inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-5 py-2.5">Réessayer le quiz</a></div>'
+        + '<h2 class="text-base font-display font-bold text-ink mb-3">Corrections expliquées</h2>' + errs;
+    }
+  }
+
+  timerInt = setInterval(function () {
+    remaining--;
+    var clock = root.querySelector('[data-clock]');
+    if (clock) {
+      clock.lastChild.textContent = fmt(Math.max(0, remaining));
+      if (remaining <= 60) { clock.classList.add('bg-vfalse/10', 'text-vfalse'); clock.classList.remove('bg-canvas', 'text-ink'); }
+    }
+    if (remaining <= 0) { VF.toast('Temps écoulé — soumission automatique du quiz.'); submit(); }
+  }, 1000);
+
+  renderQuestion();
+};
+</script>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

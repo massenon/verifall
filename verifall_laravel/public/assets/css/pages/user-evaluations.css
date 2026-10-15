@@ -1,0 +1,5 @@
+/* Extrait de compte-user/evaluations.html — le prototype déclarait ces deux
+   règles dans un <style> en fin de page. La hauteur de ligne fixe empêche le
+   tableau de « sauter » quand un badge est plus haut qu'un autre. */
+.pill-tab.is-active { background: #09B850; border-color: #09B850; color: #fff; }
+.data-table td { height: 64px; }

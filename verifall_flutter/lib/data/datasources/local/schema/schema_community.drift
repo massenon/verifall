@@ -1,0 +1,59 @@
+-- Schema local du parcours community.
+--
+-- POURQUOI ce fichier existe alors qu'il est vide : c'est le second des deux
+-- points ou les cinq parcours auraient ecrit tous ensemble. Il est importe
+-- d'avance par database.dart ; le parcours community y ajoute SES tables, et
+-- personne ne rouvre l'agregateur. Les cinq branches se fusionnent sans conflit.
+--
+-- Regles pour les tables ajoutees ici :
+--   * une table par ressource cachee, avec au minimum la cle (uuid ou slug), le
+--     contenu, "updated_at" renvoye par l'API et "fetched_at" local ;
+--   * "fetched_at" n'est pas decoratif : c'est lui qui alimente le bandeau
+--     << Donnees du <date>, actualisation impossible >>. Une echeance J-2 vieille
+--     de trois jours devient un mensonge sans sa date (05-HORS-LIGNE 5.4) ;
+--   * ne JAMAIS cacher le solde d'unites, l'etat d'une analyse en cours, ni le
+--     resultat d'un quiz (contrat d'API 7.1) : ce sont les trois ecrans qu'on
+--     relit precisement parce qu'on attend un changement.
+--
+-- Aucune migration a ecrire : database.dart cree les tables manquantes a
+-- l'ouverture. Une modification de colonne SUR UNE TABLE EXISTANTE, elle, est
+-- une demande adressee au responsable du socle, pas une modification directe.
+
+
+-- ===================================================================
+-- M4 - Hub et forum
+-- ===================================================================
+--
+-- POURQUOI UNE SEULE TABLE ET NON CINQ (sujets, reponses, breves, offres,
+-- pages) : le cache du parcours community est un cache de LECTURE JETABLE.
+-- Cinq tables typees auraient exige une colonne par champ, donc une vraie
+-- migration Drift — c'est-a-dire une demande adressee au responsable du socle —
+-- a chaque champ que le contrat d'API publiera. Or le contrat ne publie PAS la
+-- forme detaillee des ressources (reserve F.1 de la section 9) : figer des
+-- colonnes maintenant, ce serait figer une supposition.
+--
+-- Une cle + une charge utile JSON + une date de recuperation suffisent, et la
+-- forme des donnees reste entierement decidee par les mappeurs, en un seul
+-- endroit.
+--
+-- << recupere_le >> n'est PAS decoratif. C'est lui qui alimente le bandeau
+-- << Donnees du <date>, actualisation impossible >>, et c'est indispensable ici
+-- plus qu'ailleurs : une echeance << J-2 >> vieille de trois jours devient un
+-- mensonge sans sa date, et le client n'a pas le droit de la recalculer
+-- (05-HORS-LIGNE 5.4, contrat 10.5).
+--
+-- Duree de vie : 15 MINUTES pour le Hub — la plus courte de tout le contrat
+-- (7.1). C'est coherent : c'est le contenu le plus perissable de l'application,
+-- parce qu'une opportunite porte une echeance. La duree elle-meme est appliquee
+-- par le code, pas par le schema : une regle metier dans une table SQL est une
+-- regle que personne ne relit.
+--
+-- Ce qui n'est JAMAIS ecrit ici : rien de ce que le contrat interdit de cacher
+-- (solde d'unites, analyse en cours, resultat de quiz). Aucun de ces trois ne
+-- passe par le parcours community, et la regle est rappelee pour que personne
+-- n'en ajoute.
+CREATE TABLE community_cache (
+  cle TEXT NOT NULL PRIMARY KEY,
+  charge_utile TEXT NOT NULL,
+  recupere_le DATETIME NOT NULL
+) AS CommunityCacheRow;

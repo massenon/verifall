@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vérifier une information — Vérif'All</title>
+<meta name="description" content="Soumettez un texte, un lien, une image, une vidéo ou un audio au laboratoire de vérification Vérif'All.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/verifier.html">
+<meta property="og:title" content="Vérifier une information — Vérif'All">
+<meta property="og:description" content="Soumettez un texte, un lien, une image, une vidéo ou un audio au laboratoire de vérification Vérif'All.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link is-active" href="verifier.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+    <div><nav class="text-xs text-slate2 mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-primary">Dashboard</a> <span class="text-line" aria-hidden="true">/</span> <span class="text-ink font-medium">Vérifier</span></nav>
+      <h1 class="text-2xl md:text-3xl font-display font-bold text-ink leading-tight">Vérifier une information</h1><p class="text-slate2 mt-1 mb-0">Choisissez le format, donnez-nous le contenu, ajoutez du contexte : notre laboratoire s'occupe du reste.</p>
+    </div>
+  </div>
+  <div class="flex items-center gap-2 text-[11px] font-bold tracking-[.14em] text-slate2 mb-6" aria-hidden="true">
+    <span class="text-primary">CONTENU</span><span class="flex-1 h-px bg-line"></span>
+    <span>SOURCES</span><span class="flex-1 h-px bg-line"></span>
+    <span>PREUVES</span><span class="flex-1 h-px bg-line"></span>
+    <span>ANALYSE</span><span class="flex-1 h-px bg-line"></span>
+    <span>VERDICT</span>
+  </div>
+
+  <div class="grid lg:grid-cols-12 gap-5 items-start">
+  <div class="lg:col-span-8 card p-6" data-tabs-scope>
+    <p class="text-sm font-semibold text-ink mb-3">① Quel type de contenu voulez-vous vérifier ?</p>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5 mb-6" data-tabs>
+      <button type="button" class="vtype-btn pill-tab is-active !py-3 flex-col !rounded-xl relative" data-tab="t-text"><span class="material-symbols-rounded " aria-hidden="true">article</span><span>Texte</span><span class="badge-cost absolute top-0 right-0 m-2 rounded-full bg-brandred text-white text-[10px] font-bold px-1.5 py-0.5 leading-none">1 pt</span></button>
+      <button type="button" class="vtype-btn pill-tab !py-3 flex-col !rounded-xl relative" data-tab="t-url"><span class="material-symbols-rounded " aria-hidden="true">link</span><span>Lien URL</span><span class="badge-cost absolute top-0 right-0 m-2 rounded-full bg-brandred text-white text-[10px] font-bold px-1.5 py-0.5 leading-none">1 pt</span></button>
+      <button type="button" class="vtype-btn pill-tab !py-3 flex-col !rounded-xl relative" data-tab="t-image"><span class="material-symbols-rounded " aria-hidden="true">image</span><span>Image</span><span class="badge-cost absolute top-0 right-0 m-2 rounded-full bg-brandred text-white text-[10px] font-bold px-1.5 py-0.5 leading-none">2 pts</span></button>
+      <button type="button" class="vtype-btn pill-tab !py-3 flex-col !rounded-xl relative" data-tab="t-video"><span class="material-symbols-rounded " aria-hidden="true">videocam</span><span>Vidéo</span><span class="badge-cost absolute top-0 right-0 m-2 rounded-full bg-brandred text-white text-[10px] font-bold px-1.5 py-0.5 leading-none">5 pts</span></button>
+      <button type="button" class="vtype-btn pill-tab !py-3 flex-col !rounded-xl relative" data-tab="t-audio"><span class="material-symbols-rounded " aria-hidden="true">mic</span><span>Audio</span><span class="badge-cost absolute top-0 right-0 m-2 rounded-full bg-brandred text-white text-[10px] font-bold px-1.5 py-0.5 leading-none">5 pts</span></button>
+    </div>
+
+    <p class="text-sm font-semibold text-ink mb-3">② Donnez-nous le contenu</p>
+    <div data-tab-panel="t-text" class="is-active">
+      <div class="ffield">
+        <textarea id="v-text" placeholder=" " maxlength="1000" data-count-input></textarea>
+        <label for="v-text">Collez le message, la rumeur ou l'affirmation à vérifier…</label>
+      </div>
+      <p class="char-counter" data-char-counter="v-text"></p>
+      <p class="text-xs text-slate2">Minimum 10 caractères.</p>
+    </div>
+    <div data-tab-panel="t-url">
+      <div class="ffield">
+        <input id="v-url" type="url" placeholder=" " inputmode="url">
+        <label for="v-url">https://exemple.com/article-suspect</label>
+      </div>
+      <p class="text-xs text-slate2 mt-1.5">Nous analyserons la source, le domaine, la date et le contenu.</p>
+    </div>
+    <div data-tab-panel="t-image">
+      <label class="upload-zone flex flex-col items-center justify-center gap-2 border-2 border-dashed border-line rounded-2xl p-8 cursor-pointer hover:border-primary text-center" for="v-image">
+        <span class="material-symbols-rounded text-primary !text-[34px]" aria-hidden="true">cloud_upload</span>
+        <span class="text-sm font-medium text-ink">Glissez votre image ici ou cliquez pour parcourir</span>
+        <span class="text-xs text-slate2">JPG, PNG, WEBP · 10 Mo max · recherche inversée + métadonnées + détection IA</span>
+        <input id="v-image" type="file" accept="image/*" class="sr-only" data-upload>
+      </label>
+      <p class="hidden text-sm text-vtrue font-medium mt-2" data-upload-name="v-image"></p>
+    </div>
+    <div data-tab-panel="t-video">
+      <label class="upload-zone flex flex-col items-center justify-center gap-2 border-2 border-dashed border-line rounded-2xl p-8 cursor-pointer hover:border-primary text-center" for="v-video">
+        <span class="material-symbols-rounded text-primary !text-[34px]" aria-hidden="true">smart_display</span>
+        <span class="text-sm font-medium text-ink">Déposez une vidéo (ou collez un lien dans l'onglet URL)</span>
+        <span class="text-xs text-slate2">Extraction d'images clés · OCR · recherche inversée · analyse du contexte</span>
+        <input id="v-video" type="file" accept="video/*" class="sr-only" data-upload>
+      </label>
+      <p class="hidden text-sm text-vtrue font-medium mt-2" data-upload-name="v-video"></p>
+    </div>
+    <div data-tab-panel="t-audio">
+      <label class="upload-zone flex flex-col items-center justify-center gap-2 border-2 border-dashed border-line rounded-2xl p-8 cursor-pointer hover:border-primary text-center" for="v-audio">
+        <span class="material-symbols-rounded text-primary !text-[34px]" aria-hidden="true">graphic_eq</span>
+        <span class="text-sm font-medium text-ink">Déposez un fichier audio ou une note vocale</span>
+        <span class="text-xs text-slate2">Transcription · analyse sémantique · détection de voix clonée</span>
+        <input id="v-audio" type="file" accept="audio/*" class="sr-only" data-upload>
+      </label>
+      <p class="hidden text-sm text-vtrue font-medium mt-2" data-upload-name="v-audio"></p>
+    </div>
+
+    <p class="text-sm font-semibold text-ink mt-6 mb-3">③ Un contexte à ajouter ? <span class="font-normal text-slate2">(facultatif)</span></p>
+    <div class="ffield">
+      <input id="v-context" type="text" placeholder=" " maxlength="140" data-count-input>
+      <label for="v-context">Où l'avez-vous vu ? Depuis quand circule-t-il ?</label>
+    </div>
+    <p class="char-counter" data-char-counter="v-context"></p>
+
+    <div class="mt-6 flex items-center justify-between flex-wrap gap-3">
+      <p class="text-xs text-slate2 mb-0"><span class="material-symbols-rounded !text-[16px] text-primary" aria-hidden="true">toll</span> Cette vérification consommera <strong class="text-ink"><span data-cost-label>1 unité</span></strong> — il vous restera <strong class="text-ink"><span data-units-after>33</span> unités</strong>.</p>
+      <button type="button" class="inline-flex items-center gap-2 rounded-xl bg-primary text-white font-semibold px-6 py-3 hover:bg-primary-dark" data-launch>
+        <span class="material-symbols-rounded !text-[20px]" aria-hidden="true">travel_explore</span> Lancer la vérification
+      </button>
+    </div>
+  </div>
+
+  <aside class="lg:col-span-4 space-y-4">
+    <div class="card p-5">
+      <p class="text-sm font-display font-bold text-ink mb-1">💡 Le saviez-vous ?</p>
+      <p class="text-sm text-slate2 mb-0">Un contexte précis (source, date de réception) améliore la pertinence du recoupement de sources.</p>
+    </div>
+    <div class="card p-5">
+      <p class="text-sm font-display font-bold text-ink mb-1">🪙 Votre solde</p>
+      <p class="text-2xl font-display font-black text-ink mb-1"><span data-units-badge>34</span> <span class="text-sm font-bold text-slate2">unités</span></p>
+      <a href="unites.html" class="text-sm font-semibold text-primary">Gérer mes unités</a>
+    </div>
+    <div class="card p-5">
+      <p class="text-sm font-display font-bold text-ink mb-1">🧰 Vérifier soi-même ?</p>
+      <p class="text-sm text-slate2 mb-2">Le répertoire d'outils OSINT vous forme à l'autonomie.</p>
+      <a href="outils.html" class="text-sm font-semibold text-primary">Voir les outils</a>
+    </div>
+  </aside>
+  </div>
+
+<script>
+window.VFPage = function (VF, S) {
+  var current = 't-text';
+  VF.$$('.vtype-btn').forEach(function (b) {
+    b.addEventListener('click', function () {
+      current = b.getAttribute('data-tab');
+      var TYPE_OF = { 't-text': 'Texte', 't-url': 'URL', 't-image': 'Image', 't-video': 'Vidéo', 't-audio': 'Audio' };
+      var c = S.VERIF_COSTS[TYPE_OF[current]] || 1;
+      document.querySelector('[data-cost-label]').textContent = c + (c > 1 ? ' unités' : ' unité');
+      var _after = document.querySelector('[data-units-after]');
+      if (_after) _after.textContent = Math.max(0, S.state.units - c);
+    });
+  });
+  VF.$$('[data-upload]').forEach(function (input) {
+    input.addEventListener('change', function () {
+      var out = document.querySelector('[data-upload-name="' + input.id + '"]');
+      if (input.files.length) {
+        out.textContent = '✓ ' + input.files[0].name + ' (' + Math.round(input.files[0].size / 1024) + ' Ko) — prêt pour l\'analyse';
+        out.classList.remove('hidden');
+      }
+    });
+  });
+  document.querySelector('[data-launch]').addEventListener('click', function () {
+    var type, title;
+    if (current === 't-text') {
+      var t = document.getElementById('v-text').value.trim();
+      if (t.length < 10) { VF.toast('Le texte doit contenir au moins 10 caractères.', 'danger'); return; }
+      type = 'Texte'; title = t.slice(0, 60) + (t.length > 60 ? '…' : '');
+    } else if (current === 't-url') {
+      var u = document.getElementById('v-url').value.trim();
+      if (!/^https?:\/\/.+\..+/.test(u)) { VF.toast('Entrez une URL valide (https://…).', 'danger'); return; }
+      type = 'URL'; title = u.replace(/^https?:\/\//, '').slice(0, 60);
+    } else {
+      var map = { 't-image': ['v-image', 'Image'], 't-video': ['v-video', 'Vidéo'], 't-audio': ['v-audio', 'Audio'] };
+      var input = document.getElementById(map[current][0]);
+      if (!input.files.length) { VF.toast('Sélectionnez un fichier à analyser.', 'danger'); return; }
+      type = map[current][1]; title = input.files[0].name;
+    }
+    var ctx = document.getElementById('v-context').value.trim();
+    if (ctx) title += ' — ' + ctx.slice(0, 40);
+    var r = S.startVerification(type, title);
+    if (!r.ok) {
+      VF.toast('Unités insuffisantes : rechargez votre solde ou attendez le bonus mensuel.', 'danger');
+      setTimeout(function () { location.href = 'unites.html'; }, 1500);
+      return;
+    }
+    VF.toast('Vérification lancée : ' + (S.VERIF_COSTS[type] || 1) + ' unité(s) débitée(s).');
+    setTimeout(function () { location.href = 'verification-en-cours.html?u=' + r.uuid; }, 600);
+  });
+};
+</script>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

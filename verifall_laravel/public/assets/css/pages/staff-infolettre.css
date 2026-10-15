@@ -1,0 +1,140 @@
+/* ------------------------------------------------------------------------
+   Infolettre — mise en page (audit de cohérence du 14/09/2026).
+
+   Calquée sur `pages/staff-tableau-de-bord.css`, la référence de marges,
+   d'espacements et de grille du back-office refondu : même conteneur, même
+   en-tête, même padding de carte (1,25 rem).
+
+   POURQUOI UNE FEUILLE À PART : le build Tailwind est figé, une classe
+   absente n'y a AUCUN effet. Préfixe `ifl-`, chargée par cette seule vue.
+
+   CONTAINER QUERIES : la largeur utile dépend de la barre latérale (fixe
+   dès 1024 px). Les seuils se règlent sur `.ifl`, pas sur la fenêtre.
+   ------------------------------------------------------------------------ */
+
+.ifl {
+  container-type: inline-size;
+  container-name: ifl;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-block: .25rem 2.5rem;
+  color: var(--st-text);
+}
+
+/* ============================== EN-TÊTE =============================== */
+
+.ifl-header {
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--st-border);
+}
+
+.ifl-h1 {
+  margin: 0;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--st-ink);
+}
+
+.ifl-intro {
+  margin: .45rem 0 0;
+  max-width: 62ch;
+  font-size: .9rem;
+  line-height: 1.55;
+  color: var(--st-muted);
+}
+
+.ifl-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: .85em;
+  color: var(--st-ink);
+  white-space: nowrap;
+}
+
+/* =============================== ALERTES ============================== */
+
+.ifl-alerte { padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+.ifl-alerte.is-attention { border-color: rgba(217,119,6,.4); background: rgba(217,119,6,.04); }
+.ifl-alerte.is-critique  { border-color: rgba(220,38,38,.4); background: rgba(220,38,38,.03); }
+
+/* =============================== FILTRES ============================== */
+
+/* Empilés sur téléphone ; recherche + état sur une ligne au-delà. Le select
+   prend la hauteur du champ flottant (56 px) : il sortait à 44 px, décalé
+   de 6 px en haut comme en bas. */
+.ifl-filtres {
+  display: grid;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
+.ifl-select { width: 100%; min-height: 56px; }
+
+@container ifl (min-width: 560px) {
+  .ifl-filtres { grid-template-columns: minmax(0, 1fr) 13rem; align-items: stretch; }
+}
+
+/* Une adresse n'a pas d'espace où se couper. */
+.ifl-email { overflow-wrap: anywhere; }
+
+/* ================================ ONGLETS ============================= */
+
+/* Trois onglets à 358 px de large : 361 px de contenu, « Diffuser » passait
+   sous le bord droit. Un padding réduit les fait tenir sans défilement. */
+@container ifl (max-width: 419px) {
+  .ifl .st-tab { padding-inline: .7rem; }
+}
+
+/* ============================== DIFFUSION ============================= */
+
+.ifl-diffusion { padding: 1.25rem; }
+
+.ifl-h2 {
+  margin: 0 0 .25rem;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--st-ink);
+}
+
+.ifl-diffusion-compte { margin: 0 0 1.25rem; font-size: .875rem; color: var(--st-muted); }
+
+/* La zone de rédaction a la proportion d'un message, pas d'un commentaire. */
+.ifl-editeur .ql-container,
+.ifl-editeur .ql-editor { min-height: 220px; }
+
+.ifl-diffusion-pied { display: grid; gap: .5rem; }
+.ifl-envoyer { width: 100%; }
+
+@container ifl (min-width: 560px) {
+  .ifl-diffusion-pied { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; }
+  .ifl-envoyer { width: auto; min-width: 9rem; }
+}
+
+@container ifl (min-width: 900px) {
+  .ifl-diffusion { padding: 1.5rem; }
+  .ifl-editeur .ql-container,
+  .ifl-editeur .ql-editor { min-height: 300px; }
+}
+
+/* Barre d'outils sur téléphone : boutons de 28 × 24 px et défilement
+   horizontal caché (405 px de contenu pour 267 px visibles). Elle passe à la
+   ligne, et chaque commande offre 44 px de zone tactile. Même traitement sur
+   tout écran tactile (tablette à 820 px) : c'est le doigt qui compte, pas la
+   largeur. */
+@container ifl (max-width: 559px) {
+  .ifl .ifl-editeur .ql-toolbar { white-space: normal; overflow-x: visible; padding: 4px; }
+  .ifl .ifl-editeur .ql-toolbar .ql-formats { margin-right: 4px; }
+  .ifl .ifl-editeur .ql-toolbar button { width: 44px; height: 44px; padding: 11px 13px; }
+  .ifl .ifl-editeur .ql-toolbar .ql-picker { height: 44px; }
+  .ifl .ifl-editeur .ql-toolbar .ql-picker-label { display: flex; align-items: center; }
+}
+
+@media (pointer: coarse) {
+  .ifl .ifl-editeur .ql-toolbar { white-space: normal; overflow-x: visible; padding: 4px; }
+  .ifl .ifl-editeur .ql-toolbar button { width: 44px; height: 44px; padding: 11px 13px; }
+  .ifl .ifl-editeur .ql-toolbar .ql-picker { height: 44px; }
+  .ifl .ifl-editeur .ql-toolbar .ql-picker-label { display: flex; align-items: center; }
+}

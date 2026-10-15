@@ -1,0 +1,59 @@
+-- Schema local du parcours profile.
+--
+-- POURQUOI ce fichier existe alors qu'il est vide : c'est le second des deux
+-- points ou les cinq parcours auraient ecrit tous ensemble. Il est importe
+-- d'avance par database.dart ; le parcours profile y ajoute SES tables, et
+-- personne ne rouvre l'agregateur. Les cinq branches se fusionnent sans conflit.
+--
+-- Regles pour les tables ajoutees ici :
+--   * une table par ressource cachee, avec au minimum la cle (uuid ou slug), le
+--     contenu, "updated_at" renvoye par l'API et "fetched_at" local ;
+--   * "fetched_at" n'est pas decoratif : c'est lui qui alimente le bandeau
+--     << Donnees du <date>, actualisation impossible >>. Une echeance J-2 vieille
+--     de trois jours devient un mensonge sans sa date (05-HORS-LIGNE 5.4) ;
+--   * ne JAMAIS cacher le solde d'unites, l'etat d'une analyse en cours, ni le
+--     resultat d'un quiz (contrat d'API 7.1) : ce sont les trois ecrans qu'on
+--     relit precisement parce qu'on attend un changement.
+--
+-- Aucune migration a ecrire : database.dart cree les tables manquantes a
+-- l'ouverture. Une modification de colonne SUR UNE TABLE EXISTANTE, elle, est
+-- une demande adressee au responsable du socle, pas une modification directe.
+
+-- ============================================================================
+-- Le cache de lecture du parcours M5 (Compte).
+-- ============================================================================
+--
+-- POURQUOI UNE SEULE TABLE ET NON UNE PAR RESSOURCE. La consigne generale de ce
+-- fichier vise des ressources IDENTIFIEES : un cours par slug, une verification
+-- par uuid. Les cinq ressources cachees du parcours Compte -- mon profil, mes
+-- recompenses, mes certificats, mes statistiques, mon parrainage -- sont toutes
+-- des SINGLETONS du compte connecte. Cinq tables d'une ligne chacune seraient
+-- cinq tables qui ne tiendront jamais deux lignes, et cinq migrations a ecrire
+-- le jour ou l'une d'elles change de forme. La cle est donc le NOM de la
+-- ressource, et la charge utile son JSON.
+--
+-- POURQUOI "recupere_le" N'EST PAS DECORATIF : c'est lui qui alimente le bandeau
+-- << Donnees du <date>, actualisation impossible >>. Une statistique de la
+-- semaine derniere presentee comme actuelle est un indicateur faux
+-- (05-HORS-LIGNE 5.4).
+--
+-- CE QUI N'Y ENTRE JAMAIS, ET C'EST LA REGLE LA PLUS IMPORTANTE DE CE FICHIER :
+--   * LE SOLDE D'UNITES. Le contrat l'interdit (7.1) et l'ecart se paie cher :
+--     << on relit cet ecran precisement parce qu'on attend un changement ; une
+--     valeur d'il y a cinq minutes fait croire a un paiement perdu >>. Le
+--     serialiseur du profil (MoiModel.versJson) n'ecrit deja pas la cle
+--     "unites" -- la garantie est mecanique, elle ne repose pas sur la
+--     vigilance du lecteur ;
+--   * LA GRILLE TARIFAIRE. Un prix perime affiche avant un achat est une
+--     decision d'achat prise sur un faux chiffre ;
+--   * LE MOT DE PASSE, LE CODE DE SUPPRESSION, LE NUMERO MOBILE MONEY. Ils ne
+--     traversent que la requete qui les porte.
+--
+-- La purge de la deconnexion vide cette table comme toutes les autres : sur un
+-- telephone partage -- le cas ordinaire au Benin -- un cache de lecture oublie
+-- est une fuite de donnees.
+CREATE TABLE compte_cache (
+  ressource TEXT NOT NULL PRIMARY KEY,
+  charge_utile TEXT NOT NULL,
+  recupere_le DATETIME NOT NULL
+) AS CompteCacheRow;

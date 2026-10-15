@@ -1,0 +1,227 @@
+[
+  {
+    "titre": "Recherche d'image inversée (Google Lens)",
+    "description": "Retrouvez l'origine d'une image et découvrez où elle a déjà été publiée.",
+    "categorie": "Recherche",
+    "etiquette": "IMAGE",
+    "icone": "image_search",
+    "usages": [
+      "Origine d'image",
+      "Réutilisation"
+    ],
+    "url": "https://lens.google.com",
+    "libelle_lien": "",
+    "mots_cles": "recherche d'image inversée (google lens) retrouvez l'origine d'une image et découvrez où elle a déjà été publiée. origine d'image réutilisation recherche",
+    "recommande": true
+  },
+  {
+    "titre": "Wayback Machine",
+    "description": "Consultez les versions antérieures d'une page, même supprimée.",
+    "categorie": "Archives",
+    "etiquette": "ARCHIVES",
+    "icone": "history",
+    "usages": [
+      "Pages supprimées",
+      "Preuves"
+    ],
+    "url": "https://web.archive.org",
+    "libelle_lien": "",
+    "mots_cles": "wayback machine consultez les versions antérieures d'une page, même supprimée. pages supprimées preuves archives",
+    "recommande": true
+  },
+  {
+    "titre": "Google Fact Check Explorer",
+    "description": "Cherchez si une affirmation a déjà été vérifiée dans le monde.",
+    "categorie": "Fact-checking",
+    "etiquette": "FACT-CHECK",
+    "icone": "fact_check",
+    "usages": [
+      "Rumeurs mondiales",
+      "Déjà vérifié ?"
+    ],
+    "url": "https://toolbox.google.com/factcheck/explorer",
+    "libelle_lien": "",
+    "mots_cles": "google fact check explorer cherchez si une affirmation a déjà été vérifiée dans le monde. rumeurs mondiales déjà vérifié ? fact-checking",
+    "recommande": true
+  },
+  {
+    "titre": "TinEye",
+    "description": "Moteur spécialisé : première apparition d'une image et versions modifiées.",
+    "categorie": "Recherche",
+    "etiquette": "IMAGE",
+    "icone": "image_search",
+    "usages": [
+      "Antériorité",
+      "Montages"
+    ],
+    "url": "https://tineye.com",
+    "libelle_lien": "",
+    "mots_cles": "tineye moteur spécialisé : première apparition d'une image et versions modifiées. antériorité montages recherche",
+    "recommande": false
+  },
+  {
+    "titre": "InVID / WeVerify",
+    "description": "Découpez une vidéo en images clés pour lancer des recherches inversées.",
+    "categorie": "Recherche",
+    "etiquette": "VIDÉO",
+    "icone": "movie",
+    "usages": [
+      "Vidéos virales",
+      "Images clés"
+    ],
+    "url": "https://www.invid-project.eu",
+    "libelle_lien": "",
+    "mots_cles": "invid / weverify découpez une vidéo en images clés pour lancer des recherches inversées. vidéos virales images clés recherche",
+    "recommande": false
+  },
+  {
+    "titre": "Whois Lookup",
+    "description": "Identifiez le propriétaire, la date de création et l'hébergeur d'un site.",
+    "categorie": "Web & domaines",
+    "etiquette": "DOMAINE",
+    "icone": "language",
+    "usages": [
+      "Sites suspects",
+      "Ancienneté"
+    ],
+    "url": "https://who.is",
+    "libelle_lien": "",
+    "mots_cles": "whois lookup identifiez le propriétaire, la date de création et l'hébergeur d'un site. sites suspects ancienneté web & domaines",
+    "recommande": false
+  },
+  {
+    "titre": "ScamAdviser",
+    "description": "Score de confiance d'un site marchand ou d'une plateforme inconnue.",
+    "categorie": "Web & domaines",
+    "etiquette": "DOMAINE",
+    "icone": "language",
+    "usages": [
+      "Arnaques",
+      "e-commerce"
+    ],
+    "url": "https://www.scamadviser.com",
+    "libelle_lien": "",
+    "mots_cles": "scamadviser score de confiance d'un site marchand ou d'une plateforme inconnue. arnaques e-commerce web & domaines",
+    "recommande": false
+  },
+  {
+    "titre": "Archive.today",
+    "description": "Capturez et figez une page web comme preuve horodatée.",
+    "categorie": "Archives",
+    "etiquette": "ARCHIVES",
+    "icone": "history",
+    "usages": [
+      "Capture de preuve",
+      "Horodatage"
+    ],
+    "url": "https://archive.ph",
+    "libelle_lien": "",
+    "mots_cles": "archive.today capturez et figez une page web comme preuve horodatée. capture de preuve horodatage archives",
+    "recommande": false
+  },
+  {
+    "titre": "ExifTool en ligne",
+    "description": "Lisez les métadonnées d'une photo : appareil, date, localisation.",
+    "categorie": "Médias & métadonnées",
+    "etiquette": "EXIF",
+    "icone": "data_object",
+    "usages": [
+      "Date réelle",
+      "Localisation"
+    ],
+    "url": "https://exif.tools",
+    "libelle_lien": "",
+    "mots_cles": "exiftool en ligne lisez les métadonnées d'une photo : appareil, date, localisation. date réelle localisation médias & métadonnées",
+    "recommande": false
+  },
+  {
+    "titre": "FotoForensics",
+    "description": "Analyse ELA pour repérer les zones retouchées d'une image.",
+    "categorie": "Médias & métadonnées",
+    "etiquette": "MÉDIAS",
+    "icone": "data_object",
+    "usages": [
+      "Retouches",
+      "Montages"
+    ],
+    "url": "https://fotoforensics.com",
+    "libelle_lien": "",
+    "mots_cles": "fotoforensics analyse ela pour repérer les zones retouchées d'une image. retouches montages médias & métadonnées",
+    "recommande": false
+  },
+  {
+    "titre": "Hive AI Detector",
+    "description": "Estimez la probabilité qu'une image ait été générée par IA.",
+    "categorie": "Intelligence artificielle",
+    "etiquette": "IA",
+    "icone": "smart_toy",
+    "usages": [
+      "Images IA",
+      "Deepfakes"
+    ],
+    "url": "https://hivemoderation.com/ai-generated-content-detection",
+    "libelle_lien": "",
+    "mots_cles": "hive ai detector estimez la probabilité qu'une image ait été générée par ia. images ia deepfakes intelligence artificielle",
+    "recommande": false
+  },
+  {
+    "titre": "Deepware Scanner",
+    "description": "Analysez une vidéo pour détecter des visages synthétiques.",
+    "categorie": "Intelligence artificielle",
+    "etiquette": "IA",
+    "icone": "smart_toy",
+    "usages": [
+      "Vidéos truquées",
+      "Visages"
+    ],
+    "url": "https://deepware.ai",
+    "libelle_lien": "",
+    "mots_cles": "deepware scanner analysez une vidéo pour détecter des visages synthétiques. vidéos truquées visages intelligence artificielle",
+    "recommande": false
+  },
+  {
+    "titre": "Google Earth",
+    "description": "Confirmez ou infirmez le lieu supposé d'une photo ou d'une vidéo.",
+    "categorie": "Géolocalisation",
+    "etiquette": "GÉO",
+    "icone": "location_on",
+    "usages": [
+      "Lieux",
+      "Paysages"
+    ],
+    "url": "https://earth.google.com",
+    "libelle_lien": "",
+    "mots_cles": "google earth confirmez ou infirmez le lieu supposé d'une photo ou d'une vidéo. lieux paysages géolocalisation",
+    "recommande": false
+  },
+  {
+    "titre": "Mapillary",
+    "description": "Photos de rue collaboratives pour recouper des indices visuels.",
+    "categorie": "Géolocalisation",
+    "etiquette": "GÉO",
+    "icone": "location_on",
+    "usages": [
+      "Vues de rue",
+      "Indices"
+    ],
+    "url": "https://www.mapillary.com",
+    "libelle_lien": "",
+    "mots_cles": "mapillary photos de rue collaboratives pour recouper des indices visuels. vues de rue indices géolocalisation",
+    "recommande": false
+  },
+  {
+    "titre": "AFP Factuel",
+    "description": "Les vérifications de l'AFP, dont de nombreux sujets africains.",
+    "categorie": "Fact-checking",
+    "etiquette": "FACT-CHECK",
+    "icone": "fact_check",
+    "usages": [
+      "Actualité",
+      "Afrique"
+    ],
+    "url": "https://factuel.afp.com",
+    "libelle_lien": "",
+    "mots_cles": "afp factuel les vérifications de l'afp, dont de nombreux sujets africains. actualité afrique fact-checking",
+    "recommande": false
+  }
+]

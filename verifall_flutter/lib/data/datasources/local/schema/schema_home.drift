@@ -1,0 +1,58 @@
+-- Schema local du parcours home.
+--
+-- POURQUOI ce fichier existe alors qu'il est vide : c'est le second des deux
+-- points ou les cinq parcours auraient ecrit tous ensemble. Il est importe
+-- d'avance par database.dart ; le parcours home y ajoute SES tables, et
+-- personne ne rouvre l'agregateur. Les cinq branches se fusionnent sans conflit.
+--
+-- Regles pour les tables ajoutees ici :
+--   * une table par ressource cachee, avec au minimum la cle (uuid ou slug), le
+--     contenu, "updated_at" renvoye par l'API et "fetched_at" local ;
+--   * "fetched_at" n'est pas decoratif : c'est lui qui alimente le bandeau
+--     << Donnees du <date>, actualisation impossible >>. Une echeance J-2 vieille
+--     de trois jours devient un mensonge sans sa date (05-HORS-LIGNE 5.4) ;
+--   * ne JAMAIS cacher le solde d'unites, l'etat d'une analyse en cours, ni le
+--     resultat d'un quiz (contrat d'API 7.1) : ce sont les trois ecrans qu'on
+--     relit precisement parce qu'on attend un changement.
+--
+-- Aucune migration a ecrire : database.dart cree les tables manquantes a
+-- l'ouverture. Une modification de colonne SUR UNE TABLE EXISTANTE, elle, est
+-- une demande adressee au responsable du socle, pas une modification directe.
+
+-- ─────────────────────────────────────────────────────────────────────────
+-- M2 · Accueil
+-- ─────────────────────────────────────────────────────────────────────────
+
+-- L'agregat de l'ecran d'accueil, cache en un seul enregistrement.
+--
+-- POURQUOI une seule ligne et non une table par bloc : l'agregat est LU EN UN
+-- APPEL et affiche d'un bloc. Le decouper en cinq tables obligerait a rejouer
+-- une jointure a chaque ouverture pour reconstituer ce que le serveur a deja
+-- assemble — et a gerer cinq fraicheurs differentes pour une seule reponse.
+--
+-- POURQUOI "solde" N'EST PAS ICI, et c'est la regle la plus importante de ce
+-- fichier : le contrat interdit de servir le solde d'unites depuis le cache
+-- (API 7.1). "compteurs_json" est ecrit APRES retrait de la cle "unites" ; la
+-- pastille affiche alors un tiret plutot qu'une valeur perimee, parce que
+-- << on relit cet ecran precisement parce qu'on attend un changement >>.
+CREATE TABLE tableau_de_bord_cache (
+  id INTEGER NOT NULL PRIMARY KEY,     -- toujours 0 : une seule ligne
+  charge_json TEXT NOT NULL,           -- l'agregat, SANS le solde
+  fetched_at DATETIME NOT NULL         -- alimente << synchronise il y a X >>
+);
+
+-- La reprise de cours, mise en cache a part.
+--
+-- POURQUOI a part : elle vient d'un AUTRE endpoint (GET /me/courses/resume) et
+-- peut valoir "null" alors que l'agregat est bien la. Les melanger ferait
+-- disparaitre la carte d'accueil chaque fois que l'un des deux appels echoue.
+--
+-- "presente" distingue << pas encore lue >> de << lue, il n'y a rien a
+-- reprendre >> : les deux menent a deux cartes differentes, et les confondre
+-- proposerait << Reprendre >> a quelqu'un qui n'a jamais ouvert de cours.
+CREATE TABLE reprise_de_cours_cache (
+  id INTEGER NOT NULL PRIMARY KEY,     -- toujours 0 : une seule ligne
+  presente BOOLEAN NOT NULL,
+  charge_json TEXT,
+  fetched_at DATETIME NOT NULL
+);

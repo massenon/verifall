@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard Admin — Vérif'All</title>
+<meta name="description" content="Back-office Vérif'All : KPIs plateforme, graphiques et accès aux modules de gestion.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="../compte-user/css/citizen.css">
+<link rel="stylesheet" href="../css/staff.css">
+<link rel="stylesheet" href="../css/vendor/quill.snow.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+<style>
+  :root { --st-deep: #052E16; --st-brand: #065F46; --st-emerald: #059669; --st-mint: #D1FAE5; }
+  .sidebar { background: var(--st-deep); }
+  .sidebar-label { color: rgba(209,250,229,.55); }
+  .sidebar-link { color: rgba(236,253,245,.82); }
+  .sidebar-link:hover { background: rgba(5,150,105,.18); color: #fff; }
+  .sidebar-link.is-active { background: var(--st-emerald); color: #fff; }
+  .st-group { margin-bottom: .35rem; }
+  .st-group summary { list-style: none; cursor: pointer; padding: .65rem .75rem; border-radius: .75rem;
+    margin-bottom: .15rem; min-height: 42px; display: flex; }
+  .st-group summary:hover { background: rgba(5,150,105,.12); }
+  .st-group summary::-webkit-details-marker { display: none; }
+  .st-group summary .st-caret { transition: transform .2s; }
+  .st-group[open] summary .st-caret { transform: rotate(180deg); }
+  .st-sub { padding-left: 1rem; margin-left: .65rem; border-left: 1px solid rgba(209,250,229,.14);
+    display: flex; flex-direction: column; gap: .15rem; padding-bottom: .4rem; }
+  .st-sub .sidebar-link { padding: .55rem .75rem; font-size: .84rem; min-height: 40px; }
+  #sidebar nav > .sidebar-link { margin-bottom: .35rem; min-height: 44px; }
+  #sidebar .sidebar-label { font-size: 10.5px; letter-spacing: .16em; margin: 0; align-items: center;
+    justify-content: space-between; width: 100%; }
+  .offcanvas { position: fixed; top: 0; right: 0; bottom: 0; z-index: 70; width: min(440px, 100vw);
+    background: #fff; box-shadow: -1rem 0 3rem rgba(17,24,39,.2); transform: translateX(100%);
+    transition: transform .25s ease; overflow-y: auto; }
+  .offcanvas.is-open { transform: none; }
+  .oc-backdrop { position: fixed; inset: 0; z-index: 69; background: rgba(17,24,39,.5); display: none; }
+  .oc-backdrop.is-open { display: block; }
+  @media (prefers-reduced-motion: reduce) { .st-group summary .st-caret, .offcanvas { transition: none; } }
+</style>
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line">
+  <div class="h-full flex items-center gap-3 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false"><span class="material-symbols-rounded " aria-hidden="true">menu</span></button>
+    <a href="dashboard.html"><img src="../images/logo.png" alt="Vérif'All" class="h-10 w-auto" width="171" height="60"></a>
+    <span class="rounded-full text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1" style="background:var(--st-brand)">Admin</span>
+    <div class="hidden md:block relative flex-1 max-w-md ml-4">
+      <label class="sr-only" for="st-search">Rechercher</label>
+      <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-slate2 !text-[19px]" aria-hidden="true">search</span>
+      <input id="st-search" type="search" placeholder="Rechercher un module, un utilisateur, un cours…" class="w-full bg-canvas border border-line rounded-xl pl-10 pr-3 py-2.5 text-sm outline-none focus:border-[#059669]">
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    
+    <div class="relative hidden sm:block" data-dropdown>
+      <button type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-[#059669] text-white text-sm font-semibold px-4 py-2.5 hover:opacity-90 min-h-[44px]" data-dropdown-toggle aria-expanded="false" aria-haspopup="true"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Créer <span class="material-symbols-rounded !text-[17px]" aria-hidden="true">expand_more</span></button>
+      <div class="hidden absolute right-0 top-full mt-2 w-56 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <a class="user-menu-link" href="builder.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">school</span> Nouveau cours</a>
+        <a class="user-menu-link" href="blog.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit_note</span> Nouvel article</a>
+        <a class="user-menu-link" href="signalements.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">report</span> Nouveau signalement</a>
+        <a class="user-menu-link" href="utilisateurs.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">person_add</span> Nouvel utilisateur</a>
+      </div>
+    </div>
+<a href="securite.html" class="hidden md:inline-flex st-icnbtn !w-11 !h-11" title="Journal d&#39;audit" aria-label="Journal d&#39;audit"><span class="material-symbols-rounded !text-[22px]" aria-hidden="true">history_edu</span></a>
+    <button type="button" class="hidden sm:inline-flex st-icnbtn !w-11 !h-11" data-fullscreen title="Plein écran" aria-label="Basculer le plein écran"><span class="material-symbols-rounded !text-[22px]" aria-hidden="true">fullscreen</span></button>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications — 3 non lues">
+        <span class="material-symbols-rounded !text-[22px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-brandred text-white text-[10px] font-bold inline-flex items-center justify-center" data-notif-count>3</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] max-w-[92vw] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="flex items-center justify-between px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink mb-0">Notifications</p>
+          <button type="button" class="text-xs font-bold text-primary" data-notif-readall>Tout marquer lu</button>
+        </div>
+        <div class="max-h-[320px] overflow-y-auto" data-notif-list><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">report</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">12 nouveaux signalements</span>
+          <span class="block text-xs text-slate2 truncate">4 prioritaires santé publique</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 8 min</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">badge</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Dossier KYC-2214 soumis</span>
+          <span class="block text-xs text-slate2 truncate">Marie A. — CNI biométrique</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 2 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">workspace_premium</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Certificat émis</span>
+          <span class="block text-xs text-slate2 truncate">VERIF-A-8841 · Marie A.</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 3 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 " data-notif data-unread="false">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">backup</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Sauvegarde BD réussie</span>
+          <span class="block text-xs text-slate2 truncate">bkp-2026-08-18 · 2,4 Go</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">hier 23:04</span></span>
+          
+        </button></div>
+        <div class="px-4 py-2.5 border-t border-line text-center">
+          <a href="securite.html" class="text-xs font-bold text-primary">Voir toute l'activité →</a>
+        </div>
+      </div>
+    </div>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-2" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-white font-bold text-sm" style="background:var(--st-brand)">RF</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-56 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line"><p class="font-display font-bold text-ink leading-tight mb-0">René Fadonougbo</p><p class="text-xs text-slate2 mb-0">Administrateur</p></div>
+        <a class="user-menu-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon profil</a><a class="user-menu-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Paramètres</a>
+        <div class="h-px bg-line my-1.5 mx-3" role="separator"></div>
+        <a class="user-menu-link text-vfalse" href="login.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+      </div>
+    </div>
+  </div>
+</header>
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation Admin">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-7">
+    <nav class="flex-1">
+        <a class="sidebar-link is-active" href="dashboard.html" aria-current="page"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">space_dashboard</span><span>Tableau de Bord</span></a>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>FACT-CHECKING</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="signalements.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">report</span><span>Signalements</span></a>
+        <a class="sidebar-link" href="base-de-connaissances.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">fact_check</span><span>Fact checks</span></a>
+        <a class="sidebar-link" href="sources-confiance.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">verified</span><span>Sources vérifiées</span></a>
+        <a class="sidebar-link" href="sources-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories de sources</span></a>
+        <a class="sidebar-link" href="unites-ia.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span><span>Historiques des Unités IA</span></a>
+        </div>
+      </details>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">handyman</span><span>Répertoire des outils</span></a>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ACADÉMIE (LMS)</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories</span></a>
+        <a class="sidebar-link" href="cours.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">school</span><span>Tous les Cours</span></a>
+        <a class="sidebar-link" href="builder.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">design_services</span><span>Constructeur de cours</span></a>
+        <a class="sidebar-link" href="questions.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">quiz</span><span>Banque de Questions</span></a>
+        <a class="sidebar-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span><span>Live Classes</span></a>
+        <a class="sidebar-link" href="certificats.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">workspace_premium</span><span>Certificats</span></a>
+        <a class="sidebar-link" href="unites-premium.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">payments</span><span>Unités des Cours Premium</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>EXAMENS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">assignment</span><span>Liste des Examens</span></a>
+        <a class="sidebar-link" href="correction-examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span><span>Correction Examens</span></a>
+        <a class="sidebar-link" href="stats-globales.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span><span>Statistiques Globales</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ENRÔLEMENT</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="enrolement-cours.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">how_to_reg</span><span>Enrôlement aux Cours</span></a>
+        <a class="sidebar-link" href="enrolement-examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">app_registration</span><span>Enrôlement aux Examens</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>HUB D'INFOS BÉNIN</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="hub-actualites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">newspaper</span><span>Actualités</span></a>
+        <a class="sidebar-link" href="hub-portails.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">account_balance</span><span>Portails Officiels</span></a>
+        <a class="sidebar-link" href="hub-jobs.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">work</span><span>Jobs Vérifiés</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>COMMUNAUTÉ</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="forum-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories du Forum</span></a>
+        <a class="sidebar-link" href="forum-discussions.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">forum</span><span>Forum Citoyen</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>BLOG</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="blog-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories du Blog</span></a>
+        <a class="sidebar-link" href="blog.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">edit_note</span><span>Articles du Blog</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>RESSOURCES & COM</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="partenaires.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">handshake</span><span>Nos Partenaires</span></a>
+        <a class="sidebar-link" href="faq.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">quiz</span><span>Gestion FAQ</span></a>
+        <a class="sidebar-link" href="temoignages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">reviews</span><span>Témoignages</span></a>
+        <a class="sidebar-link" href="newsletters.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">mail</span><span>Newsletters</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>UTILISATEURS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="utilisateurs.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">group</span><span>Citoyens</span></a>
+        <a class="sidebar-link" href="mentors.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">co_present</span><span>Mentors</span></a>
+        <a class="sidebar-link" href="kyc.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">badge</span><span>Vérification KYC</span></a>
+        <a class="sidebar-link" href="roles.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">admin_panel_settings</span><span>Rôles & Permissions</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>CONFIG SYSTÈME</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span><span>Réglages du Système</span></a>
+        <a class="sidebar-link" href="emails-templates.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">stacked_email</span><span>Templates Emails</span></a>
+        <a class="sidebar-link" href="campagnes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">campaign</span><span>Campagnes Publicitaires</span></a>
+        <a class="sidebar-link" href="badges.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span><span>Badges de progression</span></a>
+        <a class="sidebar-link" href="certificate-template.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">wallpaper</span><span>Certificat Template</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>SÉCURITÉ</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="securite.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">security</span><span>Logs d'Audit</span></a>
+        <a class="sidebar-link" href="logs-emails.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">outgoing_mail</span><span>Logs Emails</span></a>
+        <a class="sidebar-link" href="logs-unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">receipt_long</span><span>Logs Unités IA</span></a>
+        <a class="sidebar-link" href="alertes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">gpp_maybe</span><span>Alertes Intrusion</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>MAINTENANCE</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="maintenance.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">backup</span><span>Sauvegardes BD</span></a>
+        <a class="sidebar-link" href="cron.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">schedule</span><span>Tâches Cron</span></a>
+        </div>
+      </details>
+    </nav>
+    <a href="login.html" class="sidebar-link mt-4"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="flex flex-col lg:flex-row lg:items-center gap-4 mb-6">
+    <div class="flex-1">
+      <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Bon retour, René 👋</h1>
+      <p class="text-[#64748B] text-sm mb-0">Surveillance en temps réel de l'intégrité de Vérif'All</p>
+    </div>
+    <div class="flex gap-2">
+      <button type="button" class="st-btn st-btn-secondary !bg-[#D1FAE5] !border-[#D1FAE5] !text-[#065F46]" data-export-report><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">download</span> Exporter Rapport</button>
+      <button type="button" class="st-btn st-btn-primary" data-refresh><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">refresh</span> Actualiser</button>
+    </div>
+  </div>
+
+  <section class="mb-6" data-kpi-accordion>
+    <button type="button" class="kpi-toggle w-full items-center justify-between st-card px-4 py-3 mb-3" aria-expanded="false">
+      <span class="text-sm font-display font-bold text-[#0F172A]">Vue d'ensemble</span><span class="material-symbols-rounded transition-transform" aria-hidden="true">expand_more</span>
+    </button>
+    <div class="kpi-grid grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="st-kpi"><div class="flex items-start justify-between gap-2">
+        <div><p class="text-sm font-semibold text-[#64748B] mb-1">Citoyens Inscrits</p><p class="st-kpi-v">8 421</p></div>
+        <span class="w-10 h-10 rounded-xl bg-[#DCFCE7] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[20px] text-[#16A34A]" aria-hidden="true">group</span></span>
+      </div><p class="st-kpi-t">312 cette semaine</p></div>
+      <div class="st-kpi"><div class="flex items-start justify-between gap-2">
+        <div><p class="text-sm font-semibold text-[#64748B] mb-1">Abonnés (Newsletter)</p><p class="st-kpi-v">12 208</p></div>
+        <span class="w-10 h-10 rounded-xl bg-[#DBEAFE] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[20px] text-[#2563EB]" aria-hidden="true">mail</span></span>
+      </div><p class="st-kpi-t">Audience active</p></div>
+      <div class="st-kpi"><div class="flex items-start justify-between gap-2">
+        <div><p class="text-sm font-semibold text-[#64748B] mb-1">Signalements</p><p class="st-kpi-v">474</p></div>
+        <span class="w-10 h-10 rounded-xl bg-[#FEE2E2] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[20px] text-[#DC2626]" aria-hidden="true">report</span></span>
+      </div><p class="st-kpi-t">22 en attente</p></div>
+      <div class="st-kpi"><div class="flex items-start justify-between gap-2">
+        <div><p class="text-sm font-semibold text-[#64748B] mb-1">Cours Publiés</p><p class="st-kpi-v">4</p></div>
+        <span class="w-10 h-10 rounded-xl bg-[#FEF3C7] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[20px] text-[#D97706]" aria-hidden="true">school</span></span>
+      </div><p class="st-kpi-t">Académie</p></div>
+    </div>
+  </section>
+
+  <div class="grid lg:grid-cols-3 gap-4 mb-4">
+    <section class="st-card p-5 lg:col-span-2">
+      <div class="flex items-start justify-between gap-2 mb-1">
+        <div><h2 class="text-lg font-display font-bold text-[#0F172A] mb-0.5">Activité de Signalements</h2>
+        <p class="text-xs text-[#64748B] mb-0">Volume analytique des 7 derniers jours</p></div>
+        <span class="material-symbols-rounded text-[#059669]" aria-hidden="true">area_chart</span>
+      </div>
+      <canvas data-signal-chart height="230" role="img" aria-label="Signalements par jour : jeu 4, ven 10, sam 1, dim 2, lun 1, mar 2, mer 1"></canvas>
+    </section>
+    <section class="st-card p-5">
+      <h2 class="text-lg font-display font-bold text-[#0F172A] mb-4">Nouveaux Citoyens</h2>
+      <ul class="space-y-4 mb-0">
+        <li class="flex gap-3"><span class="w-10 h-10 rounded-full bg-[#0F172A] text-white inline-flex items-center justify-center font-bold text-xs shrink-0">S</span>
+        <div class="min-w-0"><p class="text-sm font-bold text-[#0F172A] mb-0 truncate">Sonou Médias</p>
+        <p class="text-xs text-[#64748B] mb-1 truncate">sonoucommedias@gmail.com</p>
+        <span class="inline-flex rounded-lg bg-[#DCFCE7] text-[#15803D] text-[11px] font-bold px-2 py-0.5">il y a 31 minutes</span></div></li>
+        <li class="flex gap-3"><span class="w-10 h-10 rounded-full bg-[#0F172A] text-white inline-flex items-center justify-center font-bold text-xs shrink-0">M</span>
+        <div class="min-w-0"><p class="text-sm font-bold text-[#0F172A] mb-0 truncate">Mathieu Mahougnon</p>
+        <p class="text-xs text-[#64748B] mb-1 truncate">mahougnon515@gmail.com</p>
+        <span class="inline-flex rounded-lg bg-[#DCFCE7] text-[#15803D] text-[11px] font-bold px-2 py-0.5">il y a 4 jours</span></div></li>
+        <li class="flex gap-3"><span class="w-10 h-10 rounded-full bg-[#0F172A] text-white inline-flex items-center justify-center font-bold text-xs shrink-0">O</span>
+        <div class="min-w-0"><p class="text-sm font-bold text-[#0F172A] mb-0 truncate">OGAWIN Rabiou</p>
+        <p class="text-xs text-[#64748B] mb-1 truncate">rabiouogawin@gmail.com</p>
+        <span class="inline-flex rounded-lg bg-[#DCFCE7] text-[#15803D] text-[11px] font-bold px-2 py-0.5">il y a 5 jours</span></div></li>
+        <li class="flex gap-3"><span class="w-10 h-10 rounded-full bg-[#0F172A] text-white inline-flex items-center justify-center font-bold text-xs shrink-0">H</span>
+        <div class="min-w-0"><p class="text-sm font-bold text-[#0F172A] mb-0 truncate">Hervé Agossou Houngbedji</p>
+        <p class="text-xs text-[#64748B] mb-1 truncate">johnelvisfg380@gmail.com</p>
+        <span class="inline-flex rounded-lg bg-[#DCFCE7] text-[#15803D] text-[11px] font-bold px-2 py-0.5">il y a 6 jours</span></div></li>
+        <li class="flex gap-3"><span class="w-10 h-10 rounded-full bg-[#0F172A] text-white inline-flex items-center justify-center font-bold text-xs shrink-0">D</span>
+        <div class="min-w-0"><p class="text-sm font-bold text-[#0F172A] mb-0 truncate">Donald Alode</p>
+        <p class="text-xs text-[#64748B] mb-1 truncate">alodedonald41@gmail.com</p>
+        <span class="inline-flex rounded-lg bg-[#DCFCE7] text-[#15803D] text-[11px] font-bold px-2 py-0.5">il y a 6 jours</span></div></li></ul>
+    </section>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-4 mb-4">
+    <section class="st-card p-5">
+      <h2 class="text-lg font-display font-bold text-[#0F172A] mb-3">Performance Articles</h2>
+      <table class="w-full text-sm"><thead><tr class="text-[10px] font-800 uppercase tracking-wider text-[#64748B]">
+        <th class="text-left pb-2 font-extrabold">Titre</th><th class="text-right pb-2 font-extrabold">Vues</th><th class="text-right pb-2 font-extrabold">Clics</th></tr></thead>
+      <tbody>
+        <tr class="border-t border-[#E2E8F0]"><td class="py-2.5 pr-2"><a href="blog.html" class="font-semibold text-[#0F172A] hover:text-[#059669]">Vérifier une image en 3 minutes</a></td>
+        <td class="py-2.5 text-right font-bold">6 812</td><td class="py-2.5 text-right text-[#64748B]">412</td></tr>
+        <tr class="border-t border-[#E2E8F0]"><td class="py-2.5 pr-2"><a href="blog.html" class="font-semibold text-[#0F172A] hover:text-[#059669]">Anatomie d'une rumeur</a></td>
+        <td class="py-2.5 text-right font-bold">5 940</td><td class="py-2.5 text-right text-[#64748B]">388</td></tr>
+        <tr class="border-t border-[#E2E8F0]"><td class="py-2.5 pr-2"><a href="blog.html" class="font-semibold text-[#0F172A] hover:text-[#059669]">Prix WSIS 2026</a></td>
+        <td class="py-2.5 text-right font-bold">4 108</td><td class="py-2.5 text-right text-[#64748B]">201</td></tr>
+        <tr class="border-t border-[#E2E8F0]"><td class="py-2.5 pr-2"><a href="blog.html" class="font-semibold text-[#0F172A] hover:text-[#059669]">Esprit critique au collège</a></td>
+        <td class="py-2.5 text-right font-bold">3 260</td><td class="py-2.5 text-right text-[#64748B]">164</td></tr></tbody></table>
+    </section>
+    <section class="st-card p-5">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-display font-bold text-[#0F172A] mb-0">Journal d'Audit</h2>
+        <a href="securite.html" class="text-xs font-bold text-[#059669]">Tout voir →</a>
+      </div>
+      <ol class="relative border-l border-[#E2E8F0] ml-2 space-y-4 mb-0">
+        <li class="pl-4"><span class="absolute -left-[5px] w-2.5 h-2.5 rounded-full bg-[#16A34A] border-2 border-white" aria-hidden="true"></span>
+        <div class="flex justify-between gap-2"><p class="text-sm font-bold text-[#0F172A] mb-0">Sonou Médias</p><span class="text-xs text-[#64748B] shrink-0">11:25</span></div>
+        <p class="text-xs text-[#64748B] mb-0">Profil mis à jour</p></li>
+        <li class="pl-4"><span class="absolute -left-[5px] w-2.5 h-2.5 rounded-full bg-[#16A34A] border-2 border-white" aria-hidden="true"></span>
+        <div class="flex justify-between gap-2"><p class="text-sm font-bold text-[#0F172A] mb-0">Système</p><span class="text-xs text-[#64748B] shrink-0">11:22</span></div>
+        <p class="text-xs text-[#64748B] mb-0">Fact check créé</p></li>
+        <li class="pl-4"><span class="absolute -left-[5px] w-2.5 h-2.5 rounded-full bg-[#16A34A] border-2 border-white" aria-hidden="true"></span>
+        <div class="flex justify-between gap-2"><p class="text-sm font-bold text-[#0F172A] mb-0">Abdul-zeid ZANKARO</p><span class="text-xs text-[#64748B] shrink-0">09:19</span></div>
+        <p class="text-xs text-[#64748B] mb-0">Signalement #491 : créé</p></li>
+        <li class="pl-4"><span class="absolute -left-[5px] w-2.5 h-2.5 rounded-full bg-[#16A34A] border-2 border-white" aria-hidden="true"></span>
+        <div class="flex justify-between gap-2"><p class="text-sm font-bold text-[#0F172A] mb-0">Abdul-zeid ZANKARO</p><span class="text-xs text-[#64748B] shrink-0">09:19</span></div>
+        <p class="text-xs text-[#64748B] mb-0">Signalement #490 : mis à jour</p></li>
+        <li class="pl-4"><span class="absolute -left-[5px] w-2.5 h-2.5 rounded-full bg-[#16A34A] border-2 border-white" aria-hidden="true"></span>
+        <div class="flex justify-between gap-2"><p class="text-sm font-bold text-[#0F172A] mb-0">Système</p><span class="text-xs text-[#64748B] shrink-0">23:04</span></div>
+        <p class="text-xs text-[#64748B] mb-0">Sauvegarde vérifiée</p></li></ol>
+    </section>
+    <section class="st-card p-5">
+      <h2 class="text-lg font-display font-bold text-[#0F172A] mb-0.5">Navigateurs</h2>
+      <p class="text-xs text-[#64748B] mb-4">Analyse des visiteurs</p>
+      <ul class="space-y-3.5 mb-0">
+        <li class="flex items-center gap-3"><span class="w-9 h-9 rounded-xl bg-[#F1F5F9] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[19px] text-[#475569]" aria-hidden="true">public</span></span>
+        <span class="flex-1 text-sm font-bold text-[#0F172A]">Chrome</span>
+        <span class="text-xs font-bold text-[#64748B] w-9 text-right">59 %</span>
+        <span class="progress !h-1.5 w-16 shrink-0"><span style="width:59%"></span></span></li>
+        <li class="flex items-center gap-3"><span class="w-9 h-9 rounded-xl bg-[#F1F5F9] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[19px] text-[#475569]" aria-hidden="true">language</span></span>
+        <span class="flex-1 text-sm font-bold text-[#0F172A]">Safari</span>
+        <span class="text-xs font-bold text-[#64748B] w-9 text-right">29 %</span>
+        <span class="progress !h-1.5 w-16 shrink-0"><span style="width:29%"></span></span></li>
+        <li class="flex items-center gap-3"><span class="w-9 h-9 rounded-xl bg-[#F1F5F9] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[19px] text-[#475569]" aria-hidden="true">devices</span></span>
+        <span class="flex-1 text-sm font-bold text-[#0F172A]">Autres</span>
+        <span class="text-xs font-bold text-[#64748B] w-9 text-right">7 %</span>
+        <span class="progress !h-1.5 w-16 shrink-0"><span style="width:7%"></span></span></li>
+        <li class="flex items-center gap-3"><span class="w-9 h-9 rounded-xl bg-[#F1F5F9] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[19px] text-[#475569]" aria-hidden="true">local_fire_department</span></span>
+        <span class="flex-1 text-sm font-bold text-[#0F172A]">Firefox</span>
+        <span class="text-xs font-bold text-[#64748B] w-9 text-right">4 %</span>
+        <span class="progress !h-1.5 w-16 shrink-0"><span style="width:4%"></span></span></li>
+        <li class="flex items-center gap-3"><span class="w-9 h-9 rounded-xl bg-[#F1F5F9] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[19px] text-[#475569]" aria-hidden="true">captive_portal</span></span>
+        <span class="flex-1 text-sm font-bold text-[#0F172A]">Edge</span>
+        <span class="text-xs font-bold text-[#64748B] w-9 text-right">1 %</span>
+        <span class="progress !h-1.5 w-16 shrink-0"><span style="width:1%"></span></span></li></ul>
+    </section>
+  </div>
+
+  <div class="grid lg:grid-cols-3 gap-4 mb-4">
+    <section class="st-card overflow-hidden">
+      <div class="bg-[#0F172A] text-white p-5"><h2 class="text-lg font-display font-bold mb-0.5">Live Fact-Checking</h2>
+      <p class="text-xs text-white/60 mb-0">Activité globale</p></div>
+      <div class="divide-y divide-[#E2E8F0]">
+        <div class="flex items-center justify-between px-5 py-3.5"><span class="text-sm font-semibold text-[#334155]">Nouveaux (aujourd'hui)</span>
+        <span class="text-xl font-display font-black text-[#16A34A]">1</span></div>
+        <div class="flex items-center justify-between px-5 py-3.5"><span class="text-sm font-semibold text-[#334155]">En cours d'analyse</span>
+        <span class="text-xl font-display font-black text-[#2563EB]">140</span></div>
+        <div class="flex items-center justify-between px-5 py-3.5"><span class="text-sm font-semibold text-[#334155]">Verdicts « Faux »</span>
+        <span class="text-xl font-display font-black text-[#DC2626]">41</span></div>
+        <div class="flex items-center justify-between px-5 py-3.5"><span class="text-sm font-semibold text-[#334155]">Total en attente</span>
+        <span class="text-xl font-display font-black text-[#D97706]">22</span></div></div>
+    </section>
+    <section class="st-card p-5">
+      <div class="flex items-center gap-2 mb-4">
+        <span class="w-9 h-9 rounded-xl bg-[#F1F5F9] inline-flex items-center justify-center"><span class="material-symbols-rounded !text-[19px] text-[#475569]" aria-hidden="true">dns</span></span>
+        <h2 class="text-lg font-display font-bold text-[#0F172A] mb-0">Santé du Système</h2>
+        <span class="st-badge st-badge-pub ml-auto">Temps réel</span>
+      </div>
+      <p class="text-[10px] font-extrabold uppercase tracking-[.12em] text-[#64748B] mb-2">Moteurs d'analyse</p>
+      <ul class="space-y-2 mb-4">
+        <li class="flex items-center justify-between gap-2"><span class="text-sm font-semibold text-[#334155]">Moteur Vision</span>
+        <span class="st-badge st-badge-pub">Opérationnel</span></li>
+        <li class="flex items-center justify-between gap-2"><span class="text-sm font-semibold text-[#334155]">Moteur Langage</span>
+        <span class="st-badge st-badge-pub">Opérationnel</span></li>
+        <li class="flex items-center justify-between gap-2"><span class="text-sm font-semibold text-[#334155]">Moteur Audio</span>
+        <span class="st-badge st-badge-pub">Opérationnel</span></li>
+        <li class="flex items-center justify-between gap-2"><span class="text-sm font-semibold text-[#334155]">Détecteur Deepfake</span>
+        <span class="st-badge st-badge-pub">Opérationnel</span></li></ul>
+      <p class="text-[10px] font-extrabold uppercase tracking-[.12em] text-[#64748B] mb-2">Infrastructure</p>
+      <ul class="space-y-2 mb-3">
+        <li class="flex items-center justify-between gap-2"><span class="text-sm font-semibold text-[#334155]">Reverb (WebSockets)</span><span class="st-badge st-badge-danger">Déconnecté</span></li>
+        <li class="flex items-center justify-between gap-2"><span class="text-sm font-semibold text-[#334155]">Files d'attente (Jobs)</span><span class="text-sm font-bold text-[#D97706]">216 en attente</span></li>
+      </ul>
+      <div class="flex justify-between text-xs font-bold mb-1"><span class="text-[#334155]">Charge CPU</span><span class="text-[#16A34A]">46 %</span></div>
+      <div class="progress !h-2 mb-3"><span style="width:46%"></span></div>
+      <div class="flex justify-between text-xs font-bold mb-1"><span class="text-[#334155]">Espace disque</span><span class="text-[#D97706]">89 %</span></div>
+      <div class="progress !h-2 mb-1"><span style="width:89%;background:#D97706"></span></div>
+      <p class="flex justify-between text-[11px] text-[#64748B] mb-0"><span>300,6 Go libres</span><span>Total : 2 697 Go</span></p>
+    </section>
+    <section class="st-card p-5">
+      <h2 class="text-lg font-display font-bold text-[#0F172A] mb-4">Top Thématiques</h2>
+      <ul class="space-y-4 mb-0">
+        <li><div class="flex justify-between text-xs font-extrabold uppercase tracking-wide mb-1.5"><span class="text-[#334155]">Général</span><span class="text-[#0F172A]">427</span></div>
+        <div class="progress !h-1.5"><span style="width:90%"></span></div></li>
+        <li><div class="flex justify-between text-xs font-extrabold uppercase tracking-wide mb-1.5"><span class="text-[#334155]">Politique</span><span class="text-[#0F172A]">29</span></div>
+        <div class="progress !h-1.5"><span style="width:12%"></span></div></li>
+        <li><div class="flex justify-between text-xs font-extrabold uppercase tracking-wide mb-1.5"><span class="text-[#334155]">Santé</span><span class="text-[#0F172A]">12</span></div>
+        <div class="progress !h-1.5"><span style="width:6%"></span></div></li>
+        <li><div class="flex justify-between text-xs font-extrabold uppercase tracking-wide mb-1.5"><span class="text-[#334155]">Arnaque</span><span class="text-[#0F172A]">6</span></div>
+        <div class="progress !h-1.5"><span style="width:3%"></span></div></li></ul>
+    </section>
+  </div>
+
+  <section class="st-card mb-8">
+    <div class="flex flex-wrap items-center justify-between gap-2 p-5 pb-3">
+      <h2 class="text-lg font-display font-bold text-[#0F172A] mb-0">Dernières Activités de Fact-Checking</h2>
+      <a href="base-de-connaissances.html" class="st-btn st-btn-primary !min-h-[38px]"><span class="material-symbols-rounded !text-[17px]" aria-hidden="true">list</span> Voir tout</a>
+    </div>
+    <div class="overflow-x-auto"><table class="st-table">
+      <thead><tr><th>Sujet</th><th>Statut</th><th>Assigné à</th><th>Action</th></tr></thead>
+      <tbody>
+        <tr><td><a href="base-de-connaissances.html" class="font-bold text-[#0F172A] hover:text-[#059669]">🔴 Urgent : décès annoncé au Cameroun</a><span class="block text-xs text-[#64748B] font-normal mt-0.5">19/08/2026 à 09:19</span></td>
+        <td><span class="st-badge st-badge-pub">VÉRIFIÉ — VRAI</span></td>
+        <td><span class="inline-flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-[#0F172A] text-white inline-flex items-center justify-center"><span class="material-symbols-rounded !text-[16px]" aria-hidden="true">person</span></span><span class="text-[#64748B]">Non assigné</span></span></td>
+        <td><span class="inline-flex items-center gap-1 text-sm font-semibold text-[#16A34A]"><span class="material-symbols-rounded !text-[16px]" aria-hidden="true">check</span> Pris en charge</span></td></tr>
+        <tr><td><a href="base-de-connaissances.html" class="font-bold text-[#0F172A] hover:text-[#059669]">Analyse invité : « Talon est président du… »</a><span class="block text-xs text-[#64748B] font-normal mt-0.5">18/08/2026 à 19:49</span></td>
+        <td><span class="st-badge st-badge-pub">VÉRIFIÉ — VRAI</span></td>
+        <td><span class="inline-flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-[#0F172A] text-white inline-flex items-center justify-center"><span class="material-symbols-rounded !text-[16px]" aria-hidden="true">person</span></span><span class="text-[#64748B]">Non assigné</span></span></td>
+        <td><span class="inline-flex items-center gap-1 text-sm font-semibold text-[#16A34A]"><span class="material-symbols-rounded !text-[16px]" aria-hidden="true">check</span> Pris en charge</span></td></tr>
+        <tr><td><a href="base-de-connaissances.html" class="font-bold text-[#0F172A] hover:text-[#059669]">Analyse invité : avalonbuyers.vi…</a><span class="block text-xs text-[#64748B] font-normal mt-0.5">18/08/2026 à 13:57</span></td>
+        <td><span class="st-badge st-badge-danger">VÉRIFIÉ — FAUX</span></td>
+        <td><span class="inline-flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-[#0F172A] text-white inline-flex items-center justify-center"><span class="material-symbols-rounded !text-[16px]" aria-hidden="true">person</span></span><span class="text-[#64748B]">Non assigné</span></span></td>
+        <td><span class="inline-flex items-center gap-1 text-sm font-semibold text-[#16A34A]"><span class="material-symbols-rounded !text-[16px]" aria-hidden="true">check</span> Pris en charge</span></td></tr>
+        <tr><td><a href="base-de-connaissances.html" class="font-bold text-[#0F172A] hover:text-[#059669]">Analyse rapide : bagarre en Somalie</a><span class="block text-xs text-[#64748B] font-normal mt-0.5">17/08/2026 à 11:59</span></td>
+        <td><span class="st-badge st-badge-warn">TROMPEUR</span></td>
+        <td><span class="inline-flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-[#0F172A] text-white inline-flex items-center justify-center"><span class="material-symbols-rounded !text-[16px]" aria-hidden="true">person</span></span><span class="text-[#64748B]">Non assigné</span></span></td>
+        <td><span class="inline-flex items-center gap-1 text-sm font-semibold text-[#16A34A]"><span class="material-symbols-rounded !text-[16px]" aria-hidden="true">check</span> Pris en charge</span></td></tr>
+        <tr><td><a href="base-de-connaissances.html" class="font-bold text-[#0F172A] hover:text-[#059669]">« La Russie est en guerre avec l'Ukraine »</a><span class="block text-xs text-[#64748B] font-normal mt-0.5">16/08/2026 à 15:42</span></td>
+        <td><span class="st-badge st-badge-pub">VÉRIFIÉ — VRAI</span></td>
+        <td><span class="inline-flex items-center gap-2"><span class="w-8 h-8 rounded-full bg-[#0F172A] text-white inline-flex items-center justify-center"><span class="material-symbols-rounded !text-[16px]" aria-hidden="true">person</span></span><span class="text-[#64748B]">Non assigné</span></span></td>
+        <td><span class="inline-flex items-center gap-1 text-sm font-semibold text-[#16A34A]"><span class="material-symbols-rounded !text-[16px]" aria-hidden="true">check</span> Pris en charge</span></td></tr></tbody></table></div>
+    <div class="flex flex-wrap items-center justify-between gap-3 p-5 pt-4">
+      <p class="text-xs text-[#64748B] mb-0">Affichage de 1 à 5 sur 474 entrées</p>
+      <nav class="flex gap-1" aria-label="Pagination">
+        <button type="button" class="st-page" aria-label="Précédent">‹</button>
+        <button type="button" class="st-page is-active" aria-current="page">1</button>
+        <button type="button" class="st-page">2</button><button type="button" class="st-page">3</button>
+        <span class="st-page" aria-hidden="true">…</span><button type="button" class="st-page">95</button>
+        <button type="button" class="st-page" aria-label="Suivant">›</button>
+      </nav>
+    </div>
+  </section>
+
+<script>
+window.VFPage = function (VF, S) {
+  /* Courbe des signalements — 7 jours (aire dégradée, style maquette) */
+  var cv = document.querySelector('[data-signal-chart]');
+  var DAYS = ['Jeu', 'Ven', 'Sam', 'Dim', 'Lun', 'Mar', 'Mer'];
+  var VALS = [4, 10, 1, 2, 1, 2, 1];
+  function draw() {
+    var w = cv.parentElement.clientWidth - 8, h = 230;
+    var r = window.devicePixelRatio || 1;
+    cv.width = w * r; cv.height = h * r;
+    var ctx = cv.getContext('2d'); ctx.scale(r, r); ctx.clearRect(0, 0, w, h);
+    var max = 10, pad = 28, bw = (w - pad - 8) / (VALS.length - 1);
+    ctx.strokeStyle = '#EEF2F6'; ctx.fillStyle = '#94A3B8'; ctx.font = '11px Inter';
+    for (var g = 0; g <= 5; g++) {
+      var y = 12 + (h - 44) * g / 5;
+      ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(w, y); ctx.stroke();
+      ctx.fillText(String(10 - g * 2), 4, y + 4);
+    }
+    function pt(i) { return [pad + i * bw, 12 + (h - 44) * (1 - VALS[i] / max)]; }
+    /* aire */
+    var grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, 'rgba(99,102,241,.28)'); grad.addColorStop(1, 'rgba(99,102,241,.02)');
+    ctx.beginPath(); ctx.moveTo(pt(0)[0], h - 32);
+    VALS.forEach(function (_, i) { ctx.lineTo(pt(i)[0], pt(i)[1]); });
+    ctx.lineTo(pt(VALS.length - 1)[0], h - 32); ctx.closePath();
+    ctx.fillStyle = grad; ctx.fill();
+    /* ligne */
+    ctx.beginPath();
+    VALS.forEach(function (_, i) { i ? ctx.lineTo(pt(i)[0], pt(i)[1]) : ctx.moveTo(pt(i)[0], pt(i)[1]); });
+    ctx.strokeStyle = '#6366F1'; ctx.lineWidth = 2.5; ctx.lineJoin = 'round'; ctx.stroke();
+    /* labels jours */
+    ctx.fillStyle = '#64748B'; ctx.textAlign = 'center';
+    DAYS.forEach(function (d, i) { ctx.fillText(d, pt(i)[0], h - 12); });
+    ctx.textAlign = 'left';
+  }
+  draw();
+  window.addEventListener('resize', draw);
+
+  /* Exporter rapport : CSV réel des KPI + activités */
+  document.querySelector('[data-export-report]').addEventListener('click', function () {
+    var lines = ['Indicateur;Valeur', 'Citoyens inscrits;8421', 'Abonnés newsletter;12208', 'Signalements;474', 'Cours publiés;4', "En cours d'analyse;140", 'Verdicts Faux (30 j);41'];
+    var blob = new Blob([String.fromCharCode(65279) + lines.join(String.fromCharCode(10))], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'verifall-rapport-quotidien.csv'; a.click();
+    URL.revokeObjectURL(a.href);
+    VF.toast('✓ Rapport quotidien exporté (CSV).');
+  });
+
+  /* Actualiser : skeleton bref + confirmation */
+  document.querySelector('[data-refresh]').addEventListener('click', function () {
+    var btn = this;
+    btn.disabled = true; btn.style.opacity = '.6';
+    setTimeout(function () {
+      btn.disabled = false; btn.style.opacity = '';
+      draw();
+      VF.toast("✓ Données actualisées à l'instant.");
+    }, 600);
+  });
+};
+</script>
+
+</main>
+<script src="../compte-user/js/citizen.js" defer></script>
+</body>
+</html>

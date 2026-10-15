@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forum — Communauté Vérif'All</title>
+<meta name="description" content="Le Community Fact-Checking Hub : discussions, signalements de fake news, sondages et réponses certifiées.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/forum.html">
+<meta property="og:title" content="Forum — Communauté Vérif'All">
+<meta property="og:description" content="Le Community Fact-Checking Hub : discussions, signalements de fake news, sondages et réponses certifiées.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link is-active" href="forum.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+<p class="vf-eyebrow">Community Fact-Checking Hub</p>
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+    <div><nav class="text-xs text-slate2 mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-primary">Dashboard</a> <span class="text-line" aria-hidden="true">/</span> <span class="text-ink font-medium">Forum</span></nav>
+      <h1 class="text-2xl md:text-3xl font-display font-bold text-ink leading-tight">Vérif'All Forum</h1><p class="text-slate2 mt-1 mb-0">La communauté qui vérifie l'information ensemble. <strong>1 284</strong> discussions · <strong>8 421</strong> membres · <strong>327</strong> vérifications.</p>
+    </div>
+  </div>
+  <div class="flex gap-1.5 overflow-x-auto pb-1 mb-4" data-cat-chips>
+    <button type="button" class="pill-tab is-active whitespace-nowrap" data-cat="">Toutes</button>
+    <button type="button" class="pill-tab whitespace-nowrap" data-cat="Fake News">🚨 Fake News</button>
+    <button type="button" class="pill-tab whitespace-nowrap" data-cat="Santé">Santé</button>
+    <button type="button" class="pill-tab whitespace-nowrap" data-cat="Politique">Politique</button>
+    <button type="button" class="pill-tab whitespace-nowrap" data-cat="Société">Société</button>
+    <button type="button" class="pill-tab whitespace-nowrap" data-cat="Technologie">Technologie</button>
+  </div>
+
+  <div class="grid lg:grid-cols-[minmax(0,1fr)_320px] gap-6 items-start">
+    <div class="space-y-4">
+      <div class="card p-5" data-composer>
+        <div class="flex items-center gap-3 mb-3">
+          <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-forest text-white font-bold text-sm shrink-0">AD</span>
+          <p class="text-sm text-slate2 mb-0 flex-1">Que souhaitez-vous partager avec la communauté ?</p>
+        </div>
+        <button type="button" class="lg:hidden w-full inline-flex items-center justify-center gap-1.5 rounded-xl border border-primary text-primary text-sm font-semibold py-3 min-h-[48px]" data-composer-open><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">add</span> Nouvelle discussion</button>
+        <div class="hidden lg:block" data-composer-body>
+        <div class="ffield mb-2"><input id="post-title" type="text" placeholder=" " maxlength="120" data-count-input><label for="post-title">Titre de votre discussion</label></div>
+        <div class="rich-area" data-rich data-maxlength="800">
+          <div class="rich-toolbar" role="toolbar" aria-label="Mise en forme">
+            <button type="button" class="rich-btn" data-cmd="bold" aria-label="Gras"><strong>B</strong></button>
+            <button type="button" class="rich-btn italic" data-cmd="italic" aria-label="Italique">I</button>
+            <button type="button" class="rich-btn" data-cmd="insertUnorderedList" aria-label="Liste"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">format_list_bulleted</span></button>
+            <button type="button" class="rich-btn" data-cmd="createLink" aria-label="Lien"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">link</span></button>
+          </div>
+          <div class="rich-editor" contenteditable="true" data-placeholder="Écrivez votre message…" aria-label="Message"></div>
+        </div>
+        <p class="char-counter" data-char-counter></p>
+        <div class="hidden mt-3 p-3 rounded-xl bg-vfalse/5 border border-vfalse/20" data-fn-fields>
+          <p class="text-xs font-bold text-vfalse mb-1">🚨 Signaler une information suspecte</p>
+          <div class="ffield"><input id="fn-source" type="url" placeholder=" "><label for="fn-source">Lien de la source (https://…)</label></div>
+          <p class="text-xs text-slate2 mt-2 mb-0">Votre signalement sera transmis au processus de fact-checking Vérif'All.</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2 mt-3">
+          <label class="inline-flex items-center gap-1.5 text-sm text-slate2 cursor-pointer"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">image</span> Média<input type="file" class="sr-only" accept="image/*,video/*" data-post-media></label>
+          <button type="button" class="inline-flex items-center gap-1.5 text-sm text-slate2 hover:text-ink" data-post-poll><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">bar_chart</span> Sondage</button>
+          <button type="button" class="inline-flex items-center gap-1.5 text-sm font-semibold text-vfalse" data-fn-toggle aria-pressed="false"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">report</span> Fake News</button>
+          <select class="ml-auto bg-canvas border border-line rounded-xl px-3 py-2 text-sm" data-post-cat aria-label="Catégorie">
+            <option>Société</option><option>Santé</option><option>Politique</option><option>Technologie</option><option>Fake News</option>
+          </select>
+          <button type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-4 py-2.5 hover:bg-primary-dark" data-post-publish>Publier <span class="material-symbols-rounded !text-[17px]" aria-hidden="true">send</span></button>
+        </div>
+        <p class="hidden text-xs text-vtrue font-medium mt-2" data-media-name></p>
+        </div>
+      </div>
+      <div class="space-y-4" data-feed></div>
+      <p class="text-center"><button type="button" class="rounded-xl border border-line bg-surface text-sm font-semibold text-ink px-5 py-2.5 hover:bg-canvas" data-load-more>Charger plus de discussions</button></p>
+    </div>
+
+    <aside class="space-y-4">
+      <div class="card p-5">
+        <p class="vf-eyebrow">Tendances</p>
+        <h3 class="text-sm font-display font-bold text-ink mb-3">🔥 Rumeurs en tendance</h3>
+        <ol class="space-y-3 text-sm">
+          <li class="flex gap-3 items-start"><span class="font-display font-black text-primary text-base leading-none pt-0.5">01</span><a href="forum-sujet.html?t=1" class="hover:text-primary font-medium">Une nouvelle taxe WhatsApp… <span class="block text-xs font-normal text-slate2 mt-0.5">342 discussions</span></a></li>
+          <li class="flex gap-3 items-start"><span class="font-display font-black text-line text-base leading-none pt-0.5">02</span><a href="forum-sujet.html?t=2" class="hover:text-primary font-medium">Vaccin gratuit en août… <span class="block text-xs font-normal text-slate2 mt-0.5">217 discussions</span></a></li>
+          <li class="flex gap-3 items-start"><span class="font-display font-black text-line text-base leading-none pt-0.5">03</span><a href="forum-sujet.html?t=3" class="hover:text-primary font-medium">Nouvelle coupure Internet… <span class="block text-xs font-normal text-slate2 mt-0.5">184 discussions</span></a></li>
+        </ol>
+      </div>
+      <div class="card p-5">
+        <p class="vf-eyebrow">Communauté</p>
+        <h3 class="text-sm font-display font-bold text-ink mb-3">🏆 Contributeurs</h3>
+        <ol class="space-y-2.5 text-sm">
+          <li class="flex items-center gap-2.5"><span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary-soft text-primary-dark font-bold text-xs shrink-0">AK</span><span class="flex-1 font-medium">Aïcha K.</span><strong class="text-xp">1 284 XP</strong></li>
+          <li class="flex items-center gap-2.5"><span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary-soft text-primary-dark font-bold text-xs shrink-0">SA</span><span class="flex-1 font-medium">Samuel A.</span><strong class="text-xp">1 102 XP</strong></li>
+          <li class="flex items-center gap-2.5"><span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-primary-soft text-primary-dark font-bold text-xs shrink-0">DM</span><span class="flex-1 font-medium">David M.</span><strong class="text-xp">982 XP</strong></li>
+        </ol>
+      </div>
+      <div class="card p-5">
+        <p class="vf-eyebrow">Laboratoire</p>
+        <h3 class="text-sm font-display font-bold text-ink mb-1.5">✓ Dernières vérifications</h3>
+        <p class="text-xs text-slate2 mb-3">Verdicts officiels du laboratoire Vérif'All — distincts des avis de la communauté.</p>
+        <ul class="vf-timeline text-sm">
+          <li class="vf-timeline-item list-none"><span class="vbadge vbadge-false !text-[10px] mr-1.5">FAUX</span><a href="hub-article.html?a=2" class="hover:text-primary">Nouvelle taxe WhatsApp</a></li>
+          <li class="vf-timeline-item list-none"><span class="vbadge vbadge-true !text-[10px] mr-1.5">VRAI</span><a href="hub-article.html?a=1" class="hover:text-primary">Date des examens nationaux</a></li>
+          <li class="vf-timeline-item list-none"><span class="vbadge vbadge-doubt !text-[10px] mr-1.5">TROMPEUR</span><a href="hub-article.html?a=4" class="hover:text-primary">Image attribuée à Cotonou</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+<script>
+window.VFPage = function (VF, S) {
+  var co = document.querySelector('[data-composer-open]');
+  if (co) co.addEventListener('click', function () {
+    document.querySelector('[data-composer-body]').classList.remove('hidden');
+    co.classList.add('hidden');
+    var t = document.getElementById('post-title');
+    if (t) t.focus();
+  });
+  var THREADS = [
+    { id: 1, author: 'Aïcha K.', badge: '🟢 Citoyenne vérifiée', cat: 'Santé', time: 'il y a 12 min', title: 'Cette vidéo montre-t-elle réellement un nouveau vaccin au Bénin ?', body: 'Elle circule massivement sur WhatsApp. Est-ce réellement une campagne officielle ?', votes: { vrai: 62, doute: 21, faux: 17 }, likes: 24, comments: 8 },
+    { id: 2, author: 'Samuel A.', badge: '🎓 Mentor Vérif\'All', cat: 'Technologie', time: 'il y a 1 h', title: 'Reconnaître une image générée par IA : vos techniques ?', body: 'Partagez vos indices favoris : textures, mains, reflets, incohérences de lumière…', votes: null, likes: 41, comments: 15 },
+    { id: 3, author: 'David M.', badge: '◉ Contributeur actif', cat: 'Fake News', time: 'il y a 3 h', title: '🚨 Fausse offre d\'emploi « Port de Cotonou » qui demande des frais', body: 'Le site demande 5 000 FCFA de « frais de dossier ». Signalé au fact-checking avec le lien source.', votes: { vrai: 4, doute: 11, faux: 85 }, likes: 67, comments: 23 },
+    { id: 4, author: 'Grace T.', badge: '◯ Nouvelle citoyenne', cat: 'Société', time: 'hier', title: 'Comment convaincre mes proches de vérifier avant de partager ?', body: 'Ma famille partage tout ce qui passe dans le groupe. Vos astuces pédagogiques ?', votes: null, likes: 18, comments: 12 },
+    { id: 5, author: 'Kossi B.', badge: '◉ Contributeur actif', cat: 'Politique', time: 'hier', title: 'Le prétendu décret de nomination circule encore', body: 'Vérif\'All l\'a démenti, mais il revient sous une autre forme. Restez vigilants.', official: 'FAUX', votes: { vrai: 3, doute: 9, faux: 88 }, likes: 35, comments: 9 }
+  ];
+  var liked = {};
+  var page = 1, cat = '';
+  var feed = document.querySelector('[data-feed]');
+  function esc(s) { return String(s).replace(/</g, '&lt;'); }
+  function bars(v) {
+    if (!v) return '';
+    return '<div class="mt-3 space-y-1 text-xs"><p class="font-bold text-slate2 uppercase tracking-wide mb-1">AVIS DE LA COMMUNAUTÉ</p>'
+      + [['VRAI', v.vrai, '#16A34A'], ['DOUTEUX', v.doute, '#D97706'], ['FAUX', v.faux, '#DC2626']].map(function (r) {
+          return '<div class="flex items-center gap-2"><span class="w-16 font-bold" style="color:' + r[2] + '">' + r[0] + '</span><div class="progress flex-1"><span style="width:' + r[1] + '%;background:' + r[2] + '"></span></div><span class="w-9 text-right">' + r[1] + '%</span></div>';
+        }).join('') + '</div>';
+  }
+  function cardHtml(t) {
+    return '<article class="card p-5" data-thread="' + t.id + '">'
+      + '<div class="flex items-center gap-2.5 mb-2"><span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-canvas border border-line text-xs font-bold text-ink">' + t.author.split(' ').map(function (x) { return x[0]; }).join('') + '</span>'
+      + '<div class="flex-1 min-w-0"><p class="text-sm font-semibold text-ink mb-0">' + t.author + ' <span class="text-xs font-normal text-slate2">· ' + t.time + '</span></p><p class="text-[11px] text-slate2 mb-0">' + t.badge + ' · <span class="font-semibold">' + t.cat + '</span></p></div></div>'
+      + '<h3 class="text-base font-display font-bold text-ink leading-snug mb-1"><a href="forum-sujet.html?t=' + t.id + '" class="hover:text-primary">' + esc(t.title) + '</a></h3>'
+      + (t.official ? '<p class="mb-1.5"><span class="vbadge vbadge-false">✓ VÉRIF\'ALL CONFIRME — ' + t.official + '</span></p>' : '')
+      + '<p class="text-sm text-slate2 mb-0">' + esc(t.body) + '</p>' + bars(t.votes)
+      + (t.source ? '<p class="text-xs mb-3"><span class="font-semibold text-vfalse">Source signalée :</span> <a href="' + esc(t.source) + '" class="text-vinfo underline break-all" rel="noopener nofollow" target="_blank">' + esc(t.source) + '</a></p>' : '')
+      + '<div class="flex items-center gap-4 mt-3 pt-3 border-t border-line text-sm">'
+      + '<button type="button" class="inline-flex items-center gap-1 font-semibold ' + (liked[t.id] ? 'text-primary' : 'text-slate2') + '" data-like="' + t.id + '"><span class="material-symbols-rounded !text-[19px]">thumb_up</span><span data-like-count>' + (t.likes + (liked[t.id] ? 1 : 0)) + '</span></button>'
+      + '<a href="forum-sujet.html?t=' + t.id + '" class="inline-flex items-center gap-1 text-slate2 font-semibold hover:text-ink"><span class="material-symbols-rounded !text-[19px]">chat_bubble</span>' + t.comments + '</a>'
+      + '<button type="button" class="inline-flex items-center gap-1 text-slate2 font-semibold hover:text-ink" data-share-t="' + t.id + '"><span class="material-symbols-rounded !text-[19px]">share</span>Partager</button></div></article>';
+  }
+  function draw() {
+    var list = THREADS.filter(function (t) { return !cat || t.cat === cat; }).slice(0, page * 3);
+    feed.innerHTML = list.map(cardHtml).join('') || '<p class="card p-8 text-center text-sm text-slate2">💬 Aucune discussion ici. Soyez le premier à lancer la conversation !</p>';
+    VF.$$('[data-like]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var id = btn.getAttribute('data-like');
+        liked[id] = !liked[id];
+        var count = btn.querySelector('[data-like-count]');
+        count.textContent = parseInt(count.textContent, 10) + (liked[id] ? 1 : -1);
+        btn.classList.toggle('text-primary', liked[id]);
+        btn.classList.toggle('text-slate2', !liked[id]);
+      });
+    });
+    VF.$$('[data-share-t]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var url = 'https://verifall.com/compte-user/forum-sujet.html?t=' + btn.getAttribute('data-share-t');
+        if (navigator.share) navigator.share({ url: url }).catch(function () {});
+        else { if (navigator.clipboard) navigator.clipboard.writeText(url); VF.toast('Lien de la discussion copié.'); }
+      });
+    });
+  }
+  VF.$$('[data-cat]').forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      VF.$$('[data-cat]').forEach(function (c2) { c2.classList.toggle('is-active', c2 === chip); });
+      cat = chip.getAttribute('data-cat'); page = 1; draw();
+    });
+  });
+  document.querySelector('[data-load-more]').addEventListener('click', function () {
+    page++;
+    draw();
+    if (page * 3 >= THREADS.length) this.textContent = 'Vous avez tout lu ✓';
+  });
+  document.querySelector('[data-fn-toggle]').addEventListener('click', function () {
+    var f = document.querySelector('[data-fn-fields]');
+    var on = f.classList.toggle('hidden');
+    this.setAttribute('aria-pressed', String(!on));
+  });
+  document.querySelector('[data-post-media]').addEventListener('change', function (e) {
+    if (e.target.files.length) {
+      var out = document.querySelector('[data-media-name]');
+      out.textContent = '✓ Média joint : ' + e.target.files[0].name;
+      out.classList.remove('hidden');
+    }
+  });
+  document.querySelector('[data-post-poll]').addEventListener('click', function () {
+    VF.toast('Sondage ajouté : « Crédible / Douteuse / Fausse » sera proposé aux votes.');
+  });
+  document.querySelector('[data-post-publish]').addEventListener('click', function () {
+    var title = document.getElementById('post-title').value.trim();
+    var body = document.querySelector('.rich-editor').textContent.trim();
+    if (title.length < 8) { VF.toast('Donnez un titre d\'au moins 8 caractères.', 'danger'); return; }
+    if (body.length < 15) { VF.toast('Développez votre message (15 caractères minimum).', 'danger'); return; }
+    var fnOn = document.querySelector('[data-fn-toggle]').getAttribute('aria-pressed') === 'true';
+    var src = '';
+    if (fnOn) {
+      src = document.getElementById('fn-source').value.trim();
+      if (!/^https?:\/\/.+/.test(src)) { VF.toast('Un signalement de fake news exige un lien source valide.', 'danger'); return; }
+    }
+    THREADS.unshift({ id: Date.now(), author: 'Adderly D.', badge: '🟢 Citoyen vérificateur', cat: fnOn ? 'Fake News' : document.querySelector('[data-post-cat]').value, time: 'à l\'instant', title: title, body: body.slice(0, 180), source: fnOn ? src : '', votes: fnOn ? { vrai: 0, doute: 0, faux: 0 } : null, likes: 0, comments: 0 });
+    document.getElementById('post-title').value = '';
+    document.querySelector('.rich-editor').textContent = '';
+    document.getElementById('fn-source').value = '';
+    if (fnOn) {
+      var tg = document.querySelector('[data-fn-toggle]');
+      tg.setAttribute('aria-pressed', 'false');
+      document.querySelector('[data-fn-fields]').classList.add('hidden');
+    }
+    draw();
+    var first = document.querySelector('[data-feed] > article');
+    if (first) {
+      first.setAttribute('tabindex', '-1');
+      try { first.focus(); } catch (e0) {}
+      if (typeof first.scrollIntoView === 'function') first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    S.notify('lms', 'forum', fnOn ? 'Signalement transmis au fact-checking.' : 'Votre discussion est publiée.', 'forum.html');
+    VF.render();
+    VF.toast(fnOn ? 'Signalement soumis au fact-checking — merci pour votre vigilance !' : 'Discussion publiée !');
+  });
+  draw();
+};
+</script>
+<style>[data-cat-chips] .pill-tab.is-active{background:#063B2A;border-color:#063B2A;color:#fff}</style>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+<a href="verifier.html" class="fab lg:hidden" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[28px]" aria-hidden="true">add</span></a>
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

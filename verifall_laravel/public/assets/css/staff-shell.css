@@ -1,0 +1,41 @@
+/*
+ | Shell staff — sidebar, rubriques repliables, tiroir lateral.
+ |
+ | Bloc <style> repris VERBATIM des 59 pages du prototype
+ | (compte-admin/*.html et compte-mentor/*.html, toutes identiques au
+ | caractere pres). Il vivait en ligne dans chaque page ; l'extraction shell
+ | l'avait laisse derriere, et les rubriques de la sidebar sortaient a moitie
+ | de leur hauteur — 24 px au lieu de 42.
+ |
+ | Charge APRES tailwind.css, comme dans le prototype : c'est de cette place
+ | qu'il tire sa specificite. Toute inversion casse le rendu.
+ |
+ | Aucune regle ajoutee, aucune retouchee.
+ */
+
+:root { --st-deep: #052E16; --st-brand: #065F46; --st-emerald: #059669; --st-mint: #D1FAE5; }
+.sidebar { background: var(--st-deep); }
+.sidebar-label { color: rgba(209,250,229,.55); }
+.sidebar-link { color: rgba(236,253,245,.82); }
+.sidebar-link:hover { background: rgba(5,150,105,.18); color: #fff; }
+.sidebar-link.is-active { background: var(--st-emerald); color: #fff; }
+.st-group { margin-bottom: .35rem; }
+.st-group summary { list-style: none; cursor: pointer; padding: .65rem .75rem; border-radius: .75rem;
+  margin-bottom: .15rem; min-height: 42px; display: flex; }
+.st-group summary:hover { background: rgba(5,150,105,.12); }
+.st-group summary::-webkit-details-marker { display: none; }
+.st-group summary .st-caret { transition: transform .2s; }
+.st-group[open] summary .st-caret { transform: rotate(180deg); }
+.st-sub { padding-left: 1rem; margin-left: .65rem; border-left: 1px solid rgba(209,250,229,.14);
+  display: flex; flex-direction: column; gap: .15rem; padding-bottom: .4rem; }
+.st-sub .sidebar-link { padding: .55rem .75rem; font-size: .84rem; min-height: 40px; }
+#sidebar nav > .sidebar-link { margin-bottom: .35rem; min-height: 44px; }
+#sidebar .sidebar-label { font-size: 10.5px; letter-spacing: .16em; margin: 0; align-items: center;
+  justify-content: space-between; width: 100%; }
+.offcanvas { position: fixed; top: 0; right: 0; bottom: 0; z-index: 70; width: min(440px, 100vw);
+  background: #fff; box-shadow: -1rem 0 3rem rgba(17,24,39,.2); transform: translateX(100%);
+  transition: transform .25s ease; overflow-y: auto; }
+.offcanvas.is-open { transform: none; }
+.oc-backdrop { position: fixed; inset: 0; z-index: 69; background: rgba(17,24,39,.5); display: none; }
+.oc-backdrop.is-open { display: block; }
+@media (prefers-reduced-motion: reduce) { .st-group summary .st-caret, .offcanvas { transition: none; } }

@@ -1,0 +1,1361 @@
+=== resources/views/components/auth/boutons-sociaux.blade.php (5) ===
+  L18    TEXTE              ou continuer avec
+  L41    TEXTE              En continuant, vous acceptez nos
+  L42    TEXTE              conditions d'utilisation
+  L43    TEXTE              et notre
+  L44    TEXTE              politique de confidentialité
+
+=== resources/views/components/campagnes.blade.php (2) ===
+  L60    ATTR:aria-label    Masquer ce message
+  L100   TEXTE              Plus tard
+
+=== resources/views/components/data-table.blade.php (2) ===
+  L12    TEXTE              résultat(s)
+  L25    ATTR:aria-label    Tout sélectionner
+
+=== resources/views/components/delete-modal.blade.php (5) ===
+  L49    TEXTE              &nbsp;» ?
+  L49    TEXTE              Supprimer «&nbsp;
+  L53    TEXTE              Cette action est définitive.
+  L80    TEXTE              Annuler
+  L88    TEXTE              Supprimer définitivement
+
+=== resources/views/components/evaluation/action-quiz.blade.php (2) ===
+  L6     TEXTE              Voir le cours
+  L10    TEXTE              S'inscrire au cours
+
+=== resources/views/components/evaluation/badge-quiz.blade.php (5) ===
+  L5     TEXTE              RÉUSSI
+  L7     TEXTE              À REFAIRE
+  L9     TEXTE              À PASSER
+  L11    ATTR:title         Disponible après inscription au cours
+  L11    TEXTE              VERROUILLÉ
+
+=== resources/views/components/forum/carte-sujet.blade.php (8) ===
+  L22    ATTR:aria-label    Sujet épinglé
+  L22    ATTR:title         Épinglé
+  L22    TEXTE              push_pin
+  L42    TEXTE              ✓ VÉRIF'ALL CONFIRME —
+  L54    TEXTE              Avis de la communauté
+  L62    TEXTE              avis exprimé
+  L68    TEXTE              Source signalée :
+  L92    TEXTE              Fil clos
+
+=== resources/views/components/hub/aucune-opportunite.blade.php (4) ===
+  L17    TEXTE              Aucune opportunité ne correspond
+  L18    TEXTE              Essayez une autre recherche ou une autre nature.
+  L19    TEXTE              Réinitialiser les filtres
+  L23    TEXTE              Nous ne publions que des opportunités dont l'organisation et le canal ont été contrôlés. Aucune ne l'est aujourd'hui — revenez bientôt.
+
+=== resources/views/components/hub/carte-opportunite.blade.php (8) ===
+  L16    TEXTE              Vérifiée
+  L30    TEXTE              Sans date limite annoncée.
+  L35    TEXTE              Date limite dépassée — l'annonce sera retirée sous peu.
+  L38    TEXTE              Dernier jour pour candidater.
+  L41    TEXTE              Plus que jour
+  L42    TEXTE              — jusqu'au .
+  L49    TEXTE              Aucun frais de dossier, jamais.
+  L57    TEXTE              Voir l'opportunité
+
+=== resources/views/components/infolettre-abonnement.blade.php (9) ===
+  L30    TEXTE              L'infolettre du lundi
+  L33    TEXTE              Chaque lundi, le récapitulatif des pires intox détectées au Bénin durant
+  L34    TEXTE              la semaine, avec le fact-check complet et ses sources.
+  L60    TEXTE              Adresse e-mail *
+  L64    ATTR:placeholder   nom&#64;exemple.com
+  L73    TEXTE              Je m'abonne
+  L82    TEXTE              Un courriel par semaine, jamais davantage. Un lien de désabonnement en un
+  L83    TEXTE              clic figure dans chaque message, sans mot de passe et sans connexion.
+  L84    TEXTE              Votre adresse ne sert qu'à cela et n'est transmise à personne.
+
+=== resources/views/components/layouts/auth.blade.php (37) ===
+  L29    TEXTE              IDENTIFIER
+  L31    TEXTE              Comprendre avant de croire.
+  L34    TEXTE              "Savoir distinguer le vrai du faux est un super-pouvoir numérique. Apprenez les réflexes essentiels pour ne plus jamais vous faire manipuler."
+  L37    TEXTE              Vérif'All Lab
+  L38    TEXTE              Boussole de l'information
+  L50    TEXTE              QUESTIONNER
+  L52    TEXTE              Qui parle, et pourquoi ?
+  L55    TEXTE              "Qui parle ? Une source fiable cite toujours ses origines. Si le site est inconnu ou l'auteur anonyme, utilisez notre outil de vérification de source."
+  L58    TEXTE              Vérifiez l'origine
+  L59    TEXTE              Ne partagez pas l'inconnu
+  L71    TEXTE              VÉRIFIER
+  L73    TEXTE              L'émotion n'est pas une preuve.
+  L76    TEXTE              "Si une info provoque une colère ou une joie intense, méfiez-vous. La désinformation joue sur vos émotions pour court-circuiter votre logique."
+  L79    TEXTE              Gardez la tête froide
+  L80    TEXTE              L'émotion n'est pas une preuve
+  L92    TEXTE              COMPRENDRE
+  L94    TEXTE              La forme trahit souvent le fond.
+  L97    TEXTE              "Un communiqué officiel truffé de fautes ? C'est souvent une arnaque. La crédibilité d'une information passe aussi par la qualité de sa rédaction."
+  L100   TEXTE              Soyez attentifs aux détails
+  L101   TEXTE              La forme trahit souvent le fond
+  L108   ATTR:aria-label    CLAIM : Identifier
+  L108   ATTR:aria-label    EVIDENCE : Vérifier
+  L108   ATTR:aria-label    Les 4 étapes de la démarche
+  L108   ATTR:aria-label    SOURCE : Questionner
+  L108   ATTR:aria-label    VERDICT : Comprendre
+  L108   TEXTE              CLAIM
+  L108   TEXTE              Comprendre
+  L108   TEXTE              EVIDENCE
+  L108   TEXTE              Identifier
+  L108   TEXTE              Questionner
+  L108   TEXTE              SOURCE
+  L108   TEXTE              VERDICT
+  L108   TEXTE              Vérifier
+  L114   TEXTE              CLAIM
+  L115   TEXTE              SOURCE
+  L116   TEXTE              EVIDENCE
+  L117   TEXTE              VERDICT
+
+=== resources/views/components/layouts/certificat.blade.php (3) ===
+  L38    TEXTE              Se connecter
+  L44    TEXTE              verifall.com
+  L44    TEXTE              © Vérif'All. Tous droits réservés. ·
+
+=== resources/views/components/layouts/citizen.blade.php (35) ===
+  L42    TEXTE              Aller au contenu
+  L46    ATTR:aria-label    Ouvrir le menu
+  L47    ATTR:aria-label    Vérif'All — tableau de bord
+  L53    ATTR:placeholder   Rechercher une vérification, un cours, un outil…
+  L60    TEXTE              Vérifier
+  L70    ATTR:title         Mes unités de vérification
+  L74    ATTR:aria-label    Menu utilisateur
+  L85    TEXTE              Mes Évaluations
+  L85    TEXTE              grading
+  L86    TEXTE              Live Classes
+  L87    TEXTE              Mes Statistiques
+  L88    TEXTE              Mes Unités
+  L89    TEXTE              Mes Récompenses
+  L90    TEXTE              Mon Profil
+  L91    TEXTE              Réglages
+  L107   ATTR:aria-label    Navigation principale
+  L111   TEXTE              Tableau de bord
+  L111   TEXTE              space_dashboard
+  L112   TEXTE              Vérifier un contenu
+  L113   TEXTE              Mes Vérifications
+  L114   TEXTE              Liste des Outils
+  L117   TEXTE              Mes Tutoriels
+  L117   TEXTE              play_lesson
+  L118   TEXTE              Catalogue de Cours
+  L119   TEXTE              Certificats & Badges
+  L123   TEXTE              Hub opportunités
+  L123   TEXTE              newspaper
+  L124   TEXTE              Mon Parrainage
+  L140   ATTR:aria-label    Navigation mobile
+  L141   TEXTE              Accueil
+  L142   TEXTE              Apprendre
+  L143   ATTR:aria-label    Vérifier un contenu
+  L144   TEXTE              Communauté
+  L145   TEXTE              Profil
+  L147   ATTR:aria-label    Vérifier un contenu
+
+=== resources/views/components/layouts/public.blade.php (25) ===
+  L40    ATTR:aria-label    Vérif'All, accueil
+  L41    ATTR:alt           Vérif'All - Application de lutte contre la désinformation au Bénin
+  L122   ATTR:alt           Vérif'All - Application de lutte contre la désinformation au Bénin
+  L124   TEXTE              Vérif’All est une plateforme de lutte contre la désinformation. Elle aide les citoyens à vérifier les contenus et développer une culture numérique responsable.
+  L128   TEXTE              Apprentissage
+  L137   TEXTE              FAQ
+  L138   TEXTE              Contact
+  L141   ATTR:aria-label    Suivre Vérif'All sur Instagram
+  L143   ATTR:aria-label    Suivre Vérif'All sur Facebook
+  L145   ATTR:aria-label    Suivre Vérif'All sur LinkedIn
+  L157   TEXTE              © 2026 Vérif'All, ·
+  L167   ATTR:aria-label    Installer l'application Vérif'All
+  L172   TEXTE              Installer Vérif'All
+  L174   TEXTE              Plus tard
+  L175   TEXTE              Installer
+  L184   TEXTE              Protection de vos données
+  L185   TEXTE              Nous utilisons des cookies essentiels au fonctionnement du site, et des cookies de mesure d'audience optionnels. Vous pouvez accepter, refuser, ou personnaliser votre choix.
+  L190   TEXTE              (toujours actifs)
+  L190   TEXTE              Cookies essentiels
+  L191   ATTR:aria-label    Cookies essentiels, toujours actifs
+  L194   TEXTE              Mesure d'audience
+  L195   ATTR:aria-label    Autoriser la mesure d'audience
+  L199   TEXTE              Personnaliser
+  L200   TEXTE              Annuler
+  L201   TEXTE              Accepter
+
+=== resources/views/components/live-class/carte.blade.php (12) ===
+  L21    TEXTE              EN DIRECT
+  L23    TEXTE              PLANIFIÉE
+  L25    TEXTE              TERMINÉE
+  L27    TEXTE              · min
+  L30    TEXTE              · animée par
+  L34    TEXTE              Rejoindre maintenant
+  L38    TEXTE              Ajouter au calendrier
+  L41    TEXTE              Rejoindre
+  L43    ATTR:title         Le lien s'active 15 minutes avant le début
+  L43    TEXTE              Rejoindre bientôt
+  L46    TEXTE              Voir le replay
+  L46    TEXTE              play_circle
+
+=== resources/views/components/live-class/vide.blade.php (1) ===
+  L5     TEXTE              videocam_off
+
+=== resources/views/components/lms/carte-cours.blade.php (8) ===
+  L30    TEXTE              Nouveau
+  L32    TEXTE              leçons
+  L39    TEXTE              GRATUIT
+  L43    TEXTE              offert jusqu'au
+  L46    TEXTE              PREMIUM · unités
+  L52    TEXTE              ✓ Terminé
+  L55    TEXTE              Revoir
+  L72    TEXTE              Commencer
+
+=== resources/views/components/mention-legale.blade.php (2) ===
+  L14    TEXTE              Non communiqué
+  L16    TEXTE              À renseigner : (Réglages, onglet Général)
+
+=== resources/views/components/offcanvas-form.blade.php (1) ===
+  L40    ATTR:aria-label    Fermer
+
+=== resources/views/components/outil/carte.blade.php (1) ===
+  L19    TEXTE              Idéal pour
+
+=== resources/views/components/skeleton.blade.php (2) ===
+  L12    ATTR:aria-label    Chargement en cours
+  L18    TEXTE              Chargement en cours…
+
+=== resources/views/livewire/citizen/article-hub.blade.php (4) ===
+  L8     ATTR:aria-label    Fil d'Ariane
+  L11    TEXTE              Hub opportunités
+  L24    TEXTE              · Source :
+  L41    TEXTE              Consulter la source
+
+=== resources/views/livewire/citizen/catalogue.blade.php (24) ===
+  L17    ATTR:aria-label    Fil d'Ariane
+  L20    TEXTE              Catalogue de cours
+  L29    TEXTE              Explorer les cours
+  L30    TEXTE              Votre progression
+  L39    TEXTE              cours terminé
+  L40    TEXTE              · en cours
+  L45    TEXTE              Continuer mon apprentissage
+  L77    ATTR:aria-label    Catégories de cours
+  L80    TEXTE              Tous
+  L93    ATTR:placeholder   Rechercher un cours, une compétence…
+  L103   ATTR:aria-label    Filtrer par niveau
+  L105   TEXTE              Niveau : tous
+  L110   ATTR:aria-label    Filtrer par prix
+  L112   TEXTE              Prix : tous
+  L113   TEXTE              Gratuit
+  L114   TEXTE              Premium
+  L153   TEXTE              Essayez une autre recherche ou réinitialisez vos filtres.
+  L155   TEXTE              Le catalogue s'enrichit ; revenez bientôt.
+  L169   ATTR:aria-label    Filtres des cours
+  L172   ATTR:aria-label    Fermer
+  L176   TEXTE              Tous
+  L183   TEXTE              Tous
+  L184   TEXTE              Gratuit
+  L185   TEXTE              Premium
+
+=== resources/views/livewire/citizen/certificat.blade.php (10) ===
+  L13    ATTR:aria-label    Fil d'Ariane
+  L16    TEXTE              Certificats &amp; Badges
+  L18    TEXTE              Certificat
+  L33    TEXTE              Délivré le
+  L41    TEXTE              N'importe qui peut le contrôler sur
+  L55    TEXTE              Revoir le cours
+  L64    TEXTE              gpp_bad
+  L67    TEXTE              Ce certificat a été retiré le .
+  L70    TEXTE              Motif :
+  L72    TEXTE              Contester cette décision
+
+=== resources/views/livewire/citizen/cloche.blade.php (1) ===
+  L36    TEXTE              Tout
+
+=== resources/views/livewire/citizen/cours.blade.php (35) ===
+  L9     ATTR:aria-label    Fil d'Ariane
+  L12    TEXTE              Catalogue
+  L33    TEXTE              apprenant ·
+  L37    TEXTE              · Certificat
+  L55    TEXTE              Voir mon certificat
+  L71    TEXTE              Acheter avec mes unités ·
+  L76    TEXTE              GRATUIT
+  L78    TEXTE              ✦ unités
+  L91    ATTR:aria-label    Sections du cours
+  L136   TEXTE              play_circle
+  L150   TEXTE              min
+  L173   TEXTE              min · seuil %
+  L188   TEXTE              Exercice —
+  L191   TEXTE              Exercice —
+  L195   TEXTE              min
+  L216   TEXTE              Membre de l'équipe Vérif'All, accompagne les citoyens
+  L217   TEXTE              dans l'apprentissage des méthodes professionnelles de vérification.
+  L231   TEXTE              · avis
+  L242   ATTR:aria-label    Votre note sur 5
+  L254   ATTR:placeholder   Ce que ce cours vous a apporté (facultatif)
+  L283   TEXTE              questions · min
+  L284   TEXTE              · seuil % · XP
+  L288   TEXTE              Réussi
+  L292   TEXTE              Passer le quiz
+  L295   TEXTE              Terminez les leçons pour l'ouvrir
+  L313   TEXTE              min
+  L314   TEXTE              remis
+  L370   TEXTE              Utiliser
+  L370   TEXTE              unités pour accéder à ce cours ?
+  L376   TEXTE              Solde actuel
+  L377   TEXTE              Coût du cours
+  L378   TEXTE              Solde après achat
+  L383   TEXTE              Il vous manque unité .
+  L384   TEXTE              Recharger
+  L390   TEXTE              Confirmer l'achat
+
+=== resources/views/livewire/citizen/evaluations.blade.php (12) ===
+  L11    ATTR:aria-label    Fil d'Ariane
+  L11    TEXTE              Mes Évaluations
+  L42    TEXTE              / min %
+  L44    TEXTE              / min %
+  L62    TEXTE              · minimum %
+  L71    TEXTE              Découvrir l'Académie
+  L84    ATTR:title         Disponible après inscription au cours
+  L84    TEXTE              VERROUILLÉ
+  L85    TEXTE              S'inscrire au cours
+  L87    TEXTE              À RENDRE
+  L88    TEXTE              Rendre l'exercice
+  L100   TEXTE              Voir mes exercices
+
+=== resources/views/livewire/citizen/exercices.blade.php (19) ===
+  L11    ATTR:aria-label    Fil d'Ariane
+  L11    TEXTE              Exercices
+  L12    TEXTE              Vos travaux pratiques, corrigés par un mentor.
+  L12    TEXTE              À faire ensuite :
+  L23    TEXTE              min · texte riche + fichier PDF/ZIP/image
+  L26    TEXTE              🔒 Inscrivez-vous au cours
+  L31    TEXTE              Faire l'exercice
+  L46    ATTR:aria-label    Mise en forme
+  L47    ATTR:aria-label    Gras
+  L47    TEXTE              B
+  L48    ATTR:aria-label    Italique
+  L48    TEXTE              I
+  L49    ATTR:aria-label    Souligné
+  L49    TEXTE              U
+  L50    ATTR:aria-label    Liste
+  L51    ATTR:aria-label    Liste numérotée
+  L52    ATTR:aria-label    Lien
+  L54    ATTR:aria-label    Réponse à l'exercice
+  L54    ATTR:placeholder   Structurez votre analyse : affirmations, sources primaires, dates, conclusion…
+
+=== resources/views/livewire/citizen/forum.blade.php (10) ===
+  L29    ATTR:aria-label    Fil d'Ariane
+  L34    TEXTE              La communauté qui vérifie l'information ensemble.
+  L39    ATTR:aria-label    Rubriques du forum
+  L40    TEXTE              Toutes
+  L56    TEXTE              Nouvelle discussion
+  L62    ATTR:placeholder   Cette vidéo montre-t-elle réellement… ?
+  L70    ATTR:placeholder   Où l'avez-vous vu ? Qu'est-ce qui vous fait douter ?
+  L79    TEXTE              Sans rubrique
+  L92    ATTR:placeholder   https://…
+  L113   ATTR:placeholder   Avez-vous déjà reçu ce message sur WhatsApp ?
+
+=== resources/views/livewire/citizen/hub-infos.blade.php (16) ===
+  L24    ATTR:aria-label    Fil d'Ariane
+  L24    TEXTE              Hub opportunités
+  L34    ATTR:placeholder   Rechercher une actualité, une opportunité…
+  L40    ATTR:aria-label    Sections du Hub
+  L41    TEXTE              Actualités
+  L42    TEXTE              Opportunités Bénin
+  L43    TEXTE              Opportunités Internationales
+  L67    TEXTE              Lire l'analyse
+  L81    TEXTE              Lire l'article
+  L90    ATTR:aria-label    Catégories d'actualités
+  L91    TEXTE              Tout
+  L108   TEXTE              Lire l'article
+  L129   ATTR:aria-label    Nature des opportunités
+  L130   TEXTE              Toutes
+  L181   TEXTE              Vérifier une information
+  L188   TEXTE              Comprendre notre méthode
+
+=== resources/views/livewire/citizen/lecon.blade.php (14) ===
+  L31    ATTR:aria-label    Fil d'Ariane
+  L32    TEXTE              Catalogue
+  L36    TEXTE              Leçon
+  L40    TEXTE              · LEÇON
+  L47    TEXTE              Votre navigateur ne sait pas lire cette vidéo.
+  L61    TEXTE              ← Leçon précédente
+  L70    TEXTE              ✓ Leçon terminée
+  L75    TEXTE              Leçon suivante →
+  L80    TEXTE              Terminer le cours →
+  L95    TEXTE              Temps de lecture actif
+  L96    TEXTE              — le chronomètre se met en pause si vous quittez l'onglet.
+  L107   TEXTE              % terminé
+  L120   TEXTE              play_circle
+  L134   TEXTE              min
+
+=== resources/views/livewire/citizen/live-classes.blade.php (2) ===
+  L10    ATTR:aria-label    Fil d'Ariane
+  L10    TEXTE              Live Classes
+
+=== resources/views/livewire/citizen/mes-tutoriels.blade.php (22) ===
+  L10    ATTR:aria-label    Fil d'Ariane
+  L10    TEXTE              Apprentissage
+  L10    TEXTE              Mes Tutoriels
+  L12    TEXTE              Catalogue
+  L12    TEXTE              Continuer mon apprentissage
+  L14    ATTR:aria-label    Accès rapides
+  L15    TEXTE              Live class
+  L16    TEXTE              Mes Quiz
+  L17    TEXTE              Exercices
+  L18    TEXTE              Catalogue
+  L42    TEXTE              le cours
+  L54    TEXTE              EN COURS
+  L66    TEXTE              Découvrir le catalogue
+  L79    TEXTE              · Seuil : %
+  L80    TEXTE              Reprendre le quiz
+  L95    TEXTE              Ouvrir l'exercice
+  L116   TEXTE              Lire le guide
+  L129   TEXTE              ✓ TERMINÉ
+  L131   TEXTE              Terminé le
+  L133   TEXTE              Voir le cours
+  L135   TEXTE              Télécharger le certificat
+  L136   TEXTE              Voir ma récompense
+
+=== resources/views/livewire/citizen/mes-verifications.blade.php (27) ===
+  L18    ATTR:aria-label    Fil d'Ariane
+  L21    TEXTE              Mes Vérifications
+  L25    TEXTE              Votre laboratoire personnel de vérification — contenu analysé .
+  L27    TEXTE              Dernière vérification .
+  L36    TEXTE              Vérifier
+  L36    TEXTE              Vérifier un contenu
+  L71    ATTR:placeholder   Rechercher dans mes vérifications…
+  L76    ATTR:aria-label    Filtrer par type
+  L78    TEXTE              Tous les types
+  L84    ATTR:aria-label    Filtrer par verdict
+  L86    TEXTE              Tous les verdicts
+  L90    TEXTE              En cours
+  L95    ATTR:aria-label    Filtrer par verdict
+  L97    TEXTE              Tous
+  L99    TEXTE              ✓ Vrai
+  L101   TEXTE              ✕ Faux
+  L103   TEXTE              ⚠ Trompeur
+  L105   TEXTE              ◌ En cours
+  L108   TEXTE              vérification(s)
+  L155   TEXTE              Voir le rapport
+  L158   TEXTE              Suivre
+  L160   TEXTE              Indisponible
+  L192   TEXTE              · % de fiabilité
+  L198   TEXTE              Voir le rapport →
+  L201   TEXTE              Suivre →
+  L203   TEXTE              Indisponible
+  L230   TEXTE              Vérifier un contenu
+
+=== resources/views/livewire/citizen/mon-parrainage.blade.php (22) ===
+  L10    ATTR:aria-label    Fil d'Ariane
+  L13    TEXTE              Mon Parrainage
+  L40    TEXTE              Vous avez été parrainé par
+  L54    TEXTE              + unités reçues
+  L58    TEXTE              unités vous attendent
+  L66    TEXTE              Lancer ma première vérification
+  L108   ATTR:aria-label    Votre lien d'invitation
+  L111   TEXTE              Copier le lien
+  L120   TEXTE              Copier
+  L133   ATTR:aria-label    QR code de votre lien d'invitation Vérif'All
+  L138   TEXTE              CODE :
+  L149   TEXTE              + unités
+  L154   TEXTE              + unités
+  L202   TEXTE              Inscription
+  L206   TEXTE              Première vérification
+  L212   TEXTE              Récompense
+  L215   TEXTE              + unités ·
+  L217   TEXTE              En attente
+  L254   TEXTE              / invitations éligibles — plus que pour débloquer le prochain palier.
+  L319   TEXTE              E-mail
+  L320   TEXTE              Copier
+  L322   TEXTE              Partager avec mon téléphone
+
+=== resources/views/livewire/citizen/notes-du-sujet.blade.php (16) ===
+  L48    ATTR:aria-label    Signaler cette note
+  L54    TEXTE              Utile
+  L60    TEXTE              Pas utile
+  L117   ATTR:placeholder   Ce que le sujet omet, et ce qui le corrige.
+  L123   ATTR:placeholder   https://…
+  L141   TEXTE              Votre réputation :
+  L144   TEXTE              démenti né de vos signalements
+  L146   TEXTE              signalement retenu
+  L148   TEXTE              note publiée
+  L162   TEXTE              note à évaluer
+  L165   TEXTE              Elles ne sont pas publiées. Votre avis, croisé à celui des autres, décidera de leur sort.
+  L188   TEXTE              Cette note vous aide-t-elle à comprendre le sujet ?
+  L189   ATTR:aria-label    Signaler cette note
+  L196   TEXTE              Utile
+  L202   TEXTE              Pas utile
+  L227   TEXTE              Choisir un motif…
+
+=== resources/views/livewire/citizen/outils.blade.php (11) ===
+  L16    ATTR:aria-label    Fil d'Ariane
+  L16    TEXTE              Outils
+  L20    TEXTE              ● Sélection Vérif'All
+  L25    ATTR:placeholder   Rechercher : image, domaine, métadonnées, IA…
+  L28    ATTR:aria-label    Catégories d'outils
+  L28    TEXTE              Tous
+  L72    TEXTE              Le cours
+  L72    TEXTE              vous accompagne étape par étape dans vos enquêtes.
+  L74    TEXTE              Découvrir le cours
+  L78    TEXTE              Outils externes sélectionnés à titre informatif. Vérif'All ne garantit pas les résultats produits par ces services. Pour un verdict documenté,
+  L78    TEXTE              soumettez le contenu au laboratoire
+
+=== resources/views/livewire/citizen/passer-quiz.blade.php (11) ===
+  L16    TEXTE              Vous avez validé « ». Une réussite n'est enregistrée qu'une
+  L17    TEXTE              fois — repasser le quiz ne rapporte pas d'XP supplémentaire.
+  L22    TEXTE              Retour au cours
+  L41    TEXTE              seuil de réussite %
+  L44    TEXTE              + XP
+  L52    TEXTE              🎓 Voir mon certificat
+  L59    TEXTE              Retour au cours
+  L89    TEXTE              Bonne réponse :
+  L122   TEXTE              Question /
+  L138   ATTR:aria-label    Réponses proposées
+  L173   TEXTE              Retour au cours
+
+=== resources/views/livewire/citizen/profil.blade.php (9) ===
+  L11    ATTR:aria-label    Fil d'Ariane
+  L14    TEXTE              Mon profil
+  L31    TEXTE              Citoyen vérificateur
+  L38    TEXTE              Identité vérifiée (KYC)
+  L42    TEXTE              Identité non vérifiée
+  L46    TEXTE              Membre depuis
+  L49    TEXTE              &middot; jour d'affilée
+  L121   ATTR:placeholder   nouvelle@adresse.com
+  L134   ATTR:placeholder   Code à 6 chiffres
+
+=== resources/views/livewire/citizen/rapport.blade.php (14) ===
+  L14    TEXTE              &larr; Retour à l'historique
+  L45    TEXTE              Indice de fiabilité
+  L59    TEXTE              Réf.
+  L73    TEXTE              Contexte indiqué :
+  L80    TEXTE              🛡️ Hate Speech Indicator
+  L86    TEXTE              Hate Speech Index (HSI) :
+  L133   TEXTE              Indisponible
+  L137   TEXTE              Sources apportées
+  L143   TEXTE              ms
+  L155   TEXTE              moteur conclu autrement.
+  L156   TEXTE              Le verdict retenu est celui que soutient la majorité pondérée des moteurs ;
+  L157   TEXTE              les avis divergents restent affichés ci-dessus.
+  L177   TEXTE              · fiabilité %
+  L209   TEXTE              Voir les outils
+
+=== resources/views/livewire/citizen/recompenses.blade.php (16) ===
+  L10    ATTR:aria-label    Fil d'Ariane
+  L13    TEXTE              Certificats &amp; Badges
+  L23    TEXTE              Niveau
+  L28    TEXTE              / XP · Encore XP avant le niveau suivant
+  L49    TEXTE              🎯 Badge « »
+  L59    TEXTE              Continuer un tutoriel
+  L70    TEXTE              🔥 jour consécutif
+  L73    TEXTE              Plus que jour
+  L74    TEXTE              avant + unités.
+  L78    TEXTE              jour d'affilée
+  L102   TEXTE              ✓ Débloqué
+  L105   TEXTE              · + XP
+  L106   TEXTE              · + unités
+  L131   TEXTE              Délivré le ·
+  L137   TEXTE              Voir le certificat
+  L147   TEXTE              Voir le catalogue
+
+=== resources/views/livewire/citizen/reglages.blade.php (19) ===
+  L16    ATTR:aria-label    Fil d'Ariane
+  L19    TEXTE              Réglages
+  L41    ATTR:aria-label    Activer / désactiver la double authentification
+  L56    ATTR:aria-label    Activer / désactiver
+  L73    TEXTE              Session actuelle
+  L76    TEXTE              Déconnecter
+  L105   ATTR:aria-label    Activer / désactiver
+  L120   ATTR:aria-label    Activer / désactiver
+  L136   TEXTE              Politique de confidentialité
+  L148   TEXTE              Archive prête · Ko ·
+  L149   TEXTE              expire
+  L155   TEXTE              Télécharger l'archive
+  L169   TEXTE              Votre compte sera fermé immédiatement, mais vos données ne seront effacées
+  L170   TEXTE              jours
+  L170   TEXTE              qu'après
+  L171   TEXTE              un lien d'annulation vous sera envoyé par courriel.
+  L329   TEXTE              Saisissez le code à 6 chiffres envoyé à votre adresse. Votre compte sera fermé
+  L330   TEXTE              immédiatement, et vos données effacées dans
+  L331   TEXTE              jours.
+
+=== resources/views/livewire/citizen/sondage-du-sujet.blade.php (3) ===
+  L24    TEXTE              · votre réponse
+  L37    TEXTE              participant .
+  L38    TEXTE              Ce sondage est clos.
+
+=== resources/views/livewire/citizen/statistiques.blade.php (26) ===
+  L10    ATTR:aria-label    Fil d'Ariane
+  L10    TEXTE              Statistiques
+  L11    TEXTE              Dernière mise à jour :
+  L11    TEXTE              Votre activité de vérification, votre progression et votre impact au fil du temps.
+  L17    TEXTE              &nbsp;vs 30 jours précédents
+  L17    TEXTE              &nbsp;vs 30 jours précédents Stable sur 30 jours
+  L19    TEXTE              &nbsp;cette semaine Aucune cette semaine
+  L20    TEXTE              Record personnel :
+  L20    TEXTE              j
+  L31    ATTR:aria-label    Période du graphique
+  L32    TEXTE              7 derniers jours
+  L33    TEXTE              30 derniers jours
+  L34    TEXTE              3 derniers mois
+  L35    TEXTE              Cette année
+  L40    ATTR:aria-label    Courbe d'activité
+  L47    TEXTE              Vérifier un contenu →
+  L63    ATTR:aria-label    Répartition des verdicts
+  L65    TEXTE              vérifications
+  L67    TEXTE              Pas encore de données — effectuez votre première vérification.
+  L71    TEXTE              ✓ Vérifié vrai
+  L72    TEXTE              ⚠ Douteux
+  L73    TEXTE              ✕ Vérifié faux
+  L84    ATTR:aria-label    Types de contenus vérifiés
+  L109   TEXTE              Vous avez effectué — votre activité est en hausse .
+  L110   TEXTE              Continuez votre série de pour débloquer votre prochain bonus d'unités.
+  L112   TEXTE              Continuer à vérifier
+
+=== resources/views/livewire/citizen/sujet.blade.php (16) ===
+  L20    ATTR:aria-label    Fil d'Ariane
+  L48    TEXTE              push_pin
+  L62    TEXTE              Choisir…
+  L83    ATTR:aria-label    Votre avis
+  L99    TEXTE              Vous avez répondu « ». Recliquez pour retirer votre avis.
+  L121   TEXTE              Escaladé par
+  L127   TEXTE              Le
+  L132   TEXTE              Vérification
+  L165   TEXTE              réponse
+  L186   TEXTE              Réponse officielle
+  L200   TEXTE              Répondre
+  L203   ATTR:aria-label    Signaler cette réponse
+  L243   ATTR:placeholder   Apportez un élément, une source, une nuance…
+  L259   TEXTE              Signaler
+  L270   TEXTE              Choisir un motif…
+  L279   ATTR:placeholder   Ce qui vous semble problématique
+
+=== resources/views/livewire/citizen/tableau-de-bord.blade.php (28) ===
+  L15    TEXTE              Bonjour 👋
+  L16    TEXTE              Votre boussole de l'information est active. Série actuelle : 🔥
+  L17    TEXTE              Acheter des unités
+  L17    TEXTE              Vérifier un contenu
+  L36    TEXTE              Voir la file
+  L60    TEXTE              Offre du mois —
+  L61    TEXTE              Cours offert du mois : « »
+  L64    TEXTE              S'inscrire gratuitement
+  L80    TEXTE              Prochaine leçon :
+  L81    TEXTE              Reprendre
+  L84    TEXTE              Reprendre
+  L89    TEXTE              Découvrir le catalogue
+  L97    TEXTE              Vérifications &amp; leçons
+  L106   ATTR:aria-label    Activité des 30 derniers jours
+  L109   TEXTE              Vérifications
+  L110   TEXTE              Leçons terminées
+  L117   TEXTE              Tout voir
+  L125   TEXTE              EN COURS
+  L131   TEXTE              Aucune vérification pour le moment.
+  L131   TEXTE              Commencez par un lien ou un texte.
+  L148   TEXTE              Voir les Live Class
+  L162   TEXTE              Rejoindre le forum
+  L169   TEXTE              Historique complet
+  L175   TEXTE              j
+  L178   TEXTE              Achievement Center
+  L192   TEXTE              1 question · 30 secondes · + XP
+  L251   TEXTE              Campagne en cours
+  L256   TEXTE              Lire l'annonce
+
+=== resources/views/livewire/citizen/unites.blade.php (23) ===
+  L11    ATTR:aria-label    Fil d'Ariane
+  L14    TEXTE              Mes unités
+  L26    TEXTE              unité disponible
+  L32    TEXTE              unités offertes chaque 1ᵉʳ du mois.
+  L33    TEXTE              Prochaine dotation :
+  L36    TEXTE              Dans jour
+  L43    TEXTE              Packs à partir de FCFA
+  L44    TEXTE              via Mobile Money.
+  L55    TEXTE              progress_activity
+  L58    TEXTE              Validez la demande sur votre téléphone ( )
+  L61    TEXTE              FCFA pour unités ·
+  L87    ATTR:placeholder   Rechercher une transaction…
+  L92    ATTR:aria-label    Filtrer par type
+  L94    TEXTE              Type : tous
+  L95    TEXTE              Crédit
+  L96    TEXTE              Débit
+  L99    ATTR:aria-label    Transactions par page
+  L101   TEXTE              10 / page
+  L102   TEXTE              25 / page
+  L103   TEXTE              50 / page
+  L116   TEXTE              Aucune transaction ne correspond à vos filtres.
+  L118   TEXTE              Aucun mouvement pour l'instant. Votre première dotation arrive le .
+  L186   TEXTE              Payer FCFA
+
+=== resources/views/livewire/citizen/verification-en-cours.blade.php (25) ===
+  L11    ATTR:aria-label    Fil d'Ariane
+  L14    TEXTE              Vérifier
+  L16    TEXTE              Analyse
+  L22    TEXTE              Ne fermez pas cette page — le rapport s'ouvrira automatiquement.
+  L24    TEXTE              Vous pouvez fermer cette page sans rien perdre.
+  L33    TEXTE              Référence :
+  L40    ATTR:aria-label    Avancement de l'analyse
+  L78    TEXTE              Plutôt que de vous rendre un verdict que rien n'appuie, nous
+  L79    TEXTE              reprenons l'analyse
+  L81    TEXTE              dès maintenant.
+  L83    TEXTE              dans minute .
+  L87    TEXTE              Rien n'est perdu : la reprise est automatique, et si nous ne
+  L88    TEXTE              parvenons toujours pas à conclure,
+  L90    TEXTE              unités
+  L90    TEXTE              vos
+  L90    TEXTE              vous seront rendues.
+  L92    TEXTE              unité
+  L92    TEXTE              votre
+  L92    TEXTE              vous sera rendue.
+  L102   TEXTE              Voir mes vérifications
+  L117   TEXTE              Voir mes vérifications
+  L125   TEXTE              Cette page se met à jour toute seule. Chaque étape s'allume quand elle est
+  L126   TEXTE              réellement franchie.
+  L128   TEXTE              Nous reprenons l'analyse sans que vous ayez à revenir. Le rapport
+  L129   TEXTE              apparaîtra dans « Mes vérifications ».
+
+=== resources/views/livewire/citizen/verifier.blade.php (25) ===
+  L11    ATTR:aria-label    Fil d'Ariane
+  L14    TEXTE              Vérifier
+  L22    TEXTE              CONTENU
+  L23    TEXTE              SOURCES
+  L24    TEXTE              PREUVES
+  L25    TEXTE              ANALYSE
+  L26    TEXTE              VERDICT
+  L33    TEXTE              progress_activity
+  L49    TEXTE              Rapport prêt pour .
+  L68    TEXTE              pt
+  L100   TEXTE              Choisir un fichier
+  L101   TEXTE              Il reste sur nos serveurs privés et n'est jamais publié.
+  L105   TEXTE              Envoi du fichier…
+  L127   TEXTE              Cette vérification consommera
+  L128   TEXTE              unité
+  L130   TEXTE              il vous restera
+  L130   TEXTE              unités
+  L132   TEXTE              votre solde est insuffisant
+  L137   TEXTE              Lancement…
+  L137   TEXTE              Lancer la vérification
+  L142   TEXTE              Rechargez votre compte
+  L143   TEXTE              pour lancer cette vérification.
+  L160   TEXTE              unités
+  L162   TEXTE              Gérer mes unités
+  L168   TEXTE              Voir les outils
+
+=== resources/views/livewire/public/actualites.blade.php (7) ===
+  L20    TEXTE              La Vérité en un Clic
+  L21    TEXTE              Recherchez parmi nos vérifications ou interrogez les bases de données mondiales.
+  L26    TEXTE              Rechercher une vérification
+  L29    ATTR:placeholder   Entrez un mot-clé ou une rumeur à vérifier...
+  L38    TEXTE              Dernières analyses publiées
+  L46    TEXTE              Tous
+  L73    TEXTE              Lire l'analyse complète
+
+=== resources/views/livewire/public/article-blog.blade.php (7) ===
+  L33    TEXTE              Partager
+  L37    TEXTE              Twitter
+  L41    TEXTE              min de lecture
+  L68    TEXTE              Articles similaires
+  L70    ATTR:aria-label    Articles précédents
+  L71    ATTR:aria-label    Articles suivants
+  L86    TEXTE              Lire
+
+=== resources/views/livewire/public/article.blade.php (9) ===
+  L20    TEXTE              VERDICT :
+  L22    TEXTE              Publié le • Par l'équipe Vérif'All
+  L38    TEXTE              Source officielle de preuve :
+  L55    TEXTE              Cette vérification a été corrigée
+  L72    TEXTE              Voir toutes nos corrections
+  L79    TEXTE              Vous avez un doute sur une info ?
+  L80    TEXTE              Faites vérifier gratuitement un lien ou un texte, sans créer de compte.
+  L81    TEXTE              Vérifier une information gratuitement
+  L86    TEXTE              Analyses similaires
+
+=== resources/views/livewire/public/blog.blade.php (5) ===
+  L19    TEXTE              Notre Blog
+  L22    TEXTE              Tous
+  L44    TEXTE              Lire l'article complet
+  L75    TEXTE              Lire la suite
+  L84    ATTR:aria-label    Pagination du blog
+
+=== resources/views/livewire/public/corrections.blade.php (11) ===
+  L21    TEXTE              Journal des corrections
+  L23    TEXTE              Quand un verdict change, l'ancien reste ici, avec sa date et la raison du changement.
+  L26    TEXTE              Une plateforme qui réécrit ses verdicts en silence ne peut pas exiger la même honnêteté
+  L27    TEXTE              des autres. Cette page est la contrepartie de ce que nous demandons.
+  L57    TEXTE              Lire la vérification corrigée
+  L71    TEXTE              Aucun verdict n'a encore été corrigé.
+  L73    TEXTE              Dès qu'une vérification publiée changera de verdict, elle apparaîtra ici, avec l'ancien verdict, la date et la raison.
+  L79    TEXTE              Notre méthode de vérification est décrite en détail sur la page
+  L80    TEXTE              méthodologie
+  L81    TEXTE              et l'origine de nos ressources sur la page
+  L82    TEXTE              financement
+
+=== resources/views/livewire/public/tutoriel.blade.php (34) ===
+  L19    ATTR:aria-label    Fil d'Ariane
+  L21    TEXTE              Accueil
+  L23    TEXTE              Tutoriels
+  L38    TEXTE              Nouveau
+  L53    ATTR:aria-label    Sections du cours
+  L55    TEXTE              Aperçu
+  L56    TEXTE              Curriculum
+  L57    TEXTE              Instructeur
+  L58    TEXTE              Avis
+  L64    TEXTE              Ce que vous allez apprendre
+  L71    TEXTE              Description du cours
+  L78    TEXTE              Programme
+  L81    TEXTE              Leçons
+  L86    TEXTE              min
+  L89    TEXTE              Le programme de ce cours est en cours de publication.
+  L95    TEXTE              Évaluations
+  L100   TEXTE              minimum %
+  L123   TEXTE              Ce cours est porté par l'équipe pédagogique Vérif'All.
+  L129   TEXTE              Notes &amp; Avis des apprenants
+  L135   TEXTE              Basé sur
+  L162   TEXTE              Ce cours n'a pas encore été noté. Les premiers avis apparaîtront ici.
+  L180   TEXTE              Français
+  L180   TEXTE              Langue :
+  L181   TEXTE              Durée :
+  L182   TEXTE              Certificat :
+  L184   TEXTE              Partager ce tutoriel :
+  L186   ATTR:aria-label    Partager sur Facebook
+  L186   TEXTE              f
+  L187   ATTR:aria-label    Partager sur WhatsApp
+  L187   TEXTE              w
+  L188   ATTR:aria-label    Partager sur X
+  L201   TEXTE              Explorez d'autres tutoriels
+  L202   TEXTE              Voir tous les tutoriels
+  L219   TEXTE              Découvrir
+
+=== resources/views/livewire/public/tutoriels.blade.php (5) ===
+  L17    TEXTE              Filtres avancés
+  L20    TEXTE              Catégories
+  L28    TEXTE              Niveau
+  L44    TEXTE              GRATUIT
+  L62    TEXTE              S'inscrire
+
+=== resources/views/livewire/public/verifier-certificat.blade.php (17) ===
+  L9     TEXTE              Vérifier un certificat
+  L10    TEXTE              Chaque certificat Vérif'All porte un identifiant unique et une signature numérique. Entrez l'identifiant (ex. VERIF-A-XXXX-XXXX) pour contrôler son authenticité.
+  L13    TEXTE              Identifiant du certificat
+  L14    ATTR:placeholder   VERIF-A-1B2C-3D4E
+  L16    TEXTE              Vérifier l'authenticité
+  L23    TEXTE              Trop de vérifications depuis cette adresse. Réessayez dans quelques minutes.
+  L29    TEXTE              Certificat authentique
+  L30    TEXTE              Délivré par l'Académie Vérif'All
+  L32    TEXTE              Titulaire
+  L33    TEXTE              Cours
+  L34    TEXTE              Émis le
+  L35    TEXTE              Identifiant
+  L41    TEXTE              Certificat révoqué
+  L42    TEXTE              Ce certificat a bien été délivré, puis retiré le . Il ne fait plus foi.
+  L49    TEXTE              Certificat introuvable
+  L50    TEXTE              . Vérifiez la saisie, ou méfiez-vous d'un document falsifié.
+  L50    TEXTE              Aucun certificat ne correspond à l'identifiant
+
+=== resources/views/livewire/public/verifier-invite.blade.php (52) ===
+  L21    TEXTE              Vérifiez avant de
+  L21    TEXTE              partager
+  L24    TEXTE              Collez un lien ou un texte pour une analyse instantanée :
+  L25    TEXTE              faux décès, faux coups d'État, faux recrutements,
+  L26    TEXTE              arnaques santé…
+  L36    ATTR:aria-label    Type de contenu à vérifier
+  L41    TEXTE              Lien URL
+  L46    TEXTE              Texte / Message
+  L52    TEXTE              Collez un url douteux *
+  L53    ATTR:placeholder   https://...
+  L57    TEXTE              Collez le message douteux *
+  L59    ATTR:placeholder   Copiez ici le message WhatsApp, la publication ou la rumeur…
+  L66    TEXTE              Lancer la vérification gratuite
+  L67    TEXTE              Analyse lancée…
+  L72    TEXTE              vérification gratuite
+  L73    TEXTE              restante , sans inscription.
+  L75    TEXTE              Vous avez utilisé vos vérifications gratuites.
+  L76    TEXTE              Créez un compte
+  L77    TEXTE              pour continuer.
+  L84    TEXTE              Sans compte : lien ou texte uniquement.
+  L85    TEXTE              L'analyse d'images, de vidéos et d'audio demande
+  L86    TEXTE              un compte
+  L109   TEXTE              Analyse mise en attente
+  L112   TEXTE              Plutôt que de vous rendre un verdict que rien n'appuie, nous
+  L113   TEXTE              reprenons l'analyse
+  L115   TEXTE              dès maintenant.
+  L117   TEXTE              dans minute .
+  L121   TEXTE              Revenez sur cette page dans une dizaine de minutes : votre
+  L122   TEXTE              demande vous y attendra.
+  L129   TEXTE              Relancer maintenant
+  L130   TEXTE              Relance…
+  L136   TEXTE              L'analyse prend plus de temps que prévu.
+  L138   TEXTE              Un moteur ne répond peut-être pas.
+  L139   TEXTE              Réessayer
+  L143   TEXTE              Ne fermez pas cette page : sans compte, votre rapport ne sera pas conservé.
+  L174   TEXTE              Indice de fiabilité
+  L197   TEXTE              Le dossier complet vous attend
+  L199   TEXTE              · les moteurs mobilisés et l'avis de chacun
+  L200   TEXTE              · les sources consultées, avec leur position et leur fiabilité
+  L201   TEXTE              · l'indice de discours haineux du contenu soumis
+  L202   TEXTE              · l'analyse des images, vidéos et fichiers audio
+  L203   TEXTE              · l'historique de vos vérifications, et le rapport en PDF
+  L207   TEXTE              Créer un compte gratuit
+  L214   TEXTE              Il vous reste vérification gratuite :
+  L215   TEXTE              le formulaire est resté en haut de page.
+  L219   TEXTE              Vous avez utilisé vos vérifications gratuites.
+  L220   TEXTE              Créez un compte
+  L221   TEXTE              pour continuer.
+  L231   TEXTE              Besoin d'analyse complète ?
+  L233   TEXTE              En créant un compte, vous débloquez l'analyse des images, vidéos et
+  L234   TEXTE              fichiers audio, et l'accès aux outils de fact-checking.
+  L240   TEXTE              Créer un compte
+
+=== resources/views/public/accueil.blade.php (100) ===
+  L17    TEXTE              Votre Application de fact-checking !
+  L19    TEXTE              Protégez-vous contre les fausses informations et détectez les discours de haine.
+  L29    TEXTE              🔍 Je veux vérifier une info
+  L30    TEXTE              📢 Apprenez à fact-checker
+  L33    TEXTE              Pensé pour :
+  L35    TEXTE              Jeunes
+  L36    TEXTE              Journalistes
+  L37    TEXTE              Enseignants
+  L38    TEXTE              Citoyens
+  L44    ATTR:aria-label    Aperçu du tableau de bord Vérif'All
+  L46    ATTR:aria-label    Aperçu de la vérification rapide Vérif'All
+  L63    ATTR:alt           Fondation de France
+  L66    ATTR:alt           Aix Marseille Université
+  L69    ATTR:alt           Union internationale des télécommunications
+  L72    ATTR:alt           CEMAAC BENIN
+  L75    ATTR:alt           Stiftung Erinnerung, Verantwortung und Zukunft (EVZ)
+  L75    ATTR:title         Fondation EVZ
+  L78    ATTR:alt           Office franco-allemand pour la Jeunesse (OFAJ)
+  L78    ATTR:title         Office franco-allemand pour la Jeunesse
+  L81    ATTR:alt           Regional Youth Cooperation Office (RYCO)
+  L81    ATTR:title         Regional Youth Cooperation Office
+  L95    TEXTE              Distinctions
+  L103   ATTR:alt           Vérif'All remporte le Prix WSIS 2026 décerné par l'UIT à Genève
+  L103   ATTR:title         Prix WSIS 2026, catégorie « Media »
+  L105   TEXTE              Prix WSIS 2026 · UIT, Genève
+  L108   TEXTE              Lire la suite
+  L115   ATTR:alt           Concours « Objectif : Développement Durable ! » d'Aix-Marseille Université
+  L115   ATTR:title         2ᵉ prix, Concours Objectif : Développement Durable !
+  L117   TEXTE              Aix-Marseille Université
+  L121   TEXTE              Découvrir l'équipe Vérif'All
+  L124   TEXTE              Lire la suite
+  L162   TEXTE              Problème réel
+  L167   TEXTE              👉 Vérif’All est la première application béninoise qui centralise les meilleurs outils de fact-checking pour vérifier textes, images, vidéos et audios.
+  L178   ATTR:alt           Multiplication des fake news
+  L182   TEXTE              Images hors contexte, fausses rumeurs et manipulations virales. Chaque jour, des jeunes et des familles se font manipuler.
+  L183   TEXTE              ➡️ Vérif’All permet de vérifier instantanément si une info est crédible.
+  L192   ATTR:alt           Arnaques au recrutement, ventes
+  L196   TEXTE              De faux concours de police, fausses offres d’emploi circulent chaque jour via WhatsApp et Facebook. Ne tombez plus dans le panneau.
+  L197   TEXTE              ➡️ Vérif’All identifie les sites frauduleux, les faux documents et les messages.
+  L206   ATTR:alt           Audios et vidéos fabriqués par IA
+  L210   TEXTE              Clonage de voix et les deepfakes audios et vidéos deviennent de plus en plus réalistes et sont utilisés pour nuire et tromper.
+  L211   TEXTE              ➡️ Vérif’All détecte les signes de deepfake ou de manipulation.
+  L220   ATTR:alt           Photos recyclées lors des crises
+  L224   TEXTE              Des images anciennes ou provenant d’autres pays sont réutilisées pour manipuler l’opinion lors d’événements importants.
+  L225   TEXTE              ➡️ Vérif’All retrouve l’origine réelle de la photo grâce à la recherche inversée.
+  L234   ATTR:alt           Santé : Attention aux remèdes miracles
+  L238   TEXTE              Un mélange de citron et de craie ne soigne pas le paludisme. Ces "astuces" partagées en ligne peuvent être très dangereuses.
+  L239   TEXTE              ➡️ Vérif’All vous aide à distinguer les conseils médicaux fiables des rumeurs.
+  L247   ATTR:aria-label    Slide précédent
+  L248   ATTR:aria-label    Slide suivant
+  L272   ATTR:aria-label    Aperçu de l'application, Importez et analysez vos contenus
+  L282   ATTR:aria-label    Aperçu de l'application, Recevez un résultat clair et simple
+  L292   ATTR:aria-label    Aperçu de l'application, Apprenez, dénoncez et participez
+  L325   ATTR:aria-label    Tableau de bord principal Vérif'All
+  L326   TEXTE              Voir tous nos outils
+  L389   ATTR:alt           Cours en ligne, Fact-Checking
+  L397   ATTR:alt           Vérif'All - Application de lutte contre la désinformation au Bénin
+  L400   TEXTE              Apprenez à fact-checker
+  L415   TEXTE              Voir nos Actualités
+  L421   ATTR:aria-label    Analyses précédentes
+  L424   ATTR:aria-label    Analyses suivantes
+  L432   TEXTE              FAKE NEWS
+  L435   TEXTE              FAUX
+  L436   TEXTE              Analyse Vérif'All
+  L439   TEXTE              L'intervention militaire au Bénin n'a pas provoqué de bagarre au Sénat nigé...
+  L442   TEXTE              Lire l'analyse complète
+  L450   TEXTE              FAKE NEWS
+  L453   TEXTE              FAUX
+  L454   TEXTE              Analyse Vérif'All
+  L457   TEXTE              Infox sur l'arrestation de Patrice Talon et le soutien populaire au putsch...
+  L460   TEXTE              Lire l'analyse complète
+  L468   TEXTE              FAKE NEWS
+  L471   TEXTE              FAUX
+  L472   TEXTE              Analyse Vérif'All
+  L475   TEXTE              Kemi Seba n'a pas perdu son passeport diplomatique nigérien
+  L478   TEXTE              Lire l'analyse complète
+  L486   TEXTE              FAKE NEWS
+  L489   TEXTE              FAUX
+  L490   TEXTE              Analyse Vérif'All
+  L493   TEXTE              Franck Biya n'a pas été nommé vice-président du Cameroun par décret
+  L496   TEXTE              Lire l'analyse complète
+  L504   TEXTE              FAKE NEWS
+  L507   TEXTE              FAUX
+  L508   TEXTE              Analyse Vérif'All
+  L511   TEXTE              Images détournées de migrants expulsés des USA vers la RDC
+  L514   TEXTE              Lire l'analyse complète
+  L550   TEXTE              Chaque personne qui fait sa première vérification vous rapporte
+  L551   TEXTE              unités,
+  L552   TEXTE              et en reçoit .
+  L557   TEXTE              Comment ça marche
+  L573   ATTR:alt           google-store
+  L574   ATTR:alt           app-store
+  L578   ATTR:alt           Interface VerifAll
+  L583   ATTR:alt           logo-icon
+  L590   TEXTE              Verif'All permet de vérifier rapidement textes, images, vidéos et audios via notre plateforme sécurisée.
+  L594   TEXTE              Tout utilisateur intéressé et tout partenaire souhaitant collaborer peut participer.
+  L598   TEXTE              L'application sera bientôt disponible sur Google Play et l'App Store. Restez connectés !
+  L602   TEXTE              Cliquez sur le bouton ci-dessous pour toute demande de partenariat ou information complémentaire.
+  L606   TEXTE              Contactez-nous pour partenariats ou informations
+  L659   ATTR:placeholder   Entrez votre adresse email
+
+=== resources/views/public/comment-ca-marche.blade.php (15) ===
+  L10    TEXTE              Vérifier une information maintenant
+  L32    TEXTE              Simple et rapide
+  L33    TEXTE              Multi-formats supportés
+  L34    TEXTE              Accessible à tous
+  L36    TEXTE              Commencer une vérification
+  L41    ATTR:alt           Étape 1: Soumettre une information
+  L49    ATTR:alt           Étape 2: Notre technologie analyse
+  L83    TEXTE              Rapport Complet
+  L84    TEXTE              Toutes les sources et preuves à votre disposition.
+  L92    TEXTE              Partage Facile
+  L93    TEXTE              Partagez la vérité, pas la rumeur.
+  L101   ATTR:alt           Étape 3: Obtenir un résultat clair
+  L115   TEXTE              Les mentors sont des journalistes professionnels et des experts en cybersécurité formés aux techniques d'investigation numérique (OSINT).
+  L119   TEXTE              Si l'IA ne peut pas trancher seule, un mentor prend le relais. Le délai moyen de traitement est de 2 à 6 heures selon la complexité du sujet.
+  L123   TEXTE              Il vous suffit de suivre nos tutoriels gratuits dans la section LMS et de réussir les quiz avec un score minimum de 70%. Votre certificat PDF sera généré automatiquement.
+
+=== resources/views/public/confidentialite.blade.php (8) ===
+  L21    TEXTE              Dernière mise à jour :
+  L27    TEXTE              , dont le siège est situé :
+  L27    TEXTE              Le responsable du traitement est
+  L28    TEXTE              Pour toute question relative à vos données, ou pour exercer vos droits, écrivez à .
+  L56    TEXTE              L'hébergeur :
+  L84    TEXTE              Ces droits s'exercent à l'adresse . Nous répondons dans un délai raisonnable et, en cas de refus, nous en donnons le motif.
+  L88    TEXTE              La plateforme s'adresse à des personnes majeures. Un compte peut être créé par un mineur dans un cadre pédagogique encadré par un établissement. Si vous constatez qu'un compte a été créé par un mineur sans encadrement, signalez-le à : il sera supprimé.
+  L101   TEXTE              Créer mon compte
+
+=== resources/views/public/contact.blade.php (8) ===
+  L19    TEXTE              Pour signaler une information :
+  L19    TEXTE              Veuillez utiliser notre
+  L19    TEXTE              dédié.
+  L19    TEXTE              outil de vérification
+  L82    ATTR:placeholder   Votre nom
+  L87    ATTR:placeholder   nom&#64;exemple.com
+  L92    ATTR:placeholder   +229 xx xx xx xx
+  L96    ATTR:placeholder   Nom de l’organisation
+
+=== resources/views/public/cookies.blade.php (4) ===
+  L24    TEXTE              Dernière mise à jour :
+  L54    TEXTE              Pour toute question relative à cette politique, écrivez à . Le traitement de vos données personnelles est décrit dans la
+  L54    TEXTE              politique de confidentialité
+  L64    TEXTE              Créer mon compte
+
+=== resources/views/public/faq.blade.php (19) ===
+  L19    ATTR:placeholder   Enter your keyword...
+  L140   TEXTE              Vérif'All est la première plateforme technologique au Bénin dédiée à la lutte contre la désinformation. Elle combine l'Intelligence Artificielle et l'expertise humaine pour analyser la véracité des informations circulant sur les réseaux sociaux.
+  L144   TEXTE              Le compte vous permet de suivre votre progression dans les tutoriels, d'obtenir des certificats officiels et de bénéficier de 10 analyses IA gratuites.
+  L148   TEXTE              Oui, l'accès à la plateforme et les vérifications de base sont entièrement gratuits pour tous les citoyens. Notre mission est d'intérêt public.
+  L152   TEXTE              Non, Vérif'All est une plateforme indépendante. Cependant, nous collaborons avec des sources officielles pour confirmer ou infirmer les communiqués institutionnels.
+  L156   TEXTE              Il suffit de copier le lien suspect et de le coller dans notre outil de vérification sur la page d'accueil ou dans votre dashboard. Notre scanner d'URL analysera instantanément s'il s'agit de phishing ou d'une arnaque.
+  L160   TEXTE              Absolument. Vous pouvez uploader une image. Le système effectuera une recherche inversée pour voir si l'image a été recyclée ou manipulée, et analysera ses métadonnées techniques.
+  L164   TEXTE              Le score est calculé par nos algorithmes : un score élevé (80-100%) indique une information fiable, tandis qu'un score faible (0-20%) signale une fake news ou un site dangereux.
+  L168   TEXTE              Nous utilisons plusieurs moteurs (GPTZero, Google Vision, etc.) qui analysent la structure du langage, la provenance des serveurs web et l'antériorité des images sur internet.
+  L172   TEXTE              Oui. Les contenus que vous soumettez sont analysés anonymement. Nous ne partageons pas votre identité lors de la publication des démentis publics.
+  L176   TEXTE              Un deepfake est une vidéo ou un audio créé par l'IA pour imiter parfaitement une personne réelle. Vérif'All possède des outils spécifiques pour détecter ces manipulations vocales et visuelles.
+  L180   TEXTE              Les mentors sont des journalistes professionnels et des experts en cybersécurité formés aux techniques d'investigation numérique (OSINT).
+  L184   TEXTE              Si l'IA ne peut pas trancher seule, un mentor prend le relais. Le délai moyen de traitement est de 2 à 6 heures selon la complexité du sujet.
+  L188   TEXTE              Il vous suffit de suivre nos tutoriels gratuits dans la section LMS et de réussir les quiz avec un score minimum de 70%. Votre certificat PDF sera généré automatiquement.
+  L192   TEXTE              Absolument. Vérif'All respecte les lois béninoises sur la protection des données. Vos signalements sont traités de manière confidentielle.
+  L196   TEXTE              Pas d'inquiétude ! Vous pouvez toujours soumettre des signalements, mais ils seront traités manuellement par nos mentors au lieu de l'analyse instantanée par IA.
+  L200   TEXTE              La vérification permet de s'assurer que vous êtes un citoyen réel et de vous attribuer vos 10 unités de fact-checking gratuites.
+  L204   TEXTE              C'est un utilisateur qui a complété ses tutoriels et obtenu son certificat officiel sur Vérif'All.
+  L218   TEXTE              Contactez-nous
+
+=== resources/views/public/financement.blade.php (16) ===
+  L93    ATTR:placeholder   Votre nom
+  L99    ATTR:placeholder   nom&#64;exemple.com
+  L105   ATTR:placeholder   Si vous soutenez au nom d'une structure
+  L113   ATTR:placeholder   Ex. 25 000 FCFA, ou du temps de formation
+  L119   TEXTE              Une seule fois
+  L120   TEXTE              Chaque mois
+  L121   TEXTE              Chaque année
+  L122   TEXTE              À en discuter
+  L128   ATTR:placeholder   Facultatif
+  L150   TEXTE              Les verdicts ne sont ni sponsorisés ni négociables. Aucun soutien nommé sur cette page
+  L151   TEXTE              le journal des corrections
+  L151   TEXTE              n'a de droit de regard sur une vérification : ce que nous corrigeons, nous le publions,
+  L152   TEXTE              en fait foi, et
+  L153   TEXTE              notre méthodologie
+  L154   TEXTE              décrit comment un verdict est établi.
+  L174   TEXTE              Nous contacter
+
+=== resources/views/public/fonctionnalites.blade.php (21) ===
+  L21    TEXTE              Explorer nos fonctionnalités
+  L26    ATTR:alt           Illustration technologique Vérif'All
+  L44    TEXTE              Voir les outils intégrés
+  L46    ATTR:alt           Illustration de l'orchestrateur
+  L54    TEXTE              Commencer à apprendre
+  L57    ATTR:alt           Illustration du LMS
+  L66    TEXTE              Explorer la communauté
+  L75    TEXTE              Vérifier une information maintenant
+  L88    ATTR:aria-label    Filtrer les fonctionnalités
+  L101   TEXTE              Détection IA & Analyse Sémantique
+  L108   TEXTE              Recherche Inversée & Métadonnées
+  L115   TEXTE              Détection Deepfake & Analyse d'Images Clés
+  L122   TEXTE              Analyse Spectrale & Détection Vocale IA
+  L129   TEXTE              Quiz Interactifs & Certificats
+  L136   TEXTE              Modération & Expertise
+  L143   TEXTE              Curation & Fiabilité
+  L150   TEXTE              Intelligence Collective
+  L163   TEXTE              Vérifier une information maintenant
+  L174   TEXTE              Nous utilisons plusieurs moteurs (GPTZero, Google Vision, etc.) qui analysent la structure du langage, la provenance des serveurs web et l'antériorité des images pour croiser les preuves.
+  L178   TEXTE              Oui. Les contenus que vous soumettez sont analysés anonymement. Nous ne partageons pas votre identité lors de la publication des démentis publics.
+  L182   TEXTE              Un deepfake est une vidéo ou un audio créé par l'IA pour imiter parfaitement une personne réelle. Vérif'All possède des outils spécifiques pour détecter ces contenus synthétiques.
+
+=== resources/views/public/medias.blade.php (33) ===
+  L20    TEXTE              Lancement de Vérif’All
+  L24    TEXTE              16 juillet 2026
+  L25    TEXTE              CDIJ, Cour d’Appel de Cotonou
+  L29    ATTR:aria-label    Photo officielle du lancement, à venir
+  L31    TEXTE              Photo officielle du lancement, à venir
+  L46    ATTR:aria-label    Photo de l'événement, à venir
+  L48    TEXTE              Photo de l'événement, à venir
+  L50    ATTR:aria-label    Photo de l'événement, à venir
+  L52    TEXTE              Photo de l'événement, à venir
+  L54    ATTR:aria-label    Photo de l'événement, à venir
+  L56    TEXTE              Photo de l'événement, à venir
+  L58    ATTR:aria-label    Photo de l'événement, à venir
+  L60    TEXTE              Photo de l'événement, à venir
+  L62    ATTR:aria-label    Photo de l'événement, à venir
+  L64    TEXTE              Photo de l'événement, à venir
+  L66    ATTR:aria-label    Photo de l'événement, à venir
+  L68    TEXTE              Photo de l'événement, à venir
+  L83    TEXTE              A
+  L84    TEXTE              [Date à confirmer]
+  L84    TEXTE              [Média A]
+  L87    TEXTE              Exemple, à remplacer
+  L88    TEXTE              Lire l'article
+  L94    TEXTE              B
+  L95    TEXTE              [Date à confirmer]
+  L95    TEXTE              [Média B]
+  L98    TEXTE              Exemple, à remplacer
+  L99    TEXTE              Lire l'article
+  L105   TEXTE              C
+  L106   TEXTE              [Date à confirmer]
+  L106   TEXTE              [Média C]
+  L109   TEXTE              Exemple, à remplacer
+  L110   TEXTE              Lire l'article
+  L124   TEXTE              Vérifier une information maintenant
+
+=== resources/views/public/mentions-legales.blade.php (25) ===
+  L27    TEXTE              Dernière mise à jour :
+  L33    TEXTE              Le site web verifall.com et l'application mobile Vérif'All (ci-après « la Plateforme ») sont édités par :
+  L35    TEXTE              Organisation enregistrée en République du Bénin
+  L36    TEXTE              Adresse :
+  L37    TEXTE              Courriel :
+  L40    TEXTE              , en sa qualité de responsable du contenu publié sur la Plateforme.
+  L40    TEXTE              Le directeur de la publication est
+  L43    TEXTE              La Plateforme est hébergée par :
+  L46    TEXTE              Adresse :
+  L49    TEXTE              Contact :
+  L63    TEXTE              , consultable sans compte. La page du fact-check concerné porte également la mention de sa correction.
+  L63    TEXTE              Une erreur de verdict se corrige, elle ne s'efface pas. Toute modification d'un verdict publié est consignée avec sa date et sa raison dans le
+  L63    TEXTE              journal public des corrections
+  L64    TEXTE              Pour signaler une erreur dans une vérification, écrivez à en indiquant l'adresse de la page et l'élément contesté. La méthode employée est décrite sur la page
+  L64    TEXTE              méthodologie
+  L67    TEXTE              Tout contenu publié par un utilisateur (message du forum, réponse, note de communauté) peut être signalé à la modération depuis la Plateforme, ou par courriel à . Un signalement précise l'adresse du contenu et le motif invoqué.
+  L71    TEXTE              . L'usage des traceurs est décrit dans la
+  L71    TEXTE              Le traitement des données personnelles est décrit dans la
+  L71    TEXTE              politique de confidentialité
+  L71    TEXTE              politique des cookies
+  L74    TEXTE              . Aucun financeur n'exerce de contrôle éditorial sur les vérifications publiées.
+  L74    TEXTE              Les sources de financement de la Plateforme sont publiées sur la page
+  L74    TEXTE              financement
+  L77    TEXTE              L'utilisation de la Plateforme est soumise au droit béninois. En cas de différend, une solution amiable est recherchée en premier lieu : la réclamation s'adresse à et reçoit une réponse motivée.
+  L88    TEXTE              Créer mon compte
+
+=== resources/views/public/methodologie.blade.php (23) ===
+  L72    TEXTE              signal, jamais verdict
+  L99    TEXTE              En dessous de
+  L99    TEXTE              avis exploitables, aucun verdict
+  L100   TEXTE              n'est fabriqué. Le rapport sort quand même, un écran vide serait pire, mais il
+  L101   TEXTE              annonce qu'il est partiel, et les unités dépensées sont rendues.
+  L107   TEXTE              Un verdict n'est retenu que s'il devance le suivant d'au moins
+  L108   TEXTE              et atteint
+  L108   TEXTE              points
+  L108   TEXTE              sur 100
+  L109   TEXTE              Sans le premier seuil, on trancherait à pile ou face ; sans le second, on affirmerait
+  L110   TEXTE              sur presque rien.
+  L132   TEXTE              Quand les moteurs sont saturés, l'analyse n'est pas ratée : elle est reprogrammée
+  L133   TEXTE              environ
+  L133   TEXTE              minutes
+  L133   TEXTE              plus tard et la personne est prévenue.
+  L134   TEXTE              Chaque compte est par ailleurs limité à
+  L134   TEXTE              analyses par heure
+  L135   TEXTE              pour qu'un usage intensif n'épuise pas les quotas de tout le monde.
+  L160   TEXTE              Consulter le journal des corrections
+  L163   TEXTE              Cette page applique les exigences de transparence du code de conduite de l'International
+  L164   TEXTE              Fact-Checking Network. Vérif'All n'en est pas signataire à ce jour.
+  L165   TEXTE              Nos ressources et leur origine sont détaillées sur la page
+  L166   TEXTE              financement
+
+=== resources/views/public/notre-equipe.blade.php (39) ===
+  L17    ATTR:aria-label    Fil d'Ariane
+  L18    TEXTE              Accueil
+  L18    TEXTE              Notre Équipe
+  L31    ATTR:aria-label    Photo de René Fadonougbo, photo à venir
+  L31    TEXTE              RF
+  L33    TEXTE              Fondateur
+  L40    ATTR:aria-label    Photo de Rhodes Massenon, photo à venir
+  L40    TEXTE              RM
+  L42    TEXTE              Technique
+  L45    ATTR:aria-label    Photo de Charles O. Dague, photo à venir
+  L45    TEXTE              CD
+  L47    TEXTE              Communication
+  L50    ATTR:aria-label    Photo de Sergino Obossou, photo à venir
+  L50    TEXTE              SO
+  L52    TEXTE              Communication
+  L55    ATTR:aria-label    Photo de Kévin Sobadji, photo à venir
+  L55    TEXTE              KS
+  L57    TEXTE              Design
+  L64    ATTR:aria-label    Photo de Atman Bouba, photo à venir
+  L64    TEXTE              AB
+  L66    TEXTE              Formation
+  L69    ATTR:aria-label    Photo de Gloria Tchidime, photo à venir
+  L69    TEXTE              GT
+  L71    TEXTE              Formation
+  L74    ATTR:aria-label    Photo de Emmanuel Codjo, photo à venir
+  L74    TEXTE              EC
+  L76    TEXTE              Formation
+  L83    ATTR:aria-label    Photo de Romaric Zinsou, photo à venir
+  L83    TEXTE              RZ
+  L85    TEXTE              Juridique
+  L88    ATTR:aria-label    Photo de Souad Adechoubou, photo à venir
+  L88    TEXTE              SA
+  L90    TEXTE              International
+  L93    ATTR:aria-label    Photo de Herbert Ebo, photo à venir
+  L93    TEXTE              HE
+  L95    TEXTE              Conseil & Appui
+  L105   TEXTE              « Vérif'All est né d'un constat simple : au moment où une rumeur atteint un citoyen, il est déjà trop tard pour un démenti classique. Il fallait mettre l'outil de vérification directement dans les mains de chacun. Le WSIS Prize 2026 récompense cette conviction, mais notre vraie récompense, c'est chaque partage évité. »
+  L108   ATTR:alt           Portrait de René Fadonougbo, fondateur de Vérif'All
+  L116   TEXTE              Nous contacter
+
+=== resources/views/public/parrainage.blade.php (6) ===
+  L30    TEXTE              Programme de parrainage
+  L37    TEXTE              Voir mon code de parrainage
+  L41    TEXTE              Créer mon compte gratuit
+  L44    TEXTE              J'ai déjà un compte
+  L130   TEXTE              Partager mon lien
+  L132   TEXTE              Créer mon compte
+
+=== resources/views/public/pourquoi-verifall.blade.php (7) ===
+  L21    ATTR:alt           Image illustrant l'information
+  L23    ATTR:alt           Image illustrant la communication
+  L24    ATTR:alt           Image illustrant la communauté
+  L102   ATTR:alt           google-store
+  L103   ATTR:alt           app-store
+  L110   ATTR:alt           Illustration de la mission de Vérif'All
+  L120   TEXTE              Vérifier une information maintenant
+
+=== resources/views/public/hors-ligne.blade.php (4) ===
+  L10    @include param     Hors ligne
+  L11    @include param     Pas de connexion
+  L12    @include param     Cette page n'a pas encore ete consultee sur cet appareil, et le reseau est indisponible. Les pages deja ouvertes restent lisibles.
+  L13    @include param     Retour a l'accueil
+
+=== resources/views/public/plan-du-site.blade.php (0) ===
+  (plan de site XML, aucune chaine visible)
+
+=== resources/views/public/service-worker.blade.php (HORS PERIMETRE) ===
+  (JavaScript + commentaires de code, jamais affiche a l'ecran)
+
+TOTAL : 1112
+================================================================
+SUIVI DE CORRECTION — repartition en 9 lots disjoints
+================================================================
+Chaque lot possede ses vues ET ses espaces de noms en exclusivite :
+aucun fichier n'est ecrit par deux lots.
+
+A1  composants (nouveau)      17 composants partages            ~78
+A2  auth / cit_citizen / commun  3 gabarits + hors-ligne        ~101
+B   cit_article_hub .. cit_exercices      7 vues citoyennes     ~105
+C   cit_forum .. cit_mon_parrainage       7 vues citoyennes     ~113
+D   cit_notes_du_sujet .. cit_reglages    7 vues citoyennes     ~96
+E   cit_sondage_du_sujet .. cit_verifier  7 vues citoyennes     ~146
+F   pub_* (9 nouveaux)         9 vues Livewire publiques        ~147
+G   accueil .. cookies         5 pages publiques                ~135
+H   faq .. pourquoi_verifall   9 pages publiques                ~189
+
+HORS PERIMETRE, volontairement intouches :
+  resources/views/livewire/admin/**, admin/**, staff/**  (l'admin reste en francais)
+  components/layouts/staff.blade.php, components/staff/**, components/layouts/staff-auth.blade.php
+  components/campagnes.blade.php + lang/*/campagnes.php  (exclusion demandee)
+  public/service-worker.blade.php  (JavaScript et commentaires, jamais affiches)
+  public/plan-du-site.blade.php    (sitemap XML, aucune chaine visible)
+
+BASE DE REFERENCE AVANT MODIFICATION :
+  php outils-i18n/verifier-compilation.php  -> 138 vues, 0 cassee
+  php artisan test --filter=Citizen         -> 450 passed, 0 failed
+  ecart preexistant : lang/en/validation.php n'a pas le bloc 'attributes' de lang/fr
+
+--- INCIDENT LOT A2, resolu ---
+Le lot A2 s'est interrompu APRES avoir reecrit components/layouts/citizen.blade.php
+et AVANT d'ecrire les cles correspondantes. La vue citait alors 15 cles absentes
+des DEUX fichiers de langue : la barre laterale affichait « cit_citizen.mes_evaluations »
+en clair, ce qui est pire que le francais d'origine.
+
+La parite FR/EN ne voyait rien : les deux fichiers avaient le meme jeu de cles.
+Il a fallu un troisieme controle, vue -> fichier de langue, pour l'attraper.
+Les valeurs francaises d'origine ont ete reprises dans l'inventaire ci-dessus :
+c'est precisement ce a quoi sert le « recense d'abord, corrige ensuite ».
+
+Repris a la main : citizen.blade.php (barre laterale, barre du bas, aria-label),
+public.blade.php (pied, reseaux, invite PWA, banniere cookies), hors-ligne.blade.php.
+
+================================================================
+RESULTAT FINAL — les 9 lots sont passes
+================================================================
+Chaines traitees par lot (occurrences reellement remplacees) :
+  A1 composants ............  90     A2 gabarits ....  ~60 (dont reprise manuelle)
+  B  citoyen 1 .............  61     C  citoyen 2 ...  141
+  D  citoyen 3 .............  99     E  citoyen 4 ...  203
+  F  public Livewire ....... 162     G  public 1 ....  112
+  H  public 2 .............. 156
+  TOTAL ................... ~1084 occurrences
+
+Cles ajoutees : ~1074 en FR et autant en EN, jeux strictement identiques.
+Nouveaux espaces de noms : composants + 9 pub_* (20 fichiers crees).
+
+L'INVENTAIRE ETAIT UN PLANCHER, PAS UN PLAFOND.
+Il annoncait 1112 chaines ; les lots en ont traite davantage sur plusieurs vues.
+Trois familles echappaient au scanner et portaient beaucoup de francais :
+  - les ternaires francais DANS une expression Blade
+      {{ $x ? 'Rouvrir le fil' : 'Clore le fil' }}
+  - les valeurs de repli   ?? 'Compte supprime'
+  - les attributs melant texte et Blade   placeholder="Reponse {{ $i + 1 }}"
+Un extracteur qui ne lit que le texte entre balises ne les verra jamais.
+
+IL RESTE 88 CHAINES, TOUTES LEGITIMES (verifiees une a une) :
+  ligatures d'icones (push_pin, grading, space_dashboard, play_lesson,
+  newspaper, play_circle, videocam_off, gpp_bad, progress_activity),
+  noms propres et organisations (Verif'All, verifall.com, Fondation de France,
+  UIT, OFAJ, RYCO, EVZ, CEMAAC, Aix-Marseille Universite, Twitter),
+  unites et abreviations (min, %, XP, ms, B/I/U, f/w),
+  initiales de medaillons (RF, RM, CD... et A/B/C des cartes presse),
+  gabarits de saisie (https://..., VERIF-A-1B2C-3D4E, +229 xx xx xx xx),
+  textes deja anglais (CLAIM/EVIDENCE/SOURCE/VERDICT, Achievement Center,
+  FAKE NEWS, Hate Speech Indicator).
+
+VERIFICATIONS LANCEES :
+  php outils-i18n/verifier-compilation.php  -> 138 vues, 0 cassee
+  cles orphelines (vue -> fichier de langue) -> 0
+  parite FR/EN                               -> 1 ecart, PREEXISTANT (validation.php)
+  ./vendor/bin/pint --test                   -> passed
+  php artisan test --filter=Citizen  -> 452 passed, 0 failed
+  php artisan test --filter=Public   -> 202 passed, 0 failed
+  (base de reference : 450 / 200 — les 2 ecarts sont les 2 tests de
+   TransparenceTest reparees, cf. ci-dessous)
+
+TESTS TOUCHES : 2, dans tests/Feature/Public/TransparenceTest.php
+  Les deux echouaient parce que la phrase controlee passe DESORMAIS par
+  {{ __(...) }}, qui echappe l'apostrophe en `&#039;`. La page dit toujours
+  exactement la meme chose ; c'est la comparaison brute sur le HTML qui ne la
+  reconnaissait plus. Aucune garantie n'a ete relachee :
+   - « il est vide sans se feliciter de l'etre » : suppression de `escape: false`
+     pour que assertSee echappe l'attendu comme Blade echappe le rendu.
+   - « code de conduite de l'IFCN sans se dire signataire » : decodage des
+     entites avant comparaison. Cela RESSERRE la garde negative : sans decodage,
+     un « membre de l&#039;IFCN » echappe serait passe inapercu.

@@ -1,0 +1,112 @@
+/* ------------------------------------------------------------------------
+   Émoticônes — habillage du sélecteur.
+
+   Aucune classe Tailwind n'est employée ici, et c'est nécessaire : le build
+   est FIGÉ, repris du prototype. Une classe absente ne produirait aucune
+   erreur, seulement un panneau sans largeur ni fond, posé par-dessus le texte.
+
+   Les couleurs viennent des variables du design system, jamais de valeurs
+   écrites à la main : le jour où la charte change, ce panneau suit.
+   ------------------------------------------------------------------------ */
+
+.vf-emoji-boite {
+  position: relative;
+  display: inline-block;
+  margin-top: .375rem;
+}
+
+.vf-emoji-declencheur {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 40 px : la cible tactile minimale confortable. Plus petit, on tape à côté
+     sur un téléphone tenu d'une main. */
+  width: 40px;
+  height: 40px;
+  font-size: 1.125rem;
+  line-height: 1;
+  border: 1px solid var(--vf-line, #e5e7eb);
+  border-radius: .75rem;
+  background: var(--vf-surface, #fff);
+  cursor: pointer;
+  transition: border-color .15s, background-color .15s;
+}
+
+.vf-emoji-declencheur:hover {
+  border-color: var(--vf-primary, #09b850);
+}
+
+.vf-emoji-declencheur:focus-visible {
+  outline: 2px solid var(--vf-primary, #09b850);
+  outline-offset: 2px;
+}
+
+.vf-emoji-panneau {
+  position: absolute;
+  /* Au-DESSUS du bouton. Sous lui, le panneau sortirait de l'écran dès que le
+     champ est en bas de page, ce qui est le cas du champ de réponse. */
+  bottom: calc(100% + .5rem);
+  left: 0;
+  z-index: 50;
+  width: min(320px, calc(100vw - 2rem));
+  max-height: 260px;
+  overflow-y: auto;
+  padding: .75rem;
+  border: 1px solid var(--vf-line, #e5e7eb);
+  border-radius: 1rem;
+  background: var(--vf-surface, #fff);
+  box-shadow: 0 .5rem 1.5rem rgba(32, 33, 36, .12);
+}
+
+.vf-emoji-panneau[hidden] {
+  display: none;
+}
+
+.vf-emoji-groupe {
+  margin: 0 0 .375rem;
+  font-size: .6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--vf-slate2, #6b7280);
+}
+
+.vf-emoji-groupe:not(:first-child) {
+  margin-top: .75rem;
+}
+
+.vf-emoji-grille {
+  display: grid;
+  /* 6 colonnes sur téléphone comme sur ordinateur : la grille reste stable,
+     et l'œil retrouve une émoticône au même endroit d'une fois sur l'autre. */
+  grid-template-columns: repeat(6, 1fr);
+  gap: .125rem;
+}
+
+.vf-emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  font-size: 1.25rem;
+  line-height: 1;
+  border: 0;
+  border-radius: .5rem;
+  background: transparent;
+  cursor: pointer;
+}
+
+.vf-emoji:hover {
+  background: var(--vf-canvas, #f5f6f7);
+}
+
+.vf-emoji:focus-visible {
+  outline: 2px solid var(--vf-primary, #09b850);
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-emoji-declencheur {
+    transition: none;
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "Mes Évaluations": "mes_evaluations",
+  "Tous vos quiz et exercices : scores réels, tentatives et statuts de correction, issus de votre progression.": "tous_vos_quiz_et_exercices_scores_reels",
+  "<span class=\"text-sm font-display font-bold text-ink\">Aperçu de vos évaluations</span> <span class=\"material-symbols-rounded transition-transform\" aria-hidden=\"true\">expand_more</span>": "apercu_de_vos_evaluations_expand_more",
+  "✓ Quiz réussis": "quiz_reussis",
+  "◉ Score moyen": "score_moyen",
+  "↻ Tentatives": "tentatives",
+  "□ Exercices soumis": "exercices_soumis",
+  "Quiz": "quiz",
+  "Exercices": "exercices",
+  "Cours": "cours",
+  "Score": "score",
+  "Tentatives": "tentatives_2",
+  "Statut": "statut",
+  "Action": "action",
+  "Vous n'avez encore passé aucun quiz.": "vous_n_avez_encore_passe_aucun_quiz",
+  "Aucun exercice soumis pour l'instant.": "aucun_exercice_soumis_pour_l_instant"
+}

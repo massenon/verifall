@@ -1,0 +1,17 @@
+/*
+ | user-mes-verifications — bloc <style> de compte-user/mes-verifications.html, repris VERBATIM.
+ |
+ | Le prototype declare ces regles EN LIGNE dans sa page. L'extraction du shell
+ | ne prend que le balisage : sans ce fichier, les classes ci-dessous n'ont
+ | aucun effet et la page sort sans ses pastilles, ses cartes ou ses badges.
+ |
+ | Charge par la vue via @push('styles'), donc APRES tailwind.css — la place
+ | qu'occupe le bloc dans le prototype, et d'ou il tire sa specificite.
+ |
+ | Une feuille PAR PAGE et non un fichier commun : deux pages definissent
+ | `.hub-pill` et `.no-scrollbar` differemment, un fichier unique en ecraserait
+ | une.
+ */
+
+.icon-act{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:.5rem;color:#64748B}.icon-act:hover{background:#F6F8F7;color:#111827}
+.vchip{display:inline-flex;align-items:center;min-height:44px;padding:0 1rem;border-radius:999px;border:1px solid var(--vf-line);background:#fff;font-size:.8rem;font-weight:600;color:#64748B;white-space:nowrap}.vchip.is-active{background:#063B2A;border-color:#063B2A;color:#fff}.no-scrollbar{scrollbar-width:none}.no-scrollbar::-webkit-scrollbar{display:none}

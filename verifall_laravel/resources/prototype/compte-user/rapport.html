@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rapport de vérification — Vérif'All</title>
+<meta name="description" content="Rapport premium : verdict, indice de fiabilité, Hate Speech Indicator, analyse éditoriale, sources croisées et moteurs IA.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/mes-verifications.html">
+<meta property="og:title" content="Rapport de vérification — Vérif'All">
+<meta property="og:description" content="Rapport premium : verdict, indice de fiabilité, Hate Speech Indicator, analyse éditoriale, sources croisées et moteurs IA.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link is-active" href="mes-verifications.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="max-w-5xl mx-auto">
+    <div class="flex items-center justify-between gap-3 mb-4 no-print">
+      <a href="mes-verifications.html" class="inline-flex items-center gap-1 text-sm font-bold text-ink hover:text-primary">&larr; Retour à l'historique</a>
+      <div class="flex gap-2">
+        <button type="button" class="inline-flex items-center gap-1.5 rounded-xl border border-line bg-surface text-sm font-semibold text-ink px-4 py-2 hover:bg-canvas" onclick="window.print()"><span class="material-symbols-rounded !text-[17px]" aria-hidden="true">picture_as_pdf</span> PDF</button>
+        <button type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-4 py-2 hover:bg-primary-dark" data-share><span class="material-symbols-rounded !text-[17px]" aria-hidden="true">share</span> Partager</button>
+      </div>
+    </div>
+
+    <!-- HERO VERDICT -->
+    <div class="card p-8 sm:p-10 text-center mb-4" data-hero>
+      <span class="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4" data-hero-icon></span>
+      <p class="mb-3"><span class="inline-flex rounded-full text-white text-xs font-bold tracking-[.12em] px-4 py-1.5" data-hero-badge>VERDICT</span></p>
+      <h1 class="text-xl sm:text-2xl font-display font-bold text-ink mb-3" data-r-title>—</h1>
+      <p class="inline-flex items-center gap-1.5 rounded-full bg-canvas border border-line text-sm font-semibold text-ink px-4 py-2 mb-5" data-hero-line>—</p>
+      <div class="max-w-md mx-auto">
+        <div class="flex items-center justify-between text-sm mb-1.5"><span class="text-slate2">Indice de fiabilité</span><strong data-r-conf>—</strong></div>
+        <div class="progress"><span data-r-confbar style="width:0%"></span></div>
+      </div>
+      <p class="text-xs text-slate2 mt-5 mb-0"><span data-r-date>—</span> · <span data-r-type>—</span> · Réf. <span class="font-mono font-bold" data-r-ref>—</span></p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-4 items-start">
+      <div class="lg:col-span-2 space-y-4">
+        <div class="card p-6">
+          <h2 class="text-sm font-display font-bold text-ink mb-2">📥 Votre contenu soumis</h2>
+          <blockquote class="rounded-xl bg-canvas border border-line p-4 text-sm text-slate2 mb-0" style="font-style:italic">« <span data-r-quote>—</span> »</blockquote>
+        </div>
+
+        <div class="card p-6 !border-vfalse/40 bg-vfalse/5">
+          <div class="flex items-center justify-between gap-2 mb-2">
+            <h2 class="text-sm font-display font-bold text-vfalse mb-0">🛡️ Hate Speech Indicator</h2>
+            <span class="vbadge vbadge-false">CONFORME / NEUTRAL INDEX</span>
+          </div>
+          <p class="text-sm text-slate2 mb-2">Hate Speech Index (HSI) : <strong class="text-vtrue">0 %</strong> — l'analyse sémantique n'a détecté aucun signal de rhétorique hostile, de ciblage discriminatoire ou de langage déshumanisant envers un groupe protégé.</p>
+          <p class="text-xs text-slate2 mb-0">🔒 Privacy Protected : zéro auteur data, stateless by default. L'analyse porte uniquement sur le contenu, jamais sur la personne.</p>
+        </div>
+
+        <div class="card p-6">
+          <h2 class="text-sm font-display font-bold text-ink mb-3">💡 Pourquoi ce résultat ?</h2>
+          <p class="text-sm text-slate2 mb-3"><strong class="text-ink">Note d'analyse</strong> — l'analyse technique a abouti à un verdict de <strong data-r-verdict-word>—</strong> avec un score de <strong data-r-conf2>—</strong>.</p>
+          <p class="text-xs font-bold text-slate2 uppercase tracking-wide mb-1.5">Synthèse de l'analyse</p>
+          <pre class="rounded-xl bg-ink text-white text-xs p-4 overflow-x-auto mb-0"><code data-r-json>{}</code></pre>
+        </div>
+
+        <!-- RAPPORT ÉDITORIAL PREMIUM -->
+        <article class="card p-6 sm:p-8">
+          <p class="text-xs font-bold tracking-[.14em] text-primary uppercase mb-1">🕵️ Vérif'All — Rapport de vérification premium</p>
+          <p class="text-xs text-slate2 mb-5">Rédacteur en Chef : Direction de la Rédaction, Vérif'All · <span data-r-date2>—</span></p>
+          <div class="space-y-5 text-sm leading-relaxed" data-r-editorial></div>
+        </article>
+
+        <!-- MODÈLES IA -->
+        <div class="card p-6">
+          <h2 class="text-sm font-display font-bold text-ink mb-4">🤖 Moteurs d'analyse mobilisés</h2>
+          <div class="space-y-3" data-r-models></div>
+        </div>
+      </div>
+
+      <aside class="space-y-4">
+        <div class="card p-5">
+          <h2 class="text-sm font-display font-bold text-ink mb-3">🔍 Sources et preuves consultées</h2>
+          <div class="space-y-2.5" data-r-sources></div>
+        </div>
+        <div class="card p-5 bg-canvas">
+          <h2 class="text-sm font-display font-bold text-ink mb-1.5">ℹ️ Avertissement sur l'usage de l'IA</h2>
+          <p class="text-xs text-slate2 mb-0">Ce rapport est généré par un orchestrateur d'IA croisant recherche web et bases de fact-checking. Vérif'All décline toute responsabilité en cas d'erreur d'interprétation : en cas de doute majeur, demandez une contre-expertise humaine.</p>
+        </div>
+        <div class="card p-5">
+          <h2 class="text-sm font-display font-bold text-ink mb-1.5">Ce verdict ne vous semble pas correct ?</h2>
+          <p class="text-xs text-slate2 mb-3">Demandez une contre-expertise par nos journalistes fact-checking.</p>
+          <button type="button" class="w-full rounded-xl bg-ink text-white text-sm font-semibold px-4 py-2.5 hover:opacity-90" data-modal-open="modal-contest">Demander un expert</button>
+        </div>
+        <div class="card p-5">
+          <h2 class="text-sm font-display font-bold text-ink mb-3">Ce rapport vous a-t-il été utile ?</h2>
+          <div class="grid grid-cols-2 gap-2">
+            <button type="button" class="rounded-xl border border-primary text-primary text-sm font-semibold px-3 py-2.5 hover:bg-primary hover:text-white transition-colors" data-vote="up">👍 Oui, tout à fait</button>
+            <button type="button" class="rounded-xl border border-line text-ink text-sm font-semibold px-3 py-2.5 hover:bg-canvas" data-vote="down">👎 Non, pas vraiment</button>
+          </div>
+        </div>
+        <div class="card p-5">
+          <h2 class="text-sm font-display font-bold text-ink mb-1.5">📣 Diffuser la vérité</h2>
+          <p class="text-xs text-slate2 mb-3">Partagez ce rapport pour stopper la propagation de cette rumeur.</p>
+          <button type="button" class="w-full rounded-xl bg-[#25D366] text-white text-sm font-semibold px-4 py-2.5 mb-2 hover:opacity-90" data-share-wa>WhatsApp</button>
+          <button type="button" class="w-full rounded-xl border border-line text-ink text-sm font-semibold px-4 py-2.5 hover:bg-canvas" data-share>Partager le lien</button>
+        </div>
+        <div class="card p-6 bg-forest !border-forest text-white">
+          <span class="inline-flex rounded-full bg-primary text-white text-[10px] font-bold tracking-[.14em] px-2.5 py-1 mb-3">ACADÉMIE</span>
+          <h2 class="text-base font-display font-bold mb-1.5">Devenez fact-checker certifié</h2>
+          <p class="text-sm text-white/70 mb-4">Apprenez à débusquer les pièges du web avec nos formations gratuites.</p>
+          <a href="catalogue.html" class="inline-flex rounded-xl bg-white text-ink text-sm font-semibold px-5 py-2.5 hover:opacity-90">Commencer</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-contest">
+    <div class="modal p-6" role="dialog" aria-modal="true" aria-labelledby="contest-title">
+      <h2 id="contest-title" class="text-lg font-display font-bold text-ink mb-1">Demander une contre-expertise</h2>
+      <p class="text-sm text-slate2 mb-4">Vous pensez que le résultat mérite une nouvelle analyse ? Expliquez brièvement pourquoi.</p>
+      <div class="rich-area mb-4">
+        <div class="rich-toolbar"><button type="button" data-cmd="bold" aria-label="Gras"><strong>B</strong></button><button type="button" data-cmd="italic" aria-label="Italique"><em>I</em></button></div>
+        <div class="rich-editor" contenteditable="true" data-placeholder="Votre argumentaire (20 caractères minimum)…"></div>
+      </div>
+      <div class="flex gap-2 justify-end">
+        <button type="button" class="rounded-xl px-4 py-2.5 text-sm font-semibold text-slate2 hover:bg-canvas" data-modal-close>Annuler</button>
+        <button type="button" class="rounded-xl bg-primary text-white px-5 py-2.5 text-sm font-semibold hover:bg-primary-dark" data-contest-send>Envoyer la demande</button>
+      </div>
+    </div>
+  </div>
+<script>
+window.VFPage = function (VF, S) {
+  var uuid = new URLSearchParams(location.search).get('u');
+  var v = uuid && S.verification(uuid);
+  if (!v) { location.replace('mes-verifications.html'); return; }
+  if (v.status !== 'COMPLETED') { location.replace('verification-en-cours.html?u=' + uuid); return; }
+  if (new URLSearchParams(location.search).get('print') === '1') {
+    setTimeout(function () { window.print(); }, 700);
+  }
+  function esc(x) { return String(x).replace(/</g, '&lt;'); }
+
+  var THEME = {
+    'VRAI': { badge: 'VERDICT : INFORMATION FIABLE', color: '#16A34A', soft: 'rgba(22,163,74,.12)', icon: 'check', line: '✓ Ce contenu a été confirmé comme authentique.', word: 'Information Fiable' },
+    'FAUX': { badge: 'VERDICT : FAKE NEWS DÉTECTÉE', color: '#DC2626', soft: 'rgba(220,38,38,.12)', icon: 'close', line: '✕ Ce contenu a été identifié comme faux — ne le partagez pas.', word: 'Fake News' },
+    'TROMPEUR': { badge: 'VERDICT : CONTENU TROMPEUR', color: '#D6A419', soft: 'rgba(214,164,25,.15)', icon: 'priority_high', line: '⚠ Contenu authentique mais sorti de son contexte.', word: 'Contenu Trompeur' }
+  };
+  var t = THEME[v.verdict] || THEME['TROMPEUR'];
+
+  document.querySelector('[data-hero-icon]').style.background = t.soft;
+  document.querySelector('[data-hero-icon]').innerHTML = '<span class="material-symbols-rounded !text-[34px]" style="color:' + t.color + '">' + t.icon + '</span>';
+  var badge = document.querySelector('[data-hero-badge]');
+  badge.textContent = t.badge; badge.style.background = t.color;
+  document.querySelector('[data-r-title]').textContent = v.title;
+  document.querySelector('[data-hero-line]').textContent = t.line;
+  document.querySelector('[data-r-conf]').textContent = v.confidence + ' %';
+  document.querySelector('[data-r-conf2]').textContent = v.confidence + ' %';
+  var cb = document.querySelector('[data-r-confbar]');
+  cb.style.width = v.confidence + '%'; cb.style.background = t.color;
+  document.querySelector('[data-r-date]').textContent = v.date;
+  document.querySelector('[data-r-date2]').textContent = 'Date de publication : ' + v.date;
+  document.querySelector('[data-r-type]').textContent = v.type;
+  document.querySelector('[data-r-ref]').textContent = uuid;
+  document.querySelector('[data-r-quote]').textContent = v.title;
+  document.querySelector('[data-r-verdict-word]').textContent = t.word;
+  document.querySelector('[data-r-json]').textContent = JSON.stringify({ final_verdict: v.verdict.toLowerCase(), confidence: v.confidence, hsi: 0 }, null, 1);
+
+  /* Rapport éditorial par verdict */
+  var ED = {
+    'VRAI': [
+      ['1. L\'évaluation initiale & contexte', 'Le sujet de notre analyse concerne une affirmation récurrente sur les réseaux sociaux et les médias : <strong>' + esc(v.title) + '</strong>. Le verdict de la rédaction : <strong style="color:#16A34A">VRAI</strong> — les faits annoncés sont confirmés par des sources primaires concordantes, avec un indice de confiance de ' + v.confidence + ' %.'],
+      ['2. Les faits : de quoi parle-t-on exactement ?', 'Nos équipes ont remonté la chaîne de l\'information jusqu\'à sa source primaire. La communication initiale est authentique, datée et attribuable. Il convient néanmoins de distinguer la communication officielle de son interprétation par les relais qui l\'amplifient.'],
+      ['3. Analyse & décryptage', 'Le recoupement multi-sources (agences de presse, canaux officiels, bases de fact-checking) confirme la cohérence des éléments. Aucun signal de manipulation, de montage ou de sortie de contexte n\'a été détecté par nos moteurs.'],
+      ['4. Vigilance', 'La prudence reste de mise : une information vraie aujourd\'hui peut être recyclée demain dans un autre contexte. Vérifiez toujours la date avant de repartager.'],
+      ['5. Conclusion du rédacteur en chef', 'L\'affirmation est <strong>VRAIE</strong> sur le plan factuel. La rigueur journalistique impose toutefois de citer la source primaire à chaque partage.']
+    ],
+    'FAUX': [
+      ['1. L\'évaluation initiale & contexte', 'Le contenu analysé — <strong>' + esc(v.title) + '</strong> — présente les marqueurs classiques de la désinformation : absence de source primaire, urgence artificielle et circuit de diffusion non officiel. Verdict de la rédaction : <strong style="color:#DC2626">FAUX</strong> (confiance ' + v.confidence + ' %).'],
+      ['2. Les faits : de quoi parle-t-on exactement ?', 'Aucune trace de cette annonce n\'existe sur les canaux officiels concernés. Les premières occurrences remontent à des comptes récents sans historique, un schéma typique des campagnes de fake news.'],
+      ['3. Analyse & décryptage', 'Le croisement avec les bases de fact-checking retrouve des variantes déjà démenties du même récit. Les éléments visuels associés proviennent de contextes antérieurs sans lien avec les faits allégués.'],
+      ['4. Impact & vigilance', 'Ce type de contenu vise souvent à provoquer un partage émotionnel immédiat, voire à collecter des données ou de l\'argent (« frais de dossier »). Ne partagez pas, signalez.'],
+      ['5. Conclusion du rédacteur en chef', 'L\'affirmation est <strong>FAUSSE</strong>. Tout partage contribuerait à la propagation d\'une rumeur infondée : diffusez plutôt ce rapport.']
+    ],
+    'TROMPEUR': [
+      ['1. L\'évaluation initiale & contexte', 'Le contenu — <strong>' + esc(v.title) + '</strong> — mélange des éléments authentiques et un cadrage inexact. Verdict de la rédaction : <strong style="color:#D6A419">TROMPEUR</strong> (confiance ' + v.confidence + ' %).'],
+      ['2. Les faits : de quoi parle-t-on exactement ?', 'Le matériau d\'origine est réel, mais il est présenté hors de son contexte initial : autre date, autre lieu ou autre sujet. C\'est la forme de manipulation la plus difficile à détecter.'],
+      ['3. Analyse & décryptage', 'La recherche d\'antériorité situe la première publication du contenu original dans un contexte différent de celui affirmé. Le sens produit par le nouveau cadrage ne correspond pas aux faits.'],
+      ['4. Vigilance', 'Avant de partager un contenu « choc », posez la question du quand et du où : un contenu vrai déplacé dans le temps devient un vecteur de désinformation.'],
+      ['5. Conclusion du rédacteur en chef', 'Contenu authentique, cadrage <strong>TROMPEUR</strong> : ne partagez pas sans rétablir le contexte d\'origine documenté dans ce rapport.']
+    ]
+  };
+  document.querySelector('[data-r-editorial]').innerHTML = (ED[v.verdict] || ED['TROMPEUR']).map(function (sec) {
+    return '<section><h3 class="text-sm font-display font-bold text-ink uppercase tracking-wide mb-1.5">' + sec[0] + '</h3><p class="text-slate2 mb-0">' + sec[1] + '</p></section>';
+  }).join('');
+
+  /* Sources consultées */
+  var SOURCES = [
+    ['AFP', 'Agence France-Presse', 'https://www.afp.com'],
+    ['AFP Factuel', 'Cellule fact-checking AFP', 'https://factuel.afp.com'],
+    ['France 24 — Info ou Intox', 'Émission de vérification', 'https://www.france24.com'],
+    ['Ministère de la Santé — Bénin', 'Officiel · sante.gouv.bj', 'https://sante.gouv.bj'],
+    ['Inserm — Canal Détox', 'Institut de recherche', 'https://www.inserm.fr']
+  ];
+  document.querySelector('[data-r-sources]').innerHTML = SOURCES.map(function (src) {
+    return '<a href="' + src[2] + '" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 rounded-xl border border-vinvest/40 bg-vinvest/5 p-3 hover:border-vinvest">'
+      + '<span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-white border border-line shrink-0"><span class="material-symbols-rounded !text-[18px] text-slate2">public</span></span>'
+      + '<span class="min-w-0 flex-1"><span class="block text-sm font-bold text-ink truncate">' + src[0] + '</span><span class="block text-xs text-slate2 truncate">' + src[1] + '</span></span>'
+      + '<span class="text-xs font-bold text-vinvest shrink-0">Consulter ↗</span></a>';
+  }).join('');
+
+  /* Moteurs IA */
+  var MODELS = [
+    ['GPT-4 Web Search', 'Moteur de recherche web temps réel.', 0, true],
+    ['Gemini Analyse Sémantique', 'Détection des anomalies sémantiques et du cadrage.', 20, true],
+    ['Winston AI (Fact-Checking Textuel)', 'Score de plausibilité textuelle.', 0, false],
+    ['Google Fact Check DB', 'Base mondiale des vérifications publiées.', 10, true],
+    ['DeepSeek V4 (Analyse Logique)', 'Cohérence logique des affirmations.', 0, false]
+  ];
+  document.querySelector('[data-r-models]').innerHTML = MODELS.map(function (m) {
+    return '<div class="flex items-start gap-3 rounded-xl border border-line p-3.5">'
+      + '<span class="inline-flex w-2.5 h-2.5 rounded-full mt-1.5 shrink-0" style="background:' + (m[3] ? '#16A34A' : '#DC2626') + '"></span>'
+      + '<div class="min-w-0 flex-1"><p class="text-sm font-bold text-ink mb-0.5">' + m[0] + '</p><p class="text-xs text-slate2 mb-0">' + m[1] + (m[3] ? '' : ' <em>(indisponible lors de cette analyse)</em>') + '</p></div>'
+      + '<span class="text-xs font-bold ' + (m[2] > 0 ? 'text-vinvest' : 'text-slate2') + ' shrink-0">Score de haine : ' + m[2] + ' %</span></div>';
+  }).join('');
+
+  /* Actions */
+  function shareLink() { return 'https://verifall.com/compte-user/rapport.html?u=' + uuid; }
+  document.querySelectorAll('[data-share]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var text = 'Vérifié par Vérif\'All — verdict ' + v.verdict + ' (' + v.confidence + ' %) : ' + v.title;
+      if (navigator.share) navigator.share({ title: 'Rapport Vérif\'All', text: text, url: shareLink() }).catch(function () {});
+      else if (navigator.clipboard) { navigator.clipboard.writeText(text + ' ' + shareLink()); VF.toast('Message + lien copiés.'); }
+    });
+  });
+  document.querySelector('[data-share-wa]').addEventListener('click', function () {
+    var msg = encodeURIComponent('Vérifié par Vérif\'All — verdict ' + v.verdict + ' : ' + v.title + ' ' + shareLink());
+    window.open('https://wa.me/?text=' + msg, '_blank', 'noopener');
+  });
+  document.querySelectorAll('[data-vote]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('[data-vote]').forEach(function (x) { x.disabled = true; x.classList.add('opacity-50'); });
+      VF.toast(b.getAttribute('data-vote') === 'up' ? 'Merci pour votre retour ! 💚' : 'Merci — votre retour aide nos équipes à s\'améliorer.');
+    });
+  });
+  document.querySelector('[data-contest-send]').addEventListener('click', function () {
+    var text = document.querySelector('#modal-contest .rich-editor').textContent.trim();
+    if (text.length < 20) { VF.toast('Détaillez votre contestation (20 caractères minimum).', 'danger'); return; }
+    VF.closeModal('modal-contest');
+    S.notify('verif', 'flag', 'Contre-expertise demandée — un journaliste examinera votre dossier sous 2 à 6 h.', '');
+    VF.render();
+    VF.toast('Demande transmise à nos journalistes fact-checking.');
+  });
+};
+</script>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

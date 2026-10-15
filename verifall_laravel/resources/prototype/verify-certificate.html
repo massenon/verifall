@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vérifier un certificat — Vérif'All</title>
+<meta name="description" content="Vérifiez publiquement l'authenticité d'un certificat Vérif'All grâce à son identifiant unique et sa signature numérique.">
+<link rel="canonical" href="https://verifall.com/verify-certificate.html">
+<meta property="og:title" content="Vérifier un certificat — Vérif'All">
+<meta property="og:description" content="Vérification publique de l'authenticité des certificats Vérif'All.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://verifall.com/verify-certificate.html">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="images/favicon.png">
+<link rel="stylesheet" href="css/fonts/fonts.css">
+<link rel="stylesheet" href="css/tailwind.css">
+</head>
+<body class="font-sans bg-[#F6F8F7] text-slate2 antialiased min-h-screen flex flex-col">
+<header class="bg-white border-b border-line">
+  <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
+    <a href="index.html"><img src="images/logo.png" alt="Vérif'All" class="h-9 w-auto" width="171" height="60"></a>
+    <a href="connexion.html" class="text-sm font-semibold text-ink hover:text-primary">Se connecter</a>
+  </div>
+</header>
+<main class="flex-1 max-w-xl w-full mx-auto px-4 py-12">
+  <h1 class="text-2xl md:text-3xl font-display font-bold text-ink text-center mb-2">Vérifier un certificat</h1>
+  <p class="text-sm text-center mb-8">Chaque certificat Vérif'All porte un identifiant unique et une signature numérique. Entrez l'identifiant (ex. VERIF-A-XXXX-XXXX) pour contrôler son authenticité.</p>
+  <form class="bg-white border border-line rounded-2xl p-6 shadow-sm" data-verify-form>
+    <label for="cert-id" class="block text-sm font-semibold text-ink mb-2">Identifiant du certificat</label>
+    <input id="cert-id" type="text" placeholder="VERIF-A-1B2C-3D4E" autocomplete="off"
+           class="w-full border border-line rounded-xl px-4 py-3 font-mono text-ink outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 uppercase">
+    <button type="submit" class="mt-4 w-full rounded-xl bg-primary text-white font-semibold py-3 hover:bg-primary-dark">Vérifier l'authenticité</button>
+  </form>
+  <div class="hidden mt-6 bg-white border-2 rounded-2xl p-6 text-center" data-result></div>
+</main>
+<footer class="py-6 text-center text-xs text-slate2">© 2025 Vérif'All. Tous droits réservés. · <a href="index.html" class="text-primary font-semibold">verifall.com</a></footer>
+<script>
+(function () {
+  'use strict';
+  var KEY = 'verifall:citizen:v1';
+  var COURSE_NAMES = { 'A': "Introduction au fact-checking — CLOM Vérif'All", 'B': 'OSINT Fondamentaux — Enquêter en sources ouvertes', 'C': 'Détection des Deepfakes & contenus IA' };
+  function lookup(id) {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (!raw) return null;
+      var st = JSON.parse(raw);
+      for (var cid in st.courses) {
+        if (st.courses[cid].certId === id) {
+          return { course: COURSE_NAMES[cid] || cid, date: new Date(st.courses[cid].certifiedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) };
+        }
+      }
+    } catch (e) { /* stockage indisponible */ }
+    return null;
+  }
+  var form = document.querySelector('[data-verify-form]');
+  var box = document.querySelector('[data-result]');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var id = document.getElementById('cert-id').value.trim().toUpperCase();
+    if (!/^VERIF-[A-Z0-9]+-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(id)) {
+      box.className = 'mt-6 bg-white border-2 border-amber-300 rounded-2xl p-6 text-center';
+      box.innerHTML = '<p class="text-sm text-ink mb-0">Format d\'identifiant invalide. Il ressemble à <strong class="font-mono">VERIF-A-1B2C-3D4E</strong>.</p>';
+      box.classList.remove('hidden');
+      return;
+    }
+    var found = lookup(id);
+    if (found) {
+      box.className = 'mt-6 bg-white border-2 border-primary rounded-2xl p-6 text-center';
+      box.innerHTML = '<p class="text-4xl mb-2">✅</p><h2 class="text-lg font-display font-bold text-ink mb-1">Certificat authentique</h2>'
+        + '<p class="text-sm mb-4">Signature numérique : <strong class="text-primary">✓ Valide (RSA-SHA256)</strong></p>'
+        + '<dl class="text-sm text-left max-w-xs mx-auto space-y-1.5">'
+        + '<div class="flex justify-between gap-4"><dt class="text-slate2">Titulaire</dt><dd class="font-semibold text-ink">Adderly D.</dd></div>'
+        + '<div class="flex justify-between gap-4"><dt class="text-slate2">Cours</dt><dd class="font-semibold text-ink text-right">' + found.course + '</dd></div>'
+        + '<div class="flex justify-between gap-4"><dt class="text-slate2">Émis le</dt><dd class="font-semibold text-ink">' + found.date + '</dd></div>'
+        + '<div class="flex justify-between gap-4"><dt class="text-slate2">Identifiant</dt><dd class="font-mono text-ink">' + id + '</dd></div></dl>';
+    } else {
+      box.className = 'mt-6 bg-white border-2 border-red-300 rounded-2xl p-6 text-center';
+      box.innerHTML = '<p class="text-4xl mb-2">❌</p><h2 class="text-lg font-display font-bold text-ink mb-1">Certificat introuvable</h2>'
+        + '<p class="text-sm mb-0">Aucun certificat ne correspond à l\'identifiant <strong class="font-mono">' + id.replace(/</g, '&lt;') + '</strong>. Vérifiez la saisie — ou méfiez-vous d\'un document falsifié.</p>';
+    }
+    box.classList.remove('hidden');
+  });
+})();
+</script>
+</body>
+</html>

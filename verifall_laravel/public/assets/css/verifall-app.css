@@ -1,0 +1,411 @@
+/* ==========================================================================
+   verifall-app.css — couche applicative, chargée APRÈS tailwind.css
+   --------------------------------------------------------------------------
+   Cette feuille n'existe que pour ce que le prototype ne pouvait pas porter :
+   il décrivait des composants isolés, l'application les empile et les pilote.
+   Elle n'ANNULE aucune règle du prototype ; elle complète. Toute déclaration
+   qui redéfinirait une couleur, un rayon ou une typographie du design system
+   serait un redesign déguisé et n'a rien à faire ici.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- toasts --
+   Le prototype positionne chaque .vf-toast / .st-toast en `fixed` : deux
+   toasts simultanés se superposeraient exactement. On neutralise donc le
+   positionnement individuel au profit d'un hôte qui les empile.
+
+   Position : celle du PROTOTYPE, par arbitrage explicite — elle diffère selon
+   l'espace, et c'est voulu.
+     · citoyen ... haut-droite  (.vf-toast : top 1rem / right 1rem, z-index 9999)
+     · staff ..... bas-droite   (.st-toast : bottom 1.2rem / right 1.2rem)
+                   et bas-centre sous 640 px, comme le fait le prototype.
+   TOAST_INSTRUCTION demandait bas-droite partout ; le design system du
+   prototype l'emporte, conformément à la règle « on transpose, on n'invente
+   pas ». L'hôte est donc positionné par variante, jamais globalement.
+   -------------------------------------------------------------------------- */
+.vf-toast-host {
+    position: fixed;
+    display: flex;
+    gap: .6rem;
+    /* L'hôte ne doit jamais intercepter un clic destiné à la page. */
+    pointer-events: none;
+}
+
+/* Citoyen : haut-droite. Le z-index du prototype passe DEVANT l'en-tête fixe
+   (z-40) — un toast qui se glisserait dessous serait invisible. */
+.vf-toast-host[data-toast-variant="citizen"] {
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    /* Empilement vers le bas : le dernier arrivé se place en haut, au plus
+       près du coin d'où la pile grandit. */
+    flex-direction: column-reverse;
+}
+
+.vf-toast-host[data-toast-variant="staff"] {
+    bottom: 1.2rem;
+    right: 1.2rem;
+    z-index: 95;
+    /* Ancré en bas : le dernier arrivé est là encore le plus proche du coin. */
+    flex-direction: column;
+}
+
+.vf-toast-host > * {
+    pointer-events: auto;
+}
+
+/* Les toasts redeviennent des éléments de flux dans l'hôte. */
+.vf-toast-host .vf-toast,
+.vf-toast-host .st-toast {
+    position: static;
+    inset: auto;
+    opacity: 0;
+    transition: opacity .2s ease, transform .2s ease;
+}
+
+/* L'entrée vient du bord dont le toast est issu : glisser vers le haut quand
+   on est ancré en haut donnerait l'impression que le toast s'échappe. */
+.vf-toast-host[data-toast-variant="citizen"] .vf-toast {
+    transform: translateY(-8px);
+}
+
+.vf-toast-host[data-toast-variant="staff"] .st-toast {
+    transform: translateY(8px);
+}
+
+.vf-toast-host .vf-toast.is-on,
+.vf-toast-host .st-toast.is-on {
+    opacity: 1;
+    transform: none;
+}
+
+.vf-toast-undo {
+    margin-left: .6rem;
+    font-weight: 700;
+    text-decoration: underline;
+    white-space: nowrap;
+    /* Cible tactile : 44 px de haut minimum (WCAG 2.2 AA). */
+    min-height: 44px;
+    padding-inline: .25rem;
+}
+
+@media (max-width: 640px) {
+    /* Le prototype recentre le toast staff sous 640 px : on reprend le même
+       repli. Le toast citoyen, lui, reste au coin — le prototype ne le déplace
+       pas. On borne seulement sa largeur : à 340 px fixes il débordait
+       horizontalement sur les écrans les plus étroits. */
+    .vf-toast-host[data-toast-variant="staff"] {
+        right: 50%;
+        transform: translateX(50%);
+        align-items: center;
+    }
+
+    .vf-toast-host[data-toast-variant="citizen"] .vf-toast {
+        max-width: calc(100vw - 2rem);
+    }
+}
+
+/* Aucun mouvement pour qui n'en veut pas. */
+@media (prefers-reduced-motion: reduce) {
+    .vf-toast-host .vf-toast,
+    .vf-toast-host .st-toast {
+        transition: none;
+        transform: none;
+    }
+}
+
+/* ------------------------------------------------------- accordéon KPI ----
+   Exigence PAGES_KPIS_UX_MOBILE_DESKTOP : les KPI se replient sur TÉLÉPHONE
+   (< 768 px) et restent déployés au-delà. Le bouton n'existe qu'en mobile.
+
+   UN SEUL SEUIL, CELUI DE `citizen.css` (767/768 px). Cette feuille disait
+   « jusqu'à 1024 px » pendant que `citizen.css` — chargée avant, sur les
+   shells citoyen ET staff — masquait le bouton dès 768 px avec un sélecteur
+   plus spécifique (`[data-kpi-accordion] .kpi-toggle`, 0-2-0, contre
+   `.kpi-toggle`, 0-1-0). Entre 768 et 1023 px : plus de bouton, et une grille
+   repliée faute d'`is-open`. Aucun indicateur visible, sur tous les écrans qui
+   emploient l'accordéon (constaté au navigateur le 14/09/2026).
+
+   Les deux feuilles disent désormais la même chose ; les sélecteurs sont à
+   0-2-0 pour l'emporter sur `.grid` du build figé quel que soit l'ordre.
+   -------------------------------------------------------------------------- */
+@media (max-width: 767px) {
+    [data-kpi-accordion] .kpi-toggle {
+        display: flex;
+    }
+
+    [data-kpi-accordion] .kpi-grid {
+        display: none;
+    }
+
+    [data-kpi-accordion].is-open .kpi-grid {
+        display: grid;
+    }
+}
+
+@media (min-width: 768px) {
+    [data-kpi-accordion] .kpi-toggle {
+        display: none;
+    }
+
+    /* Tablette et desktop : la grille est visible quel que soit l'état de
+       l'accordéon (2 colonnes jusqu'à lg, puis celles du composant). */
+    [data-kpi-accordion] .kpi-grid {
+        display: grid;
+    }
+}
+
+[data-kpi-accordion].is-open .kpi-toggle .material-symbols-rounded {
+    transform: rotate(180deg);
+}
+
+/* Écart entre indicateurs du back-office : celui du tableau de bord refondu
+   (`pages/staff-tableau-de-bord.css`, `.tdb-grid`) — 16 px, puis 20 px dès que
+   `.tdb` atteint 900 px de large.
+
+   Seuil de FENÊTRE et non de conteneur, à dessein : la plupart des écrans
+   enveloppent leur contenu dans `p-6 lg:p-8`, 64 px de moins que `.tdb`. Une
+   requête sur la section passerait donc à 20 px plus tard qu'au tableau de
+   bord, et à des largeurs différentes d'un écran à l'autre. Au-delà de 1024 px
+   la barre latérale est fixe, la largeur utile suit la fenêtre : `.tdb` mesure
+   900 px pour une fenêtre de 1 240 px environ (941 px mesurés à 1 280).
+   Variante staff seule, le design system citoyen garde son `gap-4`. */
+@media (min-width: 1240px) {
+    [data-kpi-accordion][data-kpi-variant="staff"] > .kpi-grid {
+        gap: 1.25rem;
+    }
+}
+
+/* ------------------------------------------------------- visite guidée ----
+   Spotlight maison : on assombrit la page et l'on découpe une fenêtre autour
+   de la cible via clip-path. Aucune bibliothèque, aucun calcul de masque
+   complexe — et la cible reste réellement visible, pas une copie.
+   -------------------------------------------------------------------------- */
+.vf-tour-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    background: rgba(15, 23, 42, .68);
+    clip-path: var(--vf-tour-clip, none);
+    /* Le fond ne capte pas les clics : on ne veut pas donner l'impression
+       d'une page gelée, seulement la mettre en retrait. */
+    pointer-events: none;
+}
+
+.vf-tour-bubble {
+    position: fixed;
+    z-index: 121;
+    width: min(340px, calc(100vw - 2rem));
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 3rem rgba(15, 23, 42, .28);
+    padding: 1.15rem 1.25rem;
+}
+
+.vf-tour-step {
+    margin: 0 0 .35rem;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: #09B850;
+}
+
+.vf-tour-bubble h3 {
+    margin: 0 0 .4rem;
+    font-family: 'Instrument Sans', 'Inter', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1A2233;
+}
+
+.vf-tour-text {
+    margin: 0 0 1rem;
+    font-size: .875rem;
+    line-height: 1.55;
+    color: #6B7686;
+}
+
+.vf-tour-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .5rem;
+}
+
+.vf-tour-actions button {
+    /* Cible tactile de 44 px, y compris pour « Passer » : l'action de sortie
+       ne doit pas être plus difficile à atteindre que celle qui poursuit. */
+    min-height: 44px;
+    padding: 0 .9rem;
+    border-radius: .625rem;
+    font-size: .875rem;
+    font-weight: 600;
+}
+
+.vf-tour-prev { margin-right: auto; color: #6B7686; }
+.vf-tour-skip { color: #6B7686; }
+.vf-tour-next { background: #09B850; color: #fff; }
+.vf-tour-next:hover { background: #078a3d; }
+.vf-tour-actions button:focus-visible { outline: 3px solid #1A2233; outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+    .vf-tour-backdrop { transition: none; }
+}
+
+/* ==========================================================================
+   Entrée de menu ANNONCÉE mais pas encore ouverte
+   --------------------------------------------------------------------------
+   « Portails officiels » figure dans le menu du compte avant que la rubrique
+   ne soit ouverte : le porteur du projet veut annoncer ce qui vient sans le
+   rendre cliquable. Une case des réglages (`hub_portals_actif`) l'ouvre, et
+   la route rend 404 tant qu'elle est fermée.
+
+   Le même motif existe côté back-office (`staff.css`, `.sidebar-link.is-a-venir`)
+   — mais `staff.css` n'est pas chargé sur les pages citoyennes, et la classe y
+   serait donc sans le moindre effet.
+
+   `pointer-events: none` ET l'absence de `href` : la première empêche le clic,
+   la seconde sort l'élément du parcours au clavier. Une seule des deux
+   laisserait la tabulation s'arrêter sur un lien qui ne mène nulle part.
+   ========================================================================== */
+.user-menu-link.is-a-venir {
+  opacity: .45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.user-menu-link .st-a-venir,
+.user-menu-link .vf-bientot {
+  margin-left: auto;
+  flex: none;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--c-slate);
+  border: 1px solid var(--c-line);
+  border-radius: 999px;
+  padding: .1rem .4rem;
+}
+
+/* ==========================================================================
+   Type de contenu momentanément fermé
+   --------------------------------------------------------------------------
+   Vidéo et audio dépendent d'un moteur de transcription, et aucun fournisseur
+   n'est souscrit. Le bouton reste VISIBLE — le retirer laisserait croire que
+   la plateforme n'analyse pas la vidéo, alors qu'il s'agit d'une
+   indisponibilité — mais il se lit comme inactif.
+
+   Pas de `pointer-events: none` ici, contrairement à l'entrée de menu : le
+   clic DOIT passer, puisque c'est lui qui déclenche le message expliquant
+   pourquoi. Un bouton grisé qui n'explique rien laisse chercher la panne.
+   ========================================================================== */
+.vtype-btn.is-ferme {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Bouton secondaire + menu de partage (`<x-menu-partage>`)
+   --------------------------------------------------------------------------
+   Déménagé de `pages/rapport.css` le 10 octobre 2026. Le composant sert sur
+   trois pages — le rapport citoyen, le rapport public, et la page blog-
+   details (`article.blade.php`) — mais seules les deux premières poussaient
+   `rapport.css`. Sur la page blog-details, le bouton « Partager » rendait
+   donc en texte nu : les classes `.vf-btn-secondaire` et `.vf-menu*`
+   n'existaient dans AUCUNE feuille chargée. `verifall-app.css` est le seul
+   fichier commun aux gabarits public et citoyen ; c'est là que vit tout
+   composant partagé entre les deux, au même titre que le toast ou la visite
+   guidée ci-dessus.
+   ========================================================================== */
+.vf-btn-secondaire {
+  background: #fff;
+  border: 1px solid var(--c-line, #E2E8F0);
+  color: var(--c-ink, #0F172A);
+  min-height: 2.75rem;
+  transition: background .15s, border-color .15s;
+}
+.vf-btn-secondaire:hover { background: var(--c-canvas, #F6F8F7); }
+.vf-btn-secondaire:focus-visible { outline: 2px solid var(--c-primary, #09B850); outline-offset: 2px; }
+
+.vf-partage { position: relative; display: inline-block; }
+.vf-chevron { font-size: 18px; opacity: .6; }
+
+.vf-menu {
+  position: absolute;
+  top: calc(100% + .4rem);
+  z-index: 40;
+  min-width: 15rem;
+  /* Jamais plus large que la fenêtre : un `right:0` sur un bouton proche du
+     bord gauche d'un petit mobile étirerait sinon le panneau hors écran. */
+  max-width: min(18rem, calc(100vw - 2rem));
+  background: #fff;
+  border: 1px solid var(--c-line, #E2E8F0);
+  border-radius: .875rem;
+  box-shadow: 0 10px 30px rgba(17, 24, 39, .12);
+  padding: .35rem;
+}
+.vf-menu--droite { right: 0; }
+.vf-menu--gauche { left: 0; }
+
+/* Forme dépliée : pas de panneau flottant, les canaux dans le flux. */
+.vf-menu--liste {
+  position: static;
+  min-width: 0;
+  max-width: none;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+.vf-menu-item {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: .55rem .65rem;
+  border-radius: .6rem;
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--c-ink, #0F172A);
+  background: none;
+  border: 0;
+  text-align: left;
+  cursor: pointer;
+  transition: background .12s;
+}
+.vf-menu-item:hover { background: var(--c-canvas, #F6F8F7); color: var(--c-ink, #0F172A); }
+.vf-menu-item:focus-visible { outline: 2px solid var(--c-primary, #09B850); outline-offset: -2px; }
+
+.vf-menu-ico {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  color: #64748B;
+}
+.vf-menu-ico svg { width: 1.05rem; height: 1.05rem; }
+.vf-ico-whatsapp { color: #25D366; }
+.vf-ico-x { color: #0F172A; }
+.vf-ico-facebook { color: #1877F2; }
+.vf-ico-courriel { color: #64748B; }
+
+.vf-menu-sep { height: 1px; margin: .35rem .4rem; background: var(--c-line, #E2E8F0); }
+.vf-copie-faite { color: var(--c-primary, #09B850); font-weight: 700; }
+
+/*
+ | En dessous de ~420px (petits mobiles), le bouton « Partager » et son
+ | libellé voisin passent chacun sur leur propre ligne dans la plupart des
+ | gabarits (`flex-wrap`) : le bouton gagne alors à occuper toute la largeur
+ | plutôt qu'à rester collé à gauche, format resserré hérité de la mise en
+ | page large. Le panneau, lui, se recale sur le bord gauche du conteneur —
+ | ancré à `right:0` sur un bouton pleine largeur, il déborderait sinon
+ | symétriquement par la droite.
+ */
+@media (max-width: 420px) {
+  .vf-partage { display: block; width: 100%; }
+  .vf-partage > .vf-btn-secondaire { width: 100%; justify-content: center; }
+  .vf-menu { min-width: 0; width: 100%; left: 0; right: 0; }
+}

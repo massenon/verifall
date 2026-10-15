@@ -1,0 +1,9 @@
+{
+  "menu": "menu",
+  "Recherche globale": "recherche_globale",
+  "Citoyen vérificateur": "citoyen_verificateur",
+  "<span class=\"material-symbols-rounded !text-[20px]\" aria-hidden=\"true\">logout</span> Se déconnecter": "logout_se_deconnecter",
+  "APPRENTISSAGE": "apprentissage",
+  "COMMUNAUTÉ": "communaute",
+  "<span class=\"material-symbols-rounded !text-[20px]\" aria-hidden=\"true\">logout</span><span>Déconnexion</span>": "logout_deconnexion"
+}

@@ -1,0 +1,18 @@
+{
+  "Mon profil": "mon_profil",
+  "Vos informations publiques et votre identité vérifiée.": "vos_informations_publiques_et_votre_identite_verifiee",
+  "Informations personnelles": "informations_personnelles",
+  "Prénom <span class=\"text-vfalse\">*</span>": "prenom",
+  "Nom <span class=\"text-vfalse\">*</span>": "nom",
+  "Téléphone": "telephone",
+  "Ville": "ville",
+  "Bio publique": "bio_publique",
+  "<span wire:loading.remove wire:target=\"enregistrer\">Enregistrer les modifications</span> <span wire:loading wire:target=\"enregistrer\">Enregistrement…</span>": "enregistrer_les_modifications_enregistrement",
+  "Adresse e-mail <span class=\"text-vfalse\">*</span>": "adresse_e_mail",
+  "Modifier": "modifier",
+  "Cette adresse vous identifie et sert à récupérer votre mot de passe. La changer demande un code envoyé à la nouvelle adresse.": "cette_adresse_vous_identifie_et_sert_a",
+  "Envoyer le code": "envoyer_le_code",
+  "Annuler": "annuler",
+  "Confirmer": "confirmer",
+  "Le code expire dans 10 minutes. Tant qu'il n'est pas confirmé, votre adresse actuelle reste active.": "le_code_expire_dans_10_minutes_tant"
+}

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hub d'Infos Bénin — Vérif'All</title>
+<meta name="description" content="Le centre de confiance éditorial du Bénin : analyses à la une, actualités vérifiées, portails officiels et jobs à employeur vérifié.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/hub-infos.html">
+<meta property="og:title" content="Hub d'Infos Bénin — Vérif'All">
+<meta property="og:description" content="Le centre de confiance éditorial du Bénin : analyses à la une, actualités vérifiées, portails officiels et jobs à employeur vérifié.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link is-active" href="hub-infos.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <header class="mb-6">
+    <nav class="text-xs text-slate2 mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-primary">Dashboard</a> <span class="text-line">/</span> <span class="text-ink font-medium">Hub Bénin</span></nav>
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
+      <div class="max-w-xl">
+        <h1 class="text-3xl lg:text-4xl font-display font-bold text-ink mb-2">Hub d'Infos Bénin</h1>
+        <p class="text-[15px] text-slate2 mb-0">Les informations vérifiées et les services publics de confiance.</p>
+      </div>
+      <div class="relative w-full lg:max-w-[640px]">
+        <label class="sr-only" for="hub-search">Rechercher une actualité, un service, un emploi</label>
+        <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+        <input id="hub-search" type="search" placeholder="Rechercher une actualité, un service, un emploi…"
+               class="w-full h-[50px] bg-surface border border-line rounded-xl pl-11 pr-4 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10" data-hub-search>
+      </div>
+    </div>
+  </header>
+
+  <nav class="flex gap-2 overflow-x-auto pb-1 mb-10 no-scrollbar" aria-label="Sections du Hub">
+    <a href="#hub-alaune" class="hub-pill">Actualités vérifiées</a>
+    <a href="#hub-portails" class="hub-pill">Portails officiels</a>
+    <a href="#hub-jobs" class="hub-pill">Jobs vérifiés</a>
+  </nav>
+
+  <section class="mb-16" id="hub-alaune">
+    <div class="flex items-end justify-between gap-3 mb-5">
+      <div>
+        <p class="text-[11px] font-bold tracking-[.16em] text-primary uppercase mb-1">À la une</p>
+        <h2 class="text-xl lg:text-2xl font-display font-bold text-ink mb-0">L'analyse du jour</h2>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12">
+      <article class="lg:col-span-8 hub-card flex flex-col overflow-hidden" data-news data-cat="Technologie" data-search="aucune « taxe whatsapp » n'est instaurée au bénin la rumeur recycle un faux communiqué déjà démenti en 2024. aucun texte officiel n'existe. arcep bénin">
+        <a href="hub-article.html?a=2" class="block"><img src="../images/hub/hub-news-2.svg" alt="" width="640" height="360" loading="lazy" class="w-full h-auto object-cover" style="aspect-ratio:16/9" aria-hidden="true"></a>
+        <div class="p-5 lg:p-6 flex flex-col flex-1">
+          <div class="mb-3"><span class="hub-badge hub-badge-no"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">close</span>DÉMENTI</span></div>
+          <h3 class="text-xl lg:text-2xl font-display font-bold text-ink leading-snug mb-2"><a href="hub-article.html?a=2" class="hover:text-primary transition-colors">Aucune « taxe WhatsApp » n'est instaurée au Bénin</a></h3>
+          <p class="text-[15px] text-slate2 mb-3">La rumeur recycle un faux communiqué déjà démenti en 2024. Aucun texte officiel n'existe. L'analyse complète détaille l'origine du montage, les indices techniques et les bons réflexes à adopter face à ce type de rumeur récurrente.</p>
+          <p class="text-xs text-slate2 mb-4">ARCEP Bénin · 13 août 2026 · Lecture 4 min</p>
+          <div class="mt-auto flex items-center gap-2">
+            <a href="hub-article.html?a=2" class="inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-5 py-2.5 hover:bg-primary-dark">Lire l'analyse <span class="material-symbols-rounded !text-[16px]" aria-hidden="true">arrow_forward</span></a>
+            <button type="button" class="icon-act" data-share-news="2" title="Partager" aria-label="Partager cette analyse"><span class="material-symbols-rounded !text-[18px]">share</span></button>
+          </div>
+        </div>
+      </article>
+      <div class="lg:col-span-4 grid gap-5 content-start">
+        <article class="hub-card flex flex-col overflow-hidden" data-news data-cat="Société" data-search="vidéo « d'inondation à cotonou » tournée ailleurs les images sont authentiques mais proviennent d'un autre pays, en 2022. vérif'all lab">
+          <a href="hub-article.html?a=4" class="block"><img src="../images/hub/hub-news-4.svg" alt="" width="640" height="360" loading="lazy" class="w-full h-auto object-cover" style="aspect-ratio:16/9" aria-hidden="true"></a>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="mb-2"><span class="hub-badge hub-badge-warn"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">priority_high</span>TROMPEUR</span></div>
+            <h3 class="text-base font-display font-bold text-ink leading-snug mb-2"><a href="hub-article.html?a=4" class="hover:text-primary transition-colors">Vidéo « d'inondation à Cotonou » tournée ailleurs</a></h3>
+            <p class="text-xs text-slate2 mb-3">Vérif'All Lab · Lecture 5 min</p>
+            <a href="hub-article.html?a=4" class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">Lire l'article <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+          </div>
+        </article>
+        <article class="hub-card flex flex-col overflow-hidden" data-news data-cat="Économie" data-search="fausse offre d'emploi au port autonome de cotonou le site frauduleux demande des « frais de dossier ». le pac ne recrute que via son site officiel. pac">
+          <a href="hub-article.html?a=5" class="block"><img src="../images/hub/hub-news-5.svg" alt="" width="640" height="360" loading="lazy" class="w-full h-auto object-cover" style="aspect-ratio:16/9" aria-hidden="true"></a>
+          <div class="p-5 flex flex-col flex-1">
+            <div class="mb-2"><span class="hub-badge hub-badge-no"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">close</span>DÉMENTI</span></div>
+            <h3 class="text-base font-display font-bold text-ink leading-snug mb-2"><a href="hub-article.html?a=5" class="hover:text-primary transition-colors">Fausse offre d'emploi au Port Autonome de Cotonou</a></h3>
+            <p class="text-xs text-slate2 mb-3">PAC · Lecture 4 min</p>
+            <a href="hub-article.html?a=5" class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">Lire l'article <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <div class="flex items-end justify-between gap-3 mb-2">
+      <div>
+        <p class="text-[11px] font-bold tracking-[.16em] text-primary uppercase mb-1">Actualités vérifiées</p>
+        <h2 class="text-xl lg:text-2xl font-display font-bold text-ink mb-0">Les informations importantes, vérifiées par Vérif'All</h2>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-5">
+      <select class="bg-surface border border-line rounded-xl px-3 py-2.5 text-sm min-h-[44px]" data-hub-cat aria-label="Filtrer par catégorie">
+        <option value="">Catégorie : toutes</option>
+        <option>Santé</option><option>Éducation</option><option>Économie</option><option>Société</option><option>Technologie</option><option>Administratif</option>
+      </select>
+      <select class="bg-surface border border-line rounded-xl px-3 py-2.5 text-sm min-h-[44px]" data-hub-verdict aria-label="Filtrer par verdict">
+        <option value="">Verdict : tous</option>
+        <option value="VÉRIFIÉ">✓ Vérifié</option><option value="DÉMENTI">✗ Démenti</option><option value="TROMPEUR">⚠ Trompeur</option>
+      </select>
+    </div>
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3" data-news-grid>
+      <article class="hub-card flex flex-col overflow-hidden" data-news data-cat="Éducation" data-search="calendrier officiel des examens nationaux confirmé les dates publiées par le ministère sont exactes et définitives pour la session 2026. gouv.bj">
+        <a href="hub-article.html?a=1" class="block"><img src="../images/hub/hub-news-1.svg" alt="" width="640" height="360" loading="lazy" class="w-full h-auto object-cover" style="aspect-ratio:16/9" aria-hidden="true"></a>
+        <div class="p-5 flex flex-col flex-1">
+          <div class="mb-2"><span class="hub-badge hub-badge-ok"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>VÉRIFIÉ</span></div>
+          <h3 class="text-base font-display font-bold text-ink leading-snug mb-1.5"><a href="hub-article.html?a=1" class="hover:text-primary transition-colors">Calendrier officiel des examens nationaux confirmé</a></h3>
+          <p class="text-sm text-slate2 mb-3">Les dates publiées par le ministère sont exactes et définitives pour la session 2026.</p>
+          <p class="text-xs text-slate2 mb-3">gouv.bj · 14 août 2026 · 3 min</p>
+          <div class="mt-auto flex items-center gap-2">
+            <a href="hub-article.html?a=1" class="inline-flex items-center gap-1 text-sm font-semibold text-primary flex-1">Lire l'article <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+            <button type="button" class="icon-act" data-share-news="1" title="Partager" aria-label="Partager cette actualité"><span class="material-symbols-rounded !text-[18px]">share</span></button>
+          </div>
+        </div>
+      </article>
+      <article class="hub-card flex flex-col overflow-hidden" data-news data-cat="Santé" data-search="campagne de vaccination gratuite dans le littoral la campagne annoncée est bien réelle : centres et horaires confirmés par le ministère de la santé. sante.gouv.bj">
+        <a href="hub-article.html?a=3" class="block"><img src="../images/hub/hub-news-3.svg" alt="" width="640" height="360" loading="lazy" class="w-full h-auto object-cover" style="aspect-ratio:16/9" aria-hidden="true"></a>
+        <div class="p-5 flex flex-col flex-1">
+          <div class="mb-2"><span class="hub-badge hub-badge-ok"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>VÉRIFIÉ</span></div>
+          <h3 class="text-base font-display font-bold text-ink leading-snug mb-1.5"><a href="hub-article.html?a=3" class="hover:text-primary transition-colors">Campagne de vaccination gratuite dans le Littoral</a></h3>
+          <p class="text-sm text-slate2 mb-3">La campagne annoncée est bien réelle : centres et horaires confirmés par le ministère de la Santé.</p>
+          <p class="text-xs text-slate2 mb-3">sante.gouv.bj · 12 août 2026 · 3 min</p>
+          <div class="mt-auto flex items-center gap-2">
+            <a href="hub-article.html?a=3" class="inline-flex items-center gap-1 text-sm font-semibold text-primary flex-1">Lire l'article <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+            <button type="button" class="icon-act" data-share-news="3" title="Partager" aria-label="Partager cette actualité"><span class="material-symbols-rounded !text-[18px]">share</span></button>
+          </div>
+        </div>
+      </article>
+      <article class="hub-card flex flex-col overflow-hidden" data-news data-cat="Administratif" data-search="nouveau service e-services pour les actes de naissance la plateforme officielle permet bien la demande en ligne d'actes d'état civil. service-public.bj">
+        <a href="hub-article.html?a=6" class="block"><img src="../images/hub/hub-news-6.svg" alt="" width="640" height="360" loading="lazy" class="w-full h-auto object-cover" style="aspect-ratio:16/9" aria-hidden="true"></a>
+        <div class="p-5 flex flex-col flex-1">
+          <div class="mb-2"><span class="hub-badge hub-badge-ok"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>VÉRIFIÉ</span></div>
+          <h3 class="text-base font-display font-bold text-ink leading-snug mb-1.5"><a href="hub-article.html?a=6" class="hover:text-primary transition-colors">Nouveau service e-services pour les actes de naissance</a></h3>
+          <p class="text-sm text-slate2 mb-3">La plateforme officielle permet bien la demande en ligne d'actes d'état civil.</p>
+          <p class="text-xs text-slate2 mb-3">service-public.bj · 9 août 2026 · 2 min</p>
+          <div class="mt-auto flex items-center gap-2">
+            <a href="hub-article.html?a=6" class="inline-flex items-center gap-1 text-sm font-semibold text-primary flex-1">Lire l'article <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+            <button type="button" class="icon-act" data-share-news="6" title="Partager" aria-label="Partager cette actualité"><span class="material-symbols-rounded !text-[18px]">share</span></button>
+          </div>
+        </div>
+      </article>
+    </div>
+    <div class="hidden hub-card p-8 text-center mt-5" data-hub-empty>
+      <p class="text-sm font-bold text-ink mb-1">Aucune actualité trouvée</p>
+      <p class="text-sm text-slate2 mb-3">Essayez une autre recherche ou modifiez vos filtres.</p>
+      <button type="button" class="inline-flex rounded-xl border border-primary text-primary text-sm font-semibold px-4 py-2.5 hover:bg-primary hover:text-white transition-colors" data-hub-reset>Réinitialiser les filtres</button>
+    </div>
+  </section>
+
+  <section class="mb-16" id="hub-portails">
+    <div class="mb-5">
+      <p class="text-[11px] font-bold tracking-[.16em] text-primary uppercase mb-1">Portails officiels</p>
+      <h2 class="text-xl lg:text-2xl font-display font-bold text-ink mb-1">Accédez directement aux plateformes publiques fiables</h2>
+      <p class="text-sm text-slate2 mb-0">Chaque portail est référencé selon les critères de confiance de Vérif'All.</p>
+    </div>
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <a href="https://www.gouv.bj" target="_blank" rel="noopener noreferrer" class="hub-card p-5 flex flex-col" data-portal data-search="portail du gouvernement communiqués officiels">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft mb-3"><span class="material-symbols-rounded text-primary">account_balance</span></span>
+        <span class="block text-sm font-display font-bold text-ink leading-snug">Portail du Gouvernement</span>
+        <span class="block text-xs text-slate2 mt-0.5 mb-3">Communiqués officiels</span>
+        <span class="hub-badge hub-badge-ok mb-3"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Source vérifiée</span>
+        <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">Accéder au portail <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></span>
+      </a>
+      <a href="https://service-public.bj" target="_blank" rel="noopener noreferrer" class="hub-card p-5 flex flex-col" data-portal data-search="service public bénin démarches et e-services">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft mb-3"><span class="material-symbols-rounded text-primary">description</span></span>
+        <span class="block text-sm font-display font-bold text-ink leading-snug">Service Public Bénin</span>
+        <span class="block text-xs text-slate2 mt-0.5 mb-3">Démarches et e-services</span>
+        <span class="hub-badge hub-badge-ok mb-3"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Source vérifiée</span>
+        <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">Accéder au portail <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></span>
+      </a>
+      <a href="https://sante.gouv.bj" target="_blank" rel="noopener noreferrer" class="hub-card p-5 flex flex-col" data-portal data-search="ministère de la santé alertes et campagnes">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft mb-3"><span class="material-symbols-rounded text-primary">health_and_safety</span></span>
+        <span class="block text-sm font-display font-bold text-ink leading-snug">Ministère de la Santé</span>
+        <span class="block text-xs text-slate2 mt-0.5 mb-3">Alertes et campagnes</span>
+        <span class="hub-badge hub-badge-ok mb-3"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Source vérifiée</span>
+        <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">Accéder au portail <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></span>
+      </a>
+      <a href="https://www.gouv.bj" target="_blank" rel="noopener noreferrer" class="hub-card p-5 flex flex-col" data-portal data-search="ministère des enseignements examens et résultats">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft mb-3"><span class="material-symbols-rounded text-primary">school</span></span>
+        <span class="block text-sm font-display font-bold text-ink leading-snug">Ministère des Enseignements</span>
+        <span class="block text-xs text-slate2 mt-0.5 mb-3">Examens et résultats</span>
+        <span class="hub-badge hub-badge-ok mb-3"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Source vérifiée</span>
+        <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">Accéder au portail <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></span>
+      </a>
+      <a href="https://sgg.gouv.bj" target="_blank" rel="noopener noreferrer" class="hub-card p-5 flex flex-col" data-portal data-search="journal officiel textes de loi authentiques">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft mb-3"><span class="material-symbols-rounded text-primary">gavel</span></span>
+        <span class="block text-sm font-display font-bold text-ink leading-snug">Journal Officiel</span>
+        <span class="block text-xs text-slate2 mt-0.5 mb-3">Textes de loi authentiques</span>
+        <span class="hub-badge hub-badge-ok mb-3"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Source vérifiée</span>
+        <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">Accéder au portail <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></span>
+      </a>
+      <a href="https://www.gouv.bj" target="_blank" rel="noopener noreferrer" class="hub-card p-5 flex flex-col" data-portal data-search="police républicaine canaux officiels">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft mb-3"><span class="material-symbols-rounded text-primary">local_police</span></span>
+        <span class="block text-sm font-display font-bold text-ink leading-snug">Police Républicaine</span>
+        <span class="block text-xs text-slate2 mt-0.5 mb-3">Canaux officiels</span>
+        <span class="hub-badge hub-badge-ok mb-3"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Source vérifiée</span>
+        <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">Accéder au portail <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></span>
+      </a>
+      <a href="https://impots.finances.bj" target="_blank" rel="noopener noreferrer" class="hub-card p-5 flex flex-col" data-portal data-search="direction des impôts e-services fiscaux">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft mb-3"><span class="material-symbols-rounded text-primary">payments</span></span>
+        <span class="block text-sm font-display font-bold text-ink leading-snug">Direction des Impôts</span>
+        <span class="block text-xs text-slate2 mt-0.5 mb-3">e-services fiscaux</span>
+        <span class="hub-badge hub-badge-ok mb-3"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Source vérifiée</span>
+        <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">Accéder au portail <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></span>
+      </a>
+      <a href="https://anpe.bj" target="_blank" rel="noopener noreferrer" class="hub-card p-5 flex flex-col" data-portal data-search="agence nationale pour l'emploi offres et programmes">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft mb-3"><span class="material-symbols-rounded text-primary">work</span></span>
+        <span class="block text-sm font-display font-bold text-ink leading-snug">Agence Nationale Pour l'Emploi</span>
+        <span class="block text-xs text-slate2 mt-0.5 mb-3">Offres et programmes</span>
+        <span class="hub-badge hub-badge-ok mb-3"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Source vérifiée</span>
+        <span class="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">Accéder au portail <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="mb-16" id="hub-jobs">
+    <div class="mb-5">
+      <p class="text-[11px] font-bold tracking-[.16em] text-primary uppercase mb-1">Jobs vérifiés</p>
+      <h2 class="text-xl lg:text-2xl font-display font-bold text-ink mb-1">Les opportunités d'emploi provenant de sources vérifiées</h2>
+      <p class="text-sm text-slate2 mb-0">Employeur confirmé, canal officiel, coordonnées vérifiées — et jamais de frais de dossier.</p>
+    </div>
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+      <article class="hub-card p-5 flex flex-col" data-job data-search="chargé(e) de communication digitale ministère du numérique cotonou">
+        <div class="flex flex-wrap items-center gap-1.5 mb-3">
+          <span class="hub-badge hub-badge-ok"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Offre vérifiée</span>
+          <span class="hub-badge hub-badge-neutral">CDD 12 mois</span>
+          <span class="hub-badge hub-badge-neutral">Cotonou</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-0.5">Chargé(e) de communication digitale</h3>
+        <p class="text-sm text-slate2 mb-1.5">Ministère du Numérique</p>
+        <p class="text-sm text-slate2 mb-2">Candidature 100 % en ligne — aucun paiement demandé.</p>
+        <p class="text-xs text-slate2 mb-4">Publiée il y a 2 jours · Aucun frais de dossier, jamais.</p>
+        <a href="https://www.gouv.bj" target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-1.5 self-start rounded-xl bg-primary text-white text-sm font-semibold px-4 py-2.5 hover:bg-primary-dark">Voir l'offre <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+      </article>
+      <article class="hub-card p-5 flex flex-col" data-job data-search="analyste de données junior instad bénin cotonou">
+        <div class="flex flex-wrap items-center gap-1.5 mb-3">
+          <span class="hub-badge hub-badge-ok"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Offre vérifiée</span>
+          <span class="hub-badge hub-badge-neutral">CDI</span>
+          <span class="hub-badge hub-badge-neutral">Cotonou</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-0.5">Analyste de données junior</h3>
+        <p class="text-sm text-slate2 mb-1.5">INStaD Bénin</p>
+        <p class="text-sm text-slate2 mb-2">Offre publiée sur le portail officiel de l'Institut National de la Statistique.</p>
+        <p class="text-xs text-slate2 mb-4">Publiée il y a 3 jours · Aucun frais de dossier, jamais.</p>
+        <a href="https://instad.bj" target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-1.5 self-start rounded-xl bg-primary text-white text-sm font-semibold px-4 py-2.5 hover:bg-primary-dark">Voir l'offre <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+      </article>
+      <article class="hub-card p-5 flex flex-col" data-job data-search="enseignant(e)s vacataires — session 2026 ministère des enseignements national">
+        <div class="flex flex-wrap items-center gap-1.5 mb-3">
+          <span class="hub-badge hub-badge-ok"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Offre vérifiée</span>
+          <span class="hub-badge hub-badge-neutral">Vacation</span>
+          <span class="hub-badge hub-badge-neutral">National</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-0.5">Enseignant(e)s vacataires — session 2026</h3>
+        <p class="text-sm text-slate2 mb-1.5">Ministère des Enseignements</p>
+        <p class="text-sm text-slate2 mb-2">Dossiers déposés uniquement via la plateforme gouvernementale.</p>
+        <p class="text-xs text-slate2 mb-4">Publiée il y a 5 jours · Aucun frais de dossier, jamais.</p>
+        <a href="https://service-public.bj" target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-1.5 self-start rounded-xl bg-primary text-white text-sm font-semibold px-4 py-2.5 hover:bg-primary-dark">Voir l'offre <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+      </article>
+      <article class="hub-card p-5 flex flex-col" data-job data-search="stagiaires fact-checking (2 postes) vérif'all lab cotonou / hybride">
+        <div class="flex flex-wrap items-center gap-1.5 mb-3">
+          <span class="hub-badge hub-badge-ok"><span class="material-symbols-rounded !text-[14px]" aria-hidden="true">verified</span>Offre vérifiée</span>
+          <span class="hub-badge hub-badge-neutral">Stage 6 mois</span>
+          <span class="hub-badge hub-badge-neutral">Cotonou / hybride</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-0.5">Stagiaires fact-checking (2 postes)</h3>
+        <p class="text-sm text-slate2 mb-1.5">Vérif'All Lab</p>
+        <p class="text-sm text-slate2 mb-2">Veille, vérification de sources et rédaction de rapports au sein du laboratoire.</p>
+        <p class="text-xs text-slate2 mb-4">Publiée il y a 1 semaine · Aucun frais de dossier, jamais.</p>
+        <a href="https://verifall.com" target="_blank" rel="noopener noreferrer" class="mt-auto inline-flex items-center gap-1.5 self-start rounded-xl bg-primary text-white text-sm font-semibold px-4 py-2.5 hover:bg-primary-dark">Voir l'offre <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+      </article>
+    </div>
+  </section>
+
+  <section class="mb-16">
+    <div class="rounded-3xl bg-forest text-white p-8 lg:p-12 text-center">
+      <h2 class="text-xl lg:text-2xl font-display font-bold mb-2">Une information vous semble douteuse ?</h2>
+      <p class="text-[15px] text-white/70 max-w-xl mx-auto mb-6">Ne la partagez pas avant de l'avoir vérifiée. Le laboratoire Vérif'All croise les sources et documente son verdict.</p>
+      <a href="verifier.html" class="inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-6 py-3 hover:bg-primary-dark min-h-[48px]">Vérifier une information <span class="material-symbols-rounded !text-[17px]" aria-hidden="true">arrow_forward</span></a>
+    </div>
+  </section>
+
+  <section class="hub-card p-6 lg:p-8">
+    <h2 class="text-base font-display font-bold text-ink mb-2">Pourquoi faire confiance à ces informations ?</h2>
+    <p class="text-sm text-slate2 mb-4">Les contenus présentés dans ce Hub sont sélectionnés, vérifiés ou référencés selon les critères de confiance de Vérif'All : source primaire identifiable, canal officiel confirmé et recoupement documenté.</p>
+    <a href="../comment-ca-marche.html" class="inline-flex items-center gap-1 text-sm font-semibold text-primary">Comprendre notre méthode <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+  </section>
+<script>
+window.VFPage = function (VF, S) {
+  var search = document.querySelector('[data-hub-search]');
+  var cat = document.querySelector('[data-hub-cat]');
+  var verdict = document.querySelector('[data-hub-verdict]');
+  function apply() {
+    var q = search.value.trim().toLowerCase();
+    var fc = cat.value, fv = verdict.value;
+    var visible = 0;
+    document.querySelectorAll('[data-news]').forEach(function (el) {
+      var ok = true;
+      if (q && el.getAttribute('data-search').indexOf(q) === -1) ok = false;
+      if (fc && el.getAttribute('data-cat') !== fc) ok = false;
+      if (fv && el.textContent.indexOf(fv) === -1) ok = false;
+      el.classList.toggle('hidden', !ok);
+      if (ok) visible++;
+    });
+    document.querySelector('[data-hub-empty]').classList.toggle('hidden', visible > 0);
+    document.querySelectorAll('[data-portal],[data-job]').forEach(function (el) {
+      el.classList.toggle('hidden', !!q && el.getAttribute('data-search').indexOf(q) === -1);
+    });
+  }
+  [search, cat, verdict].forEach(function (el) { el.addEventListener('input', apply); });
+  document.querySelector('[data-hub-reset]').addEventListener('click', function () {
+    search.value = ''; cat.value = ''; verdict.value = '';
+    apply();
+  });
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-share-news]');
+    if (!b) return;
+    var card = b.closest('[data-news]');
+    var title = card.querySelector('h3').textContent.trim();
+    var link = 'https://verifall.com/compte-user/hub-article.html?a=' + b.getAttribute('data-share-news');
+    var text = 'Vérifié par le Hub Vérif\'All : ' + title;
+    if (navigator.share) navigator.share({ title: 'Hub Vérif\'All', text: text, url: link }).catch(function () {});
+    else if (navigator.clipboard) { navigator.clipboard.writeText(text + ' ' + link); VF.toast('Lien de l\'actualité copié — partagez-le sur vos réseaux.'); }
+  });
+};
+</script>
+<style>
+.hub-card { background: #fff; border: 1px solid var(--c-line); border-radius: 16px; box-shadow: 0 1px 2px rgba(17,24,39,.04); transition: transform .2s, box-shadow .2s; }
+@media (hover: hover) { .hub-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(17,24,39,.08); } }
+.hub-badge { display: inline-flex; align-items: center; gap: .3rem; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .04em; padding: .3rem .65rem; }
+.hub-badge-ok { background: rgba(9,184,80,.08); color: #067A38; border: 1px solid rgba(9,184,80,.15); }
+.hub-badge-no { background: rgba(220,38,38,.08); color: #B91C1C; border: 1px solid rgba(220,38,38,.15); }
+.hub-badge-warn { background: rgba(214,164,25,.1); color: #92700C; border: 1px solid rgba(214,164,25,.2); }
+.hub-badge-neutral { background: #F6F8F7; color: #64748B; border: 1px solid var(--c-line); }
+.hub-pill { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.15rem; border-radius: 999px; border: 1px solid var(--c-line); background: #fff; font-size: .875rem; font-weight: 600; color: #111827; white-space: nowrap; }
+.hub-pill:hover { border-color: var(--c-primary); color: var(--c-primary); }
+.no-scrollbar { scrollbar-width: none; } .no-scrollbar::-webkit-scrollbar { display: none; }
+</style>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+<a href="verifier.html" class="fab lg:hidden" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[28px]" aria-hidden="true">add</span></a>
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

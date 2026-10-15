@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mes Statistiques — Vérif'All</title>
+<meta name="description" content="Vos indicateurs : activité 30 jours, répartition des verdicts, types de contenus et série quotidienne.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/dashboard.html">
+<meta property="og:title" content="Mes Statistiques — Vérif'All">
+<meta property="og:description" content="Vos indicateurs : activité 30 jours, répartition des verdicts, types de contenus et série quotidienne.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link is-active" href="dashboard.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+    <div><nav class="text-xs text-slate2 mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-primary">Dashboard</a> <span class="text-line" aria-hidden="true">/</span> <span class="text-ink font-medium">Statistiques</span></nav>
+      <h1 class="text-2xl md:text-3xl font-display font-bold text-ink leading-tight">Mes Statistiques</h1><p class="text-slate2 mt-1 mb-0">Votre activité de vérification, votre progression et votre impact au fil du temps.<span class='block text-xs text-slate2 mt-1'>Dernière mise à jour : aujourd'hui à 14:32</span></p>
+    </div>
+  </div>
+  <section data-kpi-accordion class="mb-6">
+    <button type="button" class="kpi-toggle w-full items-center justify-between card px-4 py-3 mb-3" aria-expanded="false">
+      <span class="text-sm font-display font-bold text-ink">Aperçu de votre pratique</span>
+      <span class="material-symbols-rounded transition-transform" aria-hidden="true">expand_more</span>
+    </button>
+    <div class="kpi-grid grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="vf-kpi"><p class="vf-kpi-value" data-s-verifs>0</p><p class="vf-kpi-label !mb-0 mt-1.5">Vérifications totales</p><p class="vf-kpi-trend"><span class="text-vtrue font-bold">↗ +3</span>&nbsp;vs mois dernier</p></div>
+      <div class="vf-kpi"><p class="vf-kpi-value" data-s-intox>0</p><p class="vf-kpi-label !mb-0 mt-1.5">Intox détectées</p><p class="vf-kpi-trend">Partages potentiellement évités</p></div>
+      <div class="vf-kpi"><p class="vf-kpi-value" data-s-lessons>0</p><p class="vf-kpi-label !mb-0 mt-1.5">Leçons terminées</p><p class="vf-kpi-trend"><span class="text-vtrue font-bold">↗ +4</span>&nbsp;cette semaine</p></div>
+      <div class="vf-kpi"><p class="vf-kpi-value">🔥 <span data-streak>7</span> j</p><p class="vf-kpi-label !mb-0 mt-1.5">Série actuelle</p><p class="vf-kpi-trend">Record personnel : 12 jours</p></div>
+    </div>
+  </section>
+
+  <div class="grid lg:grid-cols-2 gap-6 mb-6">
+    <div class="card p-6">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <p class="vf-eyebrow">Activité</p>
+          <h2 class="text-lg font-display font-bold text-ink mb-0.5" data-act-title>Activité sur 30 jours</h2>
+        </div>
+        <select class="bg-surface border border-line rounded-xl px-2.5 py-2 text-xs font-semibold min-h-[44px]" data-act-period aria-label="Période du graphique">
+          <option value="7">7 derniers jours</option>
+          <option value="30" selected>30 derniers jours</option>
+          <option value="90">3 derniers mois</option>
+          <option value="365">Cette année</option>
+        </select>
+      </div>
+      <p class="text-sm text-slate2 mb-4">Vérifications, leçons et quiz cumulés.</p>
+      <div class="relative h-[220px]"><canvas data-line-chart height="220" role="img" aria-label="Courbe d'activité — touchez un point pour le détail"></canvas>
+        <span class="hidden absolute top-2 rounded-lg bg-forest text-white text-xs font-semibold px-3 py-1.5 pointer-events-none" data-act-tip aria-live="polite"></span>
+        <div class="hidden absolute inset-0 flex flex-col items-center justify-center text-center" data-act-empty>
+          <p class="text-sm font-bold text-ink mb-1">Pas encore de données sur cette période</p>
+          <p class="text-xs text-slate2 mb-3">Effectuez une vérification pour alimenter votre courbe d'activité.</p>
+          <a href="verifier.html" class="inline-flex rounded-xl bg-primary text-white text-xs font-semibold px-4 py-2 min-h-[40px] items-center">Vérifier un contenu →</a>
+        </div></div>
+    </div>
+    <div class="card p-6">
+      <p class="vf-eyebrow">Verdicts</p>
+      <h2 class="text-lg font-display font-bold text-ink mb-0.5">Répartition de mes verdicts</h2>
+      <p class="text-sm text-slate2 mb-4">Sur l'ensemble de mes vérifications.</p>
+      <div class="flex items-center justify-center mb-4 overflow-hidden"><div class="relative w-full max-w-[190px] aspect-square"><canvas data-donut class="w-full h-full" width="190" height="190" role="img" aria-label="Répartition des verdicts"></canvas>
+      <span class="absolute inset-0 flex flex-col items-center justify-center"><span class="text-3xl font-display font-black text-ink leading-none" data-donut-total>0</span><span class="text-[11px] font-semibold text-slate2 mt-0.5">vérifications</span></span>
+      <span class="hidden absolute inset-0 flex-col items-center justify-center text-center px-3" data-donut-empty><span class="text-xs text-slate2">Pas encore de données — effectuez votre première vérification.</span></span></div></div>
+      <div class="space-y-2 text-sm">
+        <p class="flex items-center gap-2 mb-0"><span class="w-3 h-3 rounded-sm bg-vtrue inline-block"></span> ✓ Vérifié vrai <strong class="ml-auto" data-d-vrai>0</strong></p>
+        <p class="flex items-center gap-2 mb-0"><span class="w-3 h-3 rounded-sm bg-vinvest inline-block"></span> ⚠ Douteux <strong class="ml-auto" data-d-doute>0</strong></p>
+        <p class="flex items-center gap-2 mb-0"><span class="w-3 h-3 rounded-sm bg-vfalse inline-block"></span> ✕ Vérifié faux <strong class="ml-auto" data-d-faux>0</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-6">
+    <div class="card p-6">
+      <p class="vf-eyebrow">Contenus</p>
+      <h2 class="text-lg font-display font-bold text-ink mb-0.5">Types de contenus vérifiés</h2>
+      <p class="text-sm text-slate2 mb-4">Ce que vous soumettez le plus.</p>
+      <div class="relative h-[220px]"><canvas data-bars height="220" role="img" aria-label="Types de contenus vérifiés"></canvas>
+        <div class="hidden absolute inset-0 flex items-center justify-center" data-bars-empty><p class="text-xs text-slate2 mb-0">Aucun contenu vérifié pour le moment.</p></div></div>
+    </div>
+    <div class="card p-6">
+      <p class="vf-eyebrow">Habitudes</p>
+      <h2 class="text-lg font-display font-bold text-ink mb-3">Ma semaine de série</h2>
+      <div class="flex gap-1.5 mb-4" data-week></div>
+      <p class="text-sm text-slate2 mb-0">Connectez-vous chaque jour pour maintenir votre série. Le badge « Série de 30 jours » vous attend à 30 jours consécutifs.</p>
+    </div>
+  </div>
+
+  <section class="vf-insight p-6 sm:p-8 mt-6 flex flex-col sm:flex-row sm:items-center gap-5">
+    <div class="flex-1">
+      <p class="vf-eyebrow">✦ Votre insight</p>
+      <p class="text-base font-bold text-ink mb-1">Vous avez effectué <span data-insight-n>0</span> vérification(s) — votre activité est en hausse cette semaine.</p><p class="text-sm text-slate2 mb-1"><strong class="text-ink">Votre prochaine étape :</strong> maintenir votre série pendant encore 2 jours.</p>
+      <p class="text-sm text-slate2 mb-0">Continuez votre série de <span data-streak>7</span> jours pour débloquer votre prochain bonus d'unités.</p>
+    </div>
+    <a href="verifier.html" class="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-5 py-3 hover:bg-primary-dark min-h-[48px]">Continuer à vérifier <span class="material-symbols-rounded !text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </section>
+<script>
+window.VFPage = function (VF, S) {
+  var vs = S.state.verifications;
+  var lessonsDone = 0;
+  S.COURSES.forEach(function (c) { lessonsDone += S.courseState(c.id).completedLessons.length; });
+  function countUp(el, target) {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) { el.textContent = target; return; }
+    var start = null;
+    function step(ts) {
+      if (!start) start = ts;
+      var p = Math.min(1, (ts - start) / 400);
+      el.textContent = Math.round(target * p);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  countUp(document.querySelector('[data-s-verifs]'), vs.length);
+  document.querySelector('[data-insight-n]').textContent = vs.length;
+  document.querySelector('[data-s-intox]').textContent = vs.filter(function (v) { return v.verdict === 'FAUX' || v.verdict === 'TROMPEUR'; }).length;
+  document.querySelector('[data-s-lessons]').textContent = lessonsDone;
+
+  function dpr(canvas, h) {
+    var r = window.devicePixelRatio || 1;
+    var w = canvas.parentElement.clientWidth;
+    canvas.width = w * r; canvas.height = h * r;
+    canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+    var ctx = canvas.getContext('2d'); ctx.scale(r, r);
+    return { ctx: ctx, w: w, h: h };
+  }
+
+  /* Courbe d'activité : données réelles du store (aucune valeur artificielle) */
+  (function () {
+    var cv = document.querySelector('[data-line-chart]');
+    var sel = document.querySelector('[data-act-period]');
+    var today = new Date('2026-08-18');
+    function series(days) {
+      var pts = [];
+      for (var i = days - 1; i >= 0; i--) {
+        var d = new Date(today); d.setDate(d.getDate() - i);
+        var iso = d.toISOString().slice(0, 10);
+        pts.push(vs.filter(function (v) { return v.date === iso; }).length);
+      }
+      return pts;
+    }
+    function draw() {
+      var days = parseInt(sel.value, 10);
+      var tl = days === 90 ? 'Activité sur 3 mois' : days === 365 ? 'Activité cette année' : 'Activité sur ' + days + ' jours';
+      document.querySelector('[data-act-title]').textContent = tl;
+      var pts = series(days);
+      var any = pts.some(function (v) { return v > 0; });
+      var g = dpr(cv, 220), ctx = g.ctx;
+      ctx.clearRect(0, 0, g.w, g.h);
+      var empty = document.querySelector('[data-act-empty]');
+      empty.classList.toggle('hidden', any);
+      cv.classList.toggle('opacity-0', !any);
+      if (!any) return;
+      var max = Math.max.apply(null, pts) + 1;
+      var n = pts.length;
+      var px = function (i) { return 8 + i * ((g.w - 16) / (n - 1)); };
+      var py = function (v) { return g.h - 24 - (v / max) * (g.h - 44); };
+      ctx.strokeStyle = '#E5E7EB'; ctx.lineWidth = 1;
+      [0.5, 1].forEach(function (f) { ctx.beginPath(); ctx.moveTo(0, py(max * f)); ctx.lineTo(g.w, py(max * f)); ctx.stroke(); });
+      var grad = ctx.createLinearGradient(0, 0, 0, g.h);
+      grad.addColorStop(0, 'rgba(9,184,80,.25)'); grad.addColorStop(1, 'rgba(9,184,80,0)');
+      ctx.beginPath(); ctx.moveTo(px(0), py(pts[0]));
+      for (var j = 1; j < n; j++) ctx.lineTo(px(j), py(pts[j]));
+      ctx.lineTo(px(n - 1), g.h - 24); ctx.lineTo(px(0), g.h - 24); ctx.closePath();
+      ctx.fillStyle = grad; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(px(0), py(pts[0]));
+      for (var k = 1; k < n; k++) ctx.lineTo(px(k), py(pts[k]));
+      ctx.strokeStyle = '#09B850'; ctx.lineWidth = 2.5; ctx.stroke();
+      ctx.fillStyle = '#64748B'; ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'center';
+      var labels = days === 7 ? [0, 2, 4, 6]
+        : days === 30 ? [0, 7, 14, 21, 29]
+        : [0, Math.round(days / 4), Math.round(days / 2), Math.round(days * 3 / 4), days - 1];
+      labels.forEach(function (i) {
+        var d = new Date(today); d.setDate(d.getDate() - (days - 1 - i));
+        ctx.fillText(d.getDate() + '/' + (d.getMonth() + 1), px(i), g.h - 6);
+      });
+      /* points réels marqués */
+      pts.forEach(function (v, i) {
+        if (!v) return;
+        ctx.beginPath(); ctx.arc(px(i), py(v), 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#09B850'; ctx.fill();
+      });
+    }
+    /* Tooltip au toucher / clic : date + valeur du point le plus proche */
+    var tip = document.querySelector('[data-act-tip]');
+    function showTip(clientX, clientY) {
+      var days = parseInt(sel.value, 10);
+      var pts = series(days);
+      var rect = cv.getBoundingClientRect();
+      var x = clientX - rect.left;
+      var idx = Math.max(0, Math.min(pts.length - 1, Math.round((x - 8) / ((rect.width - 16) / (pts.length - 1)))));
+      var d = new Date(today); d.setDate(d.getDate() - (days - 1 - idx));
+      var MONTHS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+      tip.textContent = d.getDate() + ' ' + MONTHS[d.getMonth()] + ' — ' + pts[idx] + ' vérification' + (pts[idx] > 1 ? 's' : '');
+      tip.style.left = Math.min(rect.width - 130, Math.max(0, x - 60)) + 'px';
+      tip.classList.remove('hidden');
+      clearTimeout(tip._t);
+      tip._t = setTimeout(function () { tip.classList.add('hidden'); }, 2500);
+    }
+    cv.addEventListener('click', function (e) { showTip(e.clientX, e.clientY); });
+    sel.addEventListener('change', draw);
+    draw();
+    window.addEventListener('resize', draw);
+  })();
+
+  /* Donut verdicts */
+  (function () {
+    var vrai = vs.filter(function (v) { return v.verdict === 'VRAI'; }).length;
+    var doute = vs.filter(function (v) { return v.verdict === 'TROMPEUR'; }).length;
+    var faux = vs.filter(function (v) { return v.verdict === 'FAUX'; }).length;
+    var tt = vrai + doute + faux;
+    function pct(n) { return tt ? ' · ' + Math.round(n * 100 / tt) + ' %' : ''; }
+    document.querySelector('[data-d-vrai]').textContent = vrai + pct(vrai);
+    document.querySelector('[data-d-doute]').textContent = doute + pct(doute);
+    document.querySelector('[data-d-faux]').textContent = faux + pct(faux);
+    if (!tt) {
+      var de = document.querySelector('[data-donut-empty]'); de.classList.remove('hidden'); de.classList.add('flex');
+      document.querySelector('[data-donut]').classList.add('opacity-0');
+    }
+    document.querySelector('[data-donut-total]').textContent = vs.length;
+    var cv = document.querySelector('[data-donut]');
+    function drawDonut() {
+      var size = Math.min(190, cv.parentElement.clientWidth || 190);
+      var r = window.devicePixelRatio || 1;
+      cv.width = size * r; cv.height = size * r;
+      var ctx = cv.getContext('2d'); ctx.scale(r, r);
+      ctx.clearRect(0, 0, size, size);
+      var total = Math.max(1, vrai + doute + faux);
+      var parts = [[vrai, '#16A34A'], [doute, '#D6A419'], [faux, '#DC2626']];
+      var mid = size / 2, rad = mid - 15, lw = Math.max(18, size * 0.137);
+      var a = -Math.PI / 2;
+      parts.forEach(function (p) {
+        var span = (p[0] / total) * Math.PI * 2;
+        ctx.beginPath(); ctx.arc(mid, mid, rad, a, a + span);
+        ctx.strokeStyle = p[1]; ctx.lineWidth = lw; ctx.stroke();
+        a += span;
+      });
+    }
+    drawDonut();
+    window.addEventListener('resize', drawDonut);
+  })();
+
+  /* Types de contenus : données réelles uniquement — vertical desktop, horizontal mobile */
+  (function () {
+    var cv = document.querySelector('[data-bars]');
+    var types = ['Texte', 'URL', 'Image', 'Vidéo', 'Audio'];
+    function draw() {
+      var g = dpr(cv, 220), ctx = g.ctx;
+      var counts = types.map(function (t) { return vs.filter(function (v) { return v.type === t; }).length; });
+      var max = Math.max.apply(null, counts);
+      ctx.clearRect(0, 0, g.w, g.h);
+      var empty = document.querySelector('[data-bars-empty]');
+      empty.classList.toggle('hidden', max > 0);
+      cv.classList.toggle('opacity-0', max === 0);
+      if (!max) return;
+      if (g.w < 560) {
+        /* barres horizontales : lisibilité mobile */
+        var rowH = (g.h - 16) / 5;
+        types.forEach(function (t, i) {
+          var y = 8 + i * rowH;
+          ctx.fillStyle = '#64748B'; ctx.font = '11px Inter, sans-serif'; ctx.textAlign = 'left';
+          ctx.fillText(t, 0, y + 12);
+          var bw = (counts[i] / max) * (g.w - 110);
+          ctx.fillStyle = '#09B850';
+          if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(58, y + 4, Math.max(bw, 2), 12, 6); ctx.fill(); }
+          else ctx.fillRect(58, y + 4, Math.max(bw, 2), 12);
+          ctx.fillStyle = '#111827'; ctx.font = 'bold 12px Inter, sans-serif';
+          ctx.fillText(String(counts[i]), 58 + Math.max(bw, 2) + 8, y + 14);
+        });
+      } else {
+        var bw = Math.min(64, (g.w - 40) / 5 - 18);
+        types.forEach(function (t, i) {
+          var x = 20 + i * ((g.w - 40) / 5) + ((g.w - 40) / 5 - bw) / 2;
+          var bh = (counts[i] / max) * (g.h - 56);
+          ctx.fillStyle = '#09B850';
+          if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(x, g.h - 28 - bh, bw, bh, 6); ctx.fill(); }
+          else ctx.fillRect(x, g.h - 28 - bh, bw, bh);
+          ctx.fillStyle = '#111827'; ctx.font = 'bold 12px Inter, sans-serif'; ctx.textAlign = 'center';
+          ctx.fillText(String(counts[i]), x + bw / 2, g.h - 34 - bh);
+          ctx.fillStyle = '#64748B'; ctx.font = '11px Inter, sans-serif';
+          ctx.fillText(t, x + bw / 2, g.h - 8);
+        });
+      }
+    }
+    draw();
+    window.addEventListener('resize', draw);
+  })();
+
+  /* Streak tracker : lettre + état + aujourd'hui cerclé */
+  (function () {
+    var wrap = document.querySelector('[data-week]');
+    var days = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+    var today = 4; /* vendredi : 5 jours actifs L→V */
+    wrap.innerHTML = days.map(function (d, i) {
+      var cls = 'vf-streak-day' + (i <= today ? ' is-on' : '') + (i === today ? ' is-today' : '');
+      var state = i < today ? 'jour actif' : i === today ? 'aujourd\'hui, actif' : 'jour à venir';
+      return '<span class="' + cls + '" aria-label="' + d + ' : ' + state + '"><span class="vf-streak-dot"></span>' + d + '</span>';
+    }).join('');
+    wrap.className = 'flex gap-3 mb-3';
+    wrap.insertAdjacentHTML('afterend', '<p class="text-sm font-bold text-ink mb-0.5">🔥 5 jours consécutifs</p><p class="text-xs text-slate2 mb-2">Encore 2 jours pour battre votre record actuel (12 jours).</p>');
+  })();
+};
+</script>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+<a href="verifier.html" class="fab lg:hidden" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[28px]" aria-hidden="true">add</span></a>
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

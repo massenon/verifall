@@ -1,0 +1,121 @@
+/* ------------------------------------------------------------------------
+   Tipline WhatsApp — mise en page (audit de cohérence du 14/09/2026).
+
+   Calquée sur `pages/staff-tableau-de-bord.css`, la référence de marges,
+   d'espacements et de grille du back-office refondu : même conteneur, même
+   en-tête, même padding de carte (1,25 rem), mêmes écarts de grille.
+
+   POURQUOI UNE FEUILLE À PART : le build Tailwind est figé, une classe
+   absente n'y a AUCUN effet. Préfixe `tpl-`, chargée par cette seule vue.
+
+   CONTAINER QUERIES : la largeur utile dépend de la barre latérale (fixe
+   dès 1024 px). La grille se règle sur `.tpl`, pas sur la fenêtre.
+   ------------------------------------------------------------------------ */
+
+.tpl {
+  container-type: inline-size;
+  container-name: tpl;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-block: .25rem 2.5rem;
+  color: var(--st-text);
+}
+
+/* ============================== EN-TÊTE =============================== */
+
+.tpl-header {
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--st-border);
+}
+
+.tpl-h1 {
+  margin: 0;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--st-ink);
+}
+
+.tpl-intro {
+  margin: .45rem 0 0;
+  max-width: 62ch;
+  font-size: .9rem;
+  line-height: 1.55;
+  color: var(--st-muted);
+}
+
+/* ================================ CARTES ============================== */
+
+.tpl-card { padding: 1.25rem; min-width: 0; }
+
+.tpl-h2 {
+  margin: 0 0 .75rem;
+  font-family: 'Instrument Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--st-ink);
+}
+
+.tpl-texte {
+  margin: 0 0 .75rem;
+  font-size: .875rem;
+  line-height: 1.6;
+  color: var(--st-ink);
+}
+.tpl-texte.is-discret { color: var(--st-muted); }
+
+.tpl-etat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem .75rem;
+  margin-bottom: .75rem;
+}
+.tpl-meta { font-size: .875rem; color: var(--st-muted); }
+
+/* Les valeurs manquantes : icône | libellé, la clé technique à la suite —
+   ou dessous quand la ligne ne suffit plus. Elle se renvoyait auparavant en
+   flex non replié, et la clé s'écrasait sur 60 px de haut à 390 px. */
+.tpl-manquants {
+  display: grid;
+  gap: .5rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  list-style: none;
+}
+.tpl-manquant {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  column-gap: .5rem;
+  align-items: start;
+  font-size: .875rem;
+  line-height: 1.45;
+  color: var(--st-ink);
+}
+.tpl-manquant .material-symbols-rounded { font-size: 18px; line-height: 1.1; color: var(--st-danger); }
+.tpl-manquant-texte { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .5rem; min-width: 0; }
+.tpl-manquant-texte code { font-size: .75rem; color: var(--st-muted); overflow-wrap: anywhere; }
+
+.tpl-etapes { display: grid; gap: .75rem; margin: 0; padding: 0; list-style: none; }
+.tpl-etapes li { font-size: .875rem; line-height: 1.6; color: var(--st-ink); }
+
+/* Pleine largeur sur téléphone, comme les commandes du tableau de bord. */
+.tpl-cta { width: 100%; }
+
+/* ================================ GRILLE ============================== */
+
+.tpl-grid { display: grid; gap: 1rem; margin-top: 1rem; }
+.tpl-grid > * { min-width: 0; }
+
+@container tpl (min-width: 560px) {
+  .tpl-cta { width: auto; }
+}
+
+/* Deux cartes de texte côte à côte : à pleine largeur, une ligne de
+   1 050 px ne se lit plus. Seuils et écart identiques au tableau de bord. */
+@container tpl (min-width: 900px) {
+  .tpl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 1.25rem; }
+}

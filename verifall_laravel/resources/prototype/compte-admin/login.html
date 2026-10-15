@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Connexion Admin — Vérif'All</title>
+<meta name="description" content="Espace d'administration Vérif'All réservé.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="../compte-user/css/citizen.css">
+<link rel="stylesheet" href="../css/staff.css">
+<link rel="stylesheet" href="../css/vendor/quill.snow.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+<style>
+  :root { --st-deep: #052E16; --st-brand: #065F46; --st-emerald: #059669; --st-mint: #D1FAE5; }
+  .sidebar { background: var(--st-deep); }
+  .sidebar-label { color: rgba(209,250,229,.55); }
+  .sidebar-link { color: rgba(236,253,245,.82); }
+  .sidebar-link:hover { background: rgba(5,150,105,.18); color: #fff; }
+  .sidebar-link.is-active { background: var(--st-emerald); color: #fff; }
+  .st-group { margin-bottom: .35rem; }
+  .st-group summary { list-style: none; cursor: pointer; padding: .65rem .75rem; border-radius: .75rem;
+    margin-bottom: .15rem; min-height: 42px; display: flex; }
+  .st-group summary:hover { background: rgba(5,150,105,.12); }
+  .st-group summary::-webkit-details-marker { display: none; }
+  .st-group summary .st-caret { transition: transform .2s; }
+  .st-group[open] summary .st-caret { transform: rotate(180deg); }
+  .st-sub { padding-left: 1rem; margin-left: .65rem; border-left: 1px solid rgba(209,250,229,.14);
+    display: flex; flex-direction: column; gap: .15rem; padding-bottom: .4rem; }
+  .st-sub .sidebar-link { padding: .55rem .75rem; font-size: .84rem; min-height: 40px; }
+  #sidebar nav > .sidebar-link { margin-bottom: .35rem; min-height: 44px; }
+  #sidebar .sidebar-label { font-size: 10.5px; letter-spacing: .16em; margin: 0; align-items: center;
+    justify-content: space-between; width: 100%; }
+  .offcanvas { position: fixed; top: 0; right: 0; bottom: 0; z-index: 70; width: min(440px, 100vw);
+    background: #fff; box-shadow: -1rem 0 3rem rgba(17,24,39,.2); transform: translateX(100%);
+    transition: transform .25s ease; overflow-y: auto; }
+  .offcanvas.is-open { transform: none; }
+  .oc-backdrop { position: fixed; inset: 0; z-index: 69; background: rgba(17,24,39,.5); display: none; }
+  .oc-backdrop.is-open { display: block; }
+  @media (prefers-reduced-motion: reduce) { .st-group summary .st-caret, .offcanvas { transition: none; } }
+</style>
+</head>
+<body class="font-sans bg-forest antialiased min-h-screen flex items-center justify-center p-4">
+  <main class="w-full max-w-sm bg-white rounded-2xl shadow-cardlg p-8">
+    <img src="../images/logo.png" alt="Vérif'All" class="h-11 mx-auto mb-2" width="171" height="60">
+    <p class="text-center text-xs font-bold tracking-[.25em] text-slate2 uppercase mb-6">Administration</p>
+    <form data-admin-login>
+      <div class="ffield mb-3"><input id="a-email" type="email" placeholder=" " autocomplete="username"><label for="a-email">Adresse e-mail administrateur</label></div>
+      <div class="ffield mb-4"><input id="a-pass" type="password" placeholder=" " autocomplete="current-password"><label for="a-pass">Mot de passe</label></div>
+      <button type="submit" class="w-full rounded-xl bg-primary text-white font-semibold py-3 hover:bg-primary-dark">Accéder au back-office</button>
+    </form>
+    <p class="text-center text-xs text-slate2 mt-4 mb-0"><a href="../index.html" class="text-primary font-semibold">← Retour au site public</a></p>
+  </main>
+<script>
+document.querySelector('[data-admin-login]').addEventListener('submit', function (e) {
+  e.preventDefault();
+  var email = document.getElementById('a-email').value.trim();
+  var pass = document.getElementById('a-pass').value;
+  if (!/.+@.+\..+/.test(email) || pass.length < 6) {
+    alert('Identifiants invalides : e-mail valide et mot de passe de 6 caractères minimum requis.');
+    return;
+  }
+  location.href = 'dashboard.html';
+});
+</script>
+</body>
+</html>

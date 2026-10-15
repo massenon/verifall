@@ -1,0 +1,7 @@
+{
+  "Analyse en cours": "analyse_en_cours",
+  "Analyse mise en attente": "analyse_mise_en_attente",
+  "<span class=\"material-symbols-rounded !text-[18px]\" aria-hidden=\"true\">refresh</span> <span wire:loading.remove wire:target=\"relancer\">Relancer maintenant</span> <span wire:loading wire:target=\"relancer\">Relance…</span>": "refresh_relancer_maintenant_relance",
+  "L'analyse prend plus de temps que prévu.": "l_analyse_prend_plus_de_temps_que",
+  "Un moteur d'analyse ne répond peut-être pas. Vous pouvez fermer cette page : le rapport apparaîtra dans « Mes vérifications » dès qu'il sera prêt, et vos unités vous seront rendues si l'analyse n'aboutit pas.": "un_moteur_d_analyse_ne_repond_peut"
+}

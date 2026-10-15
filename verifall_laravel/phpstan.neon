@@ -1,0 +1,101 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    # ── LE CLIQUET ───────────────────────────────────────────────────────────
+    #
+    # 101 imprécisions de typage préexistantes y sont figées. AUCUNE n'est un
+    # bug d'exécution : ce sont des annotations trop larges ou trop étroites,
+    # exactement ce que le niveau 6 sert à débusquer.
+    #
+    # Même principe que `ClassesTailwindPresentesTest` : la liste NE DOIT QUE
+    # RÉTRÉCIR. Tout code nouveau est analysé pleinement, et une erreur qui
+    # n'est plus produite doit sortir du fichier — `reportUnmatchedIgnoredErrors`
+    # s'en assure.
+    #
+    # Le régénérer d'un bloc pour faire passer une erreur neuve viderait le
+    # dispositif de son sens.
+    - phpstan-baseline.neon
+
+parameters:
+    # `CLAUDE.md` prescrit le niveau 6 depuis l'origine du projet. La commande y
+    # figurait, le binaire n'existait pas : la barre n'avait JAMAIS été franchie
+    # une seule fois. Elle l'est à partir d'ici.
+    level: 6
+
+    paths:
+        - app
+        - database
+        - routes
+
+    excludePaths:
+        - app/../storage/*
+        # Une migration décrit le schéma à un instant donné : l'analyser
+        # signale des colonnes qu'une migration ultérieure a retirées depuis.
+        - database/migrations/*
+
+    checkModelProperties: true
+
+    # ── LE RÉGLAGE QUI DÉCIDE DE TOUT ────────────────────────────────────────
+    #
+    # Larastan vaut `false` par défaut ici, et lit alors les `$casts` sous leur
+    # forme PROPRIÉTÉ. Or ce projet déclare partout la forme MÉTHODE de
+    # Laravel 11 : `protected function casts(): array`.
+    #
+    # Sans ce réglage, larastan se rabat sur le schéma : un enum devient
+    # `string`, un `datetime` devient `string`. La première passe a rendu
+    # **353 erreurs, dont 173 n'étaient que cela** — « Cannot call method
+    # format() on string », « match toujours faux entre string et
+    # StatutCopieExamen ». Les corriger une à une aurait été corriger une
+    # mauvaise configuration dans le code.
+    parseModelCastsMethod: true
+
+    # Une exception qui ne sert plus est une exception qu'on oublie de retirer.
+    reportUnmatchedIgnoredErrors: true
+
+    ignoreErrors:
+        # ── ARTEFACTS D'OUTIL, PAS DÉFAUTS DE CODE ───────────────────────────
+        #
+        # Chacune a été vérifiée sur le code réel avant d'être posée. Aucune
+        # n'est là pour faire taire une erreur : ce sont des cas où l'analyseur
+        # ne peut pas savoir ce que le framework fait à l'exécution.
+
+        -
+            # `$this->maPropriete` sur une méthode `#[Computed]` de Livewire.
+            # Livewire résout l'appel à l'exécution ; PHPStan ne voit qu'une
+            # propriété absente. Vérifié sur `Citizen\Catalogue::inscriptions()`.
+            identifier: property.notFound
+            path: app/Livewire/*
+
+        -
+            # `?->` sur un attribut que le schéma déclare NOT NULL. C'est du
+            # code défensif que l'analyseur prouve redondant — pas un défaut.
+            #
+            # On ne le retire PAS : `?->` protège aussi le cas où le modèle a
+            # été chargé par un `select()` partiel, où l'attribut est absent
+            # sans être nul. Soixante-neuf retraits pour un gain nul et un
+            # risque non nul ne se justifient pas.
+            identifier: nullsafe.neverNull
+
+        -
+            # `DecryptException` dans un `try` qui lit un attribut casté
+            # `encrypted`. Le déchiffrement A LIEU à l'accès à l'attribut, donc
+            # bien dans le `try` — mais PHPStan ne modélise pas les casts comme
+            # sources d'exception et déclare le `catch` mort.
+            #
+            # Le retirer laisserait une clé d'application changée faire tomber
+            # la connexion à deux facteurs en erreur 500. Vérifié ligne à ligne.
+            identifier: catch.neverThrown
+            path: app/Core/Identity/Services/TwoFactorService.php
+
+        -
+            # Les agrégats SQL nommés (`selectRaw('MIN(x) as premiere')`) ne
+            # sont pas des colonnes du modèle : aucun analyseur ne peut les
+            # connaître, et les déclarer en `@property` mentirait sur le schéma.
+            #
+            # `AnalyseTerminee.php` sortait aussi d'ici jusqu'au contrat V-8 :
+            # ce n'était PAS un agrégat SQL comme ci-dessous, mais un vrai bug
+            # — `$verification->verdict` sur un modèle qui n'a pas cette
+            # colonne, trouvé en traçant les lecteurs de `AnalysisReport::verdict`.
+            # Corrigé (`$verification->report?->verdict`), donc retiré d'ici :
+            # le laisser aurait fait échouer `reportUnmatchedIgnoredErrors`.
+            identifier: property.notFound
+            path: app/Core/Community/Services/VitesseDePropagation.php

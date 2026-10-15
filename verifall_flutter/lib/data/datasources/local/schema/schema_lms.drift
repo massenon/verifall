@@ -1,0 +1,129 @@
+-- Schema local du parcours lms.
+--
+-- POURQUOI ce fichier existe alors qu'il est vide : c'est le second des deux
+-- points ou les cinq parcours auraient ecrit tous ensemble. Il est importe
+-- d'avance par database.dart ; le parcours lms y ajoute SES tables, et
+-- personne ne rouvre l'agregateur. Les cinq branches se fusionnent sans conflit.
+--
+-- Regles pour les tables ajoutees ici :
+--   * une table par ressource cachee, avec au minimum la cle (uuid ou slug), le
+--     contenu, "updated_at" renvoye par l'API et "fetched_at" local ;
+--   * "fetched_at" n'est pas decoratif : c'est lui qui alimente le bandeau
+--     << Donnees du <date>, actualisation impossible >>. Une echeance J-2 vieille
+--     de trois jours devient un mensonge sans sa date (05-HORS-LIGNE 5.4) ;
+--   * ne JAMAIS cacher le solde d'unites, l'etat d'une analyse en cours, ni le
+--     resultat d'un quiz (contrat d'API 7.1) : ce sont les trois ecrans qu'on
+--     relit precisement parce qu'on attend un changement.
+--
+-- Aucune migration a ecrire : database.dart cree les tables manquantes a
+-- l'ouverture. Une modification de colonne SUR UNE TABLE EXISTANTE, elle, est
+-- une demande adressee au responsable du socle, pas une modification directe.
+
+-- ---------------------------------------------------------------------------
+-- Les tables du parcours M3 - Academie hors ligne.
+--
+-- POURQUOI ce parcours a le cache le plus fourni des six : c'est le seul dont
+-- la raison d'etre EST le hors ligne. « Quelqu'un qui apprend le fait dans un
+-- transport, dans une cour, sans reseau — et une lecon qui exige la connexion
+-- est une lecon qui ne se suit pas » (03-ECRANS-04, en-tete).
+--
+-- POURQUOI la charge utile est stockee en JSON brut plutot qu'eclatee en
+-- colonnes : le contrat autorise explicitement les AJOUTS de champs sans
+-- preavis (contrat 6.2). Une colonne par champ obligerait a une migration de
+-- la base locale a chaque ajout serveur — c'est-a-dire a une demande au socle
+-- a chaque ajout serveur. Le JSON absorbe l'ajout ; le decodage tolerant du
+-- socle ignore ce qu'il ne connait pas.
+--
+-- CE QUI N'EST PAS ICI, ET C'EST LE POINT LE PLUS IMPORTANT DU FICHIER :
+--   * aucune table de RESULTAT DE QUIZ ;
+--   * aucune table de QUESTIONS de quiz ;
+--   * aucune table de SOLDE d'unites.
+-- Le contrat (7.1) nomme trois donnees qui ne viennent jamais du cache, et le
+-- resultat d'un quiz en fait partie : « on relit cet ecran precisement parce
+-- qu'on attend un changement ». Une note affichee depuis un cache serait une
+-- note fausse. Les questions ne sont pas cachees non plus : les demander
+-- DEMARRE le chronometre serveur (`meta.commence_le`), et une copie ouverte
+-- depuis le cache serait hors delai sans que personne l'ait vu venir.
+-- ---------------------------------------------------------------------------
+
+-- Une page de catalogue, indexee par sa CLE DE FILTRE.
+--
+-- POURQUOI la cle porte le filtre : « on ne filtre jamais cote client une
+-- liste paginee » (arbitrage n° 82). Chaque combinaison `level`/`q` est donc
+-- une liste differente, servie par le serveur, et cachee separement. Une seule
+-- entree par cle, celle de la PREMIERE page : les pages suivantes dependent
+-- d'un curseur opaque qui ne se rejoue pas hors ligne.
+CREATE TABLE lms_catalogue (
+  cle TEXT NOT NULL PRIMARY KEY,
+  charge_utile TEXT NOT NULL,
+  recupere_le INTEGER NOT NULL
+) AS LmsCatalogueEntree;
+
+-- La fiche d'un cours : la ressource complete plus son `meta`.
+--
+-- `telecharge_le` distingue un cours simplement CONSULTE d'un cours
+-- explicitement TELECHARGE. C'est le seul cache que l'utilisateur a demande
+-- (05-HORS-LIGNE 5.11) : il ne s'evapore pas a l'expiration d'une heure, et il
+-- se supprime a la demande.
+CREATE TABLE lms_cours (
+  slug TEXT NOT NULL PRIMARY KEY,
+  charge_utile TEXT NOT NULL,
+  meta TEXT NOT NULL,
+  recupere_le INTEGER NOT NULL,
+  telecharge_le INTEGER NULL,
+  octets INTEGER NOT NULL DEFAULT 0
+) AS LmsCoursEntree;
+
+-- Le contenu d'une lecon.
+--
+-- C'est la donnee dont le contrat donne la duree de vie la plus longue de tout
+-- le cache — « jusqu'a la fin du cours » (7.1) — et c'est exactement ce qui
+-- rend M3 possible : une lecon telechargee reste lisible tant que le cours
+-- n'est pas termine, et pas seulement une heure.
+CREATE TABLE lms_lecon (
+  uuid TEXT NOT NULL PRIMARY KEY,
+  cours_slug TEXT NOT NULL,
+  charge_utile TEXT NOT NULL,
+  secondes_requises INTEGER NOT NULL,
+  recupere_le INTEGER NOT NULL,
+  octets INTEGER NOT NULL DEFAULT 0
+) AS LmsLeconEntree;
+
+-- Le compteur de lecture ACTIVE, tenu localement.
+--
+-- POURQUOI il est persiste et pas seulement en memoire : le serveur lui-meme
+-- ne remet pas son chronometre a zero quand on rouvre une lecon, « sans cela,
+-- quitter et rouvrir suffirait a effacer le temps deja passe — et punirait
+-- exactement les gens qui lisent en plusieurs fois, dans le transport ». Le
+-- compteur local doit suivre la meme regle, sinon fermer l'application efface
+-- la lecture faite.
+--
+-- Ce compteur est une DECLARATION, jamais la verite : le serveur retient le
+-- plus petit des deux (05-HORS-LIGNE 5.8).
+CREATE TABLE lms_lecture_active (
+  lecon_uuid TEXT NOT NULL PRIMARY KEY,
+  secondes INTEGER NOT NULL DEFAULT 0,
+  maj_le INTEGER NOT NULL
+) AS LmsLectureActiveEntree;
+
+-- Un certificat delivre.
+--
+-- « Le certificat lui-meme est en cache et DOIT l'etre : c'est ce qu'on montre
+-- a un recruteur, souvent hors ligne » (03-ECRANS-04, ecran 18).
+CREATE TABLE lms_certificat (
+  code TEXT NOT NULL PRIMARY KEY,
+  charge_utile TEXT NOT NULL,
+  recupere_le INTEGER NOT NULL
+) AS LmsCertificatEntree;
+
+-- La liste des seances en direct.
+--
+-- Liste FERMEE et non paginee (contrat 3.3) : une seule entree, la liste
+-- entiere. Les trois onglets se repartissent cote client a partir de `etat`,
+-- ce que le contrat autorise ici precisement parce que la liste n'est pas
+-- paginee — et cela marche hors ligne.
+CREATE TABLE lms_seances (
+  cle TEXT NOT NULL PRIMARY KEY,
+  charge_utile TEXT NOT NULL,
+  recupere_le INTEGER NOT NULL
+) AS LmsSeancesEntree;

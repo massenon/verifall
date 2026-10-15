@@ -1,0 +1,205 @@
+===== confidentialite =====
+politique_de_confidentialite
+Politique de Confidentialité
+
+la_protection_de_vos_donnees_personnelles_est
+La protection de vos données personnelles est une priorité pour Vérif'All. Cette politique vous informe de la manière dont nous collectons, utilisons, partageons et protégeons vos données, conformément à la loi n°2009-09 du 22 mai 2009 portant protection des données à caractère personnel en République du Bénin et au Code du Numérique.
+
+1_responsable_du_traitement
+1. Responsable du traitement
+
+2_donnees_collectees
+2. Données collectées
+
+donnees_fournies_par_vous_a_l_inscription
+<strong>Données fournies par vous :</strong> à l'inscription, votre nom, votre adresse électronique et votre mot de passe, conservé sous forme de condensat et jamais en clair. Le numéro de téléphone et la profession restent facultatifs.
+
+donnees_de_contenu_les_textes_images_videos
+<strong>Données de contenu :</strong> les textes, images, vidéos, enregistrements sonores et adresses que vous soumettez pour vérification.
+
+donnees_d_utilisation_les_tutoriels_suivis_les
+<strong>Données d'utilisation :</strong> les tutoriels suivis, les scores aux quiz, l'activité sur le forum, l'historique de vos vérifications.
+
+donnees_techniques_type_de_navigateur_systeme_d
+<strong>Données techniques :</strong> type de navigateur, système d'exploitation, identifiant de l'appareil pour l'application mobile.
+
+adresse_ip_elle_n_est_jamais_conservee
+<strong>Adresse IP :</strong> elle n'est jamais conservée en clair. Elle est transformée en empreinte irréversible, ce qui suffit à reconnaître un envoi en rafale sans conserver une donnée qui désigne une personne.
+
+3_bases_legales_et_finalites
+3. Bases légales et finalités
+
+chaque_traitement_repose_sur_une_base_precise
+Chaque traitement repose sur une base précise, énoncée ici plutôt que laissée à deviner.
+
+execution_du_service_gestion_de_votre_compte
+<strong>Exécution du service :</strong> gestion de votre compte, traitement de vos demandes de vérification, délivrance des certificats de l'Académie.
+
+consentement_reception_de_l_infolettre_hebdomadaire_depot
+<strong>Consentement :</strong> réception de l'infolettre hebdomadaire, dépôt de traceurs non essentiels. Un consentement se retire aussi facilement qu'il se donne.
+
+interet_legitime_securite_de_la_plateforme_prevention
+<strong>Intérêt légitime :</strong> sécurité de la plateforme, prévention des abus, statistiques agrégées sur la propagation de la désinformation. Ces statistiques ne permettent jamais de remonter à une personne.
+
+obligation_legale_conservation_des_traces_exigees_en
+<strong>Obligation légale :</strong> conservation des traces exigées en cas de réquisition judiciaire.
+
+ce_que_nous_ne_faisons_pas_aucune
+<strong>Ce que nous ne faisons pas.</strong> Aucune donnée n'est vendue, louée ni cédée à des fins publicitaires. Aucun profilage publicitaire n'est réalisé. Aucune décision produisant un effet juridique n'est prise de façon entièrement automatisée : un verdict publié passe par une relecture humaine.
+
+4_contenus_soumis_a_verification
+4. Contenus soumis à vérification
+
+les_contenus_que_vous_soumettez_sont_analyses
+Les contenus que vous soumettez sont analysés par nos systèmes et peuvent être relus par nos vérificateurs. Nous nous engageons à ne jamais associer publiquement votre identité à un signalement, sauf accord explicite de votre part.
+
+lorsqu_une_affirmation_deja_verifiee_est_soumise
+Lorsqu'une affirmation déjà vérifiée est soumise à nouveau, la plateforme réutilise le verdict existant : votre soumission n'est alors pas rediffusée.
+
+5_destinataires_et_sous_traitants
+5. Destinataires et sous-traitants
+
+vos_donnees_peuvent_etre_traitees_pour_notre
+Vos données peuvent être traitées pour notre compte par :
+
+les_services_d_analyse_tiers_employes_pendant
+<strong>Les services d'analyse tiers</strong> employés pendant une vérification, tels que la recherche d'images, la détection de texte engendré ou les listes de sites signalés. Ils reçoivent le contenu à vérifier, jamais votre identité.
+
+le_service_d_envoi_de_courriels_pour
+<strong>Le service d'envoi de courriels</strong>, pour les messages de service et l'infolettre.
+
+l_autorite_judiciaire_lorsque_la_loi_nous
+<strong>L'autorité judiciaire</strong>, lorsque la loi nous y contraint.
+
+certains_de_ces_prestataires_sont_etablis_hors
+Certains de ces prestataires sont établis hors du Bénin. Les transferts s'effectuent alors vers des pays offrant des garanties adéquates, ou sous couvert de clauses contractuelles types.
+
+6_durees_de_conservation
+6. Durées de conservation
+
+aucune_donnee_n_est_conservee_indefiniment
+Aucune donnée n'est conservée indéfiniment.
+
+compte_actif_vos_donnees_sont_conservees_tant
+<strong>Compte actif :</strong> vos données sont conservées tant que le compte existe.
+
+compte_supprime_la_suppression_prend_effet_apres
+<strong>Compte supprimé :</strong> la suppression prend effet après un délai de rétractation, pendant lequel elle peut être annulée. Passé ce délai, les données personnelles sont anonymisées de façon irréversible.
+
+verifications_publiees_conservees_sans_limite_de_duree
+<strong>Vérifications publiées :</strong> conservées sans limite de durée, car elles constituent un travail d'intérêt public. Elles ne portent pas votre identité.
+
+journaux_de_securite_conserves_le_temps_necessaire
+<strong>Journaux de sécurité :</strong> conservés le temps nécessaire à la détection des abus, puis purgés automatiquement.
+
+abonnement_a_l_infolettre_conserve_jusqu_au
+<strong>Abonnement à l'infolettre :</strong> conservé jusqu'au désabonnement. La trace du consentement est conservée au-delà, car elle est la preuve que l'abonnement était volontaire.
+
+7_securite
+7. Sécurité
+
+les_communications_sont_chiffrees_par_https_les
+Les communications sont chiffrées par HTTPS. Les mots de passe sont conservés sous forme de condensat et ne sont lisibles par personne, y compris par nous. Les secrets de configuration et les clés d'accès aux services tiers sont chiffrés en base. L'accès au back-office exige une double authentification. Les fichiers que vous téléversez ne sont jamais servis directement : ils passent par une adresse signée à durée limitée.
+
+8_vos_droits
+8. Vos droits
+
+vous_disposez_d_un_droit_d_acces
+Vous disposez d'un droit d'accès, de rectification, d'effacement, d'opposition, de limitation et de portabilité.
+
+acces_et_portabilite_depuis_votre_espace_citoyen
+<strong>Accès et portabilité :</strong> depuis votre espace citoyen, vous pouvez demander l'export de vos données dans un format lisible par une machine.
+
+rectification_vos_informations_de_profil_se_modifient
+<strong>Rectification :</strong> vos informations de profil se modifient directement depuis votre compte.
+
+effacement_la_suppression_du_compte_se_demande
+<strong>Effacement :</strong> la suppression du compte se demande depuis vos réglages. Elle reste réversible pendant le délai de rétractation, puis devient définitive.
+
+opposition_et_retrait_du_consentement_le_desabonnement
+<strong>Opposition et retrait du consentement :</strong> le désabonnement de l'infolettre se fait en un clic, sans connexion, depuis n'importe lequel de nos courriels.
+
+vous_pouvez_egalement_saisir_l_autorite_de
+Vous pouvez également saisir l'Autorité de Protection des Données à Caractère Personnel (APDP) de la République du Bénin.
+
+9_mineurs
+9. Mineurs
+
+10_modification_de_la_presente_politique
+10. Modification de la présente politique
+
+toute_evolution_substantielle_est_annoncee_sur_la
+Toute évolution substantielle est annoncée sur la plateforme avant son entrée en vigueur. La date de dernière mise à jour figure en tête de page.
+
+rejoignez_un_espace_d_information_transparent_et
+Rejoignez un espace d'information transparent et sécurisé.
+
+maintenant_que_vous_connaissez_nos_engagements_passez
+Maintenant que vous connaissez nos engagements, passez à l'action.<br>Créez votre compte gratuit pour bénéficier de tous nos outils et participer activement à la lutte contre la désinformation.
+
+===== cookies =====
+politique_des_cookies
+Politique des Cookies
+
+1_ce_qu_est_un_cookie
+1. Ce qu'est un cookie
+
+un_cookie_est_un_petit_fichier_depose
+Un cookie est un petit fichier déposé sur votre appareil lors de votre visite. Il permet de conserver une information entre deux pages, par exemple le fait que vous êtes connecté. Le terme couvre ici tous les traceurs, y compris ceux qui reposent sur le stockage local du navigateur.
+
+2_les_traceurs_strictement_necessaires
+2. Les traceurs strictement nécessaires
+
+ils_font_fonctionner_le_service_et_ne
+Ils font fonctionner le service et ne peuvent pas être refusés, car les refuser reviendrait à refuser le service lui-même. Ils ne servent à aucune mesure d'audience et ne sont partagés avec personne.
+
+cookie_de_session_vous_garde_connecte_d
+<strong>Cookie de session :</strong> vous garde connecté d'une page à l'autre. Il expire à la fermeture de la session.
+
+jeton_de_securite_csrf_empeche_qu_un
+<strong>Jeton de sécurité (CSRF) :</strong> empêche qu'un autre site déclenche une action en votre nom. Il vit le temps de la session.
+
+preference_de_langue_retient_la_langue_choisie
+<strong>Préférence de langue :</strong> retient la langue choisie afin de ne pas vous la redemander à chaque page.
+
+reponse_au_bandeau_de_consentement_retient_votre
+<strong>Réponse au bandeau de consentement :</strong> retient votre choix, précisément pour ne plus vous le demander.
+
+3_la_mesure_d_audience
+3. La mesure d'audience
+
+aucune_mesure_d_audience_n_est_active
+Aucune mesure d'audience n'est active par défaut sur cette plateforme. Aucun identifiant de suivi n'est déposé tant qu'un outil n'a pas été configuré et que vous n'y avez pas consenti.
+
+si_une_mesure_d_audience_est_activee
+Si une mesure d'audience est activée, elle ne le sera qu'après votre accord explicite, donné par le bandeau de consentement. Refuser n'enlève rien au service : toutes les fonctionnalités restent accessibles.
+
+4_ce_que_nous_ne_deposons_pas
+4. Ce que nous ne déposons pas
+
+aucun_traceur_publicitaire_aucun_pixel_de_suivi
+Aucun traceur publicitaire. Aucun pixel de suivi dans nos courriels : l'infolettre ne mesure ni les ouvertures ni les clics, parce que ces mesures exigeraient un traceur et un consentement pour un bénéfice qui ne nous est pas nécessaire. Aucun partage de données de navigation avec une régie.
+
+5_retirer_votre_accord
+5. Retirer votre accord
+
+votre_choix_se_modifie_a_tout_moment
+Votre choix se modifie à tout moment. Effacer les cookies du site depuis votre navigateur fait réapparaître le bandeau, et vous pouvez alors répondre autrement.
+
+vous_pouvez_egalement_configurer_votre_navigateur_pour
+Vous pouvez également configurer votre navigateur pour refuser systématiquement les cookies. Sachez toutefois que refuser les traceurs strictement nécessaires empêche la connexion à votre espace personnel : ce sont eux qui vous y maintiennent.
+
+6_traceurs_deposes_par_des_tiers
+6. Traceurs déposés par des tiers
+
+certaines_pages_affichent_des_contenus_heberges_ailleurs
+Certaines pages affichent des contenus hébergés ailleurs, par exemple une vidéo citée dans une vérification. Ces contenus peuvent déposer leurs propres traceurs, sur lesquels nous n'avons pas la main. Leur politique s'applique alors en plus de la nôtre.
+
+7_contact
+7. Contact
+
+rejoignez_un_espace_d_information_transparent_et
+Rejoignez un espace d'information transparent et sécurisé.
+
+maintenant_que_vous_connaissez_nos_engagements_passez
+Maintenant que vous connaissez nos engagements, passez à l'action.<br>Créez votre compte gratuit pour bénéficier de tous nos outils et participer activement à la lutte contre la désinformation.

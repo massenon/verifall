@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Actualité vérifiée — Hub d'Infos Bénin</title>
+<meta name="description" content="Le contenu complet d'une actualité vérifiée par la rédaction Vérif'All Lab : contexte, analyse et réflexes à adopter.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/hub-infos.html">
+<meta property="og:title" content="Actualité vérifiée — Hub d'Infos Bénin">
+<meta property="og:description" content="Le contenu complet d'une actualité vérifiée par la rédaction Vérif'All Lab : contexte, analyse et réflexes à adopter.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link is-active" href="hub-infos.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="max-w-3xl mx-auto" data-article-root></div>
+<script>
+window.VFPage = function (VF, S) {
+  var DATA = {"1": { verdict: "✓ VÉRIFIÉ", cls: "vbadge-true", title: 'Calendrier officiel des examens nationaux confirmé', chapo: 'Les dates publiées par le ministère sont exactes et définitives pour la session 2026.', source: 'gouv.bj', date: "14 août 2026", cat: "Éducation", body: ["Le ministère des Enseignements a publié le calendrier officiel de la session 2026. Nos équipes ont confirmé l'authenticité du communiqué auprès du canal officiel gouv.bj : les dates circulant sur les réseaux correspondent bien au document source.", 'Le détail des épreuves, centre par centre, est disponible uniquement sur la plateforme officielle. Toute « fuite » de sujets ou calendrier alternatif partagé sur WhatsApp doit être considérée comme frauduleuse.', "Réflexe Vérif'All : pour toute information scolaire, remontez systématiquement au site du ministère avant de partager aux groupes de parents."] },"2": { verdict: "✗ DÉMENTI", cls: "vbadge-false", title: "Aucune « taxe WhatsApp » n'est instaurée au Bénin", chapo: "La rumeur recycle un faux communiqué déjà démenti en 2024. Aucun texte officiel n'existe.", source: 'ARCEP Bénin', date: "13 août 2026", cat: "Technologie", body: ["Un visuel prétendant instaurer une « taxe WhatsApp de 150 FCFA par jour » circule massivement. Notre analyse d'antériorité montre qu'il s'agit du même montage déjà démenti en 2024, avec un simple changement de date.", "L'ARCEP Bénin confirme qu'aucun texte réglementaire de ce type n'existe ni n'est en préparation. Le logo utilisé sur le faux communiqué présente d'ailleurs des défauts de résolution typiques d'un copier-coller.", 'Ce type de rumeur vise à générer de la colère et des partages massifs. Ne relayez pas : partagez plutôt ce démenti sourcé.'] },"3": { verdict: "✓ VÉRIFIÉ", cls: "vbadge-true", title: 'Campagne de vaccination gratuite dans le Littoral', chapo: 'La campagne annoncée est bien réelle : centres et horaires confirmés par le ministère de la Santé.', source: 'sante.gouv.bj', date: "12 août 2026", cat: "Santé", body: ['La campagne de vaccination gratuite annoncée pour le département du Littoral est authentique. Le ministère de la Santé a publié la liste des centres et les créneaux sur son site officiel.', "Nos équipes ont vérifié la cohérence entre l'affiche qui circule et le communiqué source : les informations correspondent. Attention néanmoins aux versions modifiées ajoutant des numéros de téléphone non officiels.", "Pour toute campagne sanitaire, le seul canal de référence reste sante.gouv.bj — aucun paiement n'est jamais demandé pour un vaccin gratuit."] },"4": { verdict: "⚠ TROMPEUR", cls: "vbadge-doubt", title: "Vidéo « d'inondation à Cotonou » tournée ailleurs", chapo: "Les images sont authentiques mais proviennent d'un autre pays, en 2022.", source: "Vérif'All Lab", date: "11 août 2026", cat: "Société", body: ["La vidéo montrant des rues submergées, présentée comme tournée « hier à Cotonou », est authentique mais son contexte est faux : la recherche inversée d'images clés la localise dans un autre pays, en 2022.", "C'est le cas d'école du contenu trompeur : des images réelles, déplacées dans le temps et l'espace pour créer une émotion immédiate.", "Avant de partager une vidéo « choc », posez les deux questions Vérif'All : quand a-t-elle été filmée, et où ? Sans réponse sourcée, ne partagez pas."] },"5": { verdict: "✗ DÉMENTI", cls: "vbadge-false", title: "Fausse offre d'emploi au Port Autonome de Cotonou", chapo: 'Le site frauduleux demande des « frais de dossier ». Le PAC ne recrute que via son site officiel.', source: 'PAC', date: "10 août 2026", cat: "Économie", body: ["Un site imitant le Port Autonome de Cotonou promet un « recrutement massif » contre des frais de dossier payables par Mobile Money. Le domaine a été enregistré il y a moins de trois semaines, à l'étranger.", "Le PAC rappelle que tous ses recrutements passent exclusivement par son site officiel et qu'aucun paiement n'est jamais exigé d'un candidat.", "Si vous avez déjà payé : conservez les preuves de transaction et signalez à la Police Républicaine. Signalez aussi l'offre sur Vérif'All pour protéger d'autres candidats."] },"6": { verdict: "✓ VÉRIFIÉ", cls: "vbadge-true", title: 'Nouveau service e-services pour les actes de naissance', chapo: "La plateforme officielle permet bien la demande en ligne d'actes d'état civil.", source: 'service-public.bj', date: "9 août 2026", cat: "Administratif", body: ['La plateforme nationale e-services permet désormais de demander un acte de naissance sécurisé en ligne. Nos équipes ont testé le parcours de bout en bout : le service est fonctionnel.', "Les frais affichés sur la plateforme officielle sont les seuls frais légaux. Méfiez-vous des « facilitateurs » sur les réseaux qui proposent d'accélérer la démarche contre paiement.", "Réflexe Vérif'All : les démarches administratives béninoises se vérifient toujours sur service-public.bj."] }};
+  var aid = new URLSearchParams(location.search).get('a');
+  var a = aid && DATA[aid];
+  if (!a) { location.replace('hub-infos.html'); return; }
+  document.title = a.title + " — Hub d'Infos Bénin";
+  function esc(x) { return String(x).replace(/</g, '&lt;'); }
+  var root = document.querySelector('[data-article-root]');
+  root.innerHTML = ''
+    + '<a href="hub-infos.html" class="inline-flex items-center gap-1 text-sm font-bold text-ink hover:text-primary mb-4">&larr; Hub d\'Infos Bénin</a>'
+    + '<article class="card p-6 sm:p-10">'
+    + '<div class="flex items-center gap-2 mb-3"><span class="vbadge ' + a.cls + '">' + a.verdict + '</span><span class="text-xs text-slate2">' + a.cat + '</span></div>'
+    + '<h1 class="text-2xl sm:text-3xl font-display font-bold text-ink mb-3">' + esc(a.title) + '</h1>'
+    + '<p class="text-base text-slate2 mb-4" style="font-style:italic">' + esc(a.chapo) + '</p>'
+    + '<p class="text-xs text-slate2 pb-4 mb-5 border-b border-line">Source : <strong class="text-ink">' + esc(a.source) + '</strong> · Vérifié le ' + a.date + ' · Rédaction Vérif\'All Lab</p>'
+    + a.body.map(function (p) { return '<p class="text-[15px] leading-relaxed text-slate2 mb-4">' + esc(p) + '</p>'; }).join('')
+    + '<div class="rounded-xl bg-primary-soft border border-primary/20 p-5 mt-2 mb-6"><p class="text-sm mb-0"><strong class="text-ink">Un doute sur un contenu similaire ?</strong> <a href="verifier.html" class="font-semibold text-primary">Soumettez-le au laboratoire</a> — verdict documenté en quelques minutes.</p></div>'
+    + '<div class="flex flex-wrap items-center gap-2 no-print">'
+    + '<button type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-[#25D366] text-white text-sm font-semibold px-4 py-2.5 hover:opacity-90" data-share-wa>WhatsApp</button>'
+    + '<button type="button" class="inline-flex items-center gap-1.5 rounded-xl border border-line text-ink text-sm font-semibold px-4 py-2.5 hover:bg-canvas" data-share-generic><span class="material-symbols-rounded !text-[17px]">share</span> Partager le lien</button>'
+    + '<button type="button" class="inline-flex items-center gap-1.5 rounded-xl border border-line text-ink text-sm font-semibold px-4 py-2.5 hover:bg-canvas" onclick="window.print()"><span class="material-symbols-rounded !text-[17px]">print</span> Imprimer</button>'
+    + '</div></article>';
+  function link() { return 'https://verifall.com/compte-user/hub-article.html?a=' + aid; }
+  root.querySelector('[data-share-wa]').addEventListener('click', function () {
+    window.open('https://wa.me/?text=' + encodeURIComponent(a.verdict + ' — ' + a.title + ' (Hub Vérif\'All) ' + link()), '_blank', 'noopener');
+  });
+  root.querySelector('[data-share-generic]').addEventListener('click', function () {
+    var text = a.verdict + ' — ' + a.title;
+    if (navigator.share) navigator.share({ title: 'Hub Vérif\'All', text: text, url: link() }).catch(function () {});
+    else if (navigator.clipboard) { navigator.clipboard.writeText(text + ' ' + link()); VF.toast('Lien copié — diffusez la vérité.'); }
+  });
+};
+</script>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

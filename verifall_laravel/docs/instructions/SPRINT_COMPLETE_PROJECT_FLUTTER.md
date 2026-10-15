@@ -1,0 +1,5 @@
+# SPRINT_COMPLETE_PROJECT_FLUTTER.md — Plan mobile (après S8 Laravel ou en parallèle dès S3 sur API mockée)
+
+M0 Socle : thème tokens, routing, réseau (Dio+auth+refresh), secure storage, Drift, composants VfXxx (golden tests), splash+onboarding.
+M1 Auth : inscription+consentements, OTP, login+biométrie locale, 2FA, reset. M2 Vérifier : formulaire par type (caméra/galerie/micro), coût+solde, soumission→suivi temps réel (Reverb)→rapport (rendu natif des sections)→partage image 9:16. M3 LMS : catalogue 4 états, cours+tabs+avis, lecteur leçons (texte+**vidéo** avec reprise timestamp, chrono), quiz chronométré+confetti+gains, certificat PDF (visualisation+partage), exercices upload. M4 Hub+Forum : feed, article, forum (votes, composer, verdict officiel), notifications FCM+centre. M5 Compte : unités+recharge (deep-link Mobile Money), statistiques (charts natifs), récompenses, parrainage (QR natif+partage), réglages RGPD (export, suppression), mode économie de données.
+DoD mobile : flutter analyze 0, tests widgets+golden PASS, 60 fps listes, offline lecture OK, resync file d'opérations OK, parité visuelle avec le prototype validée écran par écran.

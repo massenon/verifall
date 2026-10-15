@@ -1,0 +1,23 @@
+/*
+ | blog-details — bloc <style> de ./blog-details.html, repris VERBATIM.
+ |
+ | Le prototype declare ces regles EN LIGNE dans sa page. L'extraction du shell
+ | ne prend que le balisage : sans ce fichier, les classes ci-dessous n'ont
+ | aucun effet et la page sort sans ses pastilles, ses cartes ou ses badges.
+ |
+ | Charge par la vue via @push('styles'), donc APRES tailwind.css — la place
+ | qu'occupe le bloc dans le prototype, et d'ou il tire sa specificite.
+ |
+ | Une feuille PAR PAGE et non un fichier commun : deux pages definissent
+ | `.hub-pill` et `.no-scrollbar` differemment, un fichier unique en ecraserait
+ | une.
+ */
+
+.content-style p { margin-bottom: 1.25rem; line-height: 1.85; font-size: 1.05rem; }
+  .content-style h2 { font-family: 'Instrument Sans'; font-weight: 700; font-size: 1.7rem; margin-top: 2.5rem; margin-bottom: 1rem; color: #202124; }
+  .content-style blockquote { border-left: 4px solid #09B850; background: #f5f7fa; padding: 1rem 1.5rem; border-radius: .5rem; margin: 1.5rem 0; font-style: italic; color: #202124; }
+  .content-style blockquote footer { font-style: normal; font-size: .85rem; color: #85878a; margin-top: .5rem; }
+  .fact-box { background: #f8f9fb; border: 1px solid #edeef1; border-radius: 1rem; }
+  .fact-box ul { list-style: none; padding-left: 0; margin-bottom: 0; }
+  .fact-box li { display: flex; gap: .5rem; margin-bottom: .6rem; font-size: .9rem; }
+  .fact-box li strong { color: #202124; min-width: 100px; flex-shrink: 0; }

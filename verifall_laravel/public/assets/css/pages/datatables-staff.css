@@ -1,0 +1,123 @@
+/* ------------------------------------------------------------------------
+   Tables DataTables du back-office — ajustements minimaux.
+
+   Pilote du 14 septembre 2026 (écran Utilisateurs). Contrat :
+   docs/DATATABLES_CONTRAT.md.
+
+   La directive tranche : « DataTables doit rester reconnaissable comme
+   DataTables ». Le style par défaut (dataTables.dataTables.css et ses
+   extensions) fait donc l'essentiel ; ce fichier ne fait que trois choses :
+
+     1. rendre au tableau ce que le reset Tailwind (preflight) lui retire —
+        bordures de boutons, alignements ;
+     2. donner une place aux deux sous-textes que la ligne affiche (fonction,
+        motif de suspension), avec des sélecteurs à nous : le build Tailwind
+        est figé, une classe utilitaire absente n'y aurait aucun effet ;
+     3. garder la table utilisable à 400 px.
+
+   Tout est rangé sous `[data-vdt]` : rien ne fuit hors des tables, et aucun
+   sélecteur existant du design system n'est touché.
+   ------------------------------------------------------------------------ */
+
+[data-vdt] .dt-container {
+  font-size: .875rem;
+  color: #0F172A;
+}
+
+/* Les barres du haut et du bas : elles passent à la ligne plutôt que de
+   déborder, et respirent. */
+[data-vdt] .dt-container .dt-layout-row {
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+/* Preflight remet les boutons à nu : on rend aux boutons DataTables leur
+   aspect par défaut, et une hauteur tactile raisonnable. */
+[data-vdt] .dt-container .dt-buttons .dt-button,
+div.dt-button-collection .dt-button {
+  border-width: 1px;
+  min-height: 36px;
+}
+
+[data-vdt] .dt-container .dt-length select,
+[data-vdt] .dt-container .dt-paging .dt-paging-button {
+  border-width: 1px;
+}
+
+[data-vdt] table.dataTable td {
+  vertical-align: top;
+}
+
+[data-vdt] table.dataTable .vdt-titre {
+  display: block;
+  font-weight: 600;
+  color: #0F172A;
+}
+
+[data-vdt] table.dataTable .vdt-sous-texte {
+  display: block;
+  font-size: .75rem;
+  color: #64748B;
+  max-width: 28rem;
+  overflow-wrap: anywhere;
+}
+
+[data-vdt] table.dataTable td.vdt-actions {
+  white-space: nowrap;
+  text-align: right;
+}
+
+[data-vdt] table.dataTable td.vdt-actions .material-symbols-rounded {
+  font-size: 19px;
+}
+
+/* « Aucun résultat » : le bouton de réinitialisation sous le message. */
+[data-vdt] table.dataTable td.dt-empty .st-btn {
+  margin-top: .5rem;
+}
+
+/* Le sélecteur DateTime s'ouvre au-dessus de l'en-tête fixe du back-office
+   (z-40) et du tiroir (z-79). */
+div.dt-datetime {
+  z-index: 95;
+}
+
+div.dt-button-collection,
+div.dtsb-searchBuilder,
+div.dt-button-background {
+  z-index: 96;
+}
+
+/* ============================ PETITS ÉCRANS ============================ */
+
+@media (max-width: 640px) {
+  /* Les filtres rapides prennent toute la largeur : à 400 px, quatre listes
+     côte à côte ne se lisent plus. */
+  [data-vdt] select[data-vdt-filtre],
+  [data-vdt] .ffield {
+    width: 100%;
+  }
+
+  [data-vdt] .dt-container .dt-layout-row .dt-layout-cell {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  [data-vdt] .dt-container .dt-paging .dt-paging-button {
+    min-width: 2.25rem;
+    padding: .35rem .5rem;
+  }
+}
+
+/* Le nom d'une ligne qui mène à une fiche (Utilisateurs → fiche du compte,
+   14 septembre 2026) : lisible comme un titre, reconnaissable comme un lien. */
+[data-vdt] table.dataTable a.vdt-lien-fiche {
+  color: inherit;
+  text-decoration: none;
+}
+
+[data-vdt] table.dataTable a.vdt-lien-fiche:hover .vdt-titre,
+[data-vdt] table.dataTable a.vdt-lien-fiche:focus-visible .vdt-titre {
+  color: #065F46;
+  text-decoration: underline;
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Icône adaptative (Android 8.0+, API 26). Sans ce descripteur, le lanceur
+  retombe sur les PNG plats de mipmap-*/ic_launcher.png — présents aussi,
+  pour les appareils plus anciens — mais affiche alors la coche verte
+  découpée au carré au lieu du masque natif (cercle, carré arrondi...) que
+  chaque fabricant applique, Android recadre sinon trop fort et tronque la
+  coche. La couche foreground est dessinée à 42% du canevas, à l'intérieur
+  de la zone de sécurité de 66/108 — vérifié visuellement le 9 octobre 2026.
+-->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background"/>
+    <foreground android:drawable="@mipmap/ic_launcher_foreground"/>
+</adaptive-icon>

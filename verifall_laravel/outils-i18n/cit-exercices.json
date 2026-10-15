@@ -1,0 +1,11 @@
+{
+  "Mes Exercices": "mes_exercices",
+  "Aucun exercice pour le moment.": "aucun_exercice_pour_le_moment",
+  "Votre réponse": "votre_reponse",
+  "format_list_bulleted": "format_list_bulleted",
+  "format_list_numbered": "format_list_numbered",
+  "link": "link",
+  "<span class=\"material-symbols-rounded !text-[18px]\" aria-hidden=\"true\">attach_file</span> Joindre un fichier (PDF / ZIP / image · 10 Mo max) <input type=\"file\" class=\"sr-only\" wire:model=\"piece\" accept=\".pdf,.zip,image/*\">": "attach_file_joindre_un_fichier_pdf_zip",
+  "Annuler": "annuler",
+  "Soumettre": "soumettre"
+}

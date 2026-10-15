@@ -1,0 +1,157 @@
+name: verifall_app
+description: "Vérif'All — la boussole contre la désinformation numérique."
+publish_to: 'none'
+
+# La version visible suit le versionnement sémantique et le numéro de compilation
+# est strictement croissant (07-LIVRAISON §7.3). Elle n'est JAMAIS recopiée en dur
+# dans le code : `package_info_plus` la relit depuis le paquet installé, à la fois
+# pour l'en-tête `X-Client-Version` et pour le pied de l'écran Réglages.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+# `flutter_html: ^3.0.0` déclare `html: ^0.15.5`, mais son code n'appelle que
+# la fonction top-level `matches()` de `package:html/src/query_selector.dart`,
+# retirée dans la version 0.15.7 sans rupture de version déclarée côté html —
+# `flutter build`/`flutter test` échouent alors à la compilation (Kernel),
+# invisibles à `flutter analyze` qui ne passe pas par le même compilateur.
+# Épinglé à 0.15.6, dernière version où `matches()` existe encore.
+dependency_overrides:
+  html: 0.15.6
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # --- Socle : état, navigation, injection (01-FONDATIONS §1.3, §1.4, §1.5) ---
+  flutter_riverpod: ^3.4.2        # Riverpod porte AUSSI l'injection : aucun conteneur de plus,
+                                  # aucun singleton statique — un objet global survivrait à la
+                                  # déconnexion et garderait en mémoire ce qui devait être purgé.
+  go_router: ^18.0.0
+
+  # --- Socle : réseau (04-RESEAU) ---
+  dio: ^5.11.0
+  flutter_secure_storage: ^11.0.0 # Le jeton est un secret (API_SPECIFICATION §1.1) :
+                                  # jamais SharedPreferences, qui est un fichier lisible
+                                  # sur un appareil rooté.
+  package_info_plus: ^10.2.1      # `X-Client-Version`, lu du paquet et non écrit en dur.
+  connectivity_plus: ^7.3.1       # 05-HORS-LIGNE §5.12 — indice, jamais un verrou d'interface.
+
+  # --- Socle : base locale et file d'écriture (05-HORS-LIGNE) ---
+  drift: ^2.34.3
+  drift_flutter: ^0.3.1           # Remplace sqlite3_flutter_libs (marqué EOL) : il embarque
+                                  # la bibliothèque native ET résout le chemin du fichier.
+  path_provider: ^2.1.6
+  path: ^1.9.1
+  uuid: ^4.6.0                    # `Idempotency-Key` : un UUID par ACTE, pas par tentative.
+
+  # --- Socle : composants partagés Vf* (02-DESIGN-SYSTEM §2.7) ---
+  cached_network_image: ^3.4.1    # VfCover — couvertures distantes, dégradé en repli.
+  # Les couvertures distantes de cours et d'articles sont, côté API, des SVG
+  # (placeholders générés) : `CachedNetworkImage` seul ne décode pas ce format,
+  # la couverture ne s'affichait donc JAMAIS et retombait en silence sur le
+  # dégradé. `flutter_svg` ne couvre QUE le cas `.svg` dans `VfCover` ; le PNG/JPEG
+  # reste sur `cached_network_image`, avec son cache disque.
+  flutter_svg: ^2.2.1
+  flutter_html: ^3.0.0            # VfProseBody — rendu en liste blanche de balises, jamais brut.
+
+  # --- Réservé aux cinq parcours (01-FONDATIONS §1.8) -----------------------
+  # Ces dépendances sont déclarées ICI, dans le socle, pour la même raison que les
+  # six fichiers de routes : pour que M1 à M5 n'aient pas à rouvrir pubspec.yaml en
+  # même temps. Le socle ne les utilise pas ; chaque parcours utilise les siennes.
+  infinite_scroll_pagination: ^5.1.1  # M2, M4 — listes par curseur
+  image_picker: ^1.2.3                # M2 — écran 09
+  share_plus: ^13.3.0                 # M2, M3, M4, M5
+  url_launcher: ^6.3.2                # M2, M4 — onglet système, jamais de WebView maison
+  chewie: ^1.15.0                     # M3 — écran 16
+  video_player: ^2.14.0               # M3 — requis par chewie
+  fl_chart: ^1.2.0                    # M5 — écran 28 (le donut reste un CustomPaint)
+  qr_flutter: ^4.1.0                  # M5 — écran 29, le QR se génère hors ligne
+  # `pusher_channels_flutter` a été RETIRÉ le 2 septembre 2026.
+  #
+  # Il était déclaré pour Reverb, et n'a JAMAIS été importé — pas une ligne de
+  # `lib/` ne le nommait. Le suivi d'une analyse se fait par sondage, et c'est
+  # arbitré : le canal privé `verification.{uuid}` exige un point
+  # d'authentification de diffusion que le contrat ne publie pas (réserve F.4).
+  # Le serveur n'a pas Reverb installé, et la cible cPanel mutualisé ne peut
+  # faire tourner aucun démon — le sondage n'est donc pas un repli, c'est le
+  # mode nominal.
+  #
+  # Ce qui a forcé la décision : il traîne un SDK Java qui dépend de slf4j, et
+  # R8 refusait de minifier faute de `org.slf4j.impl.StaticLoggerBinder`.
+  # **Aucune version de publication ne pouvait sortir à cause d'un paquet que
+  # personne n'appelait.** L'alternative aurait été d'ajouter une règle
+  # `-dontwarn` — soit un contournement pour conserver du poids mort.
+  #
+  # Le jour où Reverb sera réellement déployé, on le redéclarera en sachant
+  # pourquoi.
+
+  # --- Ajouts de la passe d'integration ------------------------------------
+  # `device_info_plus` : le champ `appareil` des trois appels qui emettent un
+  # jeton doit porter LE MODELE REEL du telephone (definition de fini de M1).
+  # Flutter ne l'expose pas ; `dart:io` ne connait que le systeme et sa version.
+  # Le point d'injection existait deja — `NomAppareil` — et n'attendait que la
+  # dependance (arbitrage n° 141).
+  device_info_plus: ^13.2.0
+  # `riverpod` : il etait deja la, mais en TRANSITIF. Ecrire `Override` ou un
+  # type de famille exigeait donc d'importer un paquet non declare, ce que M5 a
+  # signale et que `depend_on_referenced_packages` reproche a juste titre. La
+  # version suit celle que `flutter_riverpod` resout (arbitrage n° 142).
+  riverpod: ^3.4.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  # build_runner >= 2.15.2 exige analyzer >= 13.3 donc meta ^1.18.3, alors que
+  # flutter_test épingle meta 1.18.0. La borne haute est donc imposée par le SDK,
+  # pas par un choix : elle se relèvera quand Flutter remontera `meta`.
+  build_runner: ">=2.4.13 <2.15.2"
+  drift_dev: ^2.34.0
+  # Uniquement pour `test/data/local/migration_test.dart`, qui doit ecrire un
+  # schema d'ANCIENNE version en SQLite brut avant de laisser drift migrer.
+  # Deja present en transitif via drift ; declare ici parce qu'un test
+  # l'importe directement (`depend_on_referenced_packages`).
+  sqlite3: ^3.5.2
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/fonts/
+    # Declare des le socle, pour la meme raison que les six fichiers de routes :
+    # les quatre visuels du carrousel du splash appartiennent a M1, et M1 ne doit
+    # pas avoir a rouvrir ce fichier pendant que quatre autres parcours ecrivent.
+    - assets/onboarding/
+
+  # Les polices sont des ressources LOCALES, jamais réseau (02-DESIGN-SYSTEM, en-tête
+  # de section) : un premier lancement qui attend une police distante affiche un écran
+  # nu sur une connexion lente — c'est-à-dire dans le cas d'usage principal du produit.
+  #
+  # Les fichiers ne sont pas versionnés dans ce dépôt (licences à déposer par le
+  # porteur du projet). Voir assets/fonts/README.md pour les six fichiers attendus.
+  # Tant qu'ils manquent, `VfTypography` retombe sur la police système et les captures
+  # de référence (06-TESTS §6.5) ne sont PAS exploitables.
+  #
+  # fonts:
+  #   - family: Inter
+  #     fonts:
+  #       - asset: assets/fonts/Inter-Regular.ttf
+  #       - asset: assets/fonts/Inter-Medium.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/Inter-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/Inter-Bold.ttf
+  #         weight: 700
+  #   - family: Instrument Sans
+  #     fonts:
+  #       - asset: assets/fonts/InstrumentSans-Bold.ttf
+  #         weight: 700
+  #       - asset: assets/fonts/InstrumentSans-ExtraBold.ttf
+  #         weight: 800
+  #   - family: IBM Plex Mono
+  #     fonts:
+  #       - asset: assets/fonts/IBMPlexMono-Regular.ttf
+  #       - asset: assets/fonts/IBMPlexMono-SemiBold.ttf
+  #         weight: 600

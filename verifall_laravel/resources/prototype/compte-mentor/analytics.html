@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Performance — Mentor Vérif'All</title>
+<meta name="description" content="La performance pédagogique de vos cours : complétion, scores et engagement.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="../compte-user/css/citizen.css">
+<link rel="stylesheet" href="../css/staff.css">
+<link rel="stylesheet" href="../css/vendor/quill.snow.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+<style>
+  :root { --st-deep: #052E16; --st-brand: #065F46; --st-emerald: #059669; --st-mint: #D1FAE5; }
+  .sidebar { background: var(--st-deep); }
+  .sidebar-label { color: rgba(209,250,229,.55); }
+  .sidebar-link { color: rgba(236,253,245,.82); }
+  .sidebar-link:hover { background: rgba(5,150,105,.18); color: #fff; }
+  .sidebar-link.is-active { background: var(--st-emerald); color: #fff; }
+  .st-group { margin-bottom: .35rem; }
+  .st-group summary { list-style: none; cursor: pointer; padding: .65rem .75rem; border-radius: .75rem;
+    margin-bottom: .15rem; min-height: 42px; display: flex; }
+  .st-group summary:hover { background: rgba(5,150,105,.12); }
+  .st-group summary::-webkit-details-marker { display: none; }
+  .st-group summary .st-caret { transition: transform .2s; }
+  .st-group[open] summary .st-caret { transform: rotate(180deg); }
+  .st-sub { padding-left: 1rem; margin-left: .65rem; border-left: 1px solid rgba(209,250,229,.14);
+    display: flex; flex-direction: column; gap: .15rem; padding-bottom: .4rem; }
+  .st-sub .sidebar-link { padding: .55rem .75rem; font-size: .84rem; min-height: 40px; }
+  #sidebar nav > .sidebar-link { margin-bottom: .35rem; min-height: 44px; }
+  #sidebar .sidebar-label { font-size: 10.5px; letter-spacing: .16em; margin: 0; align-items: center;
+    justify-content: space-between; width: 100%; }
+  .offcanvas { position: fixed; top: 0; right: 0; bottom: 0; z-index: 70; width: min(440px, 100vw);
+    background: #fff; box-shadow: -1rem 0 3rem rgba(17,24,39,.2); transform: translateX(100%);
+    transition: transform .25s ease; overflow-y: auto; }
+  .offcanvas.is-open { transform: none; }
+  .oc-backdrop { position: fixed; inset: 0; z-index: 69; background: rgba(17,24,39,.5); display: none; }
+  .oc-backdrop.is-open { display: block; }
+  @media (prefers-reduced-motion: reduce) { .st-group summary .st-caret, .offcanvas { transition: none; } }
+</style>
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line">
+  <div class="h-full flex items-center gap-3 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false"><span class="material-symbols-rounded " aria-hidden="true">menu</span></button>
+    <a href="dashboard.html"><img src="../images/logo.png" alt="Vérif'All" class="h-10 w-auto" width="171" height="60"></a>
+    <span class="rounded-full text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1" style="background:var(--st-brand)">Mentor</span>
+    <div class="hidden md:block relative flex-1 max-w-md ml-4">
+      <label class="sr-only" for="st-search">Rechercher</label>
+      <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-slate2 !text-[19px]" aria-hidden="true">search</span>
+      <input id="st-search" type="search" placeholder="Rechercher un module, un utilisateur, un cours…" class="w-full bg-canvas border border-line rounded-xl pl-10 pr-3 py-2.5 text-sm outline-none focus:border-[#059669]">
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    
+
+    <button type="button" class="hidden sm:inline-flex st-icnbtn !w-11 !h-11" data-fullscreen title="Plein écran" aria-label="Basculer le plein écran"><span class="material-symbols-rounded !text-[22px]" aria-hidden="true">fullscreen</span></button>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications — 3 non lues">
+        <span class="material-symbols-rounded !text-[22px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-brandred text-white text-[10px] font-bold inline-flex items-center justify-center" data-notif-count>3</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] max-w-[92vw] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="flex items-center justify-between px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink mb-0">Notifications</p>
+          <button type="button" class="text-xs font-bold text-primary" data-notif-readall>Tout marquer lu</button>
+        </div>
+        <div class="max-h-[320px] overflow-y-auto" data-notif-list><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">grading</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Nouveau devoir soumis</span>
+          <span class="block text-xs text-slate2 truncate">Kossi T. — Enquête guidée</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 12 min</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">videocam</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Live class jeudi 18:00</span>
+          <span class="block text-xs text-slate2 truncate">284 inscrits — lien Zoom prêt</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 1 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">reviews</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Nouvel avis 5★ sur votre cours</span>
+          <span class="block text-xs text-slate2 truncate">OSINT Fondamentaux</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 4 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 " data-notif data-unread="false">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">workspace_premium</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Certificat émis à Marie A.</span>
+          <span class="block text-xs text-slate2 truncate">VERIF-B-7712</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">hier</span></span>
+          
+        </button></div>
+        <div class="px-4 py-2.5 border-t border-line text-center">
+          <a href="dashboard.html" class="text-xs font-bold text-primary">Voir toute l'activité →</a>
+        </div>
+      </div>
+    </div>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-2" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-white font-bold text-sm" style="background:var(--st-brand)">MK</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-56 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line"><p class="font-display font-bold text-ink leading-tight mb-0">Mentor Koffi</p><p class="text-xs text-slate2 mb-0">Mentor certifié</p></div>
+        <a class="user-menu-link" href="dashboard.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon espace</a><a class="user-menu-link" href="analytics.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Ma performance</a>
+        <div class="h-px bg-line my-1.5 mx-3" role="separator"></div>
+        <a class="user-menu-link text-vfalse" href="login.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+      </div>
+    </div>
+  </div>
+</header>
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation Mentor">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-7">
+    <nav class="flex-1">
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>MON ESPACE</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">space_dashboard</span><span>Dashboard</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>MES COURS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="mes-cours.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">school</span><span>Cours assignés</span></a>
+        <a class="sidebar-link" href="mes-contenus.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">folder</span><span>Mes contenus</span></a>
+        <a class="sidebar-link" href="sections-lecons.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">list_alt</span><span>Sections & Leçons</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ÉVALUATIONS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="quiz.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">quiz</span><span>Quiz</span></a>
+        <a class="sidebar-link" href="grading.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span><span>Devoirs à corriger</span></a>
+        <a class="sidebar-link" href="examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">assignment</span><span>Examens</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>APPRENANTS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="etudiants.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">group</span><span>Mes apprenants</span></a>
+        <a class="sidebar-link" href="progression.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">trending_up</span><span>Progression</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>CLASSES</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span><span>Live Classes</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>CERTIFICATION</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="certificats.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">workspace_premium</span><span>Certificats</span></a>
+        </div>
+      </details>
+      <details class="st-group" open>
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ANALYTICS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link is-active" href="analytics.html" aria-current="page"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span><span>Performance</span></a>
+        </div>
+      </details>
+    </nav>
+    <a href="login.html" class="sidebar-link mt-4"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-[#065F46]">Analytics</a> <span aria-hidden="true">/</span> <span class="text-[#0F172A] font-medium">Performance</span></nav>
+  <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Performance</h1>
+      <p class="text-[#64748B] text-sm mb-0">La performance pédagogique de vos cours : complétion, scores et engagement.</p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <button type="button" class="st-btn st-btn-secondary" data-import><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">upload</span> Importer</button>
+      <button type="button" class="st-btn st-btn-secondary" data-export><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">download</span> Exporter</button>
+      <button type="button" class="st-btn st-btn-primary" data-oc-open><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Rapport de cours</button>
+    </div>
+  </div>
+
+  <section class="mb-6" data-kpi-accordion>
+    <button type="button" class="kpi-toggle w-full items-center justify-between st-card px-4 py-3 mb-3" aria-expanded="false">
+      <span class="text-sm font-display font-bold text-[#0F172A]">Vue d'ensemble</span>
+      <span class="material-symbols-rounded transition-transform" aria-hidden="true">expand_more</span>
+    </button>
+    <div class="kpi-grid grid grid-cols-2 lg:grid-cols-4 gap-4"><div class="st-kpi"><p class="st-kpi-v text-vtrue">64 %</p><p class="st-kpi-l">Complétion moyenne</p><p class="st-kpi-t">↗ +3 pts</p></div><div class="st-kpi"><p class="st-kpi-v">79 %</p><p class="st-kpi-l">Score quiz moyen</p><p class="st-kpi-t">vos cours</p></div><div class="st-kpi"><p class="st-kpi-v">212</p><p class="st-kpi-l">Certifications</p><p class="st-kpi-t">cumulées</p></div><div class="st-kpi"><p class="st-kpi-v text-vtrue">4,8/5</p><p class="st-kpi-l">Avis apprenants</p><p class="st-kpi-t">128 avis</p></div></div>
+  </section>
+
+  <div class="st-card p-4 mb-4">
+    <div class="flex flex-col md:flex-row gap-3">
+      <div class="relative flex-1">
+        <label class="sr-only" for="crud-search">Rechercher</label>
+        <span class="material-symbols-rounded absolute left-3.5 top-1/2 -translate-y-1/2 text-[#64748B] !text-[19px]" aria-hidden="true">search</span>
+        <input id="crud-search" type="search" placeholder="Rechercher — titre, mentor, catégorie, statut…" class="st-input !pl-10" data-search-input>
+      </div>
+      <div class="hidden md:flex flex-wrap gap-2">
+        <button type="button" class="st-btn st-btn-ghost" data-filters-reset>Réinitialiser</button>
+      </div>
+      <button type="button" class="md:hidden st-btn st-btn-secondary" data-mfilters-open><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">tune</span> Filtres</button>
+    </div>
+    <div class="hidden flex-wrap items-center gap-2 mt-3" data-chips></div>
+  </div>
+
+  <div class="hidden st-card p-3.5 mb-4 flex-wrap items-center gap-3 !border-[#059669]/40" data-bulk-bar>
+    <p class="text-sm font-bold text-[#0F172A] mb-0"><span data-bulk-count>0</span> sélectionné(s)</p>
+    <div class="flex-1"></div>
+    <button type="button" class="st-btn st-btn-secondary !min-h-[40px]" data-bulk="publish">Publier</button>
+    <button type="button" class="st-btn st-btn-secondary !min-h-[40px]" data-bulk="archive">Archiver</button>
+    <button type="button" class="st-btn st-btn-secondary !min-h-[40px]" data-bulk="export">Exporter</button>
+    <span class="w-px h-6 bg-[#E2E8F0]" aria-hidden="true"></span>
+    <button type="button" class="st-btn st-btn-danger !min-h-[40px]" data-bulk="delete">Supprimer</button>
+  </div>
+
+  <p class="text-sm font-semibold text-[#0F172A] mb-3"><span data-result-count>2</span> résultat(s)</p>
+
+  <div class="st-table-wrap st-card overflow-x-auto">
+    <table class="st-table">
+      <thead><tr><th class="w-10"><input type="checkbox" class="w-4 h-4 accent-[#059669]" data-sel-all aria-label="Tout sélectionner"></th><th scope="col">Cours</th><th scope="col">Apprenants</th><th scope="col">Complétion</th><th scope="col">Score moyen</th><th scope="col">Avis</th><th scope="col">Tendance</th><th class="text-right">Actions</th></tr></thead>
+      <tbody data-tbody><tr data-row-el data-search="osint fondamentaux 3 260 64 % 79 % ★ 4,8 · 128 avis ↗ +3 pts"><td><input type="checkbox" class="w-4 h-4 accent-[#059669]" data-sel aria-label="Sélectionner la ligne"></td><td><span class="font-bold text-[#0F172A]">OSINT Fondamentaux</span></td><td>3 260</td><td><span class="inline-flex items-center gap-2"><span class="progress !h-1.5 w-16"><span style="width:64%"></span></span><span class="text-xs font-bold">64 %</span></span></td><td>79 %</td><td>★ 4,8 · 128 avis</td><td><span class="st-badge st-badge-pub">↗ +3 pts</span></td><td class="text-right"><div class="relative inline-block" data-row-menu>
+        <button type="button" class="st-icnbtn" data-row-menu-btn aria-haspopup="true" aria-expanded="false" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        <div class="st-menu hidden" data-row-menu-list role="menu">
+          <button type="button" data-act="view" data-row="0" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">visibility</span> Voir</button>
+          <button type="button" data-act="edit" data-row="0" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">edit</span> Modifier</button>
+          <button type="button" data-act="dup" data-row="0" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">content_copy</span> Dupliquer</button>
+          <button type="button" data-act="arch" data-row="0" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">archive</span> Archiver</button>
+          <div class="st-menu-sep" role="separator"></div>
+          <button type="button" class="st-menu-danger" data-act="del" data-row="0" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">delete</span> Supprimer</button>
+        </div></div></td></tr><tr data-row-el data-search="module invité — archives (co-animé) 412 58 % 74 % ★ 4,6 · 22 avis → stable"><td><input type="checkbox" class="w-4 h-4 accent-[#059669]" data-sel aria-label="Sélectionner la ligne"></td><td><span class="font-bold text-[#0F172A]">Module invité — Archives (co-animé)</span></td><td>412</td><td><span class="inline-flex items-center gap-2"><span class="progress !h-1.5 w-16"><span style="width:58%"></span></span><span class="text-xs font-bold">58 %</span></span></td><td>74 %</td><td>★ 4,6 · 22 avis</td><td><span class="st-badge st-badge-warn">→ stable</span></td><td class="text-right"><div class="relative inline-block" data-row-menu>
+        <button type="button" class="st-icnbtn" data-row-menu-btn aria-haspopup="true" aria-expanded="false" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        <div class="st-menu hidden" data-row-menu-list role="menu">
+          <button type="button" data-act="view" data-row="1" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">visibility</span> Voir</button>
+          <button type="button" data-act="edit" data-row="1" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">edit</span> Modifier</button>
+          <button type="button" data-act="dup" data-row="1" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">content_copy</span> Dupliquer</button>
+          <button type="button" data-act="arch" data-row="1" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">archive</span> Archiver</button>
+          <div class="st-menu-sep" role="separator"></div>
+          <button type="button" class="st-menu-danger" data-act="del" data-row="1" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">delete</span> Supprimer</button>
+        </div></div></td></tr></tbody>
+    </table>
+  </div>
+  <div class="st-cards-wrap space-y-3" data-cards>
+      <article class="st-card p-4" data-row-el data-search="osint fondamentaux 3 260 64 % 79 % ★ 4,8 · 128 avis ↗ +3 pts">
+        <div class="flex items-start justify-between gap-2 mb-1.5">
+          <p class="text-sm font-bold text-[#0F172A] mb-0 flex-1">OSINT Fondamentaux</p>
+          <button type="button" class="st-icnbtn shrink-0" data-sheet-for="0" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        </div>
+        <p class="mb-1.5"><span class="st-badge st-badge-pub">↗ +3 pts</span></p>
+        <p class="text-xs text-[#64748B] mb-2">3 260 · 64 % · 79 % · ★ 4,8 · 128 avis</p>
+        <button type="button" class="text-sm font-bold text-[#059669] min-h-[44px]" data-act="view" data-row="0">Voir →</button>
+      </article>
+      <article class="st-card p-4" data-row-el data-search="module invité — archives (co-animé) 412 58 % 74 % ★ 4,6 · 22 avis → stable">
+        <div class="flex items-start justify-between gap-2 mb-1.5">
+          <p class="text-sm font-bold text-[#0F172A] mb-0 flex-1">Module invité — Archives (co-animé)</p>
+          <button type="button" class="st-icnbtn shrink-0" data-sheet-for="1" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        </div>
+        <p class="mb-1.5"><span class="st-badge st-badge-warn">→ stable</span></p>
+        <p class="text-xs text-[#64748B] mb-2">412 · 58 % · 74 % · ★ 4,6 · 22 avis</p>
+        <button type="button" class="text-sm font-bold text-[#059669] min-h-[44px]" data-act="view" data-row="1">Voir →</button>
+      </article></div>
+
+  <div class="hidden st-card p-10 text-center mt-4" data-empty>
+    <span class="text-3xl block mb-2" aria-hidden="true">🔎</span>
+    <p class="text-base font-display font-bold text-[#0F172A] mb-1">Aucun résultat trouvé</p>
+    <p class="text-sm text-[#64748B] mb-4">Essayez un autre mot-clé, une autre catégorie, ou supprimez les filtres.</p>
+    <button type="button" class="st-btn st-btn-secondary mx-auto" data-filters-reset>Réinitialiser les filtres</button>
+  </div>
+
+  <div class="flex flex-wrap items-center justify-between gap-3 mt-5">
+    <p class="text-xs text-[#64748B] mb-0">1–2 sur 2 éléments</p>
+    <nav class="flex gap-1" aria-label="Pagination">
+      <button type="button" class="st-page" aria-label="Page précédente">←</button>
+      <button type="button" class="st-page is-active" aria-current="page">1</button>
+      <button type="button" class="st-page">→</button>
+    </nav>
+  </div>
+  
+  <footer class="st-footer flex flex-wrap gap-x-4 gap-y-1 mt-10 pt-4 border-t border-[#E2E8F0]">
+    <span>Vérif'All © 2026 · v2.0</span><span>● Système opérationnel</span>
+    <a href="../faq.html">Documentation</a><a href="../contact.html">Support</a><a href="../confidentialite.html">Confidentialité</a>
+  </footer>
+
+  <div class="st-oc-backdrop" data-oc-backdrop></div>
+  <aside class="st-oc" data-oc role="dialog" aria-modal="true" aria-labelledby="oc-title">
+    <div class="st-oc-h">
+      <h2 id="oc-title" class="text-lg font-display font-bold text-[#0F172A] mb-0" data-oc-title>Rapport de cours</h2>
+      <button type="button" class="st-icnbtn" data-oc-close aria-label="Fermer"><span class="material-symbols-rounded " aria-hidden="true">close</span></button>
+    </div>
+    <div class="st-oc-b">
+      <p class="text-xs font-bold tracking-[.12em] uppercase text-[#64748B] mb-4">Informations</p>
+      <label class="st-field"><span class="st-label">Cours</span>
+        <select id="ff-cours" class="st-select"><option>OSINT Fondamentaux</option><option>Module Archives</option></select></label><label class="st-field"><span class="st-label">Période</span>
+        <select id="ff-periode" class="st-select"><option>30 jours</option><option>Trimestre</option><option>Année</option></select></label>
+    </div>
+    <div class="st-oc-f">
+      <button type="button" class="st-btn st-btn-secondary" data-oc-close>Annuler</button>
+      <button type="button" class="st-btn st-btn-primary" data-oc-save>Enregistrer</button>
+    </div>
+  </aside>
+
+  <div class="st-sheet" data-sheet role="dialog" aria-modal="true" aria-label="Actions">
+    <div class="st-sheet-bg" data-sheet-close></div>
+    <div class="st-sheet-panel">
+      <div class="st-sheet-grab" aria-hidden="true"></div>
+      <p class="text-sm font-display font-bold text-[#0F172A] px-2 mb-1">Actions</p>
+      <button type="button" class="st-sheet-item" data-act="view"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">visibility</span> Voir</button>
+      <button type="button" class="st-sheet-item" data-act="edit"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">edit</span> Modifier</button>
+      <button type="button" class="st-sheet-item" data-act="dup"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">content_copy</span> Dupliquer</button>
+      <button type="button" class="st-sheet-item" data-act="arch"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">archive</span> Archiver</button>
+      <button type="button" class="st-sheet-item !text-[#DC2626]" data-act="del"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">delete</span> Supprimer</button>
+    </div>
+  </div>
+
+  <div class="st-sheet" data-mfilters role="dialog" aria-modal="true" aria-label="Filtres">
+    <div class="st-sheet-bg" data-mfilters-close></div>
+    <div class="st-sheet-panel">
+      <div class="st-sheet-grab" aria-hidden="true"></div>
+      <p class="text-base font-display font-bold text-[#0F172A] px-2 mb-3">Filtres</p>
+      <div class="space-y-3 px-2" data-mfilters-body></div>
+      <div class="flex gap-2 mt-5 px-2">
+        <button type="button" class="st-btn st-btn-secondary flex-1" data-filters-reset>Réinitialiser</button>
+        <button type="button" class="st-btn st-btn-primary flex-1" data-mfilters-close>Appliquer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-del">
+    <div class="modal p-6" role="alertdialog" aria-modal="true" aria-labelledby="del-t">
+      <h2 id="del-t" class="text-lg font-display font-bold text-[#0F172A] mb-1">Supprimer <span data-del-name>cet élément</span> ?</h2>
+      <p class="text-sm text-[#64748B] mb-5">Cette action est irréversible. Les éléments associés seront également supprimés.</p>
+      <div class="flex justify-end gap-2">
+        <button type="button" class="st-btn st-btn-secondary" data-modal-close>Annuler</button>
+        <button type="button" class="st-btn st-btn-danger" data-del-confirm>Supprimer définitivement</button>
+      </div>
+    </div>
+  </div>
+
+<script src="../js/vendor/quill.js" defer></script>
+<script>
+window.VFPage = function (VF, S) {
+  var EXPORT_HEADERS = ["Cours", "Apprenants", "Complétion", "Score moyen", "Avis", "Tendance"];
+  var quill = null, pendingRow = null, pendingDel = null, debounceT = null;
+
+  function toast(msg) { VF.toast(msg); }
+
+  /* Quill (initialisé à la première ouverture de l'offcanvas) */
+  function ensureQuill() {
+    var host = document.querySelector('[data-quill-editor]');
+    if (!host || quill || typeof Quill === 'undefined') return;
+    quill = new Quill(host, {
+      theme: 'snow',
+      modules: { toolbar: [[{ header: [2, 3, false] }], ['bold', 'italic', 'underline', 'strike'], [{ list: 'ordered' }, { list: 'bullet' }], ['blockquote', 'code-block', 'link', 'image'], ['clean']] },
+      placeholder: 'Rédigez le contenu…'
+    });
+  }
+
+  /* Offcanvas */
+  var oc = document.querySelector('[data-oc]');
+  var ocb = document.querySelector('[data-oc-backdrop]');
+  function ocOpen(titleTxt) {
+    document.querySelector('[data-oc-title]').textContent = titleTxt;
+    oc.classList.add('is-open'); ocb.classList.add('is-open');
+    ensureQuill();
+    var f = oc.querySelector('input, select, textarea');
+    if (f) f.focus();
+  }
+  function ocClose() { oc.classList.remove('is-open'); ocb.classList.remove('is-open'); }
+  document.querySelectorAll('[data-oc-open]').forEach(function (b) { b.addEventListener('click', function () { ocOpen('Rapport de cours'); }); });
+  document.querySelectorAll('[data-oc-close]').forEach(function (b) { b.addEventListener('click', ocClose); });
+  ocb.addEventListener('click', ocClose);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { ocClose(); sheetClose(); mfClose(); } });
+  document.querySelector('[data-oc-save]').addEventListener('click', function () {
+    var first = oc.querySelector('input.st-input');
+    if (first && first.value.trim().length < 3) {
+      first.setAttribute('aria-invalid', 'true'); first.focus();
+      toast('Le titre doit contenir au moins 3 caractères.');
+      return;
+    }
+    if (first) first.removeAttribute('aria-invalid');
+    ocClose();
+    toast('✓ Rapport de cours enregistré.');
+  });
+
+  /* Recherche débouncée (350 ms) + filtres + chips + compteur + empty */
+  var search = document.querySelector('[data-search-input]');
+  var filters = Array.prototype.slice.call(document.querySelectorAll('[data-filter]'));
+  var chipsWrap = document.querySelector('[data-chips]');
+  function apply() {
+    var q = search.value.trim().toLowerCase();
+    var active = filters.filter(function (f) { return f.value; });
+    var visible = 0;
+    document.querySelectorAll('[data-row-el]').forEach(function (el) {
+      var ok = true;
+      if (q && el.getAttribute('data-search').indexOf(q) === -1) ok = false;
+      active.forEach(function (f) { if (ok && el.getAttribute('data-search').indexOf(f.value.toLowerCase()) === -1) ok = false; });
+      el.classList.toggle('hidden', !ok);
+      if (ok) visible++;
+    });
+    document.querySelector('[data-result-count]').textContent = Math.round(visible / 2);
+    document.querySelector('[data-empty]').classList.toggle('hidden', visible > 0);
+    chipsWrap.innerHTML = active.map(function (f, i) {
+      return '<span class="st-chip">' + f.value + '<button type="button" data-chip-x="' + filters.indexOf(f) + '" aria-label="Retirer le filtre">×</button></span>';
+    }).join('');
+    chipsWrap.classList.toggle('hidden', !active.length);
+    chipsWrap.classList.toggle('flex', !!active.length);
+  }
+  search.addEventListener('input', function () { clearTimeout(debounceT); debounceT = setTimeout(apply, 350); });
+  filters.forEach(function (f) { f.addEventListener('input', apply); });
+  chipsWrap.addEventListener('click', function (e) {
+    var x = e.target.closest('[data-chip-x]');
+    if (!x) return;
+    filters[parseInt(x.getAttribute('data-chip-x'), 10)].value = '';
+    apply();
+  });
+  document.querySelectorAll('[data-filters-reset]').forEach(function (b) {
+    b.addEventListener('click', function () { search.value = ''; filters.forEach(function (f) { f.value = ''; }); apply(); });
+  });
+
+  /* Filtres mobile : cloner les selects dans le bottom sheet */
+  var mf = document.querySelector('[data-mfilters]');
+  var mfBody = document.querySelector('[data-mfilters-body]');
+  filters.forEach(function (f) {
+    var c = f.cloneNode(true);
+    c.classList.remove('!w-auto'); c.removeAttribute('data-filter');
+    c.addEventListener('input', function () { f.value = c.value; apply(); });
+    mfBody.appendChild(c);
+  });
+  function mfClose() { mf.classList.remove('is-open'); }
+  document.querySelector('[data-mfilters-open]').addEventListener('click', function () { mf.classList.add('is-open'); });
+  document.querySelectorAll('[data-mfilters-close]').forEach(function (b) { b.addEventListener('click', mfClose); });
+
+  /* Menus ⋮ desktop */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-row-menu-btn]');
+    document.querySelectorAll('[data-row-menu-list]').forEach(function (m) {
+      if (!btn || m !== btn.nextElementSibling) m.classList.add('hidden');
+    });
+    if (btn) {
+      var m = btn.nextElementSibling;
+      var open = m.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', String(!open));
+      e.stopPropagation();
+    }
+  });
+
+  /* Bottom sheet actions mobile */
+  var sheet = document.querySelector('[data-sheet]');
+  function sheetClose() { sheet.classList.remove('is-open'); }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-sheet-for]');
+    if (b) { pendingRow = b.getAttribute('data-sheet-for'); sheet.classList.add('is-open'); }
+  });
+  document.querySelectorAll('[data-sheet-close]').forEach(function (b) { b.addEventListener('click', sheetClose); });
+
+  /* Actions unifiées */
+  function rowName(ri) {
+    var rowsEls = document.querySelectorAll('[data-tbody] [data-row-el]');
+    var el = rowsEls[ri];
+    return el ? el.querySelector('td:nth-child(2)').textContent.trim().slice(0, 60) : 'cet élément';
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-act]');
+    if (!a) return;
+    var act = a.getAttribute('data-act');
+    var ri = a.getAttribute('data-row') !== null ? a.getAttribute('data-row') : pendingRow;
+    sheetClose();
+    document.querySelectorAll('[data-row-menu-list]').forEach(function (m) { m.classList.add('hidden'); });
+    if (act === 'del') {
+      pendingDel = ri;
+      document.querySelector('[data-del-name]').textContent = '« ' + rowName(ri) + ' »';
+      VF.openModal('modal-del');
+    } else if (act === 'edit') {
+      ocOpen('Modifier — ' + rowName(ri));
+    } else if (act === 'view') {
+      toast('Aperçu : ' + rowName(ri));
+    } else if (act === 'dup') {
+      toast('✓ Élément dupliqué en brouillon.');
+    } else if (act === 'arch') {
+      toast('✓ Élément archivé.');
+    }
+  });
+  document.querySelector('[data-del-confirm]').addEventListener('click', function () {
+    var rowsEls = document.querySelectorAll('[data-row-el]');
+    var name = rowName(pendingDel);
+    document.querySelectorAll('[data-row-el]').forEach(function (el) {
+      if (el.getAttribute('data-search') === rowsEls[pendingDel].getAttribute('data-search')) el.remove();
+    });
+    document.querySelector('.modal-backdrop.is-open') && VF.closeModal && VF.closeModal('modal-del');
+    document.getElementById('modal-del').classList.remove('is-open');
+    apply();
+    toast('✓ « ' + name + ' » supprimé.');
+  });
+
+  /* Sélection + bulk */
+  var bulkBar = document.querySelector('[data-bulk-bar]');
+  function syncBulk() {
+    var sel = document.querySelectorAll('[data-sel]:checked').length;
+    document.querySelector('[data-bulk-count]').textContent = sel;
+    bulkBar.classList.toggle('hidden', sel === 0);
+    bulkBar.classList.toggle('flex', sel > 0);
+  }
+  document.addEventListener('change', function (e) {
+    if (e.target.matches('[data-sel-all]')) {
+      document.querySelectorAll('[data-sel]').forEach(function (c) { c.checked = e.target.checked; c.closest('tr').classList.toggle('is-selected', c.checked); });
+    }
+    if (e.target.matches('[data-sel]')) e.target.closest('tr').classList.toggle('is-selected', e.target.checked);
+    if (e.target.matches('[data-sel],[data-sel-all]')) syncBulk();
+  });
+  document.querySelectorAll('[data-bulk]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var n = document.querySelectorAll('[data-sel]:checked').length;
+      var act = b.getAttribute('data-bulk');
+      if (act === 'delete') toast(n + ' élément(s) supprimé(s).');
+      else if (act === 'export') doExport();
+      else toast('✓ ' + n + ' élément(s) — action « ' + b.textContent.trim() + ' » appliquée.');
+    });
+  });
+
+  /* Export CSV réel */
+  function doExport() {
+    var lines = [EXPORT_HEADERS.join(';')];
+    document.querySelectorAll('[data-tbody] [data-row-el]:not(.hidden)').forEach(function (tr) {
+      var cells = Array.prototype.slice.call(tr.querySelectorAll('td')).slice(1, -1);
+      lines.push(cells.map(function (td) { return '"' + td.textContent.trim().replace(/"/g, '""') + '"'; }).join(';'));
+    });
+    var blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'analytics-export.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast('✓ Export CSV téléchargé.');
+  }
+  document.querySelector('[data-export]').addEventListener('click', doExport);
+  document.querySelector('[data-import]').addEventListener('click', function () {
+    var inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = '.csv,.xlsx';
+    inp.addEventListener('change', function () {
+      if (inp.files.length) toast('✓ « ' + inp.files[0].name + ' » importé — ' + Math.max(2, inp.files[0].name.length % 9 + 2) + ' lignes traitées.');
+    });
+    inp.click();
+  });
+};
+</script>
+</main>
+<script src="../compte-user/js/citizen.js" defer></script>
+</body>
+</html>

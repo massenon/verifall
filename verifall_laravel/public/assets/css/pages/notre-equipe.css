@@ -1,0 +1,28 @@
+/*
+ | notre-equipe — bloc <style> de ./notre-equipe.html, repris VERBATIM.
+ |
+ | Le prototype declare ces regles EN LIGNE dans sa page. L'extraction du shell
+ | ne prend que le balisage : sans ce fichier, les classes ci-dessous n'ont
+ | aucun effet et la page sort sans ses pastilles, ses cartes ou ses badges.
+ |
+ | Charge par la vue via @push('styles'), donc APRES tailwind.css — la place
+ | qu'occupe le bloc dans le prototype, et d'ou il tire sa specificite.
+ |
+ | Une feuille PAR PAGE et non un fichier commun : deux pages definissent
+ | `.hub-pill` et `.no-scrollbar` differemment, un fichier unique en ecraserait
+ | une.
+ */
+
+.pole-heading { display:flex; align-items:center; gap:1rem; margin-bottom:2.5rem; }
+  .pole-label { text-transform:uppercase; letter-spacing:.12em; font-weight:700; font-size:.8rem; color:#202124; white-space:nowrap; margin:0; }
+  .pole-line { flex:1 1 auto; height:2px; background-color:#09B850; }
+  .team-card:hover .team-avatar-ring { transform:translateY(-4px); box-shadow:0 1rem 2rem rgba(0,0,0,.08); }
+  .team-avatar-ring { width:116px; height:116px; border-radius:50%; border:4px solid var(--ring-color,#09B850); padding:4px; background:#fff; display:flex; align-items:center; justify-content:center; transition:all .25s ease; }
+  .team-avatar-fill { width:100%; height:100%; border-radius:50%; background:#f5f7fa; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.5rem; color:var(--ring-color,#09B850); }
+  .is-founder .team-avatar-ring { width:168px; height:168px; border-width:6px; }
+  .is-founder .team-avatar-fill { font-size:2.25rem; }
+  .team-name { color:#09B850; font-weight:700; margin-bottom:.15rem; }
+  .is-founder .team-name { font-size:1.25rem; }
+  .team-role { text-transform:uppercase; letter-spacing:.05em; font-size:.75rem; color:#85878a; font-weight:600; }
+  .team-detail-avatar-ring { width:168px; height:168px; border-radius:50%; border:6px solid var(--ring-color,#09B850); padding:6px; background:#fff; display:flex; align-items:center; justify-content:center; margin:0 auto; }
+  .team-detail-avatar-ring .team-avatar-fill { font-size:2.5rem; }

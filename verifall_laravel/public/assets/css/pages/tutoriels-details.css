@@ -1,0 +1,17 @@
+/*
+ | tutoriels-details — bloc <style> de ./tutoriels-details.html, repris VERBATIM.
+ |
+ | Le prototype declare ces regles EN LIGNE dans sa page. L'extraction du shell
+ | ne prend que le balisage : sans ce fichier, les classes ci-dessous n'ont
+ | aucun effet et la page sort sans ses pastilles, ses cartes ou ses badges.
+ |
+ | Charge par la vue via @push('styles'), donc APRES tailwind.css — la place
+ | qu'occupe le bloc dans le prototype, et d'ou il tire sa specificite.
+ |
+ | Une feuille PAR PAGE et non un fichier commun : deux pages definissent
+ | `.hub-pill` et `.no-scrollbar` differemment, un fichier unique en ecraserait
+ | une.
+ */
+
+.course-tab { padding: .65rem 1rem; font-weight: 600; color: var(--vf-body); border-bottom: 2px solid transparent; white-space: nowrap; }
+  .course-tab.is-active { color: var(--vf-primary); border-bottom-color: var(--vf-primary); }

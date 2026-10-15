@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Couverture du cours Vérifier une image recyclée">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0D9488"/><stop offset="1" stop-color="#042F2C"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#g)"/>
+  <circle cx="560" cy="60" r="130" fill="#ffffff" opacity=".05"/>
+  <circle cx="70" cy="330" r="90" fill="#ffffff" opacity=".04"/>
+  <g transform="translate(450,40)" opacity=".14">
+      <rect x="0" y="0" width="130" height="96" rx="14" fill="#fff"/>
+      <circle cx="34" cy="32" r="12" fill="#0D9488"/>
+      <path d="M8 86l34-34 24 22 28-30 28 42z" fill="#0D9488"/>
+    </g>
+  <text x="40" y="80" font-family="Arial, sans-serif" font-size="19" font-weight="bold" fill="#ffffff" opacity=".8">VÉRIF'ALL · ACADÉMIE</text>
+  <g font-family="Arial, sans-serif" font-weight="bold" fill="#ffffff">
+    <text x="40" y="205" font-size="32">Vérifier une image recyclée</text>
+  </g>
+  <rect x="40" y="240" rx="14" width="132" height="34" fill="#ffffff" opacity=".18"/>
+  <text x="54" y="263" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#ffffff">CLOM GRATUIT</text>
+</svg>

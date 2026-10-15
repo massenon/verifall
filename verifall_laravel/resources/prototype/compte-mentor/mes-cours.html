@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mes Cours — Mentor Vérif'All</title>
+<meta name="description" content="Vos cours assignés : apprenants, taux de complétion, devoirs à corriger et prévisualisation côté citoyen.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="../compte-user/css/citizen.css">
+<link rel="stylesheet" href="../css/staff.css">
+<link rel="stylesheet" href="../css/vendor/quill.snow.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+<style>
+  :root { --st-deep: #052E16; --st-brand: #065F46; --st-emerald: #059669; --st-mint: #D1FAE5; }
+  .sidebar { background: var(--st-deep); }
+  .sidebar-label { color: rgba(209,250,229,.55); }
+  .sidebar-link { color: rgba(236,253,245,.82); }
+  .sidebar-link:hover { background: rgba(5,150,105,.18); color: #fff; }
+  .sidebar-link.is-active { background: var(--st-emerald); color: #fff; }
+  .st-group { margin-bottom: .35rem; }
+  .st-group summary { list-style: none; cursor: pointer; padding: .65rem .75rem; border-radius: .75rem;
+    margin-bottom: .15rem; min-height: 42px; display: flex; }
+  .st-group summary:hover { background: rgba(5,150,105,.12); }
+  .st-group summary::-webkit-details-marker { display: none; }
+  .st-group summary .st-caret { transition: transform .2s; }
+  .st-group[open] summary .st-caret { transform: rotate(180deg); }
+  .st-sub { padding-left: 1rem; margin-left: .65rem; border-left: 1px solid rgba(209,250,229,.14);
+    display: flex; flex-direction: column; gap: .15rem; padding-bottom: .4rem; }
+  .st-sub .sidebar-link { padding: .55rem .75rem; font-size: .84rem; min-height: 40px; }
+  #sidebar nav > .sidebar-link { margin-bottom: .35rem; min-height: 44px; }
+  #sidebar .sidebar-label { font-size: 10.5px; letter-spacing: .16em; margin: 0; align-items: center;
+    justify-content: space-between; width: 100%; }
+  .offcanvas { position: fixed; top: 0; right: 0; bottom: 0; z-index: 70; width: min(440px, 100vw);
+    background: #fff; box-shadow: -1rem 0 3rem rgba(17,24,39,.2); transform: translateX(100%);
+    transition: transform .25s ease; overflow-y: auto; }
+  .offcanvas.is-open { transform: none; }
+  .oc-backdrop { position: fixed; inset: 0; z-index: 69; background: rgba(17,24,39,.5); display: none; }
+  .oc-backdrop.is-open { display: block; }
+  @media (prefers-reduced-motion: reduce) { .st-group summary .st-caret, .offcanvas { transition: none; } }
+</style>
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line">
+  <div class="h-full flex items-center gap-3 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false"><span class="material-symbols-rounded " aria-hidden="true">menu</span></button>
+    <a href="dashboard.html"><img src="../images/logo.png" alt="Vérif'All" class="h-10 w-auto" width="171" height="60"></a>
+    <span class="rounded-full text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1" style="background:var(--st-brand)">Mentor</span>
+    <div class="hidden md:block relative flex-1 max-w-md ml-4">
+      <label class="sr-only" for="st-search">Rechercher</label>
+      <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-slate2 !text-[19px]" aria-hidden="true">search</span>
+      <input id="st-search" type="search" placeholder="Rechercher un module, un utilisateur, un cours…" class="w-full bg-canvas border border-line rounded-xl pl-10 pr-3 py-2.5 text-sm outline-none focus:border-[#059669]">
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    
+
+    <button type="button" class="hidden sm:inline-flex st-icnbtn !w-11 !h-11" data-fullscreen title="Plein écran" aria-label="Basculer le plein écran"><span class="material-symbols-rounded !text-[22px]" aria-hidden="true">fullscreen</span></button>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications — 3 non lues">
+        <span class="material-symbols-rounded !text-[22px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-brandred text-white text-[10px] font-bold inline-flex items-center justify-center" data-notif-count>3</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] max-w-[92vw] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="flex items-center justify-between px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink mb-0">Notifications</p>
+          <button type="button" class="text-xs font-bold text-primary" data-notif-readall>Tout marquer lu</button>
+        </div>
+        <div class="max-h-[320px] overflow-y-auto" data-notif-list><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">grading</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Nouveau devoir soumis</span>
+          <span class="block text-xs text-slate2 truncate">Kossi T. — Enquête guidée</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 12 min</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">videocam</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Live class jeudi 18:00</span>
+          <span class="block text-xs text-slate2 truncate">284 inscrits — lien Zoom prêt</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 1 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">reviews</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Nouvel avis 5★ sur votre cours</span>
+          <span class="block text-xs text-slate2 truncate">OSINT Fondamentaux</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 4 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 " data-notif data-unread="false">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">workspace_premium</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Certificat émis à Marie A.</span>
+          <span class="block text-xs text-slate2 truncate">VERIF-B-7712</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">hier</span></span>
+          
+        </button></div>
+        <div class="px-4 py-2.5 border-t border-line text-center">
+          <a href="dashboard.html" class="text-xs font-bold text-primary">Voir toute l'activité →</a>
+        </div>
+      </div>
+    </div>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-2" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-white font-bold text-sm" style="background:var(--st-brand)">SA</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-56 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line"><p class="font-display font-bold text-ink leading-tight mb-0">Dr. Samuel A.</p><p class="text-xs text-slate2 mb-0">Mentor Vérif'All</p></div>
+        <a class="user-menu-link" href="dashboard.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon espace</a><a class="user-menu-link" href="analytics.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Ma performance</a>
+        <div class="h-px bg-line my-1.5 mx-3" role="separator"></div>
+        <a class="user-menu-link text-vfalse" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+      </div>
+    </div>
+  </div>
+</header>
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation Mentor">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-7">
+    <nav class="flex-1">
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>MON ESPACE</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">space_dashboard</span><span>Dashboard</span></a>
+        </div>
+      </details>
+      <details class="st-group" open>
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>MES COURS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link is-active" href="mes-cours.html" aria-current="page"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">school</span><span>Cours assignés</span></a>
+        <a class="sidebar-link" href="mes-contenus.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">folder</span><span>Mes contenus</span></a>
+        <a class="sidebar-link" href="sections-lecons.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">list_alt</span><span>Sections & Leçons</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ÉVALUATIONS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="quiz.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">quiz</span><span>Quiz</span></a>
+        <a class="sidebar-link" href="grading.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span><span>Devoirs à corriger</span></a>
+        <a class="sidebar-link" href="examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">assignment</span><span>Examens</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>APPRENANTS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="etudiants.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">group</span><span>Mes apprenants</span></a>
+        <a class="sidebar-link" href="progression.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">trending_up</span><span>Progression</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>CLASSES</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span><span>Live Classes</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>CERTIFICATION</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="certificats.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">workspace_premium</span><span>Certificats</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ANALYTICS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="analytics.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span><span>Performance</span></a>
+        </div>
+      </details>
+    </nav>
+    <a href="../connexion.html" class="sidebar-link mt-4"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="mb-6"><h1 class="text-2xl font-display font-bold text-ink leading-tight">Mes Cours</h1>
+  <p class="text-slate2 mt-1 mb-0">Vos 3 cours assignés : complétion, apprenants actifs et devoirs en attente.</p></div>
+  <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <article class="card p-5 flex flex-col">
+      <span class="self-start vbadge vbadge-true mb-3">GRATUIT</span>
+      <h2 class="text-base font-display font-bold text-ink leading-snug mb-1">Introduction au fact-checking — CLOM Vérif'All</h2>
+      <p class="text-xs text-slate2 mb-4">Débutant · 5 leçons · 1 quiz</p>
+      <div class="grid grid-cols-3 gap-2 text-center mb-4">
+        <div><p class="text-lg font-display font-bold text-ink mb-0">186</p><p class="text-[11px] text-slate2 mb-0">Apprenants</p></div>
+        <div><p class="text-lg font-display font-bold text-ink mb-0">72 %</p><p class="text-[11px] text-slate2 mb-0">Complétion</p></div>
+        <div><p class="text-lg font-display font-bold text-vinvest mb-0">0</p><p class="text-[11px] text-slate2 mb-0">À corriger</p></div>
+      </div>
+      <div class="mt-auto flex gap-2">
+        <a href="../compte-user/cours.html?c=A" class="flex-1 text-center rounded-xl border border-line text-sm font-semibold text-ink px-3 py-2.5 hover:bg-canvas">Prévisualiser</a>
+        <a href="etudiants.html" class="flex-1 text-center rounded-xl bg-primary text-white text-sm font-semibold px-3 py-2.5 hover:bg-primary-dark">Apprenants</a>
+      </div>
+    </article>
+    <article class="card p-5 flex flex-col">
+      <span class="self-start vbadge vbadge-progress mb-3">PREMIUM · 10 UNITÉS</span>
+      <h2 class="text-base font-display font-bold text-ink leading-snug mb-1">OSINT Fondamentaux — Enquêter en sources ouvertes</h2>
+      <p class="text-xs text-slate2 mb-4">Intermédiaire · 8 leçons · 2 quiz · 1 exercice</p>
+      <div class="grid grid-cols-3 gap-2 text-center mb-4">
+        <div><p class="text-lg font-display font-bold text-ink mb-0">148</p><p class="text-[11px] text-slate2 mb-0">Apprenants</p></div>
+        <div><p class="text-lg font-display font-bold text-ink mb-0">58 %</p><p class="text-[11px] text-slate2 mb-0">Complétion</p></div>
+        <div><p class="text-lg font-display font-bold text-vinvest mb-0">8</p><p class="text-[11px] text-slate2 mb-0">À corriger</p></div>
+      </div>
+      <div class="mt-auto flex gap-2">
+        <a href="../compte-user/cours.html?c=B" class="flex-1 text-center rounded-xl border border-line text-sm font-semibold text-ink px-3 py-2.5 hover:bg-canvas">Prévisualiser</a>
+        <a href="grading.html" class="flex-1 text-center rounded-xl bg-primary text-white text-sm font-semibold px-3 py-2.5 hover:bg-primary-dark">Corriger (8)</a>
+      </div>
+    </article>
+    <article class="card p-5 flex flex-col">
+      <span class="self-start vbadge vbadge-progress mb-3">PREMIUM · 15 UNITÉS</span>
+      <h2 class="text-base font-display font-bold text-ink leading-snug mb-1">Détection des Deepfakes &amp; contenus IA</h2>
+      <p class="text-xs text-slate2 mb-4">Avancé · 10 leçons · 3 quiz · 1 exercice</p>
+      <div class="grid grid-cols-3 gap-2 text-center mb-4">
+        <div><p class="text-lg font-display font-bold text-ink mb-0">94</p><p class="text-[11px] text-slate2 mb-0">Apprenants</p></div>
+        <div><p class="text-lg font-display font-bold text-ink mb-0">41 %</p><p class="text-[11px] text-slate2 mb-0">Complétion</p></div>
+        <div><p class="text-lg font-display font-bold text-vinvest mb-0">4</p><p class="text-[11px] text-slate2 mb-0">À corriger</p></div>
+      </div>
+      <div class="mt-auto flex gap-2">
+        <a href="../compte-user/cours.html?c=C" class="flex-1 text-center rounded-xl border border-line text-sm font-semibold text-ink px-3 py-2.5 hover:bg-canvas">Prévisualiser</a>
+        <a href="grading.html" class="flex-1 text-center rounded-xl bg-primary text-white text-sm font-semibold px-3 py-2.5 hover:bg-primary-dark">Corriger (4)</a>
+      </div>
+    </article>
+  </div>
+</main>
+<script src="../compte-user/js/citizen.js" defer></script>
+</body>
+</html>

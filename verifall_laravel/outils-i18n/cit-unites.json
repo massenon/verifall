@@ -1,0 +1,22 @@
+{
+  "Mes unités": "mes_unites",
+  "La monnaie de vos vérifications et de vos cours premium.": "la_monnaie_de_vos_verifications_et_de",
+  "Solde actuel": "solde_actuel",
+  "Dotation mensuelle": "dotation_mensuelle",
+  "Recharger": "recharger",
+  "<span class=\"material-symbols-rounded !text-[18px] icon-fill\" aria-hidden=\"true\">bolt</span> Acheter des unités": "bolt_acheter_des_unites",
+  "Simuler le paiement": "simuler_le_paiement",
+  "Annuler": "annuler",
+  "Historique des transactions": "historique_des_transactions",
+  "Rechercher une transaction": "rechercher_une_transaction",
+  "<span class=\"material-symbols-rounded !text-[18px]\" aria-hidden=\"true\">download</span> Exporter CSV": "download_exporter_csv",
+  "<span class=\"material-symbols-rounded !text-[18px]\" aria-hidden=\"true\">print</span> Imprimer": "print_imprimer",
+  "Réf.": "ref",
+  "Libellé": "libelle",
+  "Montant": "montant",
+  "Type": "type",
+  "Date": "date",
+  "Acheter des unités": "acheter_des_unites",
+  "Paiement sécurisé via Mobile Money (MTN MoMo, Moov Money, Celtiis Cash).": "paiement_securise_via_mobile_money_mtn_momo",
+  "Numéro Mobile Money (ex. 97 00 00 00)": "numero_mobile_money_ex_97_00_00"
+}

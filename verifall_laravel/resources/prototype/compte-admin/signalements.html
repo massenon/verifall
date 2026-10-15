@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Signalements — Admin Vérif'All</title>
+<meta name="description" content="File de traitement fact-checking : priorités, verdict, confiance et justification publique en texte riche.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="../compte-user/css/citizen.css">
+<link rel="stylesheet" href="../css/staff.css">
+<link rel="stylesheet" href="../css/vendor/quill.snow.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+<style>
+  :root { --st-deep: #052E16; --st-brand: #065F46; --st-emerald: #059669; --st-mint: #D1FAE5; }
+  .sidebar { background: var(--st-deep); }
+  .sidebar-label { color: rgba(209,250,229,.55); }
+  .sidebar-link { color: rgba(236,253,245,.82); }
+  .sidebar-link:hover { background: rgba(5,150,105,.18); color: #fff; }
+  .sidebar-link.is-active { background: var(--st-emerald); color: #fff; }
+  .st-group { margin-bottom: .35rem; }
+  .st-group summary { list-style: none; cursor: pointer; padding: .65rem .75rem; border-radius: .75rem;
+    margin-bottom: .15rem; min-height: 42px; display: flex; }
+  .st-group summary:hover { background: rgba(5,150,105,.12); }
+  .st-group summary::-webkit-details-marker { display: none; }
+  .st-group summary .st-caret { transition: transform .2s; }
+  .st-group[open] summary .st-caret { transform: rotate(180deg); }
+  .st-sub { padding-left: 1rem; margin-left: .65rem; border-left: 1px solid rgba(209,250,229,.14);
+    display: flex; flex-direction: column; gap: .15rem; padding-bottom: .4rem; }
+  .st-sub .sidebar-link { padding: .55rem .75rem; font-size: .84rem; min-height: 40px; }
+  #sidebar nav > .sidebar-link { margin-bottom: .35rem; min-height: 44px; }
+  #sidebar .sidebar-label { font-size: 10.5px; letter-spacing: .16em; margin: 0; align-items: center;
+    justify-content: space-between; width: 100%; }
+  .offcanvas { position: fixed; top: 0; right: 0; bottom: 0; z-index: 70; width: min(440px, 100vw);
+    background: #fff; box-shadow: -1rem 0 3rem rgba(17,24,39,.2); transform: translateX(100%);
+    transition: transform .25s ease; overflow-y: auto; }
+  .offcanvas.is-open { transform: none; }
+  .oc-backdrop { position: fixed; inset: 0; z-index: 69; background: rgba(17,24,39,.5); display: none; }
+  .oc-backdrop.is-open { display: block; }
+  @media (prefers-reduced-motion: reduce) { .st-group summary .st-caret, .offcanvas { transition: none; } }
+</style>
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line">
+  <div class="h-full flex items-center gap-3 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false"><span class="material-symbols-rounded " aria-hidden="true">menu</span></button>
+    <a href="dashboard.html"><img src="../images/logo.png" alt="Vérif'All" class="h-10 w-auto" width="171" height="60"></a>
+    <span class="rounded-full text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1" style="background:var(--st-brand)">Admin</span>
+    <div class="hidden md:block relative flex-1 max-w-md ml-4">
+      <label class="sr-only" for="st-search">Rechercher</label>
+      <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-slate2 !text-[19px]" aria-hidden="true">search</span>
+      <input id="st-search" type="search" placeholder="Rechercher un module, un utilisateur, un cours…" class="w-full bg-canvas border border-line rounded-xl pl-10 pr-3 py-2.5 text-sm outline-none focus:border-[#059669]">
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    
+    <div class="relative hidden sm:block" data-dropdown>
+      <button type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-[#059669] text-white text-sm font-semibold px-4 py-2.5 hover:opacity-90 min-h-[44px]" data-dropdown-toggle aria-expanded="false" aria-haspopup="true"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Créer <span class="material-symbols-rounded !text-[17px]" aria-hidden="true">expand_more</span></button>
+      <div class="hidden absolute right-0 top-full mt-2 w-56 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <a class="user-menu-link" href="builder.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">school</span> Nouveau cours</a>
+        <a class="user-menu-link" href="blog.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit_note</span> Nouvel article</a>
+        <a class="user-menu-link" href="signalements.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">report</span> Nouveau signalement</a>
+        <a class="user-menu-link" href="utilisateurs.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">person_add</span> Nouvel utilisateur</a>
+      </div>
+    </div>
+<a href="securite.html" class="hidden md:inline-flex st-icnbtn !w-11 !h-11" title="Journal d&#39;audit" aria-label="Journal d&#39;audit"><span class="material-symbols-rounded !text-[22px]" aria-hidden="true">history_edu</span></a>
+    <button type="button" class="hidden sm:inline-flex st-icnbtn !w-11 !h-11" data-fullscreen title="Plein écran" aria-label="Basculer le plein écran"><span class="material-symbols-rounded !text-[22px]" aria-hidden="true">fullscreen</span></button>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications — 3 non lues">
+        <span class="material-symbols-rounded !text-[22px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-brandred text-white text-[10px] font-bold inline-flex items-center justify-center" data-notif-count>3</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] max-w-[92vw] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="flex items-center justify-between px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink mb-0">Notifications</p>
+          <button type="button" class="text-xs font-bold text-primary" data-notif-readall>Tout marquer lu</button>
+        </div>
+        <div class="max-h-[320px] overflow-y-auto" data-notif-list><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">report</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">12 nouveaux signalements</span>
+          <span class="block text-xs text-slate2 truncate">4 prioritaires santé publique</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 8 min</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">badge</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Dossier KYC-2214 soumis</span>
+          <span class="block text-xs text-slate2 truncate">Marie A. — CNI biométrique</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 2 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">workspace_premium</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Certificat émis</span>
+          <span class="block text-xs text-slate2 truncate">VERIF-A-8841 · Marie A.</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 3 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 " data-notif data-unread="false">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">backup</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Sauvegarde BD réussie</span>
+          <span class="block text-xs text-slate2 truncate">bkp-2026-08-18 · 2,4 Go</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">hier 23:04</span></span>
+          
+        </button></div>
+        <div class="px-4 py-2.5 border-t border-line text-center">
+          <a href="securite.html" class="text-xs font-bold text-primary">Voir toute l'activité →</a>
+        </div>
+      </div>
+    </div>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-2" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-white font-bold text-sm" style="background:var(--st-brand)">RF</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-56 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line"><p class="font-display font-bold text-ink leading-tight mb-0">René Fadonougbo</p><p class="text-xs text-slate2 mb-0">Administrateur</p></div>
+        <a class="user-menu-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon profil</a><a class="user-menu-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Paramètres</a>
+        <div class="h-px bg-line my-1.5 mx-3" role="separator"></div>
+        <a class="user-menu-link text-vfalse" href="login.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+      </div>
+    </div>
+  </div>
+</header>
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation Admin">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-7">
+    <nav class="flex-1">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">space_dashboard</span><span>Tableau de Bord</span></a>
+      <details class="st-group" open>
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>FACT-CHECKING</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link is-active" href="signalements.html" aria-current="page"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">report</span><span>Signalements</span></a>
+        <a class="sidebar-link" href="base-de-connaissances.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">fact_check</span><span>Fact checks</span></a>
+        <a class="sidebar-link" href="sources-confiance.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">verified</span><span>Sources vérifiées</span></a>
+        <a class="sidebar-link" href="sources-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories de sources</span></a>
+        <a class="sidebar-link" href="unites-ia.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span><span>Historiques des Unités IA</span></a>
+        </div>
+      </details>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">handyman</span><span>Répertoire des outils</span></a>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ACADÉMIE (LMS)</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories</span></a>
+        <a class="sidebar-link" href="cours.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">school</span><span>Tous les Cours</span></a>
+        <a class="sidebar-link" href="builder.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">design_services</span><span>Constructeur de cours</span></a>
+        <a class="sidebar-link" href="questions.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">quiz</span><span>Banque de Questions</span></a>
+        <a class="sidebar-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span><span>Live Classes</span></a>
+        <a class="sidebar-link" href="certificats.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">workspace_premium</span><span>Certificats</span></a>
+        <a class="sidebar-link" href="unites-premium.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">payments</span><span>Unités des Cours Premium</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>EXAMENS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">assignment</span><span>Liste des Examens</span></a>
+        <a class="sidebar-link" href="correction-examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span><span>Correction Examens</span></a>
+        <a class="sidebar-link" href="stats-globales.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span><span>Statistiques Globales</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ENRÔLEMENT</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="enrolement-cours.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">how_to_reg</span><span>Enrôlement aux Cours</span></a>
+        <a class="sidebar-link" href="enrolement-examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">app_registration</span><span>Enrôlement aux Examens</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>HUB D'INFOS BÉNIN</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="hub-actualites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">newspaper</span><span>Actualités</span></a>
+        <a class="sidebar-link" href="hub-portails.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">account_balance</span><span>Portails Officiels</span></a>
+        <a class="sidebar-link" href="hub-jobs.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">work</span><span>Jobs Vérifiés</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>COMMUNAUTÉ</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="forum-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories du Forum</span></a>
+        <a class="sidebar-link" href="forum-discussions.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">forum</span><span>Forum Citoyen</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>BLOG</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="blog-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories du Blog</span></a>
+        <a class="sidebar-link" href="blog.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">edit_note</span><span>Articles du Blog</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>RESSOURCES & COM</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="partenaires.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">handshake</span><span>Nos Partenaires</span></a>
+        <a class="sidebar-link" href="faq.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">quiz</span><span>Gestion FAQ</span></a>
+        <a class="sidebar-link" href="temoignages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">reviews</span><span>Témoignages</span></a>
+        <a class="sidebar-link" href="newsletters.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">mail</span><span>Newsletters</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>UTILISATEURS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="utilisateurs.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">group</span><span>Citoyens</span></a>
+        <a class="sidebar-link" href="mentors.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">co_present</span><span>Mentors</span></a>
+        <a class="sidebar-link" href="kyc.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">badge</span><span>Vérification KYC</span></a>
+        <a class="sidebar-link" href="roles.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">admin_panel_settings</span><span>Rôles & Permissions</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>CONFIG SYSTÈME</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span><span>Réglages du Système</span></a>
+        <a class="sidebar-link" href="emails-templates.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">stacked_email</span><span>Templates Emails</span></a>
+        <a class="sidebar-link" href="campagnes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">campaign</span><span>Campagnes Publicitaires</span></a>
+        <a class="sidebar-link" href="badges.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span><span>Badges de progression</span></a>
+        <a class="sidebar-link" href="certificate-template.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">wallpaper</span><span>Certificat Template</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>SÉCURITÉ</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="securite.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">security</span><span>Logs d'Audit</span></a>
+        <a class="sidebar-link" href="logs-emails.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">outgoing_mail</span><span>Logs Emails</span></a>
+        <a class="sidebar-link" href="logs-unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">receipt_long</span><span>Logs Unités IA</span></a>
+        <a class="sidebar-link" href="alertes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">gpp_maybe</span><span>Alertes Intrusion</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>MAINTENANCE</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="maintenance.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">backup</span><span>Sauvegardes BD</span></a>
+        <a class="sidebar-link" href="cron.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">schedule</span><span>Tâches Cron</span></a>
+        </div>
+      </details>
+    </nav>
+    <a href="login.html" class="sidebar-link mt-4"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="mb-6"><h1 class="text-2xl font-display font-bold text-ink leading-tight">Signalements fact-checking</h1>
+  <p class="text-slate2 mt-1 mb-0">File de traitement des contenus soumis par les citoyens.</p></div>
+  <div class="table-wrap card overflow-hidden">
+    <table class="data-table">
+      <thead><tr><th scope="col">Contenu</th><th scope="col">Type</th><th scope="col">Soumis par</th><th scope="col">Priorité</th><th scope="col">Statut</th><th scope="col"><span class="sr-only">Action</span></th></tr></thead>
+      <tbody data-s-rows></tbody>
+    </table>
+  </div>
+  <div class="cards-wrap space-y-3" data-s-cards></div>
+
+  <div class="oc-backdrop" data-oc-backdrop></div>
+  <aside class="offcanvas p-6" data-offcanvas aria-label="Traiter le signalement">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="text-lg font-display font-bold text-ink mb-0">Rendre le verdict</h2>
+      <button type="button" class="inline-flex items-center justify-center w-9 h-9 rounded-lg hover:bg-canvas" data-oc-close aria-label="Fermer"><span class="material-symbols-rounded " aria-hidden="true">close</span></button>
+    </div>
+    <p class="text-sm text-slate2 mb-3" data-s-title>Signalement</p>
+    <div class="ffield mb-3">
+      <select id="sf-verdict"><option>FAUX</option><option>VRAI</option><option>TROMPEUR</option><option>NON VÉRIFIABLE</option></select>
+      <label for="sf-verdict">Verdict</label>
+    </div>
+    <div class="ffield mb-4"><input id="sf-conf" type="number" min="0" max="100" placeholder=" " value="90"><label for="sf-conf">Confiance (%)</label></div>
+    <p class="text-sm font-semibold text-ink mb-2">Justification publique du verdict</p>
+    <div class="rich-area" data-rich data-maxlength="1000">
+      <div class="rich-toolbar" role="toolbar" aria-label="Mise en forme">
+        <button type="button" class="rich-btn" data-cmd="bold" aria-label="Gras"><strong>B</strong></button>
+        <button type="button" class="rich-btn italic" data-cmd="italic" aria-label="Italique">I</button>
+        <button type="button" class="rich-btn" data-cmd="insertUnorderedList" aria-label="Liste"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">format_list_bulleted</span></button>
+        <button type="button" class="rich-btn" data-cmd="createLink" aria-label="Lien"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">link</span></button>
+      </div>
+      <div class="rich-editor" contenteditable="true" data-placeholder="Sources primaires consultées, éléments de preuve, chronologie…" aria-label="Justification"></div>
+    </div>
+    <p class="char-counter" data-char-counter></p>
+    <div class="flex gap-2 justify-end mt-5">
+      <button type="button" class="rounded-xl px-4 py-2.5 text-sm font-semibold text-slate2 hover:bg-canvas" data-oc-close>Annuler</button>
+      <button type="button" class="rounded-xl bg-primary text-white px-5 py-2.5 text-sm font-semibold hover:bg-primary-dark" data-s-publish>Publier le verdict</button>
+    </div>
+  </aside>
+<script>
+window.VFPage = function (VF) {
+  var ITEMS = [
+    { id: 1, title: 'Fausse offre d\'emploi « Port de Cotonou » avec frais de dossier', type: 'URL', by: 'David M.', prio: 'HAUTE', status: 'EN FILE' },
+    { id: 2, title: 'Vidéo « nouveau vaccin » qui circule sur WhatsApp', type: 'Vidéo', by: 'Aïcha K.', prio: 'HAUTE', status: 'EN FILE' },
+    { id: 3, title: 'Prétendu décret de nomination présidentielle', type: 'Image', by: 'Kossi B.', prio: 'MOYENNE', status: 'EN FILE' },
+    { id: 4, title: 'Rumeur de coupure Internet nationale', type: 'Texte', by: 'Grace T.', prio: 'BASSE', status: 'TRAITÉ · FAUX' }
+  ];
+  var current = null;
+  var oc = document.querySelector('[data-offcanvas]');
+  var bd = document.querySelector('[data-oc-backdrop]');
+  function esc(s) { return String(s).replace(/</g, '&lt;'); }
+  function close() { oc.classList.remove('is-open'); bd.classList.remove('is-open'); }
+  function prioBadge(p) {
+    if (p === 'HAUTE') return '<span class="vbadge vbadge-false">HAUTE</span>';
+    if (p === 'MOYENNE') return '<span class="vbadge vbadge-doubt">MOYENNE</span>';
+    return '<span class="vbadge" style="background:#F1F5F9;color:#64748B">BASSE</span>';
+  }
+  function draw() {
+    document.querySelector('[data-s-rows]').innerHTML = ITEMS.map(function (s) {
+      var pending = s.status === 'EN FILE';
+      return '<tr><td class="max-w-[340px] font-medium">' + esc(s.title) + '</td><td>' + s.type + '</td><td>' + esc(s.by) + '</td>'
+        + '<td>' + prioBadge(s.prio) + '</td>'
+        + '<td><span class="vbadge ' + (pending ? 'vbadge-progress' : 'vbadge-true') + '">' + s.status + '</span></td>'
+        + '<td>' + (pending ? '<button type="button" class="text-sm font-semibold text-primary" data-treat="' + s.id + '">Traiter</button>' : '—') + '</td></tr>';
+    }).join('');
+    document.querySelector('[data-s-cards]').innerHTML = ITEMS.map(function (s) {
+      var pending = s.status === 'EN FILE';
+      return '<article class="card p-4"><div class="flex items-center justify-between mb-1">' + prioBadge(s.prio) + '<span class="text-xs text-slate2">' + s.type + ' · ' + esc(s.by) + '</span></div>'
+        + '<p class="text-sm font-medium text-ink mb-2">' + esc(s.title) + '</p>'
+        + (pending ? '<button type="button" class="text-sm font-semibold text-primary" data-treat="' + s.id + '">Traiter →</button>' : '<span class="vbadge vbadge-true">' + s.status + '</span>')
+        + '</article>';
+    }).join('');
+    document.querySelectorAll('[data-treat]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        current = ITEMS.filter(function (x) { return x.id === parseInt(b.getAttribute('data-treat'), 10); })[0];
+        document.querySelector('[data-s-title]').textContent = '« ' + current.title + ' » — soumis par ' + current.by;
+        oc.classList.add('is-open'); bd.classList.add('is-open');
+      });
+    });
+  }
+  document.querySelectorAll('[data-oc-close]').forEach(function (b) { b.addEventListener('click', close); });
+  bd.addEventListener('click', close);
+  document.querySelector('[data-s-publish]').addEventListener('click', function () {
+    var just = oc.querySelector('.rich-editor').textContent.trim();
+    var conf = parseInt(document.getElementById('sf-conf').value, 10);
+    if (just.length < 40) { VF.toast('La justification publique doit citer les preuves (40 caractères minimum).', 'danger'); return; }
+    if (isNaN(conf) || conf < 0 || conf > 100) { VF.toast('Confiance invalide (0–100).', 'danger'); return; }
+    current.status = 'TRAITÉ · ' + document.getElementById('sf-verdict').value;
+    close();
+    draw();
+    VF.toast('Verdict publié : le citoyen est notifié et le rapport est en ligne.');
+  });
+  draw();
+};
+</script>
+</main>
+<script src="../compte-user/js/citizen.js" defer></script>
+</body>
+</html>

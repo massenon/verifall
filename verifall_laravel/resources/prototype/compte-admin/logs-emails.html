@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logs Emails — Admin Vérif'All</title>
+<meta name="description" content="La traçabilité des e-mails transactionnels : délivrés, ouverts, en échec.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="../compte-user/css/citizen.css">
+<link rel="stylesheet" href="../css/staff.css">
+<link rel="stylesheet" href="../css/vendor/quill.snow.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+<style>
+  :root { --st-deep: #052E16; --st-brand: #065F46; --st-emerald: #059669; --st-mint: #D1FAE5; }
+  .sidebar { background: var(--st-deep); }
+  .sidebar-label { color: rgba(209,250,229,.55); }
+  .sidebar-link { color: rgba(236,253,245,.82); }
+  .sidebar-link:hover { background: rgba(5,150,105,.18); color: #fff; }
+  .sidebar-link.is-active { background: var(--st-emerald); color: #fff; }
+  .st-group { margin-bottom: .35rem; }
+  .st-group summary { list-style: none; cursor: pointer; padding: .65rem .75rem; border-radius: .75rem;
+    margin-bottom: .15rem; min-height: 42px; display: flex; }
+  .st-group summary:hover { background: rgba(5,150,105,.12); }
+  .st-group summary::-webkit-details-marker { display: none; }
+  .st-group summary .st-caret { transition: transform .2s; }
+  .st-group[open] summary .st-caret { transform: rotate(180deg); }
+  .st-sub { padding-left: 1rem; margin-left: .65rem; border-left: 1px solid rgba(209,250,229,.14);
+    display: flex; flex-direction: column; gap: .15rem; padding-bottom: .4rem; }
+  .st-sub .sidebar-link { padding: .55rem .75rem; font-size: .84rem; min-height: 40px; }
+  #sidebar nav > .sidebar-link { margin-bottom: .35rem; min-height: 44px; }
+  #sidebar .sidebar-label { font-size: 10.5px; letter-spacing: .16em; margin: 0; align-items: center;
+    justify-content: space-between; width: 100%; }
+  .offcanvas { position: fixed; top: 0; right: 0; bottom: 0; z-index: 70; width: min(440px, 100vw);
+    background: #fff; box-shadow: -1rem 0 3rem rgba(17,24,39,.2); transform: translateX(100%);
+    transition: transform .25s ease; overflow-y: auto; }
+  .offcanvas.is-open { transform: none; }
+  .oc-backdrop { position: fixed; inset: 0; z-index: 69; background: rgba(17,24,39,.5); display: none; }
+  .oc-backdrop.is-open { display: block; }
+  @media (prefers-reduced-motion: reduce) { .st-group summary .st-caret, .offcanvas { transition: none; } }
+</style>
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line">
+  <div class="h-full flex items-center gap-3 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false"><span class="material-symbols-rounded " aria-hidden="true">menu</span></button>
+    <a href="dashboard.html"><img src="../images/logo.png" alt="Vérif'All" class="h-10 w-auto" width="171" height="60"></a>
+    <span class="rounded-full text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1" style="background:var(--st-brand)">Admin</span>
+    <div class="hidden md:block relative flex-1 max-w-md ml-4">
+      <label class="sr-only" for="st-search">Rechercher</label>
+      <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-slate2 !text-[19px]" aria-hidden="true">search</span>
+      <input id="st-search" type="search" placeholder="Rechercher un module, un utilisateur, un cours…" class="w-full bg-canvas border border-line rounded-xl pl-10 pr-3 py-2.5 text-sm outline-none focus:border-[#059669]">
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    
+    <div class="relative hidden sm:block" data-dropdown>
+      <button type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-[#059669] text-white text-sm font-semibold px-4 py-2.5 hover:opacity-90 min-h-[44px]" data-dropdown-toggle aria-expanded="false" aria-haspopup="true"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Créer <span class="material-symbols-rounded !text-[17px]" aria-hidden="true">expand_more</span></button>
+      <div class="hidden absolute right-0 top-full mt-2 w-56 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <a class="user-menu-link" href="builder.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">school</span> Nouveau cours</a>
+        <a class="user-menu-link" href="blog.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit_note</span> Nouvel article</a>
+        <a class="user-menu-link" href="signalements.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">report</span> Nouveau signalement</a>
+        <a class="user-menu-link" href="utilisateurs.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">person_add</span> Nouvel utilisateur</a>
+      </div>
+    </div>
+<a href="securite.html" class="hidden md:inline-flex st-icnbtn !w-11 !h-11" title="Journal d&#39;audit" aria-label="Journal d&#39;audit"><span class="material-symbols-rounded !text-[22px]" aria-hidden="true">history_edu</span></a>
+    <button type="button" class="hidden sm:inline-flex st-icnbtn !w-11 !h-11" data-fullscreen title="Plein écran" aria-label="Basculer le plein écran"><span class="material-symbols-rounded !text-[22px]" aria-hidden="true">fullscreen</span></button>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications — 3 non lues">
+        <span class="material-symbols-rounded !text-[22px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-brandred text-white text-[10px] font-bold inline-flex items-center justify-center" data-notif-count>3</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] max-w-[92vw] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="flex items-center justify-between px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink mb-0">Notifications</p>
+          <button type="button" class="text-xs font-bold text-primary" data-notif-readall>Tout marquer lu</button>
+        </div>
+        <div class="max-h-[320px] overflow-y-auto" data-notif-list><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">report</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">12 nouveaux signalements</span>
+          <span class="block text-xs text-slate2 truncate">4 prioritaires santé publique</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 8 min</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">badge</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Dossier KYC-2214 soumis</span>
+          <span class="block text-xs text-slate2 truncate">Marie A. — CNI biométrique</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 2 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">workspace_premium</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Certificat émis</span>
+          <span class="block text-xs text-slate2 truncate">VERIF-A-8841 · Marie A.</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 3 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 " data-notif data-unread="false">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">backup</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Sauvegarde BD réussie</span>
+          <span class="block text-xs text-slate2 truncate">bkp-2026-08-18 · 2,4 Go</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">hier 23:04</span></span>
+          
+        </button></div>
+        <div class="px-4 py-2.5 border-t border-line text-center">
+          <a href="securite.html" class="text-xs font-bold text-primary">Voir toute l'activité →</a>
+        </div>
+      </div>
+    </div>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-2" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-white font-bold text-sm" style="background:var(--st-brand)">RF</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-56 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line"><p class="font-display font-bold text-ink leading-tight mb-0">René Fadonougbo</p><p class="text-xs text-slate2 mb-0">Administrateur</p></div>
+        <a class="user-menu-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon profil</a><a class="user-menu-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Paramètres</a>
+        <div class="h-px bg-line my-1.5 mx-3" role="separator"></div>
+        <a class="user-menu-link text-vfalse" href="login.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+      </div>
+    </div>
+  </div>
+</header>
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation Admin">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-7">
+    <nav class="flex-1">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">space_dashboard</span><span>Tableau de Bord</span></a>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>FACT-CHECKING</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="signalements.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">report</span><span>Signalements</span></a>
+        <a class="sidebar-link" href="base-de-connaissances.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">fact_check</span><span>Fact checks</span></a>
+        <a class="sidebar-link" href="sources-confiance.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">verified</span><span>Sources vérifiées</span></a>
+        <a class="sidebar-link" href="sources-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories de sources</span></a>
+        <a class="sidebar-link" href="unites-ia.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span><span>Historiques des Unités IA</span></a>
+        </div>
+      </details>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">handyman</span><span>Répertoire des outils</span></a>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ACADÉMIE (LMS)</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories</span></a>
+        <a class="sidebar-link" href="cours.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">school</span><span>Tous les Cours</span></a>
+        <a class="sidebar-link" href="builder.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">design_services</span><span>Constructeur de cours</span></a>
+        <a class="sidebar-link" href="questions.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">quiz</span><span>Banque de Questions</span></a>
+        <a class="sidebar-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span><span>Live Classes</span></a>
+        <a class="sidebar-link" href="certificats.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">workspace_premium</span><span>Certificats</span></a>
+        <a class="sidebar-link" href="unites-premium.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">payments</span><span>Unités des Cours Premium</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>EXAMENS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">assignment</span><span>Liste des Examens</span></a>
+        <a class="sidebar-link" href="correction-examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span><span>Correction Examens</span></a>
+        <a class="sidebar-link" href="stats-globales.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span><span>Statistiques Globales</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ENRÔLEMENT</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="enrolement-cours.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">how_to_reg</span><span>Enrôlement aux Cours</span></a>
+        <a class="sidebar-link" href="enrolement-examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">app_registration</span><span>Enrôlement aux Examens</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>HUB D'INFOS BÉNIN</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="hub-actualites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">newspaper</span><span>Actualités</span></a>
+        <a class="sidebar-link" href="hub-portails.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">account_balance</span><span>Portails Officiels</span></a>
+        <a class="sidebar-link" href="hub-jobs.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">work</span><span>Jobs Vérifiés</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>COMMUNAUTÉ</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="forum-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories du Forum</span></a>
+        <a class="sidebar-link" href="forum-discussions.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">forum</span><span>Forum Citoyen</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>BLOG</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="blog-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories du Blog</span></a>
+        <a class="sidebar-link" href="blog.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">edit_note</span><span>Articles du Blog</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>RESSOURCES & COM</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="partenaires.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">handshake</span><span>Nos Partenaires</span></a>
+        <a class="sidebar-link" href="faq.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">quiz</span><span>Gestion FAQ</span></a>
+        <a class="sidebar-link" href="temoignages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">reviews</span><span>Témoignages</span></a>
+        <a class="sidebar-link" href="newsletters.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">mail</span><span>Newsletters</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>UTILISATEURS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="utilisateurs.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">group</span><span>Citoyens</span></a>
+        <a class="sidebar-link" href="mentors.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">co_present</span><span>Mentors</span></a>
+        <a class="sidebar-link" href="kyc.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">badge</span><span>Vérification KYC</span></a>
+        <a class="sidebar-link" href="roles.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">admin_panel_settings</span><span>Rôles & Permissions</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>CONFIG SYSTÈME</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span><span>Réglages du Système</span></a>
+        <a class="sidebar-link" href="emails-templates.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">stacked_email</span><span>Templates Emails</span></a>
+        <a class="sidebar-link" href="campagnes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">campaign</span><span>Campagnes Publicitaires</span></a>
+        <a class="sidebar-link" href="badges.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span><span>Badges de progression</span></a>
+        <a class="sidebar-link" href="certificate-template.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">wallpaper</span><span>Certificat Template</span></a>
+        </div>
+      </details>
+      <details class="st-group" open>
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>SÉCURITÉ</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="securite.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">security</span><span>Logs d'Audit</span></a>
+        <a class="sidebar-link is-active" href="logs-emails.html" aria-current="page"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">outgoing_mail</span><span>Logs Emails</span></a>
+        <a class="sidebar-link" href="logs-unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">receipt_long</span><span>Logs Unités IA</span></a>
+        <a class="sidebar-link" href="alertes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">gpp_maybe</span><span>Alertes Intrusion</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>MAINTENANCE</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="maintenance.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">backup</span><span>Sauvegardes BD</span></a>
+        <a class="sidebar-link" href="cron.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">schedule</span><span>Tâches Cron</span></a>
+        </div>
+      </details>
+    </nav>
+    <a href="login.html" class="sidebar-link mt-4"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-[#065F46]">Sécurité</a> <span aria-hidden="true">/</span> <span class="text-[#0F172A] font-medium">Logs Emails</span></nav>
+  <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Logs Emails</h1>
+      <p class="text-[#64748B] text-sm mb-0">La traçabilité des e-mails transactionnels : délivrés, ouverts, en échec.</p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <button type="button" class="st-btn st-btn-secondary" data-import><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">upload</span> Importer</button>
+      <button type="button" class="st-btn st-btn-secondary" data-export><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">download</span> Exporter</button>
+      <button type="button" class="st-btn st-btn-primary" data-oc-open><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Renvoyer un e-mail</button>
+    </div>
+  </div>
+
+  <section class="mb-6" data-kpi-accordion>
+    <button type="button" class="kpi-toggle w-full items-center justify-between st-card px-4 py-3 mb-3" aria-expanded="false">
+      <span class="text-sm font-display font-bold text-[#0F172A]">Vue d'ensemble</span>
+      <span class="material-symbols-rounded transition-transform" aria-hidden="true">expand_more</span>
+    </button>
+    <div class="kpi-grid grid grid-cols-2 lg:grid-cols-4 gap-4"><div class="st-kpi"><p class="st-kpi-v">4 812</p><p class="st-kpi-l">Envoyés (7 j)</p><p class="st-kpi-t">transactionnels</p></div><div class="st-kpi"><p class="st-kpi-v text-vtrue">99,4 %</p><p class="st-kpi-l">Délivrés</p><p class="st-kpi-t">réputation saine</p></div><div class="st-kpi"><p class="st-kpi-v text-vinvest">28</p><p class="st-kpi-l">En échec</p><p class="st-kpi-t">boîtes invalides</p></div><div class="st-kpi"><p class="st-kpi-v">12</p><p class="st-kpi-l">Renvoyés</p><p class="st-kpi-t">manuellement</p></div></div>
+  </section>
+
+  <div class="st-card p-4 mb-4">
+    <div class="flex flex-col md:flex-row gap-3">
+      <div class="relative flex-1">
+        <label class="sr-only" for="crud-search">Rechercher</label>
+        <span class="material-symbols-rounded absolute left-3.5 top-1/2 -translate-y-1/2 text-[#64748B] !text-[19px]" aria-hidden="true">search</span>
+        <input id="crud-search" type="search" placeholder="Rechercher — titre, mentor, catégorie, statut…" class="st-input !pl-10" data-search-input>
+      </div>
+      <div class="hidden md:flex flex-wrap gap-2"><select class="st-select !w-auto" data-filter="0" aria-label="Filtrer par Statut">
+      <option value="">Statut : tous</option><option>Délivré</option><option>Ouvert</option><option>Échec</option></select>
+        <button type="button" class="st-btn st-btn-ghost" data-filters-reset>Réinitialiser</button>
+      </div>
+      <button type="button" class="md:hidden st-btn st-btn-secondary" data-mfilters-open><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">tune</span> Filtres</button>
+    </div>
+    <div class="hidden flex-wrap items-center gap-2 mt-3" data-chips></div>
+  </div>
+
+  <div class="hidden st-card p-3.5 mb-4 flex-wrap items-center gap-3 !border-[#059669]/40" data-bulk-bar>
+    <p class="text-sm font-bold text-[#0F172A] mb-0"><span data-bulk-count>0</span> sélectionné(s)</p>
+    <div class="flex-1"></div>
+    <button type="button" class="st-btn st-btn-secondary !min-h-[40px]" data-bulk="publish">Publier</button>
+    <button type="button" class="st-btn st-btn-secondary !min-h-[40px]" data-bulk="archive">Archiver</button>
+    <button type="button" class="st-btn st-btn-secondary !min-h-[40px]" data-bulk="export">Exporter</button>
+    <span class="w-px h-6 bg-[#E2E8F0]" aria-hidden="true"></span>
+    <button type="button" class="st-btn st-btn-danger !min-h-[40px]" data-bulk="delete">Supprimer</button>
+  </div>
+
+  <p class="text-sm font-semibold text-[#0F172A] mb-3"><span data-result-count>5</span> résultat(s)</p>
+
+  <div class="st-table-wrap st-card overflow-x-auto">
+    <table class="st-table">
+      <thead><tr><th class="w-10"><input type="checkbox" class="w-4 h-4 accent-[#059669]" data-sel-all aria-label="Tout sélectionner"></th><th scope="col">E-mail</th><th scope="col">Destinataire</th><th scope="col">Template</th><th scope="col">Horodatage</th><th scope="col">Statut</th><th class="text-right">Actions</th></tr></thead>
+      <tbody data-tbody><tr data-row-el data-search="m-99412 adderly@verifall.com rapport prêt 18 août 14:32 ouvert"><td><input type="checkbox" class="w-4 h-4 accent-[#059669]" data-sel aria-label="Sélectionner la ligne"></td><td><span class="font-bold text-[#0F172A]">M-99412</span></td><td>adderly@verifall.com</td><td>Rapport prêt</td><td>18 août 14:32</td><td><span class="st-badge st-badge-pub">Ouvert</span></td><td class="text-right"><div class="relative inline-block" data-row-menu>
+        <button type="button" class="st-icnbtn" data-row-menu-btn aria-haspopup="true" aria-expanded="false" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        <div class="st-menu hidden" data-row-menu-list role="menu">
+          <button type="button" data-act="view" data-row="0" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">visibility</span> Voir</button>
+          <button type="button" data-act="edit" data-row="0" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">edit</span> Modifier</button>
+          <button type="button" data-act="dup" data-row="0" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">content_copy</span> Dupliquer</button>
+          <button type="button" data-act="arch" data-row="0" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">archive</span> Archiver</button>
+          <div class="st-menu-sep" role="separator"></div>
+          <button type="button" class="st-menu-danger" data-act="del" data-row="0" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">delete</span> Supprimer</button>
+        </div></div></td></tr><tr data-row-el data-search="m-99408 marie.a@gmail.com certificat émis 18 août 11:12 délivré"><td><input type="checkbox" class="w-4 h-4 accent-[#059669]" data-sel aria-label="Sélectionner la ligne"></td><td><span class="font-bold text-[#0F172A]">M-99408</span></td><td>marie.a@gmail.com</td><td>Certificat émis</td><td>18 août 11:12</td><td><span class="st-badge st-badge-pub">Délivré</span></td><td class="text-right"><div class="relative inline-block" data-row-menu>
+        <button type="button" class="st-icnbtn" data-row-menu-btn aria-haspopup="true" aria-expanded="false" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        <div class="st-menu hidden" data-row-menu-list role="menu">
+          <button type="button" data-act="view" data-row="1" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">visibility</span> Voir</button>
+          <button type="button" data-act="edit" data-row="1" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">edit</span> Modifier</button>
+          <button type="button" data-act="dup" data-row="1" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">content_copy</span> Dupliquer</button>
+          <button type="button" data-act="arch" data-row="1" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">archive</span> Archiver</button>
+          <div class="st-menu-sep" role="separator"></div>
+          <button type="button" class="st-menu-danger" data-act="del" data-row="1" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">delete</span> Supprimer</button>
+        </div></div></td></tr><tr data-row-el data-search="m-99401 kossi.t@yahoo.fr rappel live class 17 août 18:00 ouvert"><td><input type="checkbox" class="w-4 h-4 accent-[#059669]" data-sel aria-label="Sélectionner la ligne"></td><td><span class="font-bold text-[#0F172A]">M-99401</span></td><td>kossi.t@yahoo.fr</td><td>Rappel live class</td><td>17 août 18:00</td><td><span class="st-badge st-badge-pub">Ouvert</span></td><td class="text-right"><div class="relative inline-block" data-row-menu>
+        <button type="button" class="st-icnbtn" data-row-menu-btn aria-haspopup="true" aria-expanded="false" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        <div class="st-menu hidden" data-row-menu-list role="menu">
+          <button type="button" data-act="view" data-row="2" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">visibility</span> Voir</button>
+          <button type="button" data-act="edit" data-row="2" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">edit</span> Modifier</button>
+          <button type="button" data-act="dup" data-row="2" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">content_copy</span> Dupliquer</button>
+          <button type="button" data-act="arch" data-row="2" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">archive</span> Archiver</button>
+          <div class="st-menu-sep" role="separator"></div>
+          <button type="button" class="st-menu-danger" data-act="del" data-row="2" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">delete</span> Supprimer</button>
+        </div></div></td></tr><tr data-row-el data-search="m-99394 adresse-invalide@x bienvenue citoyen 17 août 09:21 échec"><td><input type="checkbox" class="w-4 h-4 accent-[#059669]" data-sel aria-label="Sélectionner la ligne"></td><td><span class="font-bold text-[#0F172A]">M-99394</span></td><td>adresse-invalide@x</td><td>Bienvenue citoyen</td><td>17 août 09:21</td><td><span class="st-badge st-badge-danger">Échec</span></td><td class="text-right"><div class="relative inline-block" data-row-menu>
+        <button type="button" class="st-icnbtn" data-row-menu-btn aria-haspopup="true" aria-expanded="false" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        <div class="st-menu hidden" data-row-menu-list role="menu">
+          <button type="button" data-act="view" data-row="3" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">visibility</span> Voir</button>
+          <button type="button" data-act="edit" data-row="3" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">edit</span> Modifier</button>
+          <button type="button" data-act="dup" data-row="3" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">content_copy</span> Dupliquer</button>
+          <button type="button" data-act="arch" data-row="3" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">archive</span> Archiver</button>
+          <div class="st-menu-sep" role="separator"></div>
+          <button type="button" class="st-menu-danger" data-act="del" data-row="3" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">delete</span> Supprimer</button>
+        </div></div></td></tr><tr data-row-el data-search="m-99388 aicha.b@gmail.com rapport prêt 16 août 16:40 délivré"><td><input type="checkbox" class="w-4 h-4 accent-[#059669]" data-sel aria-label="Sélectionner la ligne"></td><td><span class="font-bold text-[#0F172A]">M-99388</span></td><td>aicha.b@gmail.com</td><td>Rapport prêt</td><td>16 août 16:40</td><td><span class="st-badge st-badge-pub">Délivré</span></td><td class="text-right"><div class="relative inline-block" data-row-menu>
+        <button type="button" class="st-icnbtn" data-row-menu-btn aria-haspopup="true" aria-expanded="false" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        <div class="st-menu hidden" data-row-menu-list role="menu">
+          <button type="button" data-act="view" data-row="4" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">visibility</span> Voir</button>
+          <button type="button" data-act="edit" data-row="4" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">edit</span> Modifier</button>
+          <button type="button" data-act="dup" data-row="4" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">content_copy</span> Dupliquer</button>
+          <button type="button" data-act="arch" data-row="4" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">archive</span> Archiver</button>
+          <div class="st-menu-sep" role="separator"></div>
+          <button type="button" class="st-menu-danger" data-act="del" data-row="4" role="menuitem"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">delete</span> Supprimer</button>
+        </div></div></td></tr></tbody>
+    </table>
+  </div>
+  <div class="st-cards-wrap space-y-3" data-cards>
+      <article class="st-card p-4" data-row-el data-search="m-99412 adderly@verifall.com rapport prêt 18 août 14:32 ouvert">
+        <div class="flex items-start justify-between gap-2 mb-1.5">
+          <p class="text-sm font-bold text-[#0F172A] mb-0 flex-1">M-99412</p>
+          <button type="button" class="st-icnbtn shrink-0" data-sheet-for="0" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        </div>
+        <p class="mb-1.5"><span class="st-badge st-badge-pub">Ouvert</span></p>
+        <p class="text-xs text-[#64748B] mb-2">adderly@verifall.com · Rapport prêt · 18 août 14:32</p>
+        <button type="button" class="text-sm font-bold text-[#059669] min-h-[44px]" data-act="view" data-row="0">Voir →</button>
+      </article>
+      <article class="st-card p-4" data-row-el data-search="m-99408 marie.a@gmail.com certificat émis 18 août 11:12 délivré">
+        <div class="flex items-start justify-between gap-2 mb-1.5">
+          <p class="text-sm font-bold text-[#0F172A] mb-0 flex-1">M-99408</p>
+          <button type="button" class="st-icnbtn shrink-0" data-sheet-for="1" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        </div>
+        <p class="mb-1.5"><span class="st-badge st-badge-pub">Délivré</span></p>
+        <p class="text-xs text-[#64748B] mb-2">marie.a@gmail.com · Certificat émis · 18 août 11:12</p>
+        <button type="button" class="text-sm font-bold text-[#059669] min-h-[44px]" data-act="view" data-row="1">Voir →</button>
+      </article>
+      <article class="st-card p-4" data-row-el data-search="m-99401 kossi.t@yahoo.fr rappel live class 17 août 18:00 ouvert">
+        <div class="flex items-start justify-between gap-2 mb-1.5">
+          <p class="text-sm font-bold text-[#0F172A] mb-0 flex-1">M-99401</p>
+          <button type="button" class="st-icnbtn shrink-0" data-sheet-for="2" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        </div>
+        <p class="mb-1.5"><span class="st-badge st-badge-pub">Ouvert</span></p>
+        <p class="text-xs text-[#64748B] mb-2">kossi.t@yahoo.fr · Rappel live class · 17 août 18:00</p>
+        <button type="button" class="text-sm font-bold text-[#059669] min-h-[44px]" data-act="view" data-row="2">Voir →</button>
+      </article>
+      <article class="st-card p-4" data-row-el data-search="m-99394 adresse-invalide@x bienvenue citoyen 17 août 09:21 échec">
+        <div class="flex items-start justify-between gap-2 mb-1.5">
+          <p class="text-sm font-bold text-[#0F172A] mb-0 flex-1">M-99394</p>
+          <button type="button" class="st-icnbtn shrink-0" data-sheet-for="3" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        </div>
+        <p class="mb-1.5"><span class="st-badge st-badge-danger">Échec</span></p>
+        <p class="text-xs text-[#64748B] mb-2">adresse-invalide@x · Bienvenue citoyen · 17 août 09:21</p>
+        <button type="button" class="text-sm font-bold text-[#059669] min-h-[44px]" data-act="view" data-row="3">Voir →</button>
+      </article>
+      <article class="st-card p-4" data-row-el data-search="m-99388 aicha.b@gmail.com rapport prêt 16 août 16:40 délivré">
+        <div class="flex items-start justify-between gap-2 mb-1.5">
+          <p class="text-sm font-bold text-[#0F172A] mb-0 flex-1">M-99388</p>
+          <button type="button" class="st-icnbtn shrink-0" data-sheet-for="4" aria-label="Actions"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span></button>
+        </div>
+        <p class="mb-1.5"><span class="st-badge st-badge-pub">Délivré</span></p>
+        <p class="text-xs text-[#64748B] mb-2">aicha.b@gmail.com · Rapport prêt · 16 août 16:40</p>
+        <button type="button" class="text-sm font-bold text-[#059669] min-h-[44px]" data-act="view" data-row="4">Voir →</button>
+      </article></div>
+
+  <div class="hidden st-card p-10 text-center mt-4" data-empty>
+    <span class="text-3xl block mb-2" aria-hidden="true">🔎</span>
+    <p class="text-base font-display font-bold text-[#0F172A] mb-1">Aucun résultat trouvé</p>
+    <p class="text-sm text-[#64748B] mb-4">Essayez un autre mot-clé, une autre catégorie, ou supprimez les filtres.</p>
+    <button type="button" class="st-btn st-btn-secondary mx-auto" data-filters-reset>Réinitialiser les filtres</button>
+  </div>
+
+  <div class="flex flex-wrap items-center justify-between gap-3 mt-5">
+    <p class="text-xs text-[#64748B] mb-0">1–5 sur 5 éléments</p>
+    <nav class="flex gap-1" aria-label="Pagination">
+      <button type="button" class="st-page" aria-label="Page précédente">←</button>
+      <button type="button" class="st-page is-active" aria-current="page">1</button>
+      <button type="button" class="st-page">→</button>
+    </nav>
+  </div>
+  
+  <footer class="st-footer flex flex-wrap gap-x-4 gap-y-1 mt-10 pt-4 border-t border-[#E2E8F0]">
+    <span>Vérif'All © 2026 · v2.0</span><span>● Système opérationnel</span>
+    <a href="../faq.html">Documentation</a><a href="../contact.html">Support</a><a href="../confidentialite.html">Confidentialité</a>
+  </footer>
+
+  <div class="st-oc-backdrop" data-oc-backdrop></div>
+  <aside class="st-oc" data-oc role="dialog" aria-modal="true" aria-labelledby="oc-title">
+    <div class="st-oc-h">
+      <h2 id="oc-title" class="text-lg font-display font-bold text-[#0F172A] mb-0" data-oc-title>Renvoyer un e-mail</h2>
+      <button type="button" class="st-icnbtn" data-oc-close aria-label="Fermer"><span class="material-symbols-rounded " aria-hidden="true">close</span></button>
+    </div>
+    <div class="st-oc-b">
+      <p class="text-xs font-bold tracking-[.12em] uppercase text-[#64748B] mb-4">Informations</p>
+      <label class="st-field"><span class="st-label">Identifiant du message</span>
+        <input id="ff-id" type="text" class="st-input" placeholder="M-…">
+        </label>
+    </div>
+    <div class="st-oc-f">
+      <button type="button" class="st-btn st-btn-secondary" data-oc-close>Annuler</button>
+      <button type="button" class="st-btn st-btn-primary" data-oc-save>Enregistrer</button>
+    </div>
+  </aside>
+
+  <div class="st-sheet" data-sheet role="dialog" aria-modal="true" aria-label="Actions">
+    <div class="st-sheet-bg" data-sheet-close></div>
+    <div class="st-sheet-panel">
+      <div class="st-sheet-grab" aria-hidden="true"></div>
+      <p class="text-sm font-display font-bold text-[#0F172A] px-2 mb-1">Actions</p>
+      <button type="button" class="st-sheet-item" data-act="view"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">visibility</span> Voir</button>
+      <button type="button" class="st-sheet-item" data-act="edit"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">edit</span> Modifier</button>
+      <button type="button" class="st-sheet-item" data-act="dup"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">content_copy</span> Dupliquer</button>
+      <button type="button" class="st-sheet-item" data-act="arch"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">archive</span> Archiver</button>
+      <button type="button" class="st-sheet-item !text-[#DC2626]" data-act="del"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">delete</span> Supprimer</button>
+    </div>
+  </div>
+
+  <div class="st-sheet" data-mfilters role="dialog" aria-modal="true" aria-label="Filtres">
+    <div class="st-sheet-bg" data-mfilters-close></div>
+    <div class="st-sheet-panel">
+      <div class="st-sheet-grab" aria-hidden="true"></div>
+      <p class="text-base font-display font-bold text-[#0F172A] px-2 mb-3">Filtres</p>
+      <div class="space-y-3 px-2" data-mfilters-body></div>
+      <div class="flex gap-2 mt-5 px-2">
+        <button type="button" class="st-btn st-btn-secondary flex-1" data-filters-reset>Réinitialiser</button>
+        <button type="button" class="st-btn st-btn-primary flex-1" data-mfilters-close>Appliquer</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-del">
+    <div class="modal p-6" role="alertdialog" aria-modal="true" aria-labelledby="del-t">
+      <h2 id="del-t" class="text-lg font-display font-bold text-[#0F172A] mb-1">Supprimer <span data-del-name>cet élément</span> ?</h2>
+      <p class="text-sm text-[#64748B] mb-5">Cette action est irréversible. Les éléments associés seront également supprimés.</p>
+      <div class="flex justify-end gap-2">
+        <button type="button" class="st-btn st-btn-secondary" data-modal-close>Annuler</button>
+        <button type="button" class="st-btn st-btn-danger" data-del-confirm>Supprimer définitivement</button>
+      </div>
+    </div>
+  </div>
+
+<script src="../js/vendor/quill.js" defer></script>
+<script>
+window.VFPage = function (VF, S) {
+  var EXPORT_HEADERS = ["E-mail", "Destinataire", "Template", "Horodatage", "Statut"];
+  var quill = null, pendingRow = null, pendingDel = null, debounceT = null;
+
+  function toast(msg) { VF.toast(msg); }
+
+  /* Quill (initialisé à la première ouverture de l'offcanvas) */
+  function ensureQuill() {
+    var host = document.querySelector('[data-quill-editor]');
+    if (!host || quill || typeof Quill === 'undefined') return;
+    quill = new Quill(host, {
+      theme: 'snow',
+      modules: { toolbar: [[{ header: [2, 3, false] }], ['bold', 'italic', 'underline', 'strike'], [{ list: 'ordered' }, { list: 'bullet' }], ['blockquote', 'code-block', 'link', 'image'], ['clean']] },
+      placeholder: 'Rédigez le contenu…'
+    });
+  }
+
+  /* Offcanvas */
+  var oc = document.querySelector('[data-oc]');
+  var ocb = document.querySelector('[data-oc-backdrop]');
+  function ocOpen(titleTxt) {
+    document.querySelector('[data-oc-title]').textContent = titleTxt;
+    oc.classList.add('is-open'); ocb.classList.add('is-open');
+    ensureQuill();
+    var f = oc.querySelector('input, select, textarea');
+    if (f) f.focus();
+  }
+  function ocClose() { oc.classList.remove('is-open'); ocb.classList.remove('is-open'); }
+  document.querySelectorAll('[data-oc-open]').forEach(function (b) { b.addEventListener('click', function () { ocOpen('Renvoyer un e-mail'); }); });
+  document.querySelectorAll('[data-oc-close]').forEach(function (b) { b.addEventListener('click', ocClose); });
+  ocb.addEventListener('click', ocClose);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { ocClose(); sheetClose(); mfClose(); } });
+  document.querySelector('[data-oc-save]').addEventListener('click', function () {
+    var first = oc.querySelector('input.st-input');
+    if (first && first.value.trim().length < 3) {
+      first.setAttribute('aria-invalid', 'true'); first.focus();
+      toast('Le titre doit contenir au moins 3 caractères.');
+      return;
+    }
+    if (first) first.removeAttribute('aria-invalid');
+    ocClose();
+    toast('✓ Renvoyer un e-mail enregistré.');
+  });
+
+  /* Recherche débouncée (350 ms) + filtres + chips + compteur + empty */
+  var search = document.querySelector('[data-search-input]');
+  var filters = Array.prototype.slice.call(document.querySelectorAll('[data-filter]'));
+  var chipsWrap = document.querySelector('[data-chips]');
+  function apply() {
+    var q = search.value.trim().toLowerCase();
+    var active = filters.filter(function (f) { return f.value; });
+    var visible = 0;
+    document.querySelectorAll('[data-row-el]').forEach(function (el) {
+      var ok = true;
+      if (q && el.getAttribute('data-search').indexOf(q) === -1) ok = false;
+      active.forEach(function (f) { if (ok && el.getAttribute('data-search').indexOf(f.value.toLowerCase()) === -1) ok = false; });
+      el.classList.toggle('hidden', !ok);
+      if (ok) visible++;
+    });
+    document.querySelector('[data-result-count]').textContent = Math.round(visible / 2);
+    document.querySelector('[data-empty]').classList.toggle('hidden', visible > 0);
+    chipsWrap.innerHTML = active.map(function (f, i) {
+      return '<span class="st-chip">' + f.value + '<button type="button" data-chip-x="' + filters.indexOf(f) + '" aria-label="Retirer le filtre">×</button></span>';
+    }).join('');
+    chipsWrap.classList.toggle('hidden', !active.length);
+    chipsWrap.classList.toggle('flex', !!active.length);
+  }
+  search.addEventListener('input', function () { clearTimeout(debounceT); debounceT = setTimeout(apply, 350); });
+  filters.forEach(function (f) { f.addEventListener('input', apply); });
+  chipsWrap.addEventListener('click', function (e) {
+    var x = e.target.closest('[data-chip-x]');
+    if (!x) return;
+    filters[parseInt(x.getAttribute('data-chip-x'), 10)].value = '';
+    apply();
+  });
+  document.querySelectorAll('[data-filters-reset]').forEach(function (b) {
+    b.addEventListener('click', function () { search.value = ''; filters.forEach(function (f) { f.value = ''; }); apply(); });
+  });
+
+  /* Filtres mobile : cloner les selects dans le bottom sheet */
+  var mf = document.querySelector('[data-mfilters]');
+  var mfBody = document.querySelector('[data-mfilters-body]');
+  filters.forEach(function (f) {
+    var c = f.cloneNode(true);
+    c.classList.remove('!w-auto'); c.removeAttribute('data-filter');
+    c.addEventListener('input', function () { f.value = c.value; apply(); });
+    mfBody.appendChild(c);
+  });
+  function mfClose() { mf.classList.remove('is-open'); }
+  document.querySelector('[data-mfilters-open]').addEventListener('click', function () { mf.classList.add('is-open'); });
+  document.querySelectorAll('[data-mfilters-close]').forEach(function (b) { b.addEventListener('click', mfClose); });
+
+  /* Menus ⋮ desktop */
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-row-menu-btn]');
+    document.querySelectorAll('[data-row-menu-list]').forEach(function (m) {
+      if (!btn || m !== btn.nextElementSibling) m.classList.add('hidden');
+    });
+    if (btn) {
+      var m = btn.nextElementSibling;
+      var open = m.classList.toggle('hidden');
+      btn.setAttribute('aria-expanded', String(!open));
+      e.stopPropagation();
+    }
+  });
+
+  /* Bottom sheet actions mobile */
+  var sheet = document.querySelector('[data-sheet]');
+  function sheetClose() { sheet.classList.remove('is-open'); }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-sheet-for]');
+    if (b) { pendingRow = b.getAttribute('data-sheet-for'); sheet.classList.add('is-open'); }
+  });
+  document.querySelectorAll('[data-sheet-close]').forEach(function (b) { b.addEventListener('click', sheetClose); });
+
+  /* Actions unifiées */
+  function rowName(ri) {
+    var rowsEls = document.querySelectorAll('[data-tbody] [data-row-el]');
+    var el = rowsEls[ri];
+    return el ? el.querySelector('td:nth-child(2)').textContent.trim().slice(0, 60) : 'cet élément';
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-act]');
+    if (!a) return;
+    var act = a.getAttribute('data-act');
+    var ri = a.getAttribute('data-row') !== null ? a.getAttribute('data-row') : pendingRow;
+    sheetClose();
+    document.querySelectorAll('[data-row-menu-list]').forEach(function (m) { m.classList.add('hidden'); });
+    if (act === 'del') {
+      pendingDel = ri;
+      document.querySelector('[data-del-name]').textContent = '« ' + rowName(ri) + ' »';
+      VF.openModal('modal-del');
+    } else if (act === 'edit') {
+      ocOpen('Modifier — ' + rowName(ri));
+    } else if (act === 'view') {
+      toast('Aperçu : ' + rowName(ri));
+    } else if (act === 'dup') {
+      toast('✓ Élément dupliqué en brouillon.');
+    } else if (act === 'arch') {
+      toast('✓ Élément archivé.');
+    }
+  });
+  document.querySelector('[data-del-confirm]').addEventListener('click', function () {
+    var rowsEls = document.querySelectorAll('[data-row-el]');
+    var name = rowName(pendingDel);
+    document.querySelectorAll('[data-row-el]').forEach(function (el) {
+      if (el.getAttribute('data-search') === rowsEls[pendingDel].getAttribute('data-search')) el.remove();
+    });
+    document.querySelector('.modal-backdrop.is-open') && VF.closeModal && VF.closeModal('modal-del');
+    document.getElementById('modal-del').classList.remove('is-open');
+    apply();
+    toast('✓ « ' + name + ' » supprimé.');
+  });
+
+  /* Sélection + bulk */
+  var bulkBar = document.querySelector('[data-bulk-bar]');
+  function syncBulk() {
+    var sel = document.querySelectorAll('[data-sel]:checked').length;
+    document.querySelector('[data-bulk-count]').textContent = sel;
+    bulkBar.classList.toggle('hidden', sel === 0);
+    bulkBar.classList.toggle('flex', sel > 0);
+  }
+  document.addEventListener('change', function (e) {
+    if (e.target.matches('[data-sel-all]')) {
+      document.querySelectorAll('[data-sel]').forEach(function (c) { c.checked = e.target.checked; c.closest('tr').classList.toggle('is-selected', c.checked); });
+    }
+    if (e.target.matches('[data-sel]')) e.target.closest('tr').classList.toggle('is-selected', e.target.checked);
+    if (e.target.matches('[data-sel],[data-sel-all]')) syncBulk();
+  });
+  document.querySelectorAll('[data-bulk]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var n = document.querySelectorAll('[data-sel]:checked').length;
+      var act = b.getAttribute('data-bulk');
+      if (act === 'delete') toast(n + ' élément(s) supprimé(s).');
+      else if (act === 'export') doExport();
+      else toast('✓ ' + n + ' élément(s) — action « ' + b.textContent.trim() + ' » appliquée.');
+    });
+  });
+
+  /* Export CSV réel */
+  function doExport() {
+    var lines = [EXPORT_HEADERS.join(';')];
+    document.querySelectorAll('[data-tbody] [data-row-el]:not(.hidden)').forEach(function (tr) {
+      var cells = Array.prototype.slice.call(tr.querySelectorAll('td')).slice(1, -1);
+      lines.push(cells.map(function (td) { return '"' + td.textContent.trim().replace(/"/g, '""') + '"'; }).join(';'));
+    });
+    var blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'logs-emails-export.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast('✓ Export CSV téléchargé.');
+  }
+  document.querySelector('[data-export]').addEventListener('click', doExport);
+  document.querySelector('[data-import]').addEventListener('click', function () {
+    var inp = document.createElement('input');
+    inp.type = 'file'; inp.accept = '.csv,.xlsx';
+    inp.addEventListener('change', function () {
+      if (inp.files.length) toast('✓ « ' + inp.files[0].name + ' » importé — ' + Math.max(2, inp.files[0].name.length % 9 + 2) + ' lignes traitées.');
+    });
+    inp.click();
+  });
+};
+</script>
+</main>
+<script src="../compte-user/js/citizen.js" defer></script>
+</body>
+</html>

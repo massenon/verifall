@@ -1,0 +1,122 @@
+/*
+ | notes-communaute — notes de communauté et sondage d'un sujet du forum.
+ |
+ | Le build Tailwind du projet est FIGÉ (voir CLAUDE.md) : une classe absente de
+ | `tailwind.css` s'écrit dans le balisage, se lit très bien, et ne fait
+ | strictement rien. Tout ce qui suit est donc déclaré ici, à l'ancienne, et
+ | chargé par `@push('styles')` depuis la page d'un sujet — donc APRÈS
+ | `citizen.css`, dont il reprend les variables.
+ |
+ | Rien de neuf sur le plan visuel : la carte, la pastille et la barre de
+ | progression sont celles du design system. On ne fait que les décliner pour
+ | trois états qui n'existaient pas encore — publiée, en attente, non retenue.
+ */
+
+/* ─────────────────────────────────────────────────── note de communauté */
+
+.vf-note {
+  border: 1px solid var(--vf-line);
+  border-radius: var(--vf-radius-lg);
+  background: var(--vf-surface);
+  padding: 1rem 1.1rem;
+}
+
+/* Publiée : le liseré vert du design system, celui du contenu qui engage. */
+.vf-note--publiee { border-left: 4px solid var(--vf-primary); }
+
+/*
+ | En attente : liseré BLEU (var(--vf-info)), et surtout pas rouge. Une note
+ | qui attend n'a rien fait de mal ; la teindre comme une erreur reviendrait à
+ | annoncer un rejet qui n'a pas eu lieu.
+ */
+.vf-note--attente { border-left: 4px solid var(--vf-info); background: var(--vf-canvas); }
+
+/* Non retenue : gris. Évaluée, écartée, et sans dramatisation. */
+.vf-note--ecartee { border-left: 4px solid var(--vf-line); background: var(--vf-canvas); }
+
+.vf-note-texte {
+  font-size: .9375rem;
+  line-height: 1.6;
+  color: var(--vf-ink);
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.vf-note-sources { list-style: none; margin: .6rem 0 0; padding: 0; }
+.vf-note-sources li { margin-bottom: .2rem; }
+.vf-note-sources a {
+  font-size: .8125rem;
+  color: var(--vf-info);
+  text-decoration: underline;
+  overflow-wrap: anywhere;
+}
+
+/* ────────────────────────────────────────────────── boutons d'évaluation */
+
+.vf-note-vote {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  min-height: 44px;
+  padding: 0 .9rem;
+  border-radius: var(--vf-radius-md);
+  border: 1px solid var(--vf-line);
+  background: var(--vf-surface);
+  font-size: .8125rem;
+  font-weight: 700;
+  color: var(--vf-muted);
+}
+
+.vf-note-vote:hover { border-color: var(--vf-primary); color: var(--vf-ink); }
+.vf-note-vote.is-on { border-color: var(--vf-primary); background: var(--vf-primary-soft); color: var(--vf-primary-dark); }
+.vf-note-vote.is-off { border-color: var(--vf-red); background: rgba(214,41,62,.08); color: var(--vf-red); }
+
+/* ────────────────────────────────────────────────────────────── sondage */
+
+.vf-sondage-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  min-height: 44px;
+  padding: .7rem .9rem;
+  margin-bottom: .5rem;
+  border: 1px solid var(--vf-line);
+  border-radius: var(--vf-radius-md);
+  background: var(--vf-surface);
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--vf-ink);
+}
+
+.vf-sondage-option:hover { border-color: var(--vf-primary); }
+
+.vf-sondage-resultat { margin-bottom: .75rem; }
+
+.vf-sondage-ligne {
+  display: flex;
+  justify-content: space-between;
+  gap: .75rem;
+  font-size: .875rem;
+  margin-bottom: .3rem;
+}
+
+.vf-sondage-libelle { font-weight: 600; color: var(--vf-ink); }
+.vf-sondage-part { font-weight: 800; color: var(--vf-muted); white-space: nowrap; }
+
+/* La réponse de la personne se reconnaît sans avoir à la chercher. */
+.vf-sondage-resultat.is-mienne .vf-sondage-libelle { color: var(--vf-primary-dark); }
+.vf-sondage-resultat.is-mienne .progress > span { background: var(--vf-primary); }
+.vf-sondage-resultat .progress > span { background: var(--vf-muted); }
+
+/* ───────────────────────────────────────────── réputation, en une ligne */
+
+.vf-reputation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem;
+  font-size: .8125rem;
+  color: var(--vf-muted);
+}
+
+.vf-reputation strong { color: var(--vf-ink); font-weight: 800; }

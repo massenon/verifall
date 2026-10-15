@@ -1,0 +1,509 @@
+/* ==========================================================================
+   VÉRIF'ALL — PAGE « RAPPORT DE VÉRIFICATION »
+   --------------------------------------------------------------------------
+   Feuille de PAGE, poussée par la vue elle-même dans `@stack('styles')`.
+
+   Pourquoi ici et pas dans `citizen.css` :
+   le rapport sera servi par DEUX gabarits — l'espace citoyen, et la page
+   publique `/rapport/{uuid}` que le QR code des impressions désignera. Or
+   `layouts/public.blade.php` NE CHARGE PAS `citizen.css` : il charge
+   `verifall.css`. Une règle laissée dans la feuille citoyenne s'appliquerait
+   sur un shell et pas sur l'autre, et le même rapport sortirait coloré pour
+   son auteur, gris pour celui qui scanne le code.
+
+   Pourquoi pas dans `tailwind.css` : ce build est FIGÉ (empreinte md5
+   verrouillée par `BuildTailwindFigeTest`). Il EST la référence visuelle des
+   107 pages du prototype. Une classe qu'il ne contient pas est INERTE — c'est
+   ce qui rendait le Hero du verdict entièrement incolore jusqu'au
+   25 septembre 2026.
+   ========================================================================== */
+/* ==========================================================================
+   RAPPORT DE VÉRIFICATION — THÈMES VERDICT & SYNTHÈSE
+   ========================================================================== */
+
+/* ── 1. Thèmes des cartes Hero selon le verdict ── */
+.vf-report-hero-false {
+  background-color: #fef2f2 !important;
+  border-color: #fca5a5 !important;
+}
+.vf-report-hero-true {
+  background-color: #f0fdf4 !important;
+  border-color: #86efac !important;
+}
+.vf-report-hero-warning {
+  background-color: #fffbeb !important;
+  border-color: #fcd34d !important;
+}
+.vf-report-hero-neutral {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* ── 2. Couleurs de texte et badges du verdict ── */
+.vf-badge-false {
+  background-color: #dc2626 !important;
+  color: #ffffff !important;
+}
+.vf-text-false {
+  color: #dc2626 !important;
+}
+
+.vf-badge-true {
+  background-color: #16a34a !important;
+  color: #ffffff !important;
+}
+.vf-text-true {
+  color: #16a34a !important;
+}
+
+.vf-badge-warning {
+  background-color: #d97706 !important;
+  color: #ffffff !important;
+}
+.vf-text-warning {
+  color: #d97706 !important;
+}
+
+.vf-badge-neutral {
+  background-color: #475569 !important;
+  color: #ffffff !important;
+}
+.vf-text-neutral {
+  color: #475569 !important;
+}
+
+/* ── 3. Médaillon central et pilule d'explication ── */
+.vf-hero-medal {
+  width: 5.5rem;
+  height: 5.5rem;
+  background-color: #ffffff;
+  border-radius: 9999px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.25rem;
+}
+
+.vf-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 9999px;
+  padding: 0.5rem 1.25rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── 4. Barre de fiabilité dynamique ── */
+.vf-progress-track {
+  width: 100%;
+  max-width: 28rem;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 9999px;
+  height: 0.875rem;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+.vf-progress-bar {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── 5. Rendu Markdown de la Synthèse d'Analyse (XAI) ── */
+.vf-markdown-summary {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: #334155;
+}
+
+.vf-markdown-summary h1,
+.vf-markdown-summary h2,
+.vf-markdown-summary h3,
+.vf-markdown-summary h4 {
+  font-family: var(--font-display, inherit);
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.vf-markdown-summary h1 { font-size: 1.1rem; }
+.vf-markdown-summary h2 { font-size: 1rem; }
+.vf-markdown-summary h3 { font-size: 0.925rem; }
+
+.vf-markdown-summary p {
+  margin-bottom: 0.75rem;
+}
+
+.vf-markdown-summary ul,
+.vf-markdown-summary ol {
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.vf-markdown-summary ul {
+  list-style-type: disc;
+}
+
+.vf-markdown-summary ol {
+  list-style-type: decimal;
+}
+
+.vf-markdown-summary li {
+  margin-bottom: 0.25rem;
+}
+
+.vf-markdown-summary strong {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.vf-markdown-summary a {
+  color: var(--color-primary, #059669);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.vf-markdown-summary blockquote {
+  border-left: 3px solid #cbd5e1;
+  padding-left: 0.75rem;
+  font-style: italic;
+  color: #64748b;
+  margin: 0.75rem 0;
+}
+
+/* ==========================================================================
+   6. Ce que le build figé ne porte pas — ajouté au lot 1 (25 septembre 2026)
+   --------------------------------------------------------------------------
+   Chacune des règles ci-dessous remplace une classe Tailwind qui était écrite
+   dans `rapport.blade.php` et n'existait pas au build : elle ne faisait rien.
+   Le nom de la classe remplacée est donné en regard, pour que la
+   correspondance reste vérifiable.
+   ========================================================================== */
+
+/* Icône du médaillon — remplace `!text-[44px]` / `sm:!text-[52px]`. */
+.vf-hero-medal .material-symbols-rounded { font-size: 44px; }
+@media (min-width: 640px) {
+  .vf-hero-medal .material-symbols-rounded { font-size: 52px; }
+}
+
+/* Citation du contenu soumis — remplace `font-serif`. */
+.vf-citation {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+}
+
+/* Encart de réserve dans le Hero — remplace `p-3.5 bg-white shadow-xs`. */
+.vf-reserve {
+  background: #fff;
+  border: 1px solid var(--c-line);
+  border-radius: .75rem;
+  padding: .875rem;
+}
+
+/* Carte « Hate Speech Indicator » — remplace `border-red-300 bg-red-50/40`. */
+.vf-hsi--alerte {
+  background-color: #fef2f2;
+  border-color: #fca5a5;
+}
+
+/* Liste de sources — remplace `p-0` (absent du build ; `list-none` et `m-0` y sont). */
+.vf-liste-nue { padding-left: 0; }
+
+/* Extrait de source tronqué — remplace `line-clamp-3`. */
+.vf-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Tableau des moteurs — remplace `divide-y divide-line/60` et `pb-2.5`. */
+.vf-table-rapport { width: 100%; border-collapse: collapse; }
+.vf-table-rapport th {
+  text-align: left;
+  padding-bottom: .625rem;
+  border-bottom: 1px solid var(--c-line);
+}
+.vf-table-rapport td { padding-top: .625rem; padding-bottom: .625rem; }
+.vf-table-rapport tbody tr + tr td { border-top: 1px solid rgba(226, 232, 240, .6); }
+
+/* Bouton sombre (contre-expertise, envoi) — remplace `border-ink hover:opacity-90`. */
+.vf-btn-sombre {
+  background: var(--c-ink);
+  border: 1px solid var(--c-ink);
+  color: #fff;
+  transition: opacity .15s;
+}
+.vf-btn-sombre:hover { opacity: .9; }
+
+/* Zone de saisie de la contre-expertise — remplace `focus:ring-1 focus:outline-none`. */
+.vf-champ {
+  width: 100%;
+  border: 1px solid var(--c-line);
+  border-radius: .75rem;
+  padding: .75rem;
+}
+.vf-champ:focus {
+  outline: none;
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 1px var(--c-primary);
+}
+
+/* ==========================================================================
+   7. Structure de page, barre d'actions, menu de partage — lots 3, 9 et 10
+   --------------------------------------------------------------------------
+   Ces règles servent les DEUX gabarits. Le shell public ne charge pas
+   `citizen.css` : tout ce dont le corps du rapport a besoin doit être ici,
+   y compris ce qui existe déjà côté citoyen (`.card` devient `.vf-card`).
+   ========================================================================== */
+
+.vf-report-shell { max-width: 64rem; margin: 0 auto; padding: .5rem 0; }
+
+.vf-card {
+  background: #fff;
+  border: 1px solid var(--c-line, #E2E8F0);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+.vf-card + .vf-card { margin-top: 1.25rem; }
+
+/*
+  Bannière Académie (citizen/rapport.blade.php) — le prototype pose
+  `!border-forest` et `text-white/70`, deux classes absentes du build
+  Tailwind figé. `.vf-card` fixe une bordure claire pour son usage ORDINAIRE
+  (fond blanc) ; sur fond `bg-forest`, cette même bordure claire tranchait
+  comme un défaut sur la carte sombre — d'où la fusion ici avec la couleur
+  du fond, exactement l'effet du prototype.
+
+  `background-color` est repris ICI aussi, pas seulement `border-color` :
+  `.vf-card` pose `background: #fff` (même spécificité qu'une classe Tailwind
+  seule), et selon l'ordre de chargement des feuilles, ce blanc l'emportait
+  sur `.bg-forest` — la carte s'affichait blanche, avec un titre et un texte
+  blancs devenus invisibles. Le sélecteur composé `.vf-card.bg-forest` est
+  plus spécifique que l'un ou l'autre pris seul : il gagne dans tous les cas.
+*/
+.vf-card.bg-forest { background-color: #063B2A; border-color: #063B2A; }
+.vf-academie-texte { color: rgb(255 255 255 / 70%); }
+
+.vf-report-hero { padding: 1.5rem; border-radius: 1rem; }
+@media (min-width: 640px) { .vf-report-hero { padding: 2.5rem; } }
+
+.vf-hero-badge {
+  display: inline-block;
+  font-weight: 900;
+  font-size: .75rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: .5rem 1.25rem;
+  border-radius: 9999px;
+}
+
+.vf-report-claim {
+  font-size: 1.25rem;
+  line-height: 1.3;
+  max-width: 48rem;
+}
+@media (min-width: 640px) { .vf-report-claim { font-size: 1.5rem; } }
+@media (min-width: 768px) { .vf-report-claim { font-size: 1.875rem; } }
+
+/* ── Barre d'actions (lot 9) ── */
+.vf-barre-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  margin-bottom: 1.25rem;
+}
+.vf-barre-boutons { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+
+.vf-lien-retour {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .875rem;
+  font-weight: 700;
+  color: var(--c-ink, #0F172A);
+  transition: color .15s;
+}
+.vf-lien-retour:hover { color: var(--c-primary, #09B850); }
+
+.vf-btn-primaire {
+  background: var(--c-primary, #09B850);
+  border: 1px solid var(--c-primary, #09B850);
+  color: #fff;
+  transition: background .15s;
+}
+.vf-btn-primaire:hover { background: var(--c-primary-dark, #079A43); color: #fff; }
+
+/*
+ | `.vf-btn-secondaire` et le menu de partage (`<x-menu-partage>`) ont
+ | déménagé dans `verifall-app.css` le 10 octobre 2026 : ce composant est
+ | utilisé par `article.blade.php` (page blog-details), qui ne pousse PAS
+ | `rapport.css`. Les garder ici les rendait invisibles — bouton sans fond
+ | ni bordure, menu sans position ni ombre — partout sauf sur les deux pages
+ | « Rapport ». `verifall-app.css` est le seul fichier chargé par les TROIS
+ | gabarits (public, citoyen, et donc aussi `/actualites/{slug}`).
+ */
+
+/* ── Page publique ── */
+.vf-public-bandeau {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  background: var(--vf-primary-soft, #E6F8EE);
+  border: 1px solid rgba(9, 184, 80, .22);
+  border-radius: .875rem;
+  padding: .75rem 1rem;
+  margin-bottom: 1.25rem;
+  font-size: .875rem;
+  color: #334155;
+}
+.vf-public-pied {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: .75rem;
+  color: #64748B;
+}
+
+/* Bloc réservé au papier — `hidden print:flex` n'existe pas au build figé. */
+.vf-print-only { display: none; }
+
+/* ==========================================================================
+   8. IMPRESSION — A4 portrait (lot 3)
+   --------------------------------------------------------------------------
+   Un rapport imprimé n'est pas une capture d'écran : c'est une pièce qu'on
+   montre. Il doit porter son en-tête, sa référence, son verdict EN COULEUR,
+   ses sources lisibles à la main et son QR de contrôle — et rien du site.
+
+   Le `@media print` de `citizen.css` ne masquait que la navigation. Il ne
+   forçait pas les couleurs (le Hero sortait en gris), ne réglait pas le
+   format, ne protégeait aucun bloc d'une coupure, et n'existait pas du tout
+   sur le shell public.
+   ========================================================================== */
+@media print {
+
+  /* 1. Format cible. */
+  @page {
+    size: A4 portrait;
+    margin: 15mm 12mm;
+  }
+
+  /*
+   | 2. Forcer les fonds et les bordures.
+   |
+   | Les navigateurs les suppriment par défaut pour économiser l'encre. Sur ce
+   | document, c'est le contraire d'un détail : le fond pastel et le badge
+   | coloré SONT le verdict. Imprimés en gris, un « information fausse » et un
+   | « information fiable » deviennent indiscernables au premier regard.
+   */
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 3. Ce qui disparaît : tout ce qui suppose un écran et une souris. */
+  .no-print,
+  .vf-barre-actions,
+  .vf-partage,
+  .modal-backdrop,
+  #sidebar, .sidebar, .bottom-nav, .fab,
+  header, nav, footer,
+  button {
+    display: none !important;
+  }
+
+  /* 4. Ce qui APPARAÎT : en-tête officiel et pied de certification. */
+  .vf-print-only { display: flex !important; }
+
+  .vf-print-entete {
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10mm;
+    border-bottom: 2pt solid var(--c-primary, #09B850);
+    padding-bottom: 3mm;
+    margin-bottom: 6mm;
+  }
+  .vf-print-titre { font-weight: 800; font-size: 11pt; margin: 0; }
+  .vf-print-sous { font-size: 8pt; color: #475569; margin: 0; }
+  .vf-print-ref { text-align: right; font-family: ui-monospace, monospace; font-size: 8pt; margin: 0; }
+  .vf-print-ref p { margin: 0; }
+
+  .vf-print-pied {
+    align-items: center;
+    justify-content: space-between;
+    gap: 8mm;
+    border-top: 1pt solid #CBD5E1;
+    padding-top: 3mm;
+    margin-top: 8mm;
+    font-size: 8pt;
+    color: #475569;
+    page-break-inside: avoid;
+  }
+  .vf-print-pied-texte p { margin: 0 0 1mm; }
+  .vf-print-qr { text-align: center; flex-shrink: 0; }
+  .vf-print-qr svg { width: 22mm; height: 22mm; }
+  .vf-print-qr-ref { display: block; font-family: ui-monospace, monospace; font-size: 7pt; }
+
+  /* 5. Pleine largeur : les marges du web n'ont plus de sens. */
+  body { background: #fff !important; font-size: 10pt; line-height: 1.4; }
+  .app-main { margin: 0 !important; padding: 0 !important; max-width: none !important; }
+  .vf-report-shell { max-width: none; padding: 0; }
+
+  /*
+   | 6. La grille passe en flux vertical.
+   |
+   | Deux colonnes sur 186 mm donneraient une colonne de sources de 60 mm, où
+   | les URL en toutes lettres déborderaient ligne après ligne.
+   */
+  .vf-report .grid { display: block !important; }
+  .vf-report aside { margin-top: 5mm; }
+
+  /* 7. Coupures propres. */
+  .vf-card, .vf-report-hero, .table-wrap, .vf-print-pied {
+    page-break-inside: avoid;
+    box-shadow: none !important;
+  }
+  h1, h2, h3 { page-break-after: avoid; }
+  .vf-report-hero { margin-bottom: 5mm; }
+  .vf-card { padding: 4mm; margin-bottom: 4mm; border: 1pt solid #CBD5E1 !important; }
+
+  /*
+   | 8. Les adresses en toutes lettres.
+   |
+   | Un lien cliquable ne sert à rien sur une feuille. Une source qu'on ne peut
+   | pas retrouver ne prouve rien — c'est la différence entre un rapport et un
+   | tract.
+   */
+  .vf-print-url::after {
+    content: " (" attr(href) ")";
+    font-size: 7pt;
+    color: #64748B;
+    word-break: break-all;
+    font-weight: 400;
+  }
+
+  /* 9. L'extrait de source n'est plus tronqué : le papier a la place. */
+  .vf-clamp-3 {
+    display: block;
+    -webkit-line-clamp: none;
+    overflow: visible;
+  }
+}
+
+/* Deux crochets employés par le gabarit et jamais déclarés — relevés par le
+   cliquet des classes inertes au moment même où ils étaient écrits. */
+.vf-print-marque { min-width: 0; }
+.vf-ico-courriel { color: #64748B; }

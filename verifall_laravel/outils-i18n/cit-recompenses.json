@@ -1,0 +1,22 @@
+{
+  "Certificats &amp; Badges": "certificats_amp_badges",
+  "Votre niveau, vos séries, et ce que vous avez prouvé savoir faire.": "votre_niveau_vos_series_et_ce_que",
+  "Votre progression": "votre_progression",
+  "<span class=\"text-sm font-display font-bold text-ink\">Vue d'ensemble</span> <span class=\"material-symbols-rounded transition-transform\" aria-hidden=\"true\">expand_more</span>": "vue_d_ensemble_expand_more",
+  "Niveau": "niveau",
+  "XP cumulés": "xp_cumules",
+  "Badges": "badges",
+  "Certificats": "certificats",
+  "Prochaine étape": "prochaine_etape",
+  "🎉 Tous les badges sont débloqués": "tous_les_badges_sont_debloques",
+  "Il ne reste rien à décrocher — continuez pour la suite du parcours.": "il_ne_reste_rien_a_decrocher_continuez",
+  "Série interrompue. Une vérification aujourd'hui en relance une nouvelle.": "serie_interrompue_une_verification_aujourd_hui_en",
+  "Vos badges": "vos_badges",
+  "<span wire:loading.remove wire:target=\"verifierMesBadges\">Vérifier mes badges</span> <span wire:loading wire:target=\"verifierMesBadges\">Vérification…</span>": "verifier_mes_badges_verification",
+  "Vos certificats": "vos_certificats",
+  "✓ Certificat authentifié": "certificat_authentifie",
+  "Aucun certificat pour l'instant": "aucun_certificat_pour_l_instant",
+  "Terminez un cours de l'Académie pour en obtenir un.": "terminez_un_cours_de_l_academie_pour",
+  "Activité récente": "activite_recente",
+  "Rien encore. Votre première leçon terminée ouvrira cette liste.": "rien_encore_votre_premiere_lecon_terminee_ouvrira"
+}

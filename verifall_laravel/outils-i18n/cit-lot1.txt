@@ -1,0 +1,155 @@
+===== citizen =====
+menu
+menu
+
+recherche_globale
+Recherche globale
+
+citoyen_verificateur
+Citoyen vérificateur
+
+logout_se_deconnecter
+<span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter
+
+apprentissage
+APPRENTISSAGE
+
+communaute
+COMMUNAUTÉ
+
+logout_deconnexion
+<span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span>
+
+===== tableau-de-bord =====
+apercu_de_votre_activite_expand_more
+<span class="font-display font-bold text-ink">Aperçu de votre activité</span> <span class="material-symbols-rounded transition-transform" aria-hidden="true">expand_more</span>
+
+verifications
+Vérifications
+
+cours_suivis
+Cours suivis
+
+points_d_experience
+Points d'expérience
+
+unites_disponibles
+Unités disponibles
+
+priorites
+Priorités
+
+a_traiter_maintenant
+À traiter maintenant
+
+tout_est_a_jour_continuez_votre_serie
+✓ Tout est à jour — continuez votre série !
+
+chaque_mois_un_cours_gratuit_mis_en
+Chaque mois, un cours gratuit mis en avant pour toute la communauté. Inscription en 1 clic.
+
+continuer_votre_apprentissage
+Continuer votre apprentissage
+
+il_reste_un_quiz_ou_un_exercice
+Il reste un quiz ou un exercice à valider.
+
+commencez_votre_premier_cours
+Commencez votre premier cours
+
+le_clom_introduction_au_fact_checking_est
+Le CLOM « Introduction au fact-checking » est gratuit et ne prend que 42 minutes.
+
+mon_activite_sur_30_jours
+Mon activité sur 30 jours
+
+verifications_recentes
+Vérifications récentes
+
+prochaine_live_class
+Prochaine Live Class
+
+aucune_seance_programmee_pour_l_instant_les
+Aucune séance programmée pour l'instant. Les prochaines dates s'annoncent ici.
+
+ca_discute_sur_le_forum
+Ça discute sur le forum
+
+le_forum_n_a_pas_encore_de
+Le forum n'a pas encore de sujet. Le vôtre peut être le premier.
+
+unites_restantes
+Unités restantes
+
+1_unite_1_verification_par_ia
+1 unité = 1 vérification par IA.
+
+vos_recompenses
+Vos récompenses
+
+votre_premier_reflexe_fact_checking
+Votre premier réflexe fact-checking
+
+me_rappeler_plus_tard
+Me rappeler plus tard
+
+valider
+Valider
+
+verifiez_votre_premiere_info
+Vérifiez votre première info
+
+un_lien_un_texte_une_image_ou
+Un lien, un texte, une image ou un audio
+
+une_rumeur_recue_sur_whatsapp_un_article
+Une rumeur reçue sur WhatsApp, un article qui vous semble douteux, une capture d'écran sans source : collez-la et notre analyse vous répond avec ses sources.
+
+plus_tard
+Plus tard
+
+lancer_une_verification
+Lancer une vérification
+
+===== verifier =====
+verifier_une_information
+Vérifier une information
+
+choisissez_le_format_donnez_nous_le_contenu
+Choisissez le format, donnez-nous le contenu, ajoutez du contexte : notre laboratoire s'occupe du reste.
+
+masquer
+Masquer
+
+1_quel_type_de_contenu_voulez_vous
+① Quel type de contenu voulez-vous vérifier ?
+
+2_donnez_nous_le_contenu
+② Donnez-nous le contenu
+
+collez_le_message_la_rumeur_ou_l
+Collez le message, la rumeur ou l'affirmation à vérifier…
+
+collez_l_adresse_de_la_page_ou
+Collez l'adresse de la page ou de la publication
+
+3_un_contexte_a_ajouter_facultatif
+③ Un contexte à ajouter ? <span class="font-normal text-slate2">(facultatif)</span>
+
+ou_l_avez_vous_vu_depuis_quand
+Où l'avez-vous vu ? Depuis quand circule-t-il ?
+
+le_saviez_vous
+💡 Le saviez-vous ?
+
+un_contexte_precis_source_date_de_reception
+Un contexte précis (source, date de réception) améliore la pertinence du recoupement de sources.
+
+votre_solde
+🪙 Votre solde
+
+verifier_soi_meme
+🧰 Vérifier soi-même ?
+
+le_repertoire_d_outils_osint_vous_forme
+Le répertoire d'outils OSINT vous forme à l'autonomie.

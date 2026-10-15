@@ -1,0 +1,374 @@
+/* ------------------------------------------------------------------------
+   Campagnes d'affichage — fenêtres et bandeaux.
+
+   TOUT ce qui met en forme ces deux composants vit ici, et rien n'est laissé
+   à une classe utilitaire. La raison est mesurée, pas théorique : la première
+   version employait `max-w-[440px]`, `h-[180px]`, `py-2.5`, `text-body/70` et
+   six autres classes — DIX d'entre elles sont absentes du build Tailwind, qui
+   est figé. La fenêtre n'avait donc ni largeur maximale ni hauteur d'image :
+   elle occupait tout l'écran.
+
+   Une classe absente du build ne produit aucune erreur. Elle est écrite, elle
+   est lisible dans le balisage, et elle ne fait rien.
+
+   Aucune règle ci-dessous ne touche à un sélecteur existant du design system :
+   ces composants s'ajoutent, ils ne corrigent rien.
+   ------------------------------------------------------------------------ */
+
+/* ============================ LA FENÊTRE ============================== */
+
+.vf-campaign-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;                  /* au-dessus de l'en-tête, qui est en z-40 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, .55);
+  opacity: 0;
+  transition: opacity .22s ease;
+}
+
+.vf-campaign-overlay[hidden] { display: none; }
+.vf-campaign-overlay[data-ouverte] { opacity: 1; }
+
+.vf-campaign-dialog {
+  /* Les deux règles qui manquaient. Sans elles, la fenêtre remplit l'écran. */
+  width: 100%;
+  max-width: 440px;
+
+  background: #fff;
+  border-radius: 1rem;
+  box-shadow: 0 24px 48px -12px rgba(15, 23, 42, .28);
+  overflow: hidden;
+
+  max-height: 92vh;
+  overflow-y: auto;
+
+  transform: translateY(12px) scale(.98);
+  transition: transform .22s ease;
+}
+
+.vf-campaign-overlay[data-ouverte] .vf-campaign-dialog { transform: none; }
+
+/*
+ | L'IMAGE ENTIÈRE, ET NON UNE TRANCHE DE 180 PIXELS.
+ |
+ | Cette règle imposait `height: 180px; object-fit: cover`. Sur une affiche de
+ | campagne — le format que les visuels prennent presque toujours — cela
+ | recadrait une bande horizontale au milieu : le titre de l'affiche passait
+ | au-dessus du cadre, l'appel à l'action en dessous, et il ne restait que le
+ | fond. L'image était bien chargée, ce qui rendait le défaut discret.
+ |
+ | `contain` ne coupe jamais. Le fond neutre remplit ce qui reste, de sorte
+ | qu'une image plus haute que large ait l'air posée sur un support plutôt que
+ | mal cadrée.
+ */
+.vf-campaign-media {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 38vh;
+  object-fit: contain;
+  background: rgb(241 245 249);
+}
+
+.vf-campaign-body { padding: 1.5rem; }
+
+/*
+ | DEUX COLONNES DÈS QUE LA LARGEUR LE PERMET : image à gauche, titre, texte
+ | et boutons à droite.
+ |
+ | Le seuil est à 640 px et non plus bas : en dessous, deux colonnes donneraient
+ | une image en timbre-poste à côté d'un texte à trois mots par ligne. Sous ce
+ | seuil, l'empilement reste la bonne réponse — et l'image n'y est plus
+ | recadrée non plus.
+ |
+ | La classe `--avec-media` est posée par le gabarit quand une image existe.
+ | On aurait pu écrire `:has(.vf-campaign-media)`, mais faire dépendre la mise
+ | en page d'un sélecteur récent alors que le gabarit connaît déjà la réponse
+ | serait un pari sans contrepartie.
+ */
+@media (min-width: 640px) {
+  .vf-campaign-dialog--avec-media {
+    max-width: 760px;
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    align-items: stretch;
+  }
+
+  .vf-campaign-dialog--avec-media .vf-campaign-media {
+    height: 100%;
+    max-height: none;
+  }
+
+  .vf-campaign-dialog--avec-media .vf-campaign-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.vf-campaign-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: rgb(32 33 36);
+  margin: 0 0 .5rem;
+}
+
+.vf-campaign-text {
+  color: var(--vf-body);
+  line-height: 1.65;
+  margin: 0 0 1.25rem;
+}
+
+.vf-campaign-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.vf-campaign-cta {
+  flex: 1 1 auto;
+  text-align: center;
+  color: #fff;
+  font-weight: 600;
+  border-radius: .75rem;
+  padding: .75rem 1.25rem;
+  transition: opacity .18s ease;
+}
+
+.vf-campaign-cta:hover { opacity: .9; }
+
+.vf-campaign-secondary {
+  color: var(--vf-body);
+  font-weight: 500;
+  border-radius: .75rem;
+  padding: .75rem 1rem;
+  transition: color .18s ease;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.vf-campaign-secondary:hover { color: rgb(32 33 36); }
+
+/* ======================= LA BARRE SUPÉRIEURE ========================== */
+
+/*
+ | EN HAUT, AU-DESSUS DE L'EN-TÊTE.
+ |
+ | L'en-tête du prototype est en `position: absolute; top: 0` : il flotte
+ | au-dessus du contenu, et chaque page compense sa hauteur par un
+ | `padding-top` sur sa première section.
+ |
+ | Poser une barre au même endroit les superposerait. On décale donc l'en-tête
+ | ET le contenu de la hauteur de la barre — hauteur MESURÉE par le script, pas
+ | écrite en dur : dès que le texte passe à la ligne, une valeur figée serait
+ | fausse, ce qui est le cas sur tous les téléphones.
+ |
+ | `absolute` et non `fixed` : la barre défile avec l'en-tête, comme lui. Une
+ | barre fixe resterait à l'écran pendant toute la lecture, ce qui est une
+ | prise d'espace permanente pour un message qu'on lit une fois.
+ */
+.vf-campaign-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 45;                  /* au-dessus de l'en-tête (40), sous la fenêtre (60) */
+  background: var(--vf-primary);
+  color: #fff;
+}
+
+.vf-campaign-banner[hidden] { display: none; }
+
+/*
+ | Le décalage. La classe est posée sur `<html>` par le script, uniquement
+ | quand une barre est réellement visible — une règle inconditionnelle
+ | décalerait toutes les pages, y compris celles sans campagne.
+ */
+.vf-has-topbar [data-navbar] { top: var(--vf-topbar-h, 0px); }
+.vf-has-topbar #contenu { padding-top: var(--vf-topbar-h, 0px); }
+
+/*
+ | ET L'EXCEPTION QUI COMPTE : l'en-tête COLLÉ.
+ |
+ | Au-delà de 400 px de défilement, `verifall.js` pose `is-sticky`, qui passe
+ | l'en-tête en `position: fixed`. Le décalage ci-dessus continuait alors de
+ | s'appliquer — mais la barre de campagne, elle, est en `position: absolute` :
+ | elle a défilé hors de l'écran depuis longtemps.
+ |
+ | Résultat : un vide de la hauteur de la barre entre le haut de la fenêtre et
+ | l'en-tête collé, à travers lequel on voyait la page défiler. C'est le défaut
+ | signalé, et il ne se voit qu'en faisant défiler — aucun test de rendu
+ | statique ne pouvait l'attraper.
+ |
+ | `top: 0` remet l'en-tête collé contre le haut de la fenêtre. La règle est
+ | plus spécifique que celle du dessus (deux classes contre une), donc elle
+ | l'emporte sans `!important`.
+ */
+.vf-has-topbar [data-navbar].is-sticky { top: 0; }
+
+.vf-campaign-banner-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: .625rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.vf-campaign-banner-media {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: .5rem;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.vf-campaign-banner-copy { flex: 1 1 auto; min-width: 0; }
+
+.vf-campaign-banner-title {
+  font-weight: 700;
+  font-size: .875rem;
+  line-height: 1.3;
+  color: #fff;
+  margin: 0;
+}
+
+.vf-campaign-banner-text {
+  font-size: .8125rem;
+  line-height: 1.4;
+  /* Blanc légèrement adouci : deux blancs purs côte à côte aplatissent la
+     hiérarchie entre le titre et le texte. */
+  color: rgba(255, 255, 255, .88);
+  margin: 0;
+}
+
+/* L'INVERSE de la barre : fond blanc, texte vert. Un bouton vert sur fond vert
+   ne se distingue pas ; c'est le contraste le plus fort de la charte. */
+.vf-campaign-banner-cta {
+  flex-shrink: 0;
+  background: #fff;
+  color: var(--vf-primary);
+  font-size: .8125rem;
+  font-weight: 700;
+  border-radius: .625rem;
+  padding: .5rem .875rem;
+  white-space: nowrap;
+  transition: opacity .18s ease;
+}
+
+.vf-campaign-banner-cta:hover { opacity: .88; }
+
+.vf-campaign-close {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: .5rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: #fff;
+  opacity: .75;
+  transition: opacity .18s ease;
+}
+
+.vf-campaign-close:hover { opacity: 1; }
+
+/* ---------------------------- RESPONSIVE ---------------------------------
+   Trois paliers, chacun pour une raison mesurable — pas pour faire joli.
+   -------------------------------------------------------------------------- */
+
+/* Tablette et en dessous : la vignette part la première. Elle décore, elle
+   n'informe pas, et elle vaut 36 px de largeur qui manquent au texte. */
+@media (max-width: 900px) {
+  .vf-campaign-banner-media { display: none; }
+  .vf-campaign-banner-text { font-size: .78125rem; }
+}
+
+/* Entre 641 et 900 px, le texte tient sur deux lignes au plus. Au-delà, la
+   barre devient un paragraphe posé au-dessus du site. */
+@media (max-width: 900px) and (min-width: 641px) {
+  .vf-campaign-banner-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/*
+ | TÉLÉPHONE — le texte descriptif disparaît.
+ |
+ | Mesuré à 605 px de large avant cette règle : la barre faisait **155 px de
+ | haut**. L'en-tête et le contenu se décalant d'autant, c'était un tiers de
+ | l'écran perdu avant d'avoir lu quoi que ce soit.
+ |
+ | Le titre porte le message, le bouton porte l'action. Une phrase de quinze
+ | mots au-dessus du contenu, sur un téléphone, n'est pas lue — elle est
+ | contournée.
+ */
+@media (max-width: 640px) {
+  .vf-campaign-banner-inner {
+    padding: .5rem .75rem;
+    gap: .5rem;
+  }
+
+  .vf-campaign-banner-text { display: none; }
+
+  .vf-campaign-banner-title {
+    /* Une seule ligne, coupée proprement : un titre qui passe à la ligne
+       reprend la hauteur qu'on vient d'économiser. */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .vf-campaign-banner-cta {
+    font-size: .75rem;
+    padding: .4375rem .75rem;
+  }
+
+  .vf-campaign-close {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}
+
+/* Très petits écrans : le bouton se raccourcit encore plutôt que de pousser le
+   titre à disparaître. C'est le titre qui dit de quoi il s'agit. */
+@media (max-width: 380px) {
+  .vf-campaign-banner-cta {
+    font-size: .6875rem;
+    padding: .375rem .5625rem;
+  }
+}
+
+/* ============================ TEINTES ================================= */
+/* Le nom vient de la base ; la couleur vient du design system. */
+
+/* Valeurs relevées dans `tailwind.css` : `.bg-vtrue`, `.bg-sidebarbg`,
+   `.bg-brandred`. `--vf-primary` est la seule des quatre qui existe en
+   variable ; les trois autres ne vivent que dans les classes compilées. */
+.vf-campaign-tone-success { background: rgb(22 163 74); }    /* .bg-vtrue     */
+.vf-campaign-tone-primary { background: var(--vf-primary); } /* #09B850       */
+.vf-campaign-tone-info    { background: rgb(31 33 36); }     /* .bg-sidebarbg */
+.vf-campaign-tone-danger  { background: rgb(214 41 62); }    /* .bg-brandred  */
+
+/* ======================= MOUVEMENT RÉDUIT ============================= */
+/*
+ | Une personne qui a demandé moins d'animations en reçoit moins. Ce n'est pas
+ | une préférence esthétique : le mouvement déclenche des malaises réels.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .vf-campaign-overlay,
+  .vf-campaign-dialog { transition: none; }
+  .vf-campaign-dialog { transform: none; }
+}

@@ -1,0 +1,5 @@
+# REVUE_DE_CODE_SENIOR_QA_ARCHITECT.md — Protocole de revue
+
+Rôle : relire chaque PR comme un architecte QA senior. Ordre de lecture : migration → modèle/enums → contract/repository → service (le cœur) → composant Livewire → blade → tests.
+Chasse prioritaire : logique métier égarée (Livewire/contrôleur), requêtes hors repository, N+1, transactions manquantes (tout multi-écriture = DB::transaction), race conditions (verrous sur mutations concurrentes : unités, statuts), mass assignment, XSS ({!! !!}, purifier absent), autorisations manquantes/testées, chaînes magiques (→Enums), duplication (→composant/Service partagé), exceptions avalées, TODO restants, edge cases (vide, très long, unicode, concurrent, offline).
+Format de retour : 🔴 bloquant (sécurité/données/architecture) · 🟡 important (qualité, à corriger avant merge sauf ticket) · 🔵 suggestion. Chaque remarque : fichier:ligne + pourquoi + correctif proposé. Terminer par le verdict d'AUDIT_DE_CONCEPTION et la liste des tests manquants à écrire.

@@ -1,0 +1,56 @@
+[
+  {
+    "categorie": "Technologie",
+    "bandeau": "no",
+    "titre": "Aucune « taxe WhatsApp » n'est instaurée au Bénin",
+    "chapo": "La rumeur recycle un faux communiqué déjà démenti en 2024. Aucun texte officiel n'existe. L'analyse complète détaille l'origine du montage, les indices techniques et les bons réflexes à adopter face à ce type de rumeur récurrente.",
+    "source": "ARCEP Bénin",
+    "couverture": "hub-news-2.svg",
+    "affirmation": "Le gouvernement béninois a instauré une taxe sur l'utilisation de WhatsApp."
+  },
+  {
+    "categorie": "Société",
+    "bandeau": "warn",
+    "titre": "Vidéo « d'inondation à Cotonou » tournée ailleurs",
+    "chapo": "Les images sont authentiques mais proviennent d'un autre pays, en 2022.",
+    "source": "Vérif'All Lab",
+    "couverture": "hub-news-4.svg",
+    "affirmation": "Cette vidéo montre des inondations survenues à Cotonou."
+  },
+  {
+    "categorie": "Économie",
+    "bandeau": "no",
+    "titre": "Fausse offre d'emploi au Port Autonome de Cotonou",
+    "chapo": "Le site frauduleux demande des « frais de dossier ». Le PAC ne recrute que via son site officiel.",
+    "source": "PAC",
+    "couverture": "hub-news-5.svg",
+    "affirmation": "Le Port Autonome de Cotonou recrute et diffuse cette offre d'emploi."
+  },
+  {
+    "categorie": "Éducation",
+    "bandeau": "ok",
+    "titre": "Calendrier officiel des examens nationaux confirmé",
+    "chapo": "Les dates publiées par le ministère sont exactes et définitives pour la session 2026.",
+    "source": "gouv.bj",
+    "couverture": "hub-news-1.svg",
+    "affirmation": "Le calendrier des examens nationaux publié est le calendrier officiel."
+  },
+  {
+    "categorie": "Santé",
+    "bandeau": "ok",
+    "titre": "Campagne de vaccination gratuite dans le Littoral",
+    "chapo": "La campagne annoncée est bien réelle : centres et horaires confirmés par le ministère de la Santé.",
+    "source": "sante.gouv.bj",
+    "couverture": "hub-news-3.svg",
+    "affirmation": "Une campagne de vaccination gratuite est organisée dans le Littoral."
+  },
+  {
+    "categorie": "Administratif",
+    "bandeau": "ok",
+    "titre": "Nouveau service e-services pour les actes de naissance",
+    "chapo": "La plateforme officielle permet bien la demande en ligne d'actes d'état civil.",
+    "source": "service-public.bj",
+    "couverture": "hub-news-6.svg",
+    "affirmation": "Un nouveau service en ligne permet de demander un acte de naissance."
+  }
+]

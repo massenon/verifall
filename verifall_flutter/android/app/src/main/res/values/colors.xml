@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Fond de l'icône adaptative (Android 8.0+). Blanc, comme le fond sur lequel
+      la coche verte apparaît partout ailleurs dans l'identité Vérif'All
+      (logo.png, logo-light.png, favicon) — vérifié dans les gabarits publics
+      du dépôt verifall_laravel le 9 octobre 2026.
+    -->
+    <color name="ic_launcher_background">#FFFFFF</color>
+</resources>

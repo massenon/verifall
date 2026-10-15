@@ -1,0 +1,20 @@
+-- Schema local du parcours auth.
+--
+-- POURQUOI ce fichier existe alors qu'il est vide : c'est le second des deux
+-- points ou les cinq parcours auraient ecrit tous ensemble. Il est importe
+-- d'avance par database.dart ; le parcours auth y ajoute SES tables, et
+-- personne ne rouvre l'agregateur. Les cinq branches se fusionnent sans conflit.
+--
+-- Regles pour les tables ajoutees ici :
+--   * une table par ressource cachee, avec au minimum la cle (uuid ou slug), le
+--     contenu, "updated_at" renvoye par l'API et "fetched_at" local ;
+--   * "fetched_at" n'est pas decoratif : c'est lui qui alimente le bandeau
+--     << Donnees du <date>, actualisation impossible >>. Une echeance J-2 vieille
+--     de trois jours devient un mensonge sans sa date (05-HORS-LIGNE 5.4) ;
+--   * ne JAMAIS cacher le solde d'unites, l'etat d'une analyse en cours, ni le
+--     resultat d'un quiz (contrat d'API 7.1) : ce sont les trois ecrans qu'on
+--     relit precisement parce qu'on attend un changement.
+--
+-- Aucune migration a ecrire : database.dart cree les tables manquantes a
+-- l'ouverture. Une modification de colonne SUR UNE TABLE EXISTANTE, elle, est
+-- une demande adressee au responsable du socle, pas une modification directe.

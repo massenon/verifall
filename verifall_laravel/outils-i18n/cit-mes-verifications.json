@@ -1,0 +1,20 @@
+{
+  "Mes Vérifications": "mes_verifications",
+  "<span class=\"text-sm font-display font-bold text-ink\">Votre activité de vérification</span> <span class=\"material-symbols-rounded transition-transform\" aria-hidden=\"true\">expand_more</span>": "votre_activite_de_verification_expand_more",
+  "Contenus soumis": "contenus_soumis",
+  "En cours": "en_cours",
+  "Intox détectées": "intox_detectees",
+  "Infos fiables": "infos_fiables",
+  "Rechercher": "rechercher",
+  "Contenu": "contenu",
+  "Type": "type",
+  "Verdict": "verdict",
+  "Confiance": "confiance",
+  "Date": "date",
+  "Action": "action",
+  "Aucun résultat": "aucun_resultat",
+  "Aucune vérification ne correspond à vos critères actuels.": "aucune_verification_ne_correspond_a_vos_criteres",
+  "Réinitialiser les filtres": "reinitialiser_les_filtres",
+  "Votre laboratoire est encore vide": "votre_laboratoire_est_encore_vide",
+  "Commencez votre première vérification pour construire votre historique.": "commencez_votre_premiere_verification_pour_construire_votre"
+}

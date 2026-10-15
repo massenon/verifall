@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Réglages — Vérif'All</title>
+<meta name="description" content="Sécurité (2FA, sessions actives), notifications, export de vos données et gestion du compte.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/dashboard.html">
+<meta property="og:title" content="Réglages — Vérif'All">
+<meta property="og:description" content="Sécurité (2FA, sessions actives), notifications, export de vos données et gestion du compte.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link is-active" href="dashboard.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+    <div><nav class="text-xs text-slate2 mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-primary">Dashboard</a> <span class="text-line" aria-hidden="true">/</span> <span class="text-ink font-medium">Réglages</span></nav>
+      <h1 class="text-2xl md:text-3xl font-display font-bold text-ink leading-tight">Réglages</h1><p class="text-slate2 mt-1 mb-0">Sécurité, notifications, confidentialité et gestion du compte.</p>
+    </div>
+  </div>
+  <div class="grid lg:grid-cols-2 gap-6 items-start">
+
+    <div class="card p-6 sm:p-8">
+      <h2 class="text-lg font-display font-bold text-ink mb-5">🔐 Sécurité</h2>
+      <div class="flex items-start justify-between gap-4 pb-4 border-b border-line">
+        <div><p class="text-base font-bold text-ink mb-0.5">Double authentification (2FA)</p>
+        <p class="text-sm text-slate2 mb-0">Code de confirmation demandé à chaque connexion.</p></div>
+        <button type="button" role="switch" aria-checked="false" data-toggle id="tg-2fa" class="vf-switch " aria-label="Activer / désactiver"><span class="vf-switch-dot"></span></button>
+      </div>
+      <div class="flex items-start justify-between gap-4 py-4 border-b border-line">
+        <div><p class="text-base font-bold text-ink mb-0.5">Alertes de nouvelle connexion</p>
+        <p class="text-sm text-slate2 mb-0">E-mail envoyé lorsqu'un nouvel appareil se connecte.</p></div>
+        <button type="button" role="switch" aria-checked="true" data-toggle id="tg-alerts" class="vf-switch is-on" aria-label="Activer / désactiver"><span class="vf-switch-dot"></span></button>
+      </div>
+      <div class="py-4">
+        <p class="text-base font-bold text-ink mb-3">Sessions actives</p>
+        <div class="flex items-center gap-3 mb-3">
+          <span aria-hidden="true">📱</span>
+          <p class="text-sm text-ink mb-0">Android · Cotonou</p>
+          <span class="rounded-full bg-primary-soft text-primary-dark text-xs font-bold px-3 py-1">Session actuelle</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span aria-hidden="true">💻</span>
+          <p class="text-sm text-ink mb-0 flex-1">Chrome / Windows · il y a 2 jours</p>
+          <button type="button" class="text-sm font-bold text-ink hover:text-vfalse" data-session-kill>Déconnecter</button>
+        </div>
+      </div>
+      <button type="button" class="inline-flex rounded-xl border border-primary text-primary text-sm font-semibold px-5 py-2.5 hover:bg-primary hover:text-white transition-colors" data-modal-open="modal-password">Changer mon mot de passe</button>
+    </div>
+
+    <div class="card p-6 sm:p-8">
+      <h2 class="text-lg font-display font-bold text-ink mb-5">🔔 Notifications</h2>
+      <div class="flex items-start justify-between gap-4 pb-4 border-b border-line">
+        <div><p class="text-base font-bold text-ink mb-0.5">Résultats de vérification</p>
+        <p class="text-sm text-slate2 mb-0">Être averti dès qu'un rapport est prêt ou mis à jour.</p></div>
+        <button type="button" role="switch" aria-checked="true" data-toggle id="tg-nverif" class="vf-switch is-on" aria-label="Activer / désactiver"><span class="vf-switch-dot"></span></button>
+      </div>
+      <div class="flex items-start justify-between gap-4 py-4 border-b border-line">
+        <div><p class="text-base font-bold text-ink mb-0.5">Rappels d'apprentissage</p>
+        <p class="text-sm text-slate2 mb-0">Live Class à venir, série en danger, cours à reprendre.</p></div>
+        <button type="button" role="switch" aria-checked="true" data-toggle id="tg-nlms" class="vf-switch is-on" aria-label="Activer / désactiver"><span class="vf-switch-dot"></span></button>
+      </div>
+      <div class="flex items-start justify-between gap-4 py-4 border-b border-line">
+        <div><p class="text-base font-bold text-ink mb-0.5">Activité du forum</p>
+        <p class="text-sm text-slate2 mb-0">Réponses à vos discussions et mentions.</p></div>
+        <button type="button" role="switch" aria-checked="true" data-toggle id="tg-nforum" class="vf-switch is-on" aria-label="Activer / désactiver"><span class="vf-switch-dot"></span></button>
+      </div>
+      <div class="flex items-start justify-between gap-4 pt-4">
+        <div><p class="text-base font-bold text-ink mb-0.5">Lettre d'information</p>
+        <p class="text-sm text-slate2 mb-0">Le récap mensuel des rumeurs vérifiées.</p></div>
+        <button type="button" role="switch" aria-checked="false" data-toggle id="tg-news" class="vf-switch " aria-label="Activer / désactiver"><span class="vf-switch-dot"></span></button>
+      </div>
+    </div>
+
+    <div class="card p-6 sm:p-8">
+      <h2 class="text-lg font-display font-bold text-ink mb-4">🛡️ Données personnelles</h2>
+      <p class="text-sm text-slate2 mb-5">Conformément au code du numérique béninois, vous pouvez exporter l'ensemble de vos données ou demander leur suppression.</p>
+      <div class="flex flex-wrap items-center gap-4">
+        <button type="button" class="inline-flex rounded-xl border border-primary text-primary text-sm font-semibold px-5 py-2.5 hover:bg-primary hover:text-white transition-colors" data-export-json>Exporter mes données (JSON)</button>
+        <a href="../confidentialite.html" class="text-sm font-bold text-ink hover:text-primary">Politique de confidentialité</a>
+      </div>
+    </div>
+
+    <div class="card p-6 sm:p-8 !border-vfalse/40">
+      <h2 class="text-lg font-display font-bold text-vfalse mb-3">⚠ Zone de danger</h2>
+      <p class="text-sm text-slate2 mb-5">La suppression du compte est définitive : vérifications, progression de cours, certificats et unités seront effacés.</p>
+      <button type="button" class="inline-flex rounded-xl bg-vfalse text-white text-sm font-semibold px-5 py-3 hover:opacity-90" data-modal-open="modal-delete">Supprimer mon compte</button>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-password">
+    <div class="modal p-6" role="dialog" aria-modal="true" aria-labelledby="pw-title">
+      <h2 id="pw-title" class="text-lg font-display font-bold text-ink mb-4">Changer mon mot de passe</h2>
+      <div class="ffield mb-3"><input id="pw-old" type="password" placeholder=" "><label for="pw-old">Mot de passe actuel</label></div>
+      <div class="ffield mb-3"><input id="pw-new" type="password" placeholder=" " minlength="8"><label for="pw-new">Nouveau mot de passe (8 caractères min.)</label></div>
+      <div class="ffield mb-4"><input id="pw-confirm" type="password" placeholder=" "><label for="pw-confirm">Confirmer le nouveau mot de passe</label></div>
+      <div class="flex gap-2 justify-end">
+        <button type="button" class="rounded-xl px-4 py-2.5 text-sm font-semibold text-slate2 hover:bg-canvas" data-modal-close>Annuler</button>
+        <button type="button" class="rounded-xl bg-primary text-white px-5 py-2.5 text-sm font-semibold hover:bg-primary-dark" data-password-save>Mettre à jour</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="modal-delete">
+    <div class="modal p-6" role="dialog" aria-modal="true" aria-labelledby="del-title">
+      <h2 id="del-title" class="text-lg font-display font-bold text-vfalse mb-2">Supprimer définitivement le compte ?</h2>
+      <p class="text-sm text-slate2 mb-4">Cette action est irréversible. Tapez <strong class="text-ink">SUPPRIMER</strong> pour confirmer.</p>
+      <div class="ffield mb-4"><input id="del-confirm" type="text" placeholder=" " autocomplete="off"><label for="del-confirm">Tapez SUPPRIMER</label></div>
+      <div class="flex gap-2 justify-end">
+        <button type="button" class="rounded-xl px-4 py-2.5 text-sm font-semibold text-slate2 hover:bg-canvas" data-modal-close>Annuler</button>
+        <button type="button" class="rounded-xl bg-vfalse text-white px-5 py-2.5 text-sm font-semibold hover:opacity-90" data-delete-account>Supprimer mon compte</button>
+      </div>
+    </div>
+  </div>
+<script>
+window.VFPage = function (VF, S) {
+  document.querySelectorAll('[data-toggle]').forEach(function (sw) {
+    sw.addEventListener('click', function () {
+      var on = sw.getAttribute('aria-checked') === 'true';
+      sw.setAttribute('aria-checked', String(!on));
+      sw.classList.toggle('is-on', !on);
+      var labels = { 'tg-2fa': 'Double authentification', 'tg-alerts': 'Alertes de connexion', 'tg-nverif': 'Résultats de vérification', 'tg-nlms': 'Rappels d\'apprentissage', 'tg-nforum': 'Activité du forum', 'tg-news': 'Lettre d\'information' };
+      VF.toast(labels[sw.id] + (!on ? ' : activé.' : ' : désactivé.'));
+    });
+  });
+  document.querySelector('[data-session-kill]').addEventListener('click', function () {
+    this.closest('div').remove();
+    VF.toast('Session Chrome / Windows déconnectée.');
+  });
+  document.querySelector('[data-password-save]').addEventListener('click', function () {
+    var o = document.getElementById('pw-old').value, n = document.getElementById('pw-new').value, c = document.getElementById('pw-confirm').value;
+    if (!o) { VF.toast('Entrez votre mot de passe actuel.', 'danger'); return; }
+    if (n.length < 8) { VF.toast('Le nouveau mot de passe doit contenir au moins 8 caractères.', 'danger'); return; }
+    if (n !== c) { VF.toast('La confirmation ne correspond pas.', 'danger'); return; }
+    VF.closeModal('modal-password');
+    S.notify('verif', 'lock', 'Votre mot de passe a été modifié.', '');
+    VF.render();
+    VF.toast('Mot de passe mis à jour avec succès.');
+  });
+  document.querySelector('[data-export-json]').addEventListener('click', function () {
+    var blob = new Blob([JSON.stringify(S.state, null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'verifall-mes-donnees.json'; a.click();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 800);
+    VF.toast('Export JSON généré : verifall-mes-donnees.json');
+  });
+  document.querySelector('[data-delete-account]').addEventListener('click', function () {
+    if (document.getElementById('del-confirm').value.trim() !== 'SUPPRIMER') {
+      VF.toast('Tapez SUPPRIMER pour confirmer la suppression.', 'danger'); return;
+    }
+    localStorage.removeItem('verifall:citizen:v1');
+    VF.closeModal('modal-delete');
+    VF.toast('Compte supprimé. Redirection…');
+    setTimeout(function () { location.href = '../index.html'; }, 1200);
+  });
+};
+</script>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+<a href="verifier.html" class="fab lg:hidden" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[28px]" aria-hidden="true">add</span></a>
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

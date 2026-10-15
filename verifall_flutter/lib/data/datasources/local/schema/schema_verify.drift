@@ -1,0 +1,61 @@
+-- Schema local du parcours verify.
+--
+-- POURQUOI ce fichier existe alors qu'il est vide : c'est le second des deux
+-- points ou les cinq parcours auraient ecrit tous ensemble. Il est importe
+-- d'avance par database.dart ; le parcours verify y ajoute SES tables, et
+-- personne ne rouvre l'agregateur. Les cinq branches se fusionnent sans conflit.
+--
+-- Regles pour les tables ajoutees ici :
+--   * une table par ressource cachee, avec au minimum la cle (uuid ou slug), le
+--     contenu, "updated_at" renvoye par l'API et "fetched_at" local ;
+--   * "fetched_at" n'est pas decoratif : c'est lui qui alimente le bandeau
+--     << Donnees du <date>, actualisation impossible >>. Une echeance J-2 vieille
+--     de trois jours devient un mensonge sans sa date (05-HORS-LIGNE 5.4) ;
+--   * ne JAMAIS cacher le solde d'unites, l'etat d'une analyse en cours, ni le
+--     resultat d'un quiz (contrat d'API 7.1) : ce sont les trois ecrans qu'on
+--     relit precisement parce qu'on attend un changement.
+--
+-- Aucune migration a ecrire : database.dart cree les tables manquantes a
+-- l'ouverture. Une modification de colonne SUR UNE TABLE EXISTANTE, elle, est
+-- une demande adressee au responsable du socle, pas une modification directe.
+
+-- ─────────────────────────────────────────────────────────────────────────
+-- M2 · Verification
+-- ─────────────────────────────────────────────────────────────────────────
+
+-- Mes verifications, pour la lecture hors ligne (API 7.1, ligne
+-- << Mes verifications : lecture seule hors ligne >>).
+--
+-- Ce cache porte AUSSI les rapports deja ouverts : c'est le document qu'on
+-- rouvre pour le montrer a quelqu'un, souvent sans reseau.
+--
+-- CE QU'IL NE PORTE JAMAIS : l'etat d'une analyse EN COURS. Le contrat
+-- l'interdit explicitement (API 7.1) et la raison est la meme que pour le
+-- solde — une valeur d'il y a cinq minutes fait croire a une analyse bloquee.
+-- L'insertion filtre donc sur "terminee", et l'ecran de suivi ne lit jamais
+-- cette table.
+--
+-- "rang" conserve l'ordre rendu par le serveur (le plus recent en tete). Le
+-- retrier localement sur "soumise_le" donnerait un autre ordre que la
+-- pagination par curseur, et deux ordres pour une meme liste, c'est un element
+-- qui saute.
+CREATE TABLE verification_cache (
+  uuid TEXT NOT NULL PRIMARY KEY,
+  charge_json TEXT NOT NULL,
+  terminee BOOLEAN NOT NULL,
+  rang INTEGER NOT NULL,
+  soumise_le DATETIME,
+  fetched_at DATETIME NOT NULL
+);
+
+-- L'annuaire d'outils — duree de vie 24 h, fixee par le contrat (API 7.1).
+--
+-- Une seule ligne : la liste n'est PAS paginee, elle arrive entiere. Y ecrire
+-- un curseur serait du code mort, et la decouper en lignes obligerait a
+-- reconstruire "meta.categories" — que le serveur envoie deja tout fait, et
+-- dont l'arbitrage n. 55 dit qu'il ne doit jamais etre reecrit a la main.
+CREATE TABLE annuaire_outils_cache (
+  id INTEGER NOT NULL PRIMARY KEY,     -- toujours 0 : une seule ligne
+  charge_json TEXT NOT NULL,           -- { outils: [...], categories: [...] }
+  fetched_at DATETIME NOT NULL
+);

@@ -1,0 +1,42 @@
+/* ————— Page « Actualités » (facts.html) —————
+ *
+ * Le prototype n'y montre que des analyses FAUSSES : sa pastille rouge
+ * (`bg-danger/10 text-danger`) est la seule qui existe dans le build figé de
+ * Tailwind. Les trois autres verdicts doivent pourtant pouvoir s'afficher.
+ *
+ * Plutôt que de reconstruire Tailwind — ce qui changerait le rendu de 107
+ * pages pour une pastille — on déclare ici les quatre variantes, en reprenant
+ * exactement la forme du prototype et les couleurs de verdict du design
+ * system. La variante FAUX reproduit la pastille d'origine au pixel près.
+ */
+.fact-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  border-radius: 9999px;
+  padding: .375rem .875rem;
+  font-size: .75rem;
+  font-weight: 700;
+  line-height: 1rem;
+}
+.fact-pill--faux { background: rgba(220, 38, 38, .1); color: #DC2626; }
+.fact-pill--vrai { background: rgba(22, 163, 74, .1); color: #16A34A; }
+.fact-pill--trompeur { background: rgba(214, 164, 25, .12); color: #B4880F; }
+.fact-pill--inconnu { background: rgba(37, 99, 235, .1); color: #2563EB; }
+
+/* Bannière de verdict de la page de détail (facts-details.html).
+   Pleine et non translucide : c'est la première chose que la page affirme. */
+.fact-verdict {
+  display: inline-block;
+  border-radius: 9999px;
+  padding: .5rem 1.25rem;
+  margin-bottom: 1rem;
+  font-size: .875rem;
+  font-weight: 700;
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(17, 24, 39, .08);
+}
+.fact-verdict--faux { background: #DC2626; }
+.fact-verdict--vrai { background: #16A34A; }
+.fact-verdict--trompeur { background: #D6A419; }
+.fact-verdict--inconnu { background: #2563EB; }

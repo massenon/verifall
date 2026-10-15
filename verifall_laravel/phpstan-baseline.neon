@@ -1,0 +1,535 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Property App\\Console\\Commands\\Diagnostic\:\:\$problemes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Console/Commands/Diagnostic.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between non\-empty\-string and '''' will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Core/Application/Reglages/Reglages.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between non\-empty\-string and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Core/Application/Reglages/Reglages.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Core/Application/Reglages/Reglages.php
+
+		-
+			message: '#^Method App\\Core\\Application\\Services\\TableauDeBordPersonnel\:\:derniersFaits\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Core/Application/Services/TableauDeBordPersonnel.php
+
+		-
+			message: '#^Method App\\Core\\Community\\Notifications\\MentionDansLeForum\:\:lien\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Core/Community/Notifications/MentionDansLeForum.php
+
+		-
+			message: '#^Offset 1 on array\{list\<string\>, list\<non\-falsy\-string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Core/Community/Services/Mentions.php
+
+		-
+			message: '#^Parameter \#1 \$array \(list\<int\>\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: app/Core/Exams/Services/PassationExamen.php
+
+		-
+			message: '#^Offset 0 on array\{list\<string\>\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Core/FactChecking/Services/DetecteurDeLangue.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between int\<1, max\> and 0 will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Core/FactChecking/Services/EmpreinteContenu.php
+
+		-
+			message: '#^Cannot call method addHours\(\) on string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Core/Gamification/Services/QuizDAccueil.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between int\<1, 13\> and 0 will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Core/Gamification/Services/SerieDeVigilance.php
+
+		-
+			message: '#^Method App\\Core\\Identity\\Notifications\\AnalyseTerminee\:\:lien\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Core/Identity/Notifications/AnalyseTerminee.php
+
+		-
+			message: '#^Call to an undefined method Laravel\\Socialite\\Contracts\\User\:\:getRaw\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Core/Identity/Services/ConnexionSociale.php
+
+		-
+			message: '#^Instanceof between App\\Enums\\ConsentType and BackedEnum will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: app/Core/Identity/Services/ExportDonneesService.php
+
+		-
+			message: '#^Parameter \#1 \$array \(list\<non\-empty\-string\>\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: app/Core/Marketing/Cartes/CarteDeDementi.php
+
+		-
+			message: '#^Constant App\\Core\\Marketing\\Seo\\Referencement\:\:ETIQUETTES_FIL is unused\.$#'
+			identifier: classConstant.unused
+			count: 1
+			path: app/Core/Marketing/Seo/Referencement.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: app/Core/Marketing/Seo/Referencement.php
+
+		-
+			message: '#^Parameter \#1 \$page of static method App\\Http\\Api\\V1\\Support\\Enveloppe\:\:page\(\) expects Illuminate\\Pagination\\CursorPaginator\<int, Illuminate\\Database\\Eloquent\\Model\>, Illuminate\\Pagination\\CursorPaginator\<int, App\\Models\\Course\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Api/V1/Controllers/AcademieController.php
+
+		-
+			message: '#^Parameter \#1 \$page of static method App\\Http\\Api\\V1\\Support\\Enveloppe\:\:page\(\) expects Illuminate\\Pagination\\CursorPaginator\<int, Illuminate\\Database\\Eloquent\\Model\>, Illuminate\\Pagination\\CursorPaginator\<int, App\\Models\\Enrollment\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Api/V1/Controllers/AcademieController.php
+
+		-
+			message: '#^Call to function method_exists\(\) with Laravel\\Sanctum\\PersonalAccessToken and ''delete'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Http/Api/V1/Controllers/AuthentificationController.php
+
+		-
+			message: '#^Parameter \#1 \$page of static method App\\Http\\Api\\V1\\Support\\Enveloppe\:\:page\(\) expects Illuminate\\Pagination\\CursorPaginator\<int, Illuminate\\Database\\Eloquent\\Model\>, Illuminate\\Pagination\\CursorPaginator\<int, App\\Models\\Thread\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Api/V1/Controllers/ForumController.php
+
+		-
+			message: '#^Parameter \#1 \$page of static method App\\Http\\Api\\V1\\Support\\Enveloppe\:\:page\(\) expects Illuminate\\Pagination\\CursorPaginator\<int, Illuminate\\Database\\Eloquent\\Model\>, Illuminate\\Pagination\\CursorPaginator\<int, App\\Models\\HubArticle\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Api/V1/Controllers/HubController.php
+
+		-
+			message: '#^Parameter \#1 \$page of static method App\\Http\\Api\\V1\\Support\\Enveloppe\:\:page\(\) expects Illuminate\\Pagination\\CursorPaginator\<int, Illuminate\\Database\\Eloquent\\Model\>, Illuminate\\Pagination\\CursorPaginator\<int, App\\Models\\HubJob\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Api/V1/Controllers/HubController.php
+
+		-
+			message: '#^Call to function is_array\(\) with Illuminate\\Http\\UploadedFile will always evaluate to false\.$#'
+			identifier: function.impossibleType
+			count: 1
+			path: app/Http/Api/V1/Controllers/TeleversementController.php
+
+		-
+			message: '#^Parameter \#1 \$page of static method App\\Http\\Api\\V1\\Support\\Enveloppe\:\:page\(\) expects Illuminate\\Pagination\\CursorPaginator\<int, Illuminate\\Database\\Eloquent\\Model\>, Illuminate\\Pagination\\CursorPaginator\<int, App\\Models\\Verification\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Api/V1/Controllers/VerificationController.php
+
+		-
+			message: '#^Anonymous function never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Http/Api/V1/Resources/OpportuniteResource.php
+
+		-
+			message: '#^Method App\\Http\\Api\\V1\\Support\\Enveloppe\:\:donnee\(\) has parameter \$donnee with generic interface Illuminate\\Contracts\\Support\\Arrayable but does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Http/Api/V1/Support/Enveloppe.php
+
+		-
+			message: '#^Method App\\Http\\Api\\V1\\Support\\Enveloppe\:\:donnee\(\) has parameter \$donnee with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Http/Api/V1/Support/Enveloppe.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\NewsletterSubscriber\>\:\:create\(\) expects array\<model property of App\\Models\\NewsletterSubscriber, mixed\>, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Infrastructure/Persistence/DepotAbonnesEloquent.php
+
+		-
+			message: '#^Parameter \#1 \$array \(list\<array\{label\: string, is_correct\?\: bool, match_label\?\: string\|null\}\>\) of array_values is already a list, call has no effect\.$#'
+			identifier: arrayValues.list
+			count: 1
+			path: app/Infrastructure/Persistence/DepotBanqueQuestionsEloquent.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\ExamAnswer\>\:\:create\(\) expects array\<model property of App\\Models\\ExamAnswer, mixed\>, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Infrastructure/Persistence/DepotCopiesExamenEloquent.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\ExamSession\>\:\:create\(\) expects array\<model property of App\\Models\\ExamSession, mixed\>, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Infrastructure/Persistence/DepotExamensEloquent.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\ExamRegistration\>\:\:create\(\) expects array\<model property of App\\Models\\ExamRegistration, mixed\>, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Infrastructure/Persistence/DepotInscriptionsExamenEloquent.php
+
+		-
+			message: '#^Property App\\Livewire\\Auth\\StaffLogin\:\:\$codesRecuperation type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Livewire/Auth/StaffLogin.php
+
+		-
+			message: '#^Method App\\Livewire\\Citizen\\Cloche\:\:notifications\(\) should return Illuminate\\Support\\Collection\<int, object\> but returns Illuminate\\Notifications\\DatabaseNotificationCollection\<int, Illuminate\\Notifications\\DatabaseNotification\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Citizen/Cloche.php
+
+		-
+			message: '#^Method App\\Livewire\\Citizen\\Evaluations\:\:exercices\(\) should return Illuminate\\Support\\Collection\<int, array\<string, mixed\>\> but returns Illuminate\\Support\\Collection\<int, array\{exercice\: App\\Models\\Assignment, statut\: App\\Enums\\StatutDevoir\|null, inscrit\: bool\}\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Citizen/Evaluations.php
+
+		-
+			message: '#^Method App\\Livewire\\Citizen\\Evaluations\:\:quiz\(\) should return Illuminate\\Support\\Collection\<int, array\<string, mixed\>\> but returns Illuminate\\Support\\Collection\<int, array\{quiz\: App\\Models\\Quiz, score\: mixed, attempts\: int\<0, max\>, passed\: bool, inscrit\: bool, ouvert\: mixed\}\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Citizen/Evaluations.php
+
+		-
+			message: '#^Property App\\Livewire\\Citizen\\Exercices\:\:\$piece has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Livewire/Citizen/Exercices.php
+
+		-
+			message: '#^Method App\\Livewire\\Citizen\\MonParrainage\:\:prochainPalier\(\) never returns null so it can be removed from the return type\.$#'
+			identifier: return.unusedType
+			count: 1
+			path: app/Livewire/Citizen/MonParrainage.php
+
+		-
+			message: '#^Method App\\Livewire\\Citizen\\Recompenses\:\:activite\(\) should return list\<array\{titre\: string, detail\: string, quand\: string, date\: Illuminate\\Support\\Carbon\}\> but returns list\<array\{titre\: non\-falsy\-string, detail\: string, quand\: string, date\: Carbon\\Carbon\|null\}\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Citizen/Recompenses.php
+
+		-
+			message: '#^Property App\\Livewire\\Citizen\\Reglages\:\:\$codesRecuperation type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Livewire/Citizen/Reglages.php
+
+		-
+			message: '#^Property App\\Livewire\\Citizen\\Verifier\:\:\$fichier has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: app/Livewire/Citizen/Verifier.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between array\{float, float, float, float, float, float, float, float, \.\.\.\} and array\{\} will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Livewire/Public/Methodologie.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\ActualitesHub\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<Illuminate\\Validation\\Rules\\Enum\|string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/ActualitesHub.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\ArticlesDuBlog\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<Illuminate\\Validation\\Rules\\In\|string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/ArticlesDuBlog.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\BadgesDeProgression\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/BadgesDeProgression.php
+
+		-
+			message: '#^Offset ''units_reward'' on array\{name\: string, icon\: string, requirement_label\: string\|null, xp_reward\: int, units_reward\: int, position\: int, is_active\: bool\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Livewire/Staff/BadgesDeProgression.php
+
+		-
+			message: '#^Offset ''xp_reward'' on array\{name\: string, icon\: string, requirement_label\: string\|null, xp_reward\: int, units_reward\: int, position\: int, is_active\: bool\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: app/Livewire/Staff/BadgesDeProgression.php
+
+		-
+			message: '#^Instanceof between App\\Enums\\TypeQuestion and App\\Enums\\TypeQuestion will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: app/Livewire/Staff/BanqueDeQuestions.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\BanqueDeQuestions\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<Illuminate\\Validation\\Rules\\Enum\|Illuminate\\Validation\\Rules\\In\|string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/BanqueDeQuestions.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\CategoriesDeCours\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/CategoriesDeCours.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\CategoriesDeSources\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/CategoriesDeSources.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\CategoriesDuBlog\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/CategoriesDuBlog.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\CategoriesDuForum\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/CategoriesDuForum.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\<Illuminate\\Database\\Eloquent\\Model\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Livewire/Staff/Certificats.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\Cloche\:\:notifications\(\) should return Illuminate\\Support\\Collection\<int, object\> but returns Illuminate\\Notifications\\DatabaseNotificationCollection\<int, Illuminate\\Notifications\\DatabaseNotification\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/Cloche.php
+
+		-
+			message: '#^Instanceof between App\\Enums\\TypeLecon and App\\Enums\\TypeLecon will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: app/Livewire/Staff/ConstructeurDeCours.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\ConstructeurDeCours\:\:reglesDeLecon\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<Illuminate\\Validation\\Rules\\Enum\|Illuminate\\Validation\\Rules\\RequiredIf\|string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/ConstructeurDeCours.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\ConstructeurDeCours\:\:reglesDeQuestion\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/ConstructeurDeCours.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\ConstructeurDeCours\:\:reglesDeQuiz\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/ConstructeurDeCours.php
+
+		-
+			message: '#^Instanceof between App\\Enums\\NiveauCours and App\\Enums\\NiveauCours will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: app/Livewire/Staff/Cours.php
+
+		-
+			message: '#^Instanceof between App\\Enums\\StatutSessionExamen and BackedEnum will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 2
+			path: app/Livewire/Staff/Examens.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\Examens\:\:reglesDExamen\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<Illuminate\\Validation\\Rules\\In\|string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/Examens.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\Examens\:\:reglesDeSession\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/Examens.php
+
+		-
+			message: '#^Argument of an invalid type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<int, App\\Models\\VerifiedFact\> supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: app/Livewire/Staff/FaitsVerifies.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\GestionFaq\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/GestionFaq.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\JournalDesUnites\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<Illuminate\\Validation\\Rules\\In\|string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/JournalDesUnites.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Livewire/Staff/LiveClasses.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\LiveClasses\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/LiveClasses.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\Outils\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<Illuminate\\Validation\\Rules\\In\|string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/Outils.php
+
+		-
+			message: '#^Property App\\Livewire\\Staff\\Parametres\:\:\$secretsRenseignes type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Livewire/Staff/Parametres.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\Parrainages\:\:lignes\(\) return type with generic interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Livewire/Staff/Parrainages.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\Partenaires\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/Partenaires.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 2
+			path: app/Livewire/Staff/SauvegardesBaseDeDonnees.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\SourcesVerifiees\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<\(Closure\)\|Illuminate\\Validation\\Rules\\In\|string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/SourcesVerifiees.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\Temoignages\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<string\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/Temoignages.php
+
+		-
+			message: '#^Argument of an invalid type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<int, App\\Models\\Course\> supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: app/Livewire/Staff/UnitesDesCoursPremium.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<int, App\\Models\\Course\>\:\:pluck\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Livewire/Staff/UnitesDesCoursPremium.php
+
+		-
+			message: '#^Method App\\Livewire\\Staff\\Utilisateurs\:\:rules\(\) should return array\<string, array\<string, mixed\>\> but returns array\<string, list\<Illuminate\\Validation\\Rules\\In\|Illuminate\\Validation\\Rules\\Password\|Illuminate\\Validation\\Rules\\Unique\|string\|null\>\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Livewire/Staff/Utilisateurs.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/CommunityNote.php
+
+		-
+			message: '#^Call to function is_string\(\) with string will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Models/CommunityNote.php
+
+		-
+			message: '#^Method App\\Models\\ContentVisit\:\:visitable\(\) return type with generic class Illuminate\\Database\\Eloquent\\Relations\\MorphTo does not specify its types\: TRelatedModel, TDeclaringModel$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/ContentVisit.php
+
+		-
+			message: '#^Instanceof between App\\Enums\\MotifMouvementUnite and App\\Enums\\MotifMouvementUnite will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: app/Models/UnitLog.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between App\\Enums\\MotifMouvementUnite and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: app/Models/UnitLog.php
+
+		-
+			message: '#^Method App\\Providers\\ApiServiceProvider\:\:refus\(\) has parameter \$entetes with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Providers/ApiServiceProvider.php
+
+		-
+			message: '#^Return type \(array\<string, mixed\>\) of method Database\\Factories\\UserFactory\:\:definition\(\) should be compatible with return type \(array\<model property of App\\Models\\User, mixed\>\) of method Illuminate\\Database\\Eloquent\\Factories\\Factory\<App\\Models\\User\>\:\:definition\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: database/factories/UserFactory.php
+
+		-
+			message: '#^Offset 0\|1\|2 on array\{''pending'', ''pending'', ''upheld''\} on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.offset
+			count: 1
+			path: database/seeders/CourrierEtModerationSeeder.php
+
+		-
+			message: '#^Strict comparison using \!\=\= between string and null will always evaluate to true\.$#'
+			identifier: notIdentical.alwaysTrue
+			count: 1
+			path: database/seeders/HubSeeder.php

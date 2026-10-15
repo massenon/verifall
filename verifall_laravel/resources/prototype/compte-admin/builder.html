@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Course Studio — Admin Vérif'All</title>
+<meta name="description" content="Le constructeur de cours Vérif'All : curriculum drag & drop, éditeur riche Quill, état du cours et validation de publication.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="../compte-user/css/citizen.css">
+<link rel="stylesheet" href="../css/staff.css">
+<link rel="stylesheet" href="../css/vendor/quill.snow.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+<style>
+  :root { --st-deep: #052E16; --st-brand: #065F46; --st-emerald: #059669; --st-mint: #D1FAE5; }
+  .sidebar { background: var(--st-deep); }
+  .sidebar-label { color: rgba(209,250,229,.55); }
+  .sidebar-link { color: rgba(236,253,245,.82); }
+  .sidebar-link:hover { background: rgba(5,150,105,.18); color: #fff; }
+  .sidebar-link.is-active { background: var(--st-emerald); color: #fff; }
+  .st-group { margin-bottom: .35rem; }
+  .st-group summary { list-style: none; cursor: pointer; padding: .65rem .75rem; border-radius: .75rem;
+    margin-bottom: .15rem; min-height: 42px; display: flex; }
+  .st-group summary:hover { background: rgba(5,150,105,.12); }
+  .st-group summary::-webkit-details-marker { display: none; }
+  .st-group summary .st-caret { transition: transform .2s; }
+  .st-group[open] summary .st-caret { transform: rotate(180deg); }
+  .st-sub { padding-left: 1rem; margin-left: .65rem; border-left: 1px solid rgba(209,250,229,.14);
+    display: flex; flex-direction: column; gap: .15rem; padding-bottom: .4rem; }
+  .st-sub .sidebar-link { padding: .55rem .75rem; font-size: .84rem; min-height: 40px; }
+  #sidebar nav > .sidebar-link { margin-bottom: .35rem; min-height: 44px; }
+  #sidebar .sidebar-label { font-size: 10.5px; letter-spacing: .16em; margin: 0; align-items: center;
+    justify-content: space-between; width: 100%; }
+  .offcanvas { position: fixed; top: 0; right: 0; bottom: 0; z-index: 70; width: min(440px, 100vw);
+    background: #fff; box-shadow: -1rem 0 3rem rgba(17,24,39,.2); transform: translateX(100%);
+    transition: transform .25s ease; overflow-y: auto; }
+  .offcanvas.is-open { transform: none; }
+  .oc-backdrop { position: fixed; inset: 0; z-index: 69; background: rgba(17,24,39,.5); display: none; }
+  .oc-backdrop.is-open { display: block; }
+  @media (prefers-reduced-motion: reduce) { .st-group summary .st-caret, .offcanvas { transition: none; } }
+</style>
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line">
+  <div class="h-full flex items-center gap-3 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false"><span class="material-symbols-rounded " aria-hidden="true">menu</span></button>
+    <a href="dashboard.html"><img src="../images/logo.png" alt="Vérif'All" class="h-10 w-auto" width="171" height="60"></a>
+    <span class="rounded-full text-white text-[10px] font-bold tracking-widest uppercase px-2.5 py-1" style="background:var(--st-brand)">Admin</span>
+    <div class="hidden md:block relative flex-1 max-w-md ml-4">
+      <label class="sr-only" for="st-search">Rechercher</label>
+      <span class="material-symbols-rounded absolute left-3 top-1/2 -translate-y-1/2 text-slate2 !text-[19px]" aria-hidden="true">search</span>
+      <input id="st-search" type="search" placeholder="Rechercher un module, un utilisateur, un cours…" class="w-full bg-canvas border border-line rounded-xl pl-10 pr-3 py-2.5 text-sm outline-none focus:border-[#059669]">
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    
+    <div class="relative hidden sm:block" data-dropdown>
+      <button type="button" class="inline-flex items-center gap-1.5 rounded-xl bg-[#059669] text-white text-sm font-semibold px-4 py-2.5 hover:opacity-90 min-h-[44px]" data-dropdown-toggle aria-expanded="false" aria-haspopup="true"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Créer <span class="material-symbols-rounded !text-[17px]" aria-hidden="true">expand_more</span></button>
+      <div class="hidden absolute right-0 top-full mt-2 w-56 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <a class="user-menu-link" href="builder.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">school</span> Nouveau cours</a>
+        <a class="user-menu-link" href="blog.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit_note</span> Nouvel article</a>
+        <a class="user-menu-link" href="signalements.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">report</span> Nouveau signalement</a>
+        <a class="user-menu-link" href="utilisateurs.html"><span class="material-symbols-rounded !text-[19px]" aria-hidden="true">person_add</span> Nouvel utilisateur</a>
+      </div>
+    </div>
+<a href="securite.html" class="hidden md:inline-flex st-icnbtn !w-11 !h-11" title="Journal d&#39;audit" aria-label="Journal d&#39;audit"><span class="material-symbols-rounded !text-[22px]" aria-hidden="true">history_edu</span></a>
+    <button type="button" class="hidden sm:inline-flex st-icnbtn !w-11 !h-11" data-fullscreen title="Plein écran" aria-label="Basculer le plein écran"><span class="material-symbols-rounded !text-[22px]" aria-hidden="true">fullscreen</span></button>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-lg hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications — 3 non lues">
+        <span class="material-symbols-rounded !text-[22px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 rounded-full bg-brandred text-white text-[10px] font-bold inline-flex items-center justify-center" data-notif-count>3</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] max-w-[92vw] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="flex items-center justify-between px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink mb-0">Notifications</p>
+          <button type="button" class="text-xs font-bold text-primary" data-notif-readall>Tout marquer lu</button>
+        </div>
+        <div class="max-h-[320px] overflow-y-auto" data-notif-list><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">report</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">12 nouveaux signalements</span>
+          <span class="block text-xs text-slate2 truncate">4 prioritaires santé publique</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 8 min</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">badge</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Dossier KYC-2214 soumis</span>
+          <span class="block text-xs text-slate2 truncate">Marie A. — CNI biométrique</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 2 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 bg-primary-soft/40" data-notif data-unread="true">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">workspace_premium</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Certificat émis</span>
+          <span class="block text-xs text-slate2 truncate">VERIF-A-8841 · Marie A.</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">il y a 3 h</span></span>
+          <span class="w-2 h-2 rounded-full bg-primary mt-1.5 shrink-0" data-unread-dot aria-label="Non lue"></span>
+        </button><button type="button" class="w-full text-left flex gap-3 px-4 py-3 hover:bg-canvas border-b border-line last:border-0 " data-notif data-unread="false">
+          <span class="w-9 h-9 rounded-full bg-[#D1FAE5] text-[#065F46] inline-flex items-center justify-center shrink-0"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">backup</span></span>
+          <span class="flex-1 min-w-0"><span class="block text-sm font-bold text-ink truncate">Sauvegarde BD réussie</span>
+          <span class="block text-xs text-slate2 truncate">bkp-2026-08-18 · 2,4 Go</span>
+          <span class="block text-[10px] text-slate2 mt-0.5">hier 23:04</span></span>
+          
+        </button></div>
+        <div class="px-4 py-2.5 border-t border-line text-center">
+          <a href="securite.html" class="text-xs font-bold text-primary">Voir toute l'activité →</a>
+        </div>
+      </div>
+    </div>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-2" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-white font-bold text-sm" style="background:var(--st-brand)">RF</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-56 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line"><p class="font-display font-bold text-ink leading-tight mb-0">René Fadonougbo</p><p class="text-xs text-slate2 mb-0">Administrateur</p></div>
+        <a class="user-menu-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon profil</a><a class="user-menu-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Paramètres</a>
+        <div class="h-px bg-line my-1.5 mx-3" role="separator"></div>
+        <a class="user-menu-link text-vfalse" href="login.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+      </div>
+    </div>
+  </div>
+</header>
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation Admin">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-7">
+    <nav class="flex-1">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">space_dashboard</span><span>Tableau de Bord</span></a>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>FACT-CHECKING</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="signalements.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">report</span><span>Signalements</span></a>
+        <a class="sidebar-link" href="base-de-connaissances.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">fact_check</span><span>Fact checks</span></a>
+        <a class="sidebar-link" href="sources-confiance.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">verified</span><span>Sources vérifiées</span></a>
+        <a class="sidebar-link" href="sources-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories de sources</span></a>
+        <a class="sidebar-link" href="unites-ia.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span><span>Historiques des Unités IA</span></a>
+        </div>
+      </details>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">handyman</span><span>Répertoire des outils</span></a>
+      <details class="st-group" open>
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ACADÉMIE (LMS)</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories</span></a>
+        <a class="sidebar-link" href="cours.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">school</span><span>Tous les Cours</span></a>
+        <a class="sidebar-link is-active" href="builder.html" aria-current="page"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">design_services</span><span>Constructeur de cours</span></a>
+        <a class="sidebar-link" href="questions.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">quiz</span><span>Banque de Questions</span></a>
+        <a class="sidebar-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span><span>Live Classes</span></a>
+        <a class="sidebar-link" href="certificats.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">workspace_premium</span><span>Certificats</span></a>
+        <a class="sidebar-link" href="unites-premium.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">payments</span><span>Unités des Cours Premium</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>EXAMENS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">assignment</span><span>Liste des Examens</span></a>
+        <a class="sidebar-link" href="correction-examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span><span>Correction Examens</span></a>
+        <a class="sidebar-link" href="stats-globales.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span><span>Statistiques Globales</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>ENRÔLEMENT</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="enrolement-cours.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">how_to_reg</span><span>Enrôlement aux Cours</span></a>
+        <a class="sidebar-link" href="enrolement-examens.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">app_registration</span><span>Enrôlement aux Examens</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>HUB D'INFOS BÉNIN</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="hub-actualites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">newspaper</span><span>Actualités</span></a>
+        <a class="sidebar-link" href="hub-portails.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">account_balance</span><span>Portails Officiels</span></a>
+        <a class="sidebar-link" href="hub-jobs.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">work</span><span>Jobs Vérifiés</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>COMMUNAUTÉ</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="forum-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories du Forum</span></a>
+        <a class="sidebar-link" href="forum-discussions.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">forum</span><span>Forum Citoyen</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>BLOG</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="blog-categories.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">category</span><span>Catégories du Blog</span></a>
+        <a class="sidebar-link" href="blog.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">edit_note</span><span>Articles du Blog</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>RESSOURCES & COM</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="partenaires.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">handshake</span><span>Nos Partenaires</span></a>
+        <a class="sidebar-link" href="faq.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">quiz</span><span>Gestion FAQ</span></a>
+        <a class="sidebar-link" href="temoignages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">reviews</span><span>Témoignages</span></a>
+        <a class="sidebar-link" href="newsletters.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">mail</span><span>Newsletters</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>UTILISATEURS</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="utilisateurs.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">group</span><span>Citoyens</span></a>
+        <a class="sidebar-link" href="mentors.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">co_present</span><span>Mentors</span></a>
+        <a class="sidebar-link" href="kyc.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">badge</span><span>Vérification KYC</span></a>
+        <a class="sidebar-link" href="roles.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">admin_panel_settings</span><span>Rôles & Permissions</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>CONFIG SYSTÈME</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="parametres.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span><span>Réglages du Système</span></a>
+        <a class="sidebar-link" href="emails-templates.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">stacked_email</span><span>Templates Emails</span></a>
+        <a class="sidebar-link" href="campagnes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">campaign</span><span>Campagnes Publicitaires</span></a>
+        <a class="sidebar-link" href="badges.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span><span>Badges de progression</span></a>
+        <a class="sidebar-link" href="certificate-template.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">wallpaper</span><span>Certificat Template</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>SÉCURITÉ</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="securite.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">security</span><span>Logs d'Audit</span></a>
+        <a class="sidebar-link" href="logs-emails.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">outgoing_mail</span><span>Logs Emails</span></a>
+        <a class="sidebar-link" href="logs-unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">receipt_long</span><span>Logs Unités IA</span></a>
+        <a class="sidebar-link" href="alertes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">gpp_maybe</span><span>Alertes Intrusion</span></a>
+        </div>
+      </details>
+      <details class="st-group" >
+        <summary class="sidebar-label flex items-center justify-between pr-2 select-none">
+          <span>MAINTENANCE</span><span class="material-symbols-rounded st-caret !text-[18px] opacity-60" aria-hidden="true">expand_more</span>
+        </summary>
+        <div class="st-sub">
+        <a class="sidebar-link" href="maintenance.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">backup</span><span>Sauvegardes BD</span></a>
+        <a class="sidebar-link" href="cron.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">schedule</span><span>Tâches Cron</span></a>
+        </div>
+      </details>
+    </nav>
+    <a href="login.html" class="sidebar-link mt-4"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane"><a href="cours.html" class="hover:text-[#065F46]">Académie / Cours</a> <span aria-hidden="true">/</span> <span class="text-[#0F172A] font-medium">Course Studio</span></nav>
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+    <div class="flex items-center gap-3 min-w-0">
+      <a href="cours.html" class="st-icnbtn shrink-0" aria-label="Retour à l'inventaire"><span class="material-symbols-rounded " aria-hidden="true">arrow_back</span></a>
+      <div class="min-w-0">
+        <h1 class="text-xl md:text-2xl font-display font-bold text-[#0F172A] leading-tight mb-0 truncate">OSINT Fondamentaux</h1>
+        <p class="text-xs text-[#64748B] mb-0"><span data-autosave class="inline-flex items-center gap-1 font-semibold text-vtrue">✓ Enregistré</span> · Sources &amp; OSINT · Intermédiaire · Premium (10 unités)</p>
+      </div>
+    </div>
+    <div class="flex gap-2">
+      <button type="button" class="st-btn st-btn-secondary" data-preview><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">visibility</span> Aperçu</button>
+      <button type="button" class="st-btn st-btn-secondary" data-save><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">save</span> Enregistrer <kbd class="hidden lg:inline text-[10px] font-bold bg-[#F1F5F9] rounded px-1.5 py-0.5 ml-1">⌘S</kbd></button>
+      <button type="button" class="st-btn st-btn-primary" data-publish-open><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">rocket_launch</span> Publier</button>
+    </div>
+  </div>
+
+  <div class="st-tabs mb-4" role="tablist" aria-label="Sections du studio">
+    <button class="st-tab is-active" role="tab" aria-selected="true" data-stab="curriculum">Curriculum</button>
+    <button class="st-tab" role="tab" aria-selected="false" data-stab="infos">Informations</button>
+    <button class="st-tab" role="tab" aria-selected="false" data-stab="quiz">Quiz</button>
+    <button class="st-tab" role="tab" aria-selected="false" data-stab="assignments">Exercices</button>
+    <button class="st-tab" role="tab" aria-selected="false" data-stab="settings">Paramètres</button>
+  </div>
+
+  <!-- Tabs mobiles Structure/Contenu/Options -->
+  <div class="lg:hidden grid grid-cols-3 gap-1 p-1 rounded-xl bg-[#F1F5F9] mb-4" role="tablist" aria-label="Vue mobile">
+    <button class="rounded-lg py-2.5 text-sm font-bold bg-white text-[#065F46] shadow-sm" data-mview="structure" aria-selected="true" role="tab">Structure</button>
+    <button class="rounded-lg py-2.5 text-sm font-semibold text-[#64748B]" data-mview="contenu" aria-selected="false" role="tab">Contenu</button>
+    <button class="rounded-lg py-2.5 text-sm font-semibold text-[#64748B]" data-mview="options" aria-selected="false" role="tab">Options</button>
+  </div>
+
+  <div class="grid lg:grid-cols-[280px_minmax(0,1fr)_280px] gap-4 items-start pb-24 lg:pb-0" data-stab-panel="curriculum">
+
+    <!-- PANEL GAUCHE — Curriculum Navigator -->
+    <aside class="st-card p-4 lg:sticky lg:top-24" data-mpanel="structure">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-[11px] font-bold tracking-[.14em] uppercase text-[#64748B] mb-0">Curriculum</p>
+        <span class="text-[11px] font-bold text-[#059669]">18 leçons · 3 quiz</span>
+      </div>
+      <div data-tree>
+        <details open class="mb-2">
+          <summary class="st-tree-item font-bold !text-[#0F172A] list-none"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">expand_more</span> Section 01 — Les fondations OSINT</summary>
+          <div class="pl-3 border-l border-[#E2E8F0] ml-2.5 mt-1 space-y-0.5" data-drop-zone>
+            <button type="button" class="st-tree-item w-full is-active" draggable="true" data-lesson="l1" aria-current="true"><span class="st-grip" aria-hidden="true">⋮⋮</span><span class="material-symbols-rounded !text-[17px]" aria-hidden="true">article</span> Qu'est-ce que l'OSINT ?</button>
+            <button type="button" class="st-tree-item w-full" draggable="true" data-lesson="l2"><span class="st-grip" aria-hidden="true">⋮⋮</span><span class="material-symbols-rounded !text-[17px]" aria-hidden="true">play_circle</span> La recherche inversée</button>
+            <button type="button" class="st-tree-item w-full" draggable="true" data-lesson="l3"><span class="st-grip" aria-hidden="true">⋮⋮</span><span class="material-symbols-rounded !text-[17px]" aria-hidden="true">quiz</span> Quiz — Fondations</button>
+          </div>
+        </details>
+        <details open class="mb-2">
+          <summary class="st-tree-item font-bold !text-[#0F172A] list-none"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">expand_more</span> Section 02 — Enquête sur un domaine</summary>
+          <div class="pl-3 border-l border-[#E2E8F0] ml-2.5 mt-1 space-y-0.5" data-drop-zone>
+            <button type="button" class="st-tree-item w-full" draggable="true" data-lesson="l4"><span class="st-grip" aria-hidden="true">⋮⋮</span><span class="material-symbols-rounded !text-[17px]" aria-hidden="true">article</span> WHOIS &amp; historique DNS</button>
+            <button type="button" class="st-tree-item w-full" draggable="true" data-lesson="l5"><span class="st-grip" aria-hidden="true">⋮⋮</span><span class="material-symbols-rounded !text-[17px]" aria-hidden="true">play_circle</span> Géolocaliser une photo <span class="st-badge st-badge-warn !py-0.5 ml-auto">vide</span></button>
+            <button type="button" class="st-tree-item w-full" draggable="true" data-lesson="l6"><span class="st-grip" aria-hidden="true">⋮⋮</span><span class="material-symbols-rounded !text-[17px]" aria-hidden="true">assignment</span> Exercice — Enquête guidée</button>
+          </div>
+        </details>
+      </div>
+      <div class="relative mt-3" data-dropdown>
+        <button type="button" class="st-btn st-btn-secondary w-full" data-dropdown-toggle aria-haspopup="true" aria-expanded="false"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">add</span> Ajouter</button>
+        <div class="hidden absolute left-0 right-0 top-full mt-2 st-menu !static lg:!absolute" data-dropdown-menu>
+          <button type="button" data-add="Leçon texte"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">article</span> Leçon texte</button>
+          <button type="button" data-add="Vidéo"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">play_circle</span> Vidéo</button>
+          <button type="button" data-add="Quiz"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">quiz</span> Quiz</button>
+          <button type="button" data-add="Exercice"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">assignment</span> Exercice</button>
+          <button type="button" data-add="Ressource"><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">attach_file</span> Ressource</button>
+          <div class="st-menu-sep"></div>
+          <button type="button" data-add-section><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">create_new_folder</span> Nouvelle section</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- PANEL CENTRAL — Workspace -->
+    <section class="st-card p-5" data-mpanel="contenu" data-mpanel-hidden>
+      <p class="text-[11px] font-bold tracking-[.14em] uppercase text-[#64748B] mb-3">Leçon sélectionnée</p>
+      <label class="st-field"><span class="st-label">Titre de la leçon</span>
+        <input type="text" class="st-input" value="Qu'est-ce que l'OSINT ?" data-lesson-title>
+      </label>
+      <div class="grid sm:grid-cols-2 gap-3">
+        <label class="st-field"><span class="st-label">Type</span>
+          <select class="st-select" data-lesson-type>
+            <option selected>Texte riche</option><option>Vidéo</option><option>Document</option>
+          </select>
+        </label>
+        <label class="st-field"><span class="st-label">Durée estimée</span>
+          <input type="text" class="st-input" value="6 min">
+        </label>
+      </div>
+      <div class="st-field">
+        <span class="st-label">Contenu</span>
+        <div class="st-quill"><div data-quill-editor><h2>Qu'est-ce que l'OSINT ?</h2><p>L'<strong>Open Source Intelligence</strong> désigne l'art de collecter et de recouper des informations librement accessibles : moteurs de recherche, archives du web, métadonnées, registres publics…</p><ul><li>Chercher avant d'affirmer</li><li>Recouper au moins deux sources indépendantes</li><li>Documenter chaque étape de l'enquête</li></ul></div></div>
+      </div>
+      <div class="hidden" data-video-fields>
+        <label class="st-field"><span class="st-label">URL de la vidéo</span><input type="url" class="st-input" placeholder="https://…"></label>
+      </div>
+    </section>
+
+    <!-- PANEL DROIT — Properties + Health -->
+    <aside class="space-y-4 lg:sticky lg:top-24" data-mpanel="options" data-mpanel-hidden>
+      <div class="st-card p-4">
+        <p class="text-[11px] font-bold tracking-[.14em] uppercase text-[#64748B] mb-3">Propriétés</p>
+        <dl class="space-y-2.5 text-sm mb-3">
+          <div class="flex justify-between"><dt class="text-[#64748B]">Statut</dt><dd class="mb-0"><span class="st-badge st-badge-pub">Publiée</span></dd></div>
+          <div class="flex justify-between"><dt class="text-[#64748B]">Durée</dt><dd class="font-bold text-[#0F172A] mb-0">6 min</dd></div>
+          <div class="flex justify-between"><dt class="text-[#64748B]">XP</dt><dd class="font-bold text-[#7C3AED] mb-0">+50</dd></div>
+        </dl>
+        <label class="flex items-center justify-between text-sm py-1.5"><span class="text-[#334155] font-medium">Aperçu public</span><input type="checkbox" class="toggle" checked data-toggle-solo></label>
+        <label class="flex items-center justify-between text-sm py-1.5"><span class="text-[#334155] font-medium">Leçon obligatoire</span><input type="checkbox" class="toggle" checked data-toggle-solo></label>
+      </div>
+      <div class="st-card p-4">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-[11px] font-bold tracking-[.14em] uppercase text-[#64748B] mb-0">État du cours</p>
+          <button type="button" class="text-xs font-bold text-[#059669]" data-health-view>Voir →</button>
+        </div>
+        <div class="progress !h-2 mb-2"><span style="width:82%"></span></div>
+        <p class="text-xs font-bold text-[#0F172A] mb-2.5">82 % construit</p>
+        <ul class="space-y-1.5 text-xs mb-0">
+          <li class="flex gap-1.5 text-vtrue font-semibold">✓ Informations complètes</li>
+          <li class="flex gap-1.5 text-vtrue font-semibold">✓ Curriculum structuré</li>
+          <li class="flex gap-1.5 text-vtrue font-semibold">✓ 3 quiz configurés</li>
+          <li class="flex gap-1.5 text-vinvest font-semibold">⚠ 1 leçon sans contenu</li>
+          <li class="flex gap-1.5 text-vfalse font-semibold">✕ Certificat non configuré</li>
+        </ul>
+      </div>
+      <div class="st-card p-4">
+        <p class="text-[11px] font-bold tracking-[.14em] uppercase text-[#64748B] mb-2">Aperçu</p>
+        <div class="w-full aspect-video rounded-xl bg-gradient-to-br from-[#052E16] to-[#065F46] text-white flex items-center justify-center font-display font-black text-2xl mb-2" aria-hidden="true">B</div>
+        <p class="text-sm font-bold text-[#0F172A] mb-0.5">OSINT Fondamentaux</p>
+        <p class="text-xs text-[#64748B] mb-2">Intermédiaire · 3 h 20 · 3 260 apprenants</p>
+        <span class="st-badge st-badge-premium">Premium — 10 unités</span>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Sticky action bar mobile -->
+  <div class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white border-t border-[#E2E8F0] px-4 py-2.5 grid grid-cols-3 gap-2" style="padding-bottom:calc(.625rem + env(safe-area-inset-bottom))">
+    <button type="button" class="st-btn st-btn-secondary !min-h-[46px]" data-madd><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">add</span> Ajouter</button>
+    <button type="button" class="st-btn st-btn-secondary !min-h-[46px]" data-preview>Aperçu</button>
+    <button type="button" class="st-btn st-btn-primary !min-h-[46px]" data-save>Enregistrer</button>
+  </div>
+
+  <!-- Modal Publish Check -->
+  <div class="modal-backdrop" id="modal-publish">
+    <div class="modal p-6" role="dialog" aria-modal="true" aria-labelledby="pub-t">
+      <h2 id="pub-t" class="text-lg font-display font-bold text-[#0F172A] mb-1">Prêt à publier ?</h2>
+      <p class="text-sm text-[#64748B] mb-4">Le cours deviendra visible pour les apprenants.</p>
+      <ul class="space-y-1.5 text-sm mb-4">
+        <li class="text-vtrue font-semibold">✓ Titre &amp; description</li>
+        <li class="text-vtrue font-semibold">✓ 2 sections · 6 éléments</li>
+        <li class="text-vtrue font-semibold">✓ Quiz de validation</li>
+        <li class="text-vinvest font-semibold">⚠ 1 leçon vide — « Géolocaliser une photo »</li>
+      </ul>
+      <div class="flex justify-end gap-2">
+        <button type="button" class="st-btn st-btn-secondary" data-modal-close>Annuler</button>
+        <button type="button" class="st-btn st-btn-primary" data-publish-confirm>Publier malgré tout</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal nouvelle section -->
+  <div class="modal-backdrop" id="modal-section">
+    <div class="modal p-6" role="dialog" aria-modal="true" aria-labelledby="sec-t">
+      <h2 id="sec-t" class="text-lg font-display font-bold text-[#0F172A] mb-4">Nouvelle section</h2>
+      <label class="st-field"><span class="st-label">Titre</span><input type="text" class="st-input" placeholder="Ex. : Section 03 — Les archives du web" data-section-title></label>
+      <label class="st-field"><span class="st-label">Description facultative</span><textarea rows="2" class="st-textarea"></textarea></label>
+      <div class="flex justify-end gap-2">
+        <button type="button" class="st-btn st-btn-secondary" data-modal-close>Annuler</button>
+        <button type="button" class="st-btn st-btn-primary" data-section-add>Ajouter</button>
+      </div>
+    </div>
+  </div>
+
+<script src="../js/vendor/quill.js" defer></script>
+<script>
+window.VFPage = function (VF, S) {
+  var quill = null, dirty = false, dragging = null, dropLine = null;
+  var auto = document.querySelector('[data-autosave]');
+
+  function setState(state) {
+    if (state === 'saving') { auto.innerHTML = '↻ Enregistrement…'; auto.className = 'inline-flex items-center gap-1 font-semibold text-vinfo'; }
+    else if (state === 'dirty') { auto.innerHTML = '⚠ Modifications non enregistrées'; auto.className = 'inline-flex items-center gap-1 font-semibold text-vinvest'; }
+    else { auto.innerHTML = '✓ Enregistré'; auto.className = 'inline-flex items-center gap-1 font-semibold text-vtrue'; }
+  }
+  function markDirty() { if (!dirty) { dirty = true; setState('dirty'); } }
+  function save() {
+    setState('saving');
+    setTimeout(function () { dirty = false; setState('saved'); VF.toast('✓ Cours enregistré'); }, 500);
+  }
+  document.querySelectorAll('[data-save]').forEach(function (b) { b.addEventListener('click', save); });
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save(); }
+  });
+
+  /* Quill */
+  function initQuill() {
+    var host = document.querySelector('[data-quill-editor]');
+    if (!host || typeof Quill === 'undefined') return;
+    quill = new Quill(host, {
+      theme: 'snow',
+      modules: { toolbar: [[{ header: [2, 3, false] }], ['bold', 'italic', 'underline', 'strike'], [{ list: 'ordered' }, { list: 'bullet' }], ['blockquote', 'code-block', 'link', 'image'], ['clean']] }
+    });
+    quill.on('text-change', markDirty);
+  }
+  if (document.readyState === 'complete') initQuill();
+  else window.addEventListener('load', initQuill);
+  document.querySelectorAll('input, select, textarea').forEach(function (el) { el.addEventListener('input', markDirty); });
+
+  /* Sélection de leçon */
+  var LESSONS = {
+    l1: { t: "Qu'est-ce que l'OSINT ?", type: 'Texte riche' },
+    l2: { t: 'La recherche inversée', type: 'Vidéo' },
+    l3: { t: 'Quiz — Fondations', type: 'Texte riche' },
+    l4: { t: 'WHOIS & historique DNS', type: 'Texte riche' },
+    l5: { t: 'Géolocaliser une photo', type: 'Vidéo' },
+    l6: { t: 'Exercice — Enquête guidée', type: 'Texte riche' }
+  };
+  document.querySelectorAll('[data-lesson]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('[data-lesson]').forEach(function (x) { x.classList.remove('is-active'); x.removeAttribute('aria-current'); });
+      b.classList.add('is-active'); b.setAttribute('aria-current', 'true');
+      var l = LESSONS[b.getAttribute('data-lesson')];
+      document.querySelector('[data-lesson-title]').value = l.t;
+      document.querySelector('[data-lesson-type]').value = l.type === 'Vidéo' ? 'Vidéo' : 'Texte riche';
+      document.querySelector('[data-video-fields]').classList.toggle('hidden', l.type !== 'Vidéo');
+      if (window.innerWidth < 1024) switchMobile('contenu');
+    });
+  });
+  document.querySelector('[data-lesson-type]').addEventListener('change', function () {
+    document.querySelector('[data-video-fields]').classList.toggle('hidden', this.value !== 'Vidéo');
+  });
+
+  /* Drag & drop avec ligne d'insertion */
+  document.querySelectorAll('[data-lesson]').forEach(function (item) {
+    item.addEventListener('dragstart', function () { dragging = item; item.classList.add('is-dragging'); });
+    item.addEventListener('dragend', function () {
+      item.classList.remove('is-dragging');
+      if (dropLine && dropLine.parentNode) { dropLine.parentNode.insertBefore(dragging, dropLine); dropLine.remove(); markDirty(); VF.toast('✓ Élément déplacé'); }
+      dragging = null; dropLine = null;
+    });
+  });
+  document.querySelectorAll('[data-drop-zone]').forEach(function (zone) {
+    zone.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      if (!dragging) return;
+      if (!dropLine) { dropLine = document.createElement('div'); dropLine.className = 'st-drop-line'; }
+      var after = null;
+      zone.querySelectorAll('[data-lesson]:not(.is-dragging)').forEach(function (el) {
+        var r = el.getBoundingClientRect();
+        if (e.clientY < r.top + r.height / 2 && !after) after = el;
+      });
+      if (after) zone.insertBefore(dropLine, after); else zone.appendChild(dropLine);
+    });
+  });
+
+  /* Ajouter contenu / section */
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-add]');
+    if (a) { markDirty(); VF.toast('✓ ' + a.getAttribute('data-add') + ' ajouté(e) à la section active — pensez à enregistrer.'); }
+    if (e.target.closest('[data-add-section]')) VF.openModal('modal-section');
+    if (e.target.closest('[data-madd]')) VF.openModal('modal-section');
+  });
+  document.querySelector('[data-section-add]').addEventListener('click', function () {
+    var t = document.querySelector('[data-section-title]').value.trim();
+    if (t.length < 3) { VF.toast('Le titre de la section doit contenir au moins 3 caractères.'); return; }
+    document.getElementById('modal-section').classList.remove('is-open');
+    markDirty();
+    VF.toast('✓ Section « ' + t + ' » ajoutée en fin de curriculum.');
+  });
+
+  /* Publier */
+  document.querySelector('[data-publish-open]').addEventListener('click', function () { VF.openModal('modal-publish'); });
+  document.querySelector('[data-publish-confirm]').addEventListener('click', function () {
+    document.getElementById('modal-publish').classList.remove('is-open');
+    VF.toast('🚀 Cours publié — visible pour les apprenants.');
+  });
+  document.querySelectorAll('[data-preview]').forEach(function (b) {
+    b.addEventListener('click', function () { VF.toast('Aperçu apprenant : ce cours s\'ouvre côté citoyen dans catalogue → cours.'); });
+  });
+  document.querySelector('[data-health-view]').addEventListener('click', function () {
+    VF.toast('2 problèmes : leçon « Géolocaliser une photo » vide · certificat non configuré.');
+  });
+
+  /* Tabs studio (desktop) : seules Curriculum a un panel complet ici */
+  document.querySelectorAll('[data-stab]').forEach(function (t) {
+    t.addEventListener('click', function () {
+      document.querySelectorAll('[data-stab]').forEach(function (x) { x.classList.remove('is-active'); x.setAttribute('aria-selected', 'false'); });
+      t.classList.add('is-active'); t.setAttribute('aria-selected', 'true');
+      if (t.getAttribute('data-stab') !== 'curriculum') VF.toast('Onglet « ' + t.textContent.trim() + ' » — géré dans l\'inventaire et les modules dédiés de la sidebar.');
+    });
+  });
+
+  /* Vue mobile Structure/Contenu/Options */
+  function switchMobile(view) {
+    document.querySelectorAll('[data-mview]').forEach(function (b) {
+      var on = b.getAttribute('data-mview') === view;
+      b.className = on ? 'rounded-lg py-2.5 text-sm font-bold bg-white text-[#065F46] shadow-sm' : 'rounded-lg py-2.5 text-sm font-semibold text-[#64748B]';
+      b.setAttribute('aria-selected', String(on));
+    });
+    document.querySelectorAll('[data-mpanel]').forEach(function (p) {
+      if (window.innerWidth < 1024) p.classList.toggle('hidden', p.getAttribute('data-mpanel') !== view);
+      else p.classList.remove('hidden');
+    });
+  }
+  document.querySelectorAll('[data-mview]').forEach(function (b) {
+    b.addEventListener('click', function () { switchMobile(b.getAttribute('data-mview')); });
+  });
+  if (window.innerWidth < 1024) switchMobile('structure');
+  window.addEventListener('resize', function () {
+    if (window.innerWidth >= 1024) document.querySelectorAll('[data-mpanel]').forEach(function (p) { p.classList.remove('hidden'); });
+  });
+};
+</script>
+</main>
+<script src="../compte-user/js/citizen.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "Quiz déjà réussi": "quiz_deja_reussi",
+  "Refaire pour réviser": "refaire_pour_reviser",
+  "Quiz réussi !": "quiz_reussi",
+  "Pas encore": "pas_encore",
+  "Réessayer": "reessayer",
+  "Correction": "correction",
+  "Précédent": "precedent",
+  "À la fin du temps, le quiz est corrigé tel quel : les questions sans réponse comptent comme fausses.": "a_la_fin_du_temps_le_quiz",
+  "Ce quiz ne contient aucune question": "ce_quiz_ne_contient_aucune_question",
+  "Signalez-le : un quiz vide ne devrait pas être publié.": "signalez_le_un_quiz_vide_ne_devrait"
+}

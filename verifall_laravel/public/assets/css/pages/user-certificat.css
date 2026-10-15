@@ -1,0 +1,85 @@
+/*
+ | user-certificat — bloc <style> de compte-user/certificat.html, repris
+ | VERBATIM, puis remplace par le gabarit SVG premium.
+ |
+ | ── CE FICHIER A BEAUCOUP MAIGRI, ET C'EST LE SIGNE QUE C'EST MIEUX ─────────
+ |
+ | Il portait toute la mise en page du certificat : vagues en degrade, metrique,
+ | tailles de police, regles d'impression. Le document est desormais un SVG
+ | entier (`components/lms/certificat.blade.php`), qui porte sa propre geometrie
+ | dans son `viewBox`.
+ |
+ | La raison du changement vaut d'etre retenue. La version HTML dependait de
+ | classes utilitaires, et SEPT d'entre elles n'existaient pas dans
+ | `public/assets/css/tailwind.css` — un build FIGE, qu'aucune chaine d'outils
+ | ne regenere. Elles etaient silencieusement inertes : le QR sortait au double
+ | de sa taille, sans erreur, sans avertissement. Trouve en regardant l'ecran,
+ | jamais par un test.
+ |
+ | Un SVG ne peut pas subir cela : sa geometrie est dans le document.
+ |
+ | Charge par la vue via @push('styles').
+ */
+
+@media print {
+    .cert-frame.hidden { display: none !important; }
+    body { background: #fff; }
+}
+
+/* ═══════════════════════════════════════════ le document, a l'ecran ═══════ */
+
+/*
+ | Le SVG occupe la largeur offerte et garde ses proportions : `viewBox` +
+ | `height:auto`. Pas de hauteur imposee — le rapport 1600/1100 s'en charge, de
+ | l'ecran d'un telephone a une feuille A4 paysage.
+ */
+.cert-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    /* L'ombre porte le document au-dessus du fond de page, comme une feuille
+       posee sur un bureau. Retiree a l'impression, plus bas. */
+    box-shadow: 0 10px 30px rgba(2, 44, 34, .12);
+}
+
+/* ══════════════════════════════════════════════════ a l'impression ════════ */
+
+@media print {
+    /*
+     | LA REGLE SANS LAQUELLE LE DOCUMENT SORT BLANC.
+     |
+     | Les navigateurs retirent par defaut fonds et degrades a l'impression, pour
+     | epargner l'encre. Un certificat a cadre vert et liseres dores n'y
+     | survivrait pas — et le defaut ne se voit qu'une fois la feuille sortie,
+     | jamais a l'ecran.
+     */
+    .cert-svg {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        /* Un certificat tient sur UNE page : une signature seule sur une
+           seconde feuille ferait douter du document. */
+        page-break-inside: avoid;
+        break-inside: avoid;
+        width: 100%;
+    }
+
+    /* Ni bouton d'impression, ni fil d'Ariane, ni lien de retour sur le
+       papier : ils ne menent nulle part une fois imprimes. */
+    .no-print { display: none !important; }
+
+    /*
+     | PAYSAGE, et des marges minces. Le gabarit est en 1600 × 1100 : impose en
+     | portrait, il sortirait au tiers de la largeur de la feuille, illisible.
+     */
+    @page {
+        size: A4 landscape;
+        margin: 8mm;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cert-svg { transition: none !important; animation: none !important; }
+}

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+    </source>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+        <env name="APP_MAINTENANCE_DRIVER" value="file"/>
+        <env name="BCRYPT_ROUNDS" value="4"/>
+        <env name="BROADCAST_CONNECTION" value="null"/>
+        <env name="CACHE_STORE" value="array"/>
+        <env name="DB_CONNECTION" value="sqlite"/>
+        <env name="DB_DATABASE" value=":memory:"/>
+        <env name="DB_URL" value=""/>
+        <env name="MAIL_MAILER" value="array"/>
+        <env name="QUEUE_CONNECTION" value="sync"/>
+        <env name="SESSION_DRIVER" value="array"/>
+        <env name="PULSE_ENABLED" value="false"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="NIGHTWATCH_ENABLED" value="false"/>
+
+        <!--
+          | FAKE_ADAPTERS épinglé, le 1er septembre 2026.
+          |
+          | Il ne l'était PAS, et il n'existe pas de `.env.testing` : la suite
+          | lisait donc la valeur du `.env` du poste. Elle était verte
+          | uniquement parce que ce fichier portait `true`.
+          |
+          | Le jour où quelqu'un pose `FAKE_ADAPTERS=false` — ce que la mise en
+          | production EXIGE, sans quoi les verdicts sont inventés — vingt-cinq
+          | tests d'orchestration tombaient d'un coup, en accusant le code alors
+          | que seule la configuration avait bougé. C'est arrivé exactement ainsi.
+          |
+          | Une suite de tests ne doit pas changer de comportement selon le
+          | `.env` de la machine qui l'exécute. Les rares tests qui veulent de
+          | vrais adaptateurs le déclarent eux-mêmes, par
+          | `config()->set('factcheck.fake_adapters', false)` — voir
+          | `tests/Feature/Staff/SanteDesMoteursTest.php`.
+        -->
+        <env name="FAKE_ADAPTERS" value="true"/>
+    </php>
+</phpunit>

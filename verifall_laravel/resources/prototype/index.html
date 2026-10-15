@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vérif'All — Protégez-vous contre les fausses informations</title>
+<meta name="description" content="Vérif'All, l'application béninoise de fact-checking : vérifiez textes, images, vidéos et audios en quelques secondes et décryptez l'info.">
+<link rel="canonical" href="https://verifall.com/">
+<meta property="og:title" content="Vérif'All — Protégez-vous contre les fausses informations">
+<meta property="og:description" content="Vérif'All, l'application béninoise de fact-checking : vérifiez textes, images, vidéos et audios en quelques secondes et décryptez l'info.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://verifall.com/">
+<meta property="og:image" content="https://verifall.com/images/blog/verifall-prix-wsis-2026-annonce.png">
+<meta property="og:site_name" content="Vérif'All">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Vérif'All — Protégez-vous contre les fausses informations">
+<meta name="twitter:description" content="Vérif'All, l'application béninoise de fact-checking : vérifiez textes, images, vidéos et audios en quelques secondes et décryptez l'info.">
+<meta name="twitter:image" content="https://verifall.com/images/blog/verifall-prix-wsis-2026-annonce.png">
+<link rel="icon" href="images/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    container: { center: true, padding: '1rem' },
+    extend: {
+      colors: {
+        primary: { DEFAULT: '#09B850', dark: '#079a43', soft: '#e6f8ee' },
+        dark: '#202124',
+        body: '#606261',
+        heading: '#202124',
+        line: '#e9ecef',
+        danger: '#d6293e',
+        warning: '#f7c32e',
+        info: '#17a2b8'
+      },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        display: ['"Instrument Sans"', 'sans-serif']
+      },
+      maxWidth: { page: '1140px' },
+      boxShadow: {
+        card: '0 .5rem 1.5rem rgba(32,33,36,.06)',
+        cardlg: '0 1rem 3rem rgba(32,33,36,.1)'
+      }
+    }
+  }
+}
+</script>
+<link rel="stylesheet" href="css/verifall.css">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "Vérif'All", "url": "https://verifall.com", "logo": "https://verifall.com/images/logo.png", "description": "Plateforme béninoise de lutte contre la désinformation : vérification d'informations, éducation aux médias et communauté citoyenne.", "founder": {"@type": "Person", "name": "René Fadonougbo"}, "award": ["Prix WSIS 2026 — catégorie Media (UIT)", "2e prix du Concours Objectif : Développement Durable ! (Aix-Marseille Université)"], "sameAs": ["https://www.instagram.com/verif_all", "https://www.facebook.com/share/17nJws5pMX/", "https://www.linkedin.com/company/v-rif-all/"]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebSite", "name": "Vérif'All", "url": "https://verifall.com", "inLanguage": "fr"}</script>
+</head>
+<body class="font-sans text-body bg-white antialiased ">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:text-heading focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="absolute inset-x-0 top-0 z-40" data-navbar>
+  <nav class="max-w-page mx-auto px-4">
+    <div class="flex items-center justify-between gap-3 py-3">
+      <a class="shrink-0" href="index.html" aria-label="Vérif'All — accueil">
+        <img src="images/logo.png" alt="Vérif'All - Application de lutte contre la désinformation au Bénin" width="171" height="60" class="h-[52px] w-auto" loading="eager">
+      </a>
+      <div id="navbarCollapse" class="hidden xl:flex xl:items-center xl:static absolute left-0 right-0 top-full mx-4 xl:mx-0 bg-white xl:bg-transparent rounded-xl xl:rounded-none shadow-cardlg xl:shadow-none p-3 xl:p-0" data-collapse-panel>
+        <ul class="flex flex-col xl:flex-row xl:items-center xl:mx-auto">
+          <li><a class="block px-4 py-2 xl:py-6 text-[15px] font-medium text-heading hover:text-primary transition-colors" href="pourquoi-verifall.html">Pourquoi Vérif’All ?</a></li>
+          <li><a class="block px-4 py-2 xl:py-6 text-[15px] font-medium text-heading hover:text-primary transition-colors" href="fonctionnalites.html">Fonctionnalités</a></li>
+          <li><a class="block px-4 py-2 xl:py-6 text-[15px] font-medium text-heading hover:text-primary transition-colors" href="comment-ca-marche.html">Comment ça marche ?</a></li>
+          <li><a class="block px-4 py-2 xl:py-6 text-[15px] font-medium text-heading hover:text-primary transition-colors" href="tutoriels.html">Tutoriels</a></li>
+          <li><a class="block px-4 py-2 xl:py-6 text-[15px] font-medium text-heading hover:text-primary transition-colors" href="facts.html">Actualités</a></li>
+          <li class="xl:hidden border-t border-line mt-2 pt-2">
+            <a class="block px-4 py-2 text-[15px] font-medium text-primary" href="connexion.html"><i class="bi bi-person-circle me-2"></i>Connexion</a>
+          </li>
+        </ul>
+      </div>
+      <div class="flex items-center gap-2">
+        <a class="inline-flex items-center gap-1.5 rounded-lg bg-dark text-white text-sm font-semibold px-3.5 py-2 hover:bg-black transition-colors" href="connexion.html">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/><path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/></svg>
+          <span class="hidden sm:inline-block">Connexion</span>
+        </a>
+        <button class="xl:hidden navbar-toggler" type="button" data-collapse-toggle aria-controls="navbarCollapse" aria-expanded="false" aria-label="Ouvrir le menu">
+          <span class="navbar-toggler-animation"><span></span><span></span><span></span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<main id="contenu" class="overflow-hidden">
+  <!-- ============ HERO ============ -->
+  <section class="pt-32 lg:pt-40 pb-10">
+    <div class="max-w-page mx-auto px-4 relative">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <div class="inline-flex items-center gap-2 bg-[#f8f9fa] rounded-full py-2 px-3 mb-6">
+            <span class="rounded-full bg-dark text-white text-xs font-semibold px-3 py-1">Vérif’All</span>
+            <a href="#pourquoi-verifall" class="text-sm text-heading inline-flex items-center gap-1 hover:text-primary transition-colors">Votre Application de fact-checking !<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg></a>
+          </div>
+          <h3 class="relative text-3xl md:text-4xl font-display font-bold text-heading leading-snug mb-5">Protégez-vous contre les fausses informations et détectez les discours de haine.
+            <span class="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 mt-1 hidden md:block" aria-hidden="true"><svg fill="#09B850" width="86" height="105" viewBox="0 0 86 105" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path d="M50.9805 4.63769C51.6165 4.24345 56.4262 10.3524 61.7246 18.1163C67.0564 25.8003 72.7966 35.1061 75.9634 40.6314C82.2158 51.6489 85.8889 61.2748 84.5362 62.0301C83.1029 62.7522 77.2708 54.3462 71.0415 43.3853C67.8986 37.9165 62.7042 28.3199 58.293 20.1246C53.8819 11.9293 50.2874 5.05535 50.9805 4.63769Z"/>
+							<path d="M64.0889 66.7297C63.5001 67.2372 60.6142 65.1098 57.1179 62.637C53.6451 60.2207 49.5285 57.539 47.2336 56.0303C42.5967 52.8997 39.0022 49.8707 39.6599 48.4069C40.2841 47.0231 45.3294 47.9307 50.3923 51.2838C52.9286 52.892 56.9393 56.2802 59.8742 59.6469C62.809 63.0137 64.6779 66.2223 64.0889 66.7297Z"/>
+							<path d="M55.1316 86.0595C55.1297 86.856 48.7063 87.4433 40.9853 87.6368C33.2643 87.8295 24.2555 87.492 19.0669 87.0413C8.68981 86.139 0.434871 83.7683 0.656712 82.218C0.878555 80.6685 9.34356 80.5005 19.5833 81.393C24.7149 81.867 33.5706 82.7978 41.1895 83.6415C48.832 84.5408 55.1571 85.32 55.1316 86.0595Z"/>
+						</svg></span>
+          </h3>
+          <h5 class="text-lg font-display font-bold text-heading mb-2">Vérifiez n’importe quel contenu en un clic.</h5>
+          <p class="mb-10">Fake news, arnaques au recrutement, images recyclées, vidéos montées, audios manipulés par l’IA… <strong class="text-heading">Vérif’All</strong> vous aide à vérifier textes, images, vidéos, audios en quelques secondes et vous permet de décrypter l’info.</p>
+          <div class="grid sm:grid-cols-2 gap-2 max-w-xl mb-10">
+            <a href="verifier-une-information.html" class="inline-flex justify-center items-center rounded-lg bg-primary text-white text-[0.9rem] font-semibold px-4 py-3 hover:bg-primary-dark transition-colors">🔍 Je veux vérifier une info</a>
+            <a href="tutoriels.html" class="inline-flex justify-center items-center rounded-lg border-2 border-dark text-heading text-[0.9rem] font-semibold px-4 py-3 hover:bg-dark hover:text-white transition-colors">📢 Apprenez à fact-checker</a>
+          </div>
+          <div class="sm:flex gap-4 items-center">
+            <div class="font-display font-bold text-heading mb-3 sm:mb-0">Pensé pour :</div>
+            <ul class="flex flex-wrap gap-2">
+              <li><span class="rounded-md bg-[#f8f9fa] text-heading text-sm font-medium px-3 py-1.5">Jeunes</span></li>
+              <li><span class="rounded-md bg-[#f8f9fa] text-heading text-sm font-medium px-3 py-1.5">Journalistes</span></li>
+              <li><span class="rounded-md bg-[#f8f9fa] text-heading text-sm font-medium px-3 py-1.5">Enseignants</span></li>
+              <li><span class="rounded-md bg-[#f8f9fa] text-heading text-sm font-medium px-3 py-1.5">Citoyens</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="relative">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="iphone-x iphone-x-small rotate-sm-343 mx-auto sm:ms-10 mt-6 relative z-10" style="background:url('images/mokeup/tableau-de-bord-principal-verifall-header-1.webp')" role="img" aria-label="Aperçu du tableau de bord Vérif'All"><i></i><b></b></div>
+            <div class="hidden sm:block">
+              <div class="iphone-x iphone-x-small rotate-13 ms-3 xl:-mt-14" style="background:url('images/mokeup/tableau-de-bord-principal-verifall-header-2.webp')" role="img" aria-label="Aperçu de la vérification rapide Vérif'All"><i></i><b></b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PARTENAIRES ============ -->
+  <!-- ============ PARTENAIRES ============ -->
+  <section class="py-10">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+      <h2 class="text-2xl md:text-3xl font-display font-semibold text-heading mb-8">Ceux qui soutiennent Vérif'All</h2>
+      <div data-carousel data-carousel-autoplay="2800" class="carousel-cols carousel-partners">
+        <div class="overflow-hidden">
+          <div class="carousel-track items-center">
+            <div class="carousel-slide">
+              <a href="https://www.fondationdefrance.org/fr/" target="_blank" rel="noopener" class="flex items-center justify-center h-[110px]"><img src="images/partners/fondationdefrance.jpg" class="grayscale max-h-[100px] object-contain px-2 sm:px-4" alt="Fondation de France" title="Fondation de France" loading="lazy"></a>
+            </div>
+            <div class="carousel-slide">
+              <a href="https://www.univ-amu.fr/" target="_blank" rel="noopener" class="flex items-center justify-center h-[110px]"><img src="images/partners/univ-amu.png" class="grayscale max-h-[100px] object-contain px-2 sm:px-4" alt="Aix Marseille Université" title="Aix Marseille Université" loading="lazy"></a>
+            </div>
+            <div class="carousel-slide">
+              <a href="https://www.itu.int/fr/Pages/default.aspx#/fr" target="_blank" rel="noopener" class="flex items-center justify-center h-[110px]"><img src="images/partners/itu-int.png" class="grayscale max-h-[100px] object-contain px-2 sm:px-4" alt="Union internationale des télécommunications" title="Union internationale des télécommunications" loading="lazy"></a>
+            </div>
+            <div class="carousel-slide">
+              <a href="https://leolagrange.bj/cemaac-centre-de-lavenir-du-pole-jeunesse-et-solidarite-internationale-de-la-ville-de-porto-novo/" target="_blank" rel="noopener" class="flex items-center justify-center h-[110px]"><img src="images/partners/leolagrange.jpg" class="grayscale max-h-[100px] object-contain px-2 sm:px-4" alt="CEMAAC BENIN" title="CEMAAC BENIN" loading="lazy"></a>
+            </div>
+            <div class="carousel-slide">
+              <a href="https://www.evz.de/" target="_blank" rel="noopener" class="flex items-center justify-center h-[110px]"><img src="images/partners/fondation-evz.png" class="grayscale max-h-[100px] object-contain px-2 sm:px-4" alt="Fondation evz" title="Fondation evz" loading="lazy"></a>
+            </div>
+            <div class="carousel-slide">
+              <a href="https://www.ofaj.org/" target="_blank" rel="noopener" class="flex items-center justify-center h-[110px]"><img src="images/partners/ofaj.png" class="grayscale max-h-[100px] object-contain px-2 sm:px-4" alt="OFAJ" title="OFAJ" loading="lazy"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DISTINCTIONS (AMU + WSIS 2026) ============ -->
+  <section class="pt-24" id="distinctions">
+    <div class="max-w-page mx-auto px-4">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <span class="inline-flex items-center gap-2 rounded-full bg-warning/15 text-[#a97c00] text-sm font-bold px-4 py-1.5 mb-4">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M2.5.5A.5.5 0 0 1 3 0h10a.5.5 0 0 1 .5.5q0 .807-.034 1.536a3 3 0 1 1-1.133 5.89c-.79 1.865-1.878 2.777-2.833 3.011v2.173l1.425.356c.194.048.377.135.537.255L13.3 15.1a.5.5 0 0 1-.3.9H3a.5.5 0 0 1-.3-.9l1.838-1.379c.16-.12.343-.207.537-.255L6.5 13.11v-2.173c-.955-.234-2.043-1.146-2.833-3.012a3 3 0 1 1-1.132-5.89A33 33 0 0 1 2.5.5m.099 2.54a2 2 0 0 0 .72 3.935c-.333-1.05-.588-2.346-.72-3.935m10.083 3.935a2 2 0 0 0 .72-3.935c-.133 1.59-.388 2.885-.72 3.935"/></svg>
+          Distinctions
+        </span>
+        <h2 class="text-2xl md:text-3xl xl:text-4xl font-display font-bold text-heading mb-3">Une innovation béninoise saluée, du campus jusqu'à l'ONU</h2>
+        <p class="text-body/85 mb-0">De la scène universitaire à la scène mondiale, Vérif'All porte la voix d'un fact-checking conçu au Bénin — et prouve que la lutte contre la désinformation peut naître ici et rayonner partout.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-6 xl:gap-8">
+        <article class="bg-dark rounded-xl overflow-hidden flex flex-col" data-reveal>
+          <img src="images/blog/verifall-prix-wsis-2026-annonce.png" class="w-full h-[240px] object-cover" alt="Vérif'All remporte le Prix WSIS 2026 décerné par l'UIT à Genève" title="Prix WSIS 2026 — catégorie « Media »" loading="lazy">
+          <div class="p-8 flex flex-col flex-1">
+            <span class="self-start rounded-full bg-primary text-white text-xs font-bold px-3 py-1.5 mb-4">Prix WSIS 2026 · UIT — Genève</span>
+            <h3 class="text-xl xl:text-2xl font-display font-bold text-white leading-snug mb-3">Vérif'All remporte le Prix WSIS 2026, catégorie « Media »</h3>
+            <p class="text-white/75 text-sm leading-relaxed flex-1">Décernée par l'Union internationale des télécommunications (UIT), agence spécialisée des Nations unies, cette distinction consacre Vérif'All parmi 1&nbsp;595 projets issus de 122 pays. La preuve qu'une boussole de l'information conçue au Bénin peut guider le monde.</p>
+            <a href="blog.html" class="mt-5 inline-flex items-center gap-2 self-start rounded-full bg-primary text-white text-sm font-semibold px-5 py-2.5 hover:bg-primary-dark hover:gap-3 transition-all">Lire la suite
+              <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="bg-primary/10 rounded-xl overflow-hidden flex flex-col" data-reveal>
+          <img src="images/blog/2eme-prix-concours-objectif-developpement-durable.png" class="w-full h-[240px] object-cover p-5" alt="Concours « Objectif : Développement Durable ! » d'Aix-Marseille Université" title="2ᵉ prix — Concours Objectif : Développement Durable !" loading="lazy">
+          <div class="p-8 flex flex-col flex-1">
+            <span class="self-start rounded-full bg-dark text-white text-xs font-bold px-3 py-1.5 mb-4">Aix-Marseille Université</span>
+            <h3 class="text-xl xl:text-2xl font-display font-bold text-heading leading-snug mb-3">2ᵉ prix du Concours « Objectif : Développement Durable ! »</h3>
+            <p class="text-body/85 text-sm leading-relaxed flex-1">Face à des projets engagés venus de toute l'Académie, Vérif'All décrochait le 2ᵉ prix du concours d'Aix-Marseille Université. Une reconnaissance qui salue un projet où l'esprit critique devient un levier de développement durable.</p>
+            <div class="mt-5 flex flex-wrap gap-3">
+              <a href="notre-equipe.html" class="inline-flex items-center gap-2 rounded-full bg-dark text-white text-sm font-semibold px-5 py-2.5 hover:bg-black hover:gap-3 transition-all">Découvrir l'équipe Vérif'All
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg>
+              </a>
+              <a href="blog.html" class="inline-flex items-center gap-2 rounded-full border border-primary text-primary text-sm font-semibold px-5 py-2.5 hover:bg-primary hover:text-white transition-colors">Lire la suite</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ POURQUOI ============ -->
+  <section class="pt-16" id="pourquoi-verifall">
+    <div class="max-w-page mx-auto px-4">
+      <div class="max-w-2xl mx-auto text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-heading mb-5">Pourquoi Vérif’All ?</h2>
+        <p class="mb-0">La désinformation circule vite, surtout via WhatsApp, Facebook et TikTok... Elle influence l’opinion, crée la peur et favorise les arnaques. <strong class="text-heading">Vérif’All est né pour aider chacun à vérifier avant de croire ou de partager.</strong></p>
+      </div>
+      <div class="max-w-4xl mx-auto mb-20">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8 justify-items-center">
+          <div>
+            <div class="flex justify-center items-baseline"><h2 class="text-4xl font-display font-bold text-heading" data-counter="67">0</h2><span class="text-4xl font-display font-bold text-primary">%</span></div>
+            <p class="text-center text-heading mt-1 mb-0">des Africains ont déjà cru à une fausse information</p>
+          </div>
+          <div>
+            <div class="flex justify-center items-baseline"><h2 class="text-4xl font-display font-bold text-heading" data-counter="80">0</h2><span class="text-4xl font-display font-bold text-primary">%</span></div>
+            <p class="text-center text-heading mt-1 mb-0">des fake news circulent d’abord sur WhatsApp et Facebook</p>
+          </div>
+          <div class="col-span-2 md:col-span-1">
+            <div class="flex justify-center items-baseline"><h2 class="text-4xl font-display font-bold text-heading" data-counter="12">0</h2><span class="text-4xl font-display font-bold text-primary">%</span></div>
+            <p class="text-center text-heading mt-1 mb-0">seulement vérifient une information avant de la partager</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid xl:grid-cols-12 gap-6 xl:gap-12">
+        <div class="xl:col-span-7">
+          <div class="bg-dark rounded-xl p-6 sm:p-12 h-full flex flex-col text-[#c4c5c7]">
+            <div class="mb-10">
+              <div class="inline-flex items-center gap-2 bg-danger text-white text-sm rounded-md py-1 px-2.5 mb-4">
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5m.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/></svg>
+                Problème réel
+              </div>
+              <h2 class="text-xl font-display font-bold text-white leading-snug">La désinformation se propage plus vite que la vérité. Elle manipule, divise et met en danger les citoyens.</h2>
+              <p class="mt-4">Entre fausses alertes, arnaques au recrutement et contenus générés par l’IA, il devient de plus en plus difficile de distinguer le vrai du faux.</p>
+            </div>
+            <span class="text-white mt-auto">👉 Vérif’All est la première application béninoise qui centralise les meilleurs outils de fact-checking pour vérifier textes, images, vidéos et audios.</span>
+          </div>
+        </div>
+        <div class="xl:col-span-5">
+          <div data-carousel>
+            <div class="overflow-hidden pb-6">
+              <div class="carousel-track">
+          <div class="carousel-slide px-0.5">
+            <div class="bg-white border border-line rounded-xl p-4 h-full">
+              <div class="grid md:grid-cols-12 gap-4">
+                <div class="hidden md:block md:col-span-4">
+                  <img src="images/fakenews/fausse-rumeur.webp" class="w-full h-full object-cover rounded-lg" alt="Multiplication des fake news" loading="lazy">
+                </div>
+                <div class="md:col-span-8 flex flex-col p-1">
+                  <h5 class="text-lg font-display font-bold text-heading mb-3">🚨 Multiplication des fake news</h5>
+                  <q class="text-heading/80 mb-3">Images hors contexte, fausses rumeurs et manipulations virales. Chaque jour, des jeunes et des familles se font manipuler.</q>
+                  <small class="font-bold text-heading mt-auto">➡️ Vérif’All permet de vérifier instantanément si une info est crédible.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide px-0.5">
+            <div class="bg-white border border-line rounded-xl p-4 h-full">
+              <div class="grid md:grid-cols-12 gap-4">
+                <div class="hidden md:block md:col-span-4">
+                  <img src="images/fakenews/anarques.webp" class="w-full h-full object-cover rounded-lg" alt="Arnaques au recrutement, ventes" loading="lazy">
+                </div>
+                <div class="md:col-span-8 flex flex-col p-1">
+                  <h5 class="text-lg font-display font-bold text-heading mb-3">💼 Arnaques au recrutement, ventes</h5>
+                  <q class="text-heading/80 mb-3">De faux concours de police, fausses offres d’emploi circulent chaque jour via WhatsApp et Facebook. Ne tombez plus dans le panneau.</q>
+                  <small class="font-bold text-heading mt-auto">➡️ Vérif’All identifie les sites frauduleux, les faux documents et les messages.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide px-0.5">
+            <div class="bg-white border border-line rounded-xl p-4 h-full">
+              <div class="grid md:grid-cols-12 gap-4">
+                <div class="hidden md:block md:col-span-4">
+                  <img src="images/fakenews/fausse-rumeur.webp" class="w-full h-full object-cover rounded-lg" alt="Audios et vidéos fabriqués par IA" loading="lazy">
+                </div>
+                <div class="md:col-span-8 flex flex-col p-1">
+                  <h5 class="text-lg font-display font-bold text-heading mb-3">🎙️ Audios et vidéos fabriqués par IA</h5>
+                  <q class="text-heading/80 mb-3">Clonage de voix et les deepfakes audios et vidéos deviennent de plus en plus réalistes et sont utilisés pour nuire et tromper.</q>
+                  <small class="font-bold text-heading mt-auto">➡️ Vérif’All détecte les signes de deepfake ou de manipulation.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide px-0.5">
+            <div class="bg-white border border-line rounded-xl p-4 h-full">
+              <div class="grid md:grid-cols-12 gap-4">
+                <div class="hidden md:block md:col-span-4">
+                  <img src="images/fakenews/fausse-rumeur.webp" class="w-full h-full object-cover rounded-lg" alt="Photos recyclées lors des crises" loading="lazy">
+                </div>
+                <div class="md:col-span-8 flex flex-col p-1">
+                  <h5 class="text-lg font-display font-bold text-heading mb-3">🖼️ Photos recyclées lors des crises</h5>
+                  <q class="text-heading/80 mb-3">Des images anciennes ou provenant d’autres pays sont réutilisées pour manipuler l’opinion lors d’événements importants.</q>
+                  <small class="font-bold text-heading mt-auto">➡️ Vérif’All retrouve l’origine réelle de la photo grâce à la recherche inversée.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-slide px-0.5">
+            <div class="bg-white border border-line rounded-xl p-4 h-full">
+              <div class="grid md:grid-cols-12 gap-4">
+                <div class="hidden md:block md:col-span-4">
+                  <img src="images/fakenews/sante-danger.webp" class="w-full h-full object-cover rounded-lg" alt="Santé : Attention aux remèdes miracles" loading="lazy">
+                </div>
+                <div class="md:col-span-8 flex flex-col p-1">
+                  <h5 class="text-lg font-display font-bold text-heading mb-3">🩺 Santé : Attention aux remèdes miracles</h5>
+                  <q class="text-heading/80 mb-3">Un mélange de citron et de craie ne soigne pas le paludisme. Ces "astuces" partagées en ligne peuvent être très dangereuses.</q>
+                  <small class="font-bold text-heading mt-auto">➡️ Vérif’All vous aide à distinguer les conseils médicaux fiables des rumeurs.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-4">
+              <button type="button" data-carousel-prev class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-dark text-white hover:bg-black transition-colors" aria-label="Slide précédent"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/></svg></button>
+              <button type="button" data-carousel-next class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-dark text-white hover:bg-black transition-colors" aria-label="Slide suivant"><svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg></button>
+              <span class="text-sm text-body" data-carousel-fraction aria-live="polite">1 / 5</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3 ÉTAPES ============ -->
+  <section class="pt-24" id="comment-ca-marche">
+    <div class="max-w-page mx-auto px-4">
+      <div class="max-w-2xl mx-auto text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-heading mb-5">Comment Vérif'All vous aide en 3 étapes</h2>
+        <p class="mb-0">Vérifiez toute information rapidement, comprenez les résultats et devenez capable de détecter les manipulations, même sans être expert.</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 overflow-hidden pb-4">
+        <div class="bg-[#f8f9fa] rounded-xl overflow-hidden p-6 sm:p-10 flex flex-col" data-reveal>
+          <div class="pb-8">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-dark text-white font-bold mb-4">01</div>
+            <h5 class="text-xl font-display font-bold text-heading mb-2">Importez et analysez vos contenus</h5>
+            <p class="text-heading/75">Collez un texte ou importez une image, une vidéo ou un audio. L’application se charge de l’analyser rapidement grâce aux meilleurs outils de fact-checking.</p>
+          </div>
+          <div class="mt-auto -mb-24 flex justify-center">
+            <div class="iphone-x iphone-x-small rotate-335" style="background:url('images/mokeup/import-analyse-de-contenu-verifall.webp'); width:250px; height:400px" role="img" aria-label="Aperçu de l'application — Importez et analysez vos contenus"><i></i><b></b></div>
+          </div>
+        </div>
+        <div class="bg-[#f8f9fa] rounded-xl overflow-hidden p-6 sm:p-10 flex flex-col" data-reveal>
+          <div class="pb-8">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-dark text-white font-bold mb-4">02</div>
+            <h5 class="text-xl font-display font-bold text-heading mb-2">Recevez un résultat clair et simple</h5>
+            <p class="text-heading/75">L’application indique simplement si l’information est <strong>FIABLE</strong>, <strong>FAUX</strong> ou <strong>DOUTEUSE</strong>, avec des explications accessibles à tous, sans jargon technique.</p>
+          </div>
+          <div class="mt-auto -mb-24 flex justify-center">
+            <div class="iphone-x iphone-x-small " style="background:url('images/mokeup/resultat-de-verification-verifall.webp'); width:250px; height:400px" role="img" aria-label="Aperçu de l'application — Recevez un résultat clair et simple"><i></i><b></b></div>
+          </div>
+        </div>
+        <div class="bg-[#f8f9fa] rounded-xl overflow-hidden p-6 sm:p-10 flex flex-col" data-reveal>
+          <div class="pb-8">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-dark text-white font-bold mb-4">03</div>
+            <h5 class="text-xl font-display font-bold text-heading mb-2">Apprenez, dénoncez et participez</h5>
+            <p class="text-heading/75">Grâce aux cours, et quiz, vous développez vos compétences et vous rejoignez une communauté active pour signaler et comprendre les contenus douteux.</p>
+          </div>
+          <div class="mt-auto -mb-24 flex justify-center">
+            <div class="iphone-x iphone-x-small rotate-33" style="background:url('images/mokeup/apprentisage-communaute-verifall.webp'); width:250px; height:400px" role="img" aria-label="Aperçu de l'application — Apprenez, dénoncez et participez"><i></i><b></b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUTILS (panneau sombre) ============ -->
+  <section class="pt-24" id="fonctionnalites">
+    <div class="max-w-page mx-auto px-4">
+      <div class="max-w-2xl mx-auto text-center mb-24">
+        <h2 class="text-3xl md:text-4xl font-display font-bold text-heading mb-5">Vérif’All : votre allié contre les fausses informations</h2>
+        <p class="mb-0">Vérifiez rapidement et facilement la véracité de contenus en ligne grâce à nos outils pour le texte, les images, les vidéos et les audios.</p>
+      </div>
+      <div class="bg-dark rounded-xl relative p-6 xl:p-14 text-[#c4c5c7]">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
+          <div class="lg:text-right order-2 lg:order-1">
+            <div class="mb-10 lg:mb-16">
+              <div class="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-primary text-white mb-4">
+                <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z"/><path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1"/></svg>
+              </div>
+              <h3 class="text-lg font-display font-bold text-white mb-2">Vérification de Texte et Liens</h3>
+              <p>Analysez des messages WhatsApp, posts et articles. Vérif’All détecte les langages trompeurs et compare avec des sources fiables pour garantir l’exactitude des informations.</p>
+            </div>
+            <div>
+              <div class="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-primary text-white mb-4">
+                <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/><path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/></svg>
+              </div>
+              <h3 class="text-lg font-display font-bold text-white mb-2">Vérification d’Image</h3>
+              <p>Importez une image et découvrez son origine réelle. Détectez les manipulations et identifiez les anciens contextes pour éviter la désinformation visuelle.</p>
+            </div>
+          </div>
+          <div class="text-center relative order-1 lg:order-2 md:col-span-2 lg:col-span-1">
+            <div class="iphone-x iphone-x-small mx-auto lg:-mt-24 mb-10" style="background:url('images/mokeup/tableau-de-bord-principal-verifall.webp')" role="img" aria-label="Tableau de bord principal Vérif'All"><i></i><b></b></div>
+            <a class="inline-flex items-center gap-1.5 rounded-lg bg-primary text-white text-lg font-semibold px-5 py-3 hover:bg-primary-dark transition-colors" href="fonctionnalites.html">Voir tous nos outils
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/></svg>
+            </a>
+          </div>
+          <div class="order-3">
+            <div class="mb-10 lg:mb-16">
+              <div class="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-primary text-white mb-4">
+                <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/><path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/></svg>
+              </div>
+              <h3 class="text-lg font-display font-bold text-white mb-2">Vérification de Vidéo</h3>
+              <p>Analysez des liens YouTube, TikTok et autres. Détection de deepfakes, extraction d’images clés et recherche du contexte original pour des vidéos fiables.</p>
+            </div>
+            <div>
+              <div class="inline-flex items-center justify-center w-14 h-14 rounded-lg bg-primary text-white mb-4">
+                <svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 3a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z"/><path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5"/></svg>
+              </div>
+              <h3 class="text-lg font-display font-bold text-white mb-2">Vérification d’Audio</h3>
+              <p>Vérifiez vos audios WhatsApp et autres en détectant les voix modifiées ou clonées par IA, et en analysant le montage pour garantir l’authenticité sonore.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ APPRENTISSAGE ============ -->
+  <section class="pt-24" id="apprentissage">
+    <div class="max-w-page mx-auto px-4">
+      <div class="grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-heading mb-5">Apprendre à vérifier l’information, pas à la croire</h2>
+          <p class="mb-0">Vérif’All intègre une plateforme d’apprentissage en ligne dédiée au fact-checking, à la détection de la désinformation et à l’analyse critique des contenus numériques.</p>
+          <hr class="my-8 border-line">
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div class="flex gap-3">
+              <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-primary/10 text-primary shrink-0" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917z"/><path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466z"/></svg>
+              </span>
+              <h6 class="font-display font-bold text-heading text-[15px]">Cours structurés et progressifs, du niveau débutant à avancé</h6>
+            </div>
+            <div class="flex gap-3">
+              <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-primary/10 text-primary shrink-0" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524z"/><path d="M10.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0"/></svg>
+              </span>
+              <h6 class="font-display font-bold text-heading text-[15px]">Méthodes fiables et vérifiées d’analyse de sources</h6>
+            </div>
+            <div class="flex gap-3">
+              <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-primary/10 text-primary shrink-0" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/><path d="M6.271 5.055a.5.5 0 0 1 .52.038l3.5 2.5a.5.5 0 0 1 0 .814l-3.5 2.5A.5.5 0 0 1 6 10.5v-5a.5.5 0 0 1 .271-.445"/></svg>
+              </span>
+              <h6 class="font-display font-bold text-heading text-[15px]">Vidéos, quiz et exercices pratiques</h6>
+            </div>
+            <div class="flex gap-3">
+              <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-primary/10 text-primary shrink-0" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/></svg>
+              </span>
+              <h6 class="font-display font-bold text-heading text-[15px]">Une communauté de journalistes, et acteurs.</h6>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center lg:justify-end">
+          <div class="bg-white border border-line rounded-xl p-5 max-w-sm w-full shadow-card">
+            <h6 class="font-display font-bold text-heading mb-3">Cours en ligne — Fact-Checking</h6>
+            <img src="images/lms/feature_img_lms.webp" width="330" height="180" loading="lazy" class="rounded-lg w-full mb-4" alt="Cours en ligne — Fact-Checking">
+            <h6 class="font-display font-bold text-heading mb-2">Identifier une fake news en 5 étapes</h6>
+            <ul class="flex items-center gap-3 text-sm text-body mb-3">
+              <li>Module 1</li>
+              <li class="w-1 h-1 rounded-full bg-body/40" aria-hidden="true"></li>
+              <li>Durée : 45 min</li>
+            </ul>
+            <div class="flex items-center mb-4">
+              <img class="w-10 h-10 rounded-full" src="images/verifall_avatar.png" alt="Vérif'All - Application de lutte contre la désinformation au Bénin" width="40" height="40" loading="lazy">
+              <small class="ms-2 font-bold text-heading">Vérif'All</small>
+            </div>
+            <a class="w-full inline-flex justify-center items-center rounded-lg bg-dark/10 text-heading font-semibold px-4 py-2.5 hover:bg-dark hover:text-white transition-colors" href="tutoriels.html">Apprenez à fact-checker</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ACTUALITÉS ============ -->
+  <section class="pt-24" id="blog">
+    <div class="max-w-page mx-auto px-4">
+      <div class="grid xl:grid-cols-3 gap-10 items-center">
+        <div class="text-center xl:text-left max-w-2xl mx-auto">
+          <h2 class="text-2xl md:text-3xl font-display font-bold text-heading mb-4">Nos Actualités et Analyses</h2>
+          <p class="mb-0">Découvrez des articles sur la lutte contre la désinformation, des conseils pour vérifier l'information, des success stories et les dernières mises à jour de notre plateforme.</p>
+          <div class="mt-6">
+            <a class="inline-flex items-center gap-1.5 rounded-lg bg-primary/10 text-primary text-lg font-semibold px-5 py-3 hover:bg-primary hover:text-white transition-colors" href="facts.html">Voir nos Actualités<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg></a>
+          </div>
+        </div>
+        <div class="xl:col-span-2">
+          <div data-carousel class="carousel-cols">
+            <div class="flex items-center justify-end gap-2 mb-4">
+              <button type="button" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#f5f6f7] text-heading hover:bg-gray-200" data-carousel-prev aria-label="Analyses précédentes">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/></svg>
+              </button>
+              <button type="button" class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#f5f6f7] text-heading hover:bg-gray-200" data-carousel-next aria-label="Analyses suivantes">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg>
+              </button>
+            </div>
+            <div class="overflow-hidden">
+              <div class="carousel-track">
+              <div class="carousel-slide">
+                <article class="relative bg-white rounded-xl shadow-card overflow-hidden h-full">
+                  <span class="fact-stamp" aria-hidden="true">FAKE NEWS</span>
+                  <div class="p-6 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-3">
+                      <span class="inline-flex items-center gap-1.5 rounded-full bg-danger/10 text-danger text-xs font-bold px-3 py-1.5">FAUX</span>
+                      <span class="text-xs text-body/60">Analyse Vérif'All</span>
+                    </div>
+                    <h6 class="font-display font-bold text-heading leading-snug mb-2">
+                      <a href="facts-details.html" class="card-title-link">L'intervention militaire au Bénin n'a pas provoqué de bagarre au Sénat nigé...</a>
+                    </h6>
+                    <p class="text-sm text-body/80 leading-relaxed flex-1">Une vidéo d'échauffourées au Sénat nigérian circule massivement. Elle date d'avril 2018.</p>
+                    <a href="facts-details.html" class="mt-3 inline-flex items-center gap-1.5 text-primary text-sm font-bold hover:gap-2.5 transition-all">Lire l'analyse complète
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg>
+                    </a>
+                  </div>
+                </article>
+              </div>
+              <div class="carousel-slide">
+                <article class="relative bg-white rounded-xl shadow-card overflow-hidden h-full">
+                  <span class="fact-stamp" aria-hidden="true">FAKE NEWS</span>
+                  <div class="p-6 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-3">
+                      <span class="inline-flex items-center gap-1.5 rounded-full bg-danger/10 text-danger text-xs font-bold px-3 py-1.5">FAUX</span>
+                      <span class="text-xs text-body/60">Analyse Vérif'All</span>
+                    </div>
+                    <h6 class="font-display font-bold text-heading leading-snug mb-2">
+                      <a href="facts-details.html" class="card-title-link">Infox sur l'arrestation de Patrice Talon et le soutien populaire au putsch...</a>
+                    </h6>
+                    <p class="text-sm text-body/80 leading-relaxed flex-1">Le Président n'a jamais été arrêté ; aucune scène de liesse documentée à Cotonou.</p>
+                    <a href="facts-details.html" class="mt-3 inline-flex items-center gap-1.5 text-primary text-sm font-bold hover:gap-2.5 transition-all">Lire l'analyse complète
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg>
+                    </a>
+                  </div>
+                </article>
+              </div>
+              <div class="carousel-slide">
+                <article class="relative bg-white rounded-xl shadow-card overflow-hidden h-full">
+                  <span class="fact-stamp" aria-hidden="true">FAKE NEWS</span>
+                  <div class="p-6 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-3">
+                      <span class="inline-flex items-center gap-1.5 rounded-full bg-danger/10 text-danger text-xs font-bold px-3 py-1.5">FAUX</span>
+                      <span class="text-xs text-body/60">Analyse Vérif'All</span>
+                    </div>
+                    <h6 class="font-display font-bold text-heading leading-snug mb-2">
+                      <a href="facts-details.html" class="card-title-link">Kemi Seba n'a pas perdu son passeport diplomatique nigérien</a>
+                    </h6>
+                    <p class="text-sm text-body/80 leading-relaxed flex-1">L'interpellation à Pretoria est réelle, le retrait du passeport ne l'est pas.</p>
+                    <a href="facts-details.html" class="mt-3 inline-flex items-center gap-1.5 text-primary text-sm font-bold hover:gap-2.5 transition-all">Lire l'analyse complète
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg>
+                    </a>
+                  </div>
+                </article>
+              </div>
+              <div class="carousel-slide">
+                <article class="relative bg-white rounded-xl shadow-card overflow-hidden h-full">
+                  <span class="fact-stamp" aria-hidden="true">FAKE NEWS</span>
+                  <div class="p-6 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-3">
+                      <span class="inline-flex items-center gap-1.5 rounded-full bg-danger/10 text-danger text-xs font-bold px-3 py-1.5">FAUX</span>
+                      <span class="text-xs text-body/60">Analyse Vérif'All</span>
+                    </div>
+                    <h6 class="font-display font-bold text-heading leading-snug mb-2">
+                      <a href="facts-details.html" class="card-title-link">Franck Biya n'a pas été nommé vice-président du Cameroun par décret</a>
+                    </h6>
+                    <p class="text-sm text-body/80 leading-relaxed flex-1">Le prétendu décret du 4 avril 2026 est un faux document.</p>
+                    <a href="facts-details.html" class="mt-3 inline-flex items-center gap-1.5 text-primary text-sm font-bold hover:gap-2.5 transition-all">Lire l'analyse complète
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg>
+                    </a>
+                  </div>
+                </article>
+              </div>
+              <div class="carousel-slide">
+                <article class="relative bg-white rounded-xl shadow-card overflow-hidden h-full">
+                  <span class="fact-stamp" aria-hidden="true">FAKE NEWS</span>
+                  <div class="p-6 flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-3">
+                      <span class="inline-flex items-center gap-1.5 rounded-full bg-danger/10 text-danger text-xs font-bold px-3 py-1.5">FAUX</span>
+                      <span class="text-xs text-body/60">Analyse Vérif'All</span>
+                    </div>
+                    <h6 class="font-display font-bold text-heading leading-snug mb-2">
+                      <a href="facts-details.html" class="card-title-link">Images détournées de migrants expulsés des USA vers la RDC</a>
+                    </h6>
+                    <p class="text-sm text-body/80 leading-relaxed flex-1">Les photos du 8 avril 2026 ne montrent pas une arrivée massive à Kinshasa.</p>
+                    <a href="facts-details.html" class="mt-3 inline-flex items-center gap-1.5 text-primary text-sm font-bold hover:gap-2.5 transition-all">Lire l'analyse complète
+                      <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/></svg>
+                    </a>
+                  </div>
+                </article>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
+
+  <!-- ============ STORES + FAQ ============ -->
+  <section class="pt-24" id="faq-appstore">
+    <div class="max-w-page mx-auto px-4">
+      <div class="grid lg:grid-cols-2 gap-8 xl:gap-14">
+        <div class="bg-[#f8f9fa] rounded-xl overflow-hidden flex flex-col">
+          <div class="p-6 sm:p-12 pb-0">
+            <h3 class="text-2xl md:text-3xl font-display font-bold text-heading mb-4">Bientôt disponible sur toutes les plateformes</h3>
+            <p class="text-heading/75 mb-6">Préparez-vous à découvrir notre application et profiter de nos services fiables dès son lancement.</p>
+            <div class="flex gap-2">
+              <a href="verifier-une-information.html"><img src="images/elements/google-play.svg" class="transition-transform hover:-translate-y-0.5" alt="google-store" width="135" height="40" loading="lazy"></a>
+              <a href="verifier-une-information.html"><img src="images/elements/app-store.svg" class="transition-transform hover:-translate-y-0.5" alt="app-store" width="135" height="40" loading="lazy"></a>
+            </div>
+          </div>
+          <div class="mt-auto pt-8">
+            <img src="images/elements/saas-screen.webp" class="ms-10 rounded-tl-xl w-full max-w-[500px]" alt="Interface VerifAll" width="500" height="320" loading="lazy">
+          </div>
+        </div>
+        <div class="bg-dark rounded-xl overflow-hidden relative p-6 sm:p-10 text-[#c4c5c7]">
+          <div class="text-center relative mb-6">
+            <img src="images/logo-icon.png" class="h-[60px] w-auto mx-auto mb-5" alt="logo-icon">
+            <h3 class="text-2xl font-display font-bold text-white mb-2">Questions fréquentes</h3>
+            <p>Pour utilisateurs et partenaires. Contactez-nous pour plus d’infos ou partenariats.</p>
+          </div>
+          <div data-accordion class="accordion-dark relative">
+            <div class="accordion-item mb-3 is-open">
+              <h4 class="m-0 text-base"><button class="accordion-button" type="button" aria-expanded="true">
+                Comment fonctionne Verif'All ?<span class="acc-icon" aria-hidden="true">▾</span>
+              </button></h4>
+              <div class="accordion-body">Verif'All permet de vérifier rapidement textes, images, vidéos et audios via notre plateforme sécurisée.</div>
+            </div>
+            <div class="accordion-item mb-3">
+              <h4 class="m-0 text-base"><button class="accordion-button" type="button" aria-expanded="false">
+                Qui peut rejoindre la communauté ?<span class="acc-icon" aria-hidden="true">▾</span>
+              </button></h4>
+              <div class="accordion-body">Tout utilisateur intéressé et tout partenaire souhaitant collaborer peut participer.</div>
+            </div>
+            <div class="accordion-item mb-3">
+              <h4 class="m-0 text-base"><button class="accordion-button" type="button" aria-expanded="false">
+                Comment obtenir l'application ?<span class="acc-icon" aria-hidden="true">▾</span>
+              </button></h4>
+              <div class="accordion-body">L'application sera bientôt disponible sur Google Play et l'App Store. Restez connectés !</div>
+            </div>
+            <div class="accordion-item mb-3">
+              <h4 class="m-0 text-base"><button class="accordion-button" type="button" aria-expanded="false">
+                Comment nous contacter ?<span class="acc-icon" aria-hidden="true">▾</span>
+              </button></h4>
+              <div class="accordion-body">Cliquez sur le bouton ci-dessous pour toute demande de partenariat ou information complémentaire.</div>
+            </div>
+          </div>
+          <div class="text-center relative mt-6">
+            <a href="contact.html" class="w-full inline-flex justify-center items-center rounded-lg bg-primary text-white text-lg font-semibold px-4 py-3 hover:bg-primary-dark transition-colors">Contactez-nous pour partenariats ou informations</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section class="py-24" id="tester-verifall">
+    <div class="max-w-2xl mx-auto px-4 text-center">
+      <figure class="mb-6 flex justify-center" aria-hidden="true"><svg width="223.6px" height="87.2px" viewBox="0 0 223.6 87.2" style="enable-background:new 0 0 223.6 87.2;" xml:space="preserve">
+					<path fill="#202124" d="M222.9,53.8c-13.2-3-28-3-41,0.9c-5.5,1.7-11,4.3-14.9,8.7c-1.3-0.1-2.6-0.2-3.8-0.1 c-5.8,0.1-11.6,1.5-16.9,3.7c-2.9,1.2-5.7,2.9-8.5,4.4c-3.7,1.9-7.4,3.8-11.3,5.3c-7.3,2.9-16,5-23.5,1.7c-1.5-0.6-2.9-1.5-4.1-2.6 c6.5-2.6,12.2-7.9,13.2-15c0.8-6.6-5.1-12.1-11.6-11.4c-5,0.6-7.5,5.6-8.3,10.1c-0.9,4.9-0.3,10.8,2.7,14.9 c0.2,0.2,0.4,0.5,0.5,0.7c-0.4,0.1-0.8,0.2-1.3,0.3c-6.6,1.5-14.3,0.3-20.3-2.9c-6.1-3.3-10.3-9.1-12.3-15.6 c-0.2-0.7-1.2-0.4-1,0.3c2.1,7.3,6.7,13.4,13.4,17.1c6.8,3.7,15.4,4.5,22.7,2.4c0,0,0.1,0,0.1,0c4.5,4.4,11.2,5.9,17.3,5.4 c8-0.6,15.6-4.1,22.7-7.7c5.6-2.9,10.8-6,17-7.6c3.8-0.9,7.8-1.5,11.8-1.3c-3.3,4.8-4.6,11.1-2.3,16.5c2.8,6.4,11.3,6.7,16.3,2.8 c5.1-4,2.8-12.4-1-16.4c-2.4-2.5-5.7-3.9-9.1-4.5c0.2-0.2,0.3-0.3,0.5-0.4c4.3-4,10.2-6.2,15.9-7.5c11.8-2.8,24.9-2.7,36.7,0 C223.6,56,224.1,54,222.9,53.8z M95.5,71.6c-1.2-2.4-1.7-5.1-1.8-7.8c-0.1-4.5,1.1-11.2,6.1-12.6c2.4-0.7,5.2,0.4,7.2,1.7 c2.9,1.9,3.5,5.5,2.9,8.7c-1.2,6.2-6.8,10.5-12.6,12.6C96.7,73.4,96,72.5,95.5,71.6z M171.5,66.3c5.7,1.8,10.3,7.8,8.5,14 c-1.1,3.9-6.1,5.2-9.6,4.8c-3.5-0.4-5.5-3.4-6.2-6.5c-1.1-4.7,0.6-9.5,3.5-13.1C169,65.7,170.2,65.9,171.5,66.3z"></path>
+					<polygon fill="#09B850" points="65.3,39 61,56.8 0.7,0.7"></polygon>
+					<path fill="#202124" d="M60.6,57.3L0.2,1.1C0,0.9-0.1,0.5,0.1,0.3C0.3,0,0.7-0.1,1,0.1l64.7,38.3c0.2,0.1,0.4,0.4,0.3,0.7l-4.3,17.8 c-0.1,0.2-0.2,0.4-0.4,0.5c-0.1,0-0.1,0-0.2,0C60.9,57.4,60.7,57.4,60.6,57.3z M5.6,4.3l55.1,51.2l3.9-16.3L5.6,4.3z"></path>
+					<polygon fill="#09B850" points="56.5,42.4 61,56.8 0.7,0.8"></polygon>
+					<path fill="#202124" d="M60.6,57.3L0.2,1.3C0,1.1-0.1,0.7,0.2,0.4c0.2-0.3,0.6-0.3,0.9-0.1l55.8,41.5c0.1,0.1,0.2,0.2,0.2,0.3 l4.6,14.4c0.1,0.3,0,0.6-0.3,0.8c-0.1,0.1-0.2,0.1-0.4,0.1C60.9,57.4,60.7,57.4,60.6,57.3z M10.1,8.7l49.6,45.9l-3.8-11.8 L10.1,8.7z"></path>
+					<polygon fill="#09B850" points="0.7,0.7 91.5,28.5 65.2,38.8 			"></polygon>
+					<path fill="#202124" d="M64.9,39.4L0.3,1.2C0,1.1-0.1,0.7,0.1,0.4C0.2,0.1,0.5-0.1,0.9,0l90.9,27.8c0.3,0.1,0.5,0.3,0.5,0.6 c0,0.3-0.2,0.5-0.4,0.6L65.4,39.4c-0.1,0-0.2,0-0.2,0C65.1,39.4,65,39.4,64.9,39.4z M5.8,2.9l59.5,35.2l24.3-9.5L5.8,2.9z"></path>
+					<polygon fill="#09B850" points="56.3,42.4 26.5,57.6 0.7,0.7 			"></polygon>
+					<path fill="#202124" d="M26.3,58.3c-0.2-0.1-0.3-0.2-0.4-0.3L0.1,0.9c-0.1-0.3,0-0.6,0.2-0.8C0.5,0,0.8,0,1.1,0.1l55.7,41.8 c0.2,0.1,0.3,0.4,0.3,0.6c0,0.2-0.2,0.4-0.4,0.5L26.8,58.2c-0.1,0-0.2,0.1-0.3,0.1C26.5,58.3,26.4,58.3,26.3,58.3z M2.3,2.7 l24.5,54l28.2-14.4L2.3,2.7z"></path>
+				</svg></figure>
+      <h4 class="text-2xl md:text-3xl font-display font-bold text-heading mb-3">Rejoignez la communauté anti-fake news</h4>
+      <p>Inscrivez-vous maintenant et recevez des mises à jour exclusives, des alertes sur les fake news, et des ressources éducatives pour mieux comprendre et combattre la désinformation.</p>
+      <div class="relative mt-10">
+        <form class="flex gap-1 bg-[#f8f9fa] border border-line rounded-lg relative z-10 p-2" data-vf-form data-vf-form-success="Bienvenue dans la communauté anti-fake news ! Vérifiez votre boîte mail.">
+          <label for="nl-email" class="sr-only">Adresse e-mail</label>
+          <input type="email" id="nl-email" required class="flex-1 bg-transparent px-4 py-3 text-heading outline-none plain" placeholder="Entrez votre adresse email">
+          <button type="submit" class="inline-flex items-center rounded-lg bg-dark text-white text-lg font-semibold px-5 py-3 hover:bg-black transition-colors">S'inscrire!</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pb-6">
+  <div class="max-w-page mx-auto px-4">
+    <div class="bg-dark text-[#c4c5c7] relative rounded-none p-6 sm:p-12 mb-3 sm:mb-8">
+      <div class="max-w-3xl mx-auto text-center">
+        <a class="inline-block" href="index.html">
+          <img src="images/logo-light.png" alt="Vérif'All - Application de lutte contre la désinformation au Bénin" width="171" height="60" class="h-[60px] w-auto mx-auto" loading="lazy">
+        </a>
+        <p class="mt-6 mb-3 leading-relaxed">Vérif’All est une plateforme de lutte contre la désinformation. Elle aide les citoyens à vérifier les contenus et développer une culture numérique responsable.</p>
+        <ul class="flex flex-wrap justify-center gap-1 mt-6">
+          <li><a class="px-3 py-1 text-[15px] hover:text-white transition-colors" href="pourquoi-verifall.html">Pourquoi Vérif’All ?</a></li>
+          <li><a class="px-3 py-1 text-[15px] hover:text-white transition-colors" href="fonctionnalites.html">Fonctionnalités</a></li>
+          <li><a class="px-3 py-1 text-[15px] hover:text-white transition-colors" href="tutoriels.html">Apprentissage</a></li>
+          <li><a class="px-3 py-1 text-[15px] hover:text-white transition-colors" href="facts.html">Actualités</a></li>
+          <li><a class="px-3 py-1 text-[15px] hover:text-white transition-colors" href="faq.html">FAQ</a></li>
+          <li><a class="px-3 py-1 text-[15px] hover:text-white transition-colors" href="contact.html">Contact</a></li>
+        </ul>
+        <ul class="flex justify-center gap-2 mt-6">
+          <li><a class="inline-flex items-center justify-center w-8 h-8 rounded-md text-white" style="background:#c13584" href="https://www.instagram.com/verif_all" target="_blank" rel="noopener" aria-label="Suivre Vérif'All sur Instagram">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334"/></svg></a></li>
+          <li><a class="inline-flex items-center justify-center w-8 h-8 rounded-md text-white" style="background:#5d82d1" href="https://www.facebook.com/share/17nJws5pMX/" target="_blank" rel="noopener" aria-label="Suivre Vérif'All sur Facebook">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8.94 16v-7.32h2.46l.37-2.86H8.94V4c0-.83.23-1.39 1.42-1.39h1.51V.06C11.61.03 10.71 0 9.66 0 7.47 0 5.96 1.34 5.96 3.8v2.02H3.5v2.86h2.46V16z"/></svg></a></li>
+          <li><a class="inline-flex items-center justify-center w-8 h-8 rounded-md text-white" style="background:#238cc8" href="https://www.linkedin.com/company/v-rif-all/" target="_blank" rel="noopener" aria-label="Suivre Vérif'All sur LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/></svg></a></li>
+        </ul>
+        <div class="mt-6 text-sm">© 2026 Vérif'All — Tous droits réservés ·
+          <a href="mentions-legales.html" class="underline hover:text-white">Mentions légales</a> ·
+          <a href="cookies.html" class="underline hover:text-white">Politique des cookies</a> ·
+          <a href="confidentialite.html" class="underline hover:text-white">Politique de confidentialité</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="pwa-popup" class="fixed bottom-4 right-4 z-50 hidden max-w-[340px] w-[calc(100%-2rem)] bg-white rounded-2xl shadow-cardlg p-4 items-center gap-3" role="dialog" aria-label="Installer l'application Vérif'All">
+  <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft shrink-0" aria-hidden="true">
+    <svg width="24" height="24" viewBox="0 0 40 40" fill="none"><path d="M8 10 20 32 32 10h-7l-5 9-5-9z" fill="#09B850"/></svg>
+  </span>
+  <div class="flex-1 min-w-0">
+    <p class="font-display font-bold text-heading leading-tight">Installer Vérif'All</p>
+      </div>
+  <button type="button" class="text-sm font-semibold text-heading bg-gray-100 hover:bg-gray-200 rounded-full px-3 py-1.5" data-pwa-later>Plus tard</button>
+  <button type="button" class="text-sm font-semibold text-white bg-primary hover:bg-primary-dark rounded-full px-3.5 py-1.5" data-pwa-install>Installer</button>
+</div>
+
+<div id="cookie-banner" class="fixed bottom-4 left-4 z-[70] hidden max-w-md w-[calc(100%-2rem)] bg-white rounded-2xl shadow-cardlg border border-line p-5" role="dialog" aria-modal="false" aria-labelledby="cookie-title">
+  <div class="flex items-start gap-3">
+    <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-soft shrink-0" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="#09B850"><path d="M8 0a7.96 7.96 0 0 0-4.075 1.114q-.245.14-.478.298C2.24 2.234 1.23 3.36.633 4.71A7.96 7.96 0 0 0 0 8c0 4.418 3.582 8 8 8s8-3.582 8-8c0-.244-.011-.485-.032-.723-.512.26-1.107.34-1.7.183a2.5 2.5 0 0 1-1.755-1.756 2.5 2.5 0 0 1-2.915-2.915A2.5 2.5 0 0 1 7.843.037 8 8 0 0 0 8 0M5.5 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2m5 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-5.75.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0"/></svg>
+    </span>
+    <div>
+      <h6 id="cookie-title" class="font-display font-bold text-heading mb-1">Protection de vos données</h6>
+      <p class="text-sm text-body/85 mb-0">Nous utilisons des cookies essentiels au fonctionnement du site, et des cookies de mesure d'audience optionnels. Vous pouvez accepter, refuser, ou personnaliser votre choix.</p>
+    </div>
+  </div>
+  <div id="cookie-prefs" class="hidden mt-4 pt-4 border-t border-line space-y-2">
+    <label class="flex items-center justify-between gap-3 text-sm">
+      <span class="font-medium text-heading">Cookies essentiels <span class="text-body/60 font-normal">(toujours actifs)</span></span>
+      <input type="checkbox" class="form-check-input" checked disabled aria-label="Cookies essentiels, toujours actifs">
+    </label>
+    <label class="flex items-center justify-between gap-3 text-sm cursor-pointer">
+      <span class="font-medium text-heading">Mesure d'audience</span>
+      <input type="checkbox" class="form-check-input" id="cookie-analytics" aria-label="Autoriser la mesure d'audience">
+    </label>
+  </div>
+  <div class="flex flex-wrap justify-end gap-2 mt-4">
+    <button type="button" data-cookie-custom class="text-sm font-semibold text-heading rounded-full border border-line px-4 py-2 hover:bg-gray-50">Personnaliser</button>
+    <button type="button" data-cookie-cancel class="text-sm font-semibold text-heading rounded-full bg-gray-100 px-4 py-2 hover:bg-gray-200">Annuler</button>
+    <button type="button" data-cookie-accept class="text-sm font-semibold text-white rounded-full bg-primary px-4 py-2 hover:bg-primary-dark">Accepter</button>
+  </div>
+</div>
+<script src="js/verifall.js" defer></script>
+</body>
+</html>

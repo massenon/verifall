@@ -1,0 +1,39 @@
+/*
+ | user-hub-infos — bloc <style> de compte-user/hub-infos.html, repris VERBATIM.
+ |
+ | Le prototype declare ces regles EN LIGNE dans sa page. L'extraction du shell
+ | ne prend que le balisage : sans ce fichier, les classes ci-dessous n'ont
+ | aucun effet et la page sort sans ses pastilles, ses cartes ou ses badges.
+ |
+ | Charge par la vue via @push('styles'), donc APRES tailwind.css — la place
+ | qu'occupe le bloc dans le prototype, et d'ou il tire sa specificite.
+ |
+ | Une feuille PAR PAGE et non un fichier commun : deux pages definissent
+ | `.hub-pill` et `.no-scrollbar` differemment, un fichier unique en ecraserait
+ | une.
+ */
+
+.hub-card { background: #fff; border: 1px solid var(--c-line); border-radius: 16px; box-shadow: 0 1px 2px rgba(17,24,39,.04); transition: transform .2s, box-shadow .2s; }
+@media (hover: hover) { .hub-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(17,24,39,.08); } }
+.hub-badge { display: inline-flex; align-items: center; gap: .3rem; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: .04em; padding: .3rem .65rem; }
+.hub-badge-ok { background: rgba(9,184,80,.08); color: #067A38; border: 1px solid rgba(9,184,80,.15); }
+.hub-badge-no { background: rgba(220,38,38,.08); color: #B91C1C; border: 1px solid rgba(220,38,38,.15); }
+.hub-badge-warn { background: rgba(214,164,25,.1); color: #92700C; border: 1px solid rgba(214,164,25,.2); }
+.hub-badge-neutral { background: #F6F8F7; color: #64748B; border: 1px solid var(--c-line); }
+.hub-pill { display: inline-flex; align-items: center; min-height: 44px; padding: 0 1.15rem; border-radius: 999px; border: 1px solid var(--c-line); background: #fff; font-size: .875rem; font-weight: 600; color: #111827; white-space: nowrap; }
+.hub-pill:hover { border-color: var(--c-primary); color: var(--c-primary); }
+.no-scrollbar { scrollbar-width: none; } .no-scrollbar::-webkit-scrollbar { display: none; }
+
+/*
+ | AJOUT au bloc du prototype — assumé, pas verbatim.
+ |
+ | Dans `hub-infos.html`, `.hub-pill` ne sert qu'à trois ancres de navigation :
+ | aucune n'a jamais d'état actif, la règle n'existe donc pas. La transposition
+ | lui a donné un second rôle, celui de filtre — et une pastille de filtre qui
+ | ne se distingue pas de ses voisines ne filtre rien aux yeux de qui la
+ | regarde.
+ |
+ | Reprise telle quelle de `user-catalogue.css`, pour que les deux écrans se
+ | ressemblent.
+ */
+.hub-pill.is-active { background: #09B850; border-color: #09B850; color: #fff; }

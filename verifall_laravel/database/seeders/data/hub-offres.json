@@ -1,0 +1,68 @@
+[
+  {
+    "titre": "Chargé(e) de communication digitale",
+    "organisation": "Ministère du Numérique",
+    "resume": "Candidature 100 % en ligne, aucun paiement demandé.",
+    "lieu": "Cotonou",
+    "type": "cdd",
+    "portee": "benin",
+    "contrat": "CDD 12 mois",
+    "url": "https://www.gouv.bj",
+    "verifiee": true
+  },
+  {
+    "titre": "Analyste de données junior",
+    "organisation": "INStaD Bénin",
+    "resume": "Offre publiée sur le portail officiel de l'Institut National de la Statistique.",
+    "lieu": "Cotonou",
+    "type": "cdi",
+    "portee": "benin",
+    "contrat": "CDI",
+    "url": "https://instad.bj",
+    "verifiee": true
+  },
+  {
+    "titre": "Enseignant(e)s vacataires, session 2026",
+    "organisation": "Ministère des Enseignements",
+    "resume": "Dossiers déposés uniquement via la plateforme gouvernementale.",
+    "lieu": "Bénin",
+    "type": "appel",
+    "portee": "benin",
+    "contrat": "Vacation",
+    "url": "https://service-public.bj",
+    "verifiee": true
+  },
+  {
+    "titre": "Stagiaires fact-checking (2 postes)",
+    "organisation": "Vérif'All Lab",
+    "resume": "Veille, vérification de sources et rédaction de rapports au sein du laboratoire.",
+    "lieu": "Bénin",
+    "type": "stage",
+    "portee": "benin",
+    "contrat": "Stage 6 mois",
+    "url": "https://verifall.com",
+    "verifiee": true
+  },
+  {
+    "titre": "Bourses Mastercard Foundation Scholars",
+    "organisation": "Mastercard Foundation",
+    "resume": "Bourses complètes (frais, logement, transport) pour des études universitaires en Afrique et à l'international.",
+    "lieu": "International",
+    "type": "bourse",
+    "portee": "international",
+    "contrat": "Bourse",
+    "url": "https://mastercardfdn.org/en/what-we-do/our-programs/mastercard-foundation-scholars-program/",
+    "verifiee": true
+  },
+  {
+    "titre": "Programme des Jeunes Volontaires des Nations Unies",
+    "organisation": "Nations Unies (UNV)",
+    "resume": "Missions de volontariat rémunérées de 6 à 12 mois auprès des agences onusiennes.",
+    "lieu": "International",
+    "type": "volontariat",
+    "portee": "international",
+    "contrat": "Volontariat",
+    "url": "https://www.unv.org/become-volunteer",
+    "verifiee": true
+  }
+]

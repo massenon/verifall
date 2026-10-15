@@ -1,0 +1,242 @@
+/* Vérif'All — composants fins (fidélité Mizzle) complétant Tailwind. */
+
+:root {
+  --vf-primary: #09B850;
+  --vf-primary-dark: #079a43;
+  --vf-dark: #202124;
+  --vf-body: #606261;
+  --vf-line: #e9ecef;
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+h1, h2, h3, h4, h5, h6 { font-family: "Instrument Sans", sans-serif; color: var(--vf-dark); }
+
+/* ————— Burger toggler (animation Mizzle 3 barres) ————— */
+.navbar-toggler {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px; border-radius: .5rem; border: 1px solid var(--vf-line);
+  background: #fff;
+}
+.navbar-toggler-animation { position: relative; width: 18px; height: 14px; display: block; }
+.navbar-toggler-animation span {
+  position: absolute; left: 0; width: 100%; height: 2px; border-radius: 2px;
+  background: var(--vf-dark); transition: transform .25s ease, opacity .2s ease, top .25s ease;
+}
+.navbar-toggler-animation span:nth-child(1) { top: 0; }
+.navbar-toggler-animation span:nth-child(2) { top: 6px; }
+.navbar-toggler-animation span:nth-child(3) { top: 12px; }
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-animation span:nth-child(1) { top: 6px; transform: rotate(45deg); }
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-animation span:nth-child(2) { opacity: 0; }
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-animation span:nth-child(3) { top: 6px; transform: rotate(-45deg); }
+
+/* Navbar sticky au scroll */
+header.is-sticky {
+  position: fixed; background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
+  box-shadow: 0 .25rem 1rem rgba(32,33,36,.06);
+  animation: navdrop .3s ease;
+}
+@keyframes navdrop { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+
+/* ————— Formulaires : floating labels (pattern Bootstrap reproduit) ————— */
+.form-floating { position: relative; }
+.form-floating > input, .form-floating > select {
+  width: 100%; height: calc(3.5rem + 2px); padding: 1.375rem .875rem .375rem;
+  border: 1px solid #dee2e6; border-radius: .5rem; color: var(--vf-dark);
+  background: #fff; outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.form-floating > textarea {
+  width: 100%; min-height: 8rem; padding: 1.625rem .875rem .5rem;
+  border: 1px solid #dee2e6; border-radius: .5rem; color: var(--vf-dark);
+  background: #fff; outline: none; transition: border-color .15s, box-shadow .15s;
+}
+.form-floating > label {
+  position: absolute; top: 0; left: 0; padding: 1rem .875rem; pointer-events: none;
+  color: #85878a; transform-origin: 0 0; transition: transform .12s ease, opacity .12s ease;
+  white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis;
+}
+.form-floating > :is(input,select,textarea):focus,
+.form-floating > :is(input,select,textarea):not(:placeholder-shown),
+.form-floating > select:valid {
+  border-color: var(--vf-primary);
+}
+.form-floating > :is(input,textarea):focus { box-shadow: 0 0 0 .2rem rgba(9,184,80,.15); }
+.form-floating > :is(input,textarea):focus ~ label,
+.form-floating > :is(input,textarea):not(:placeholder-shown) ~ label,
+.form-floating > select ~ label {
+  transform: scale(.8) translateY(-.55rem) translateX(.15rem);
+}
+.form-check-input {
+  appearance: none; width: 1rem; height: 1rem; border: 1px solid #ced4da;
+  border-radius: .25rem; vertical-align: -2px; cursor: pointer; background: #fff;
+}
+.form-check-input:checked {
+  background: var(--vf-primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 10.5 8.5 14 15 6.5' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/80% no-repeat;
+  border-color: var(--vf-primary);
+}
+input::placeholder, textarea::placeholder { color: transparent; }
+.show-placeholder input::placeholder, .show-placeholder textarea::placeholder,
+input.plain::placeholder, textarea.plain::placeholder { color: #adb5bd; }
+
+/* ————— Carousel auth (Swiper reproduit) ————— */
+.auth-slide {
+  position: absolute; inset: 0; background-position: center; background-size: cover;
+  opacity: 0; transition: opacity .6s ease; pointer-events: none;
+}
+.auth-slide.is-active { opacity: 1; pointer-events: auto; }
+.auth-dot {
+  width: 34px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.4);
+  transition: background .2s;
+}
+.auth-dot.is-active { background: #fff; }
+
+/* ————— Stepper d'inscription (pastilles Mizzle) ————— */
+.stepper-header { display: flex; align-items: center; justify-content: center; gap: 0; }
+.stepper-circle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 9999px; font-weight: 600;
+  background: #f5f6f7; color: #85878a; border: 1px solid var(--vf-line);
+  transition: background .2s, color .2s;
+}
+.step.active .stepper-circle { background: #7ed8a4; color: #fff; border-color: transparent; }
+.step.done .stepper-circle { background: var(--vf-primary); color: #fff; border-color: transparent; }
+.stepper-line { width: 46px; height: 1px; background: var(--vf-line); }
+[data-step-panel] { display: none; }
+[data-step-panel].is-active { display: block; animation: fadein .25s ease; }
+@keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* Jauge de force du mot de passe */
+.psw-meter { height: 5px; border-radius: 3px; background: #e9ecef; overflow: hidden; }
+.psw-meter > span { display: block; height: 100%; width: 0; border-radius: 3px; transition: width .25s ease, background .25s ease; }
+
+/* Cases OTP */
+.otp-input {
+  width: 3.1rem; height: 3.4rem; text-align: center; font-size: 1.25rem; font-weight: 600;
+  border: 1px solid #dee2e6; border-radius: .75rem; color: var(--vf-dark); outline: none;
+}
+.otp-input:focus { border-color: var(--vf-primary); box-shadow: 0 0 0 .2rem rgba(9,184,80,.15); }
+
+/* ————— Accordéon FAQ ————— */
+.accordion-item { border: 0; border-radius: .75rem; background: #f8f9fa; }
+.accordion-button {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; text-align: left; font-weight: 600; color: var(--vf-dark);
+  padding: 1rem 1.25rem; border-radius: .75rem;
+}
+.accordion-button .acc-icon { transition: transform .2s ease; font-size: 1.1rem; line-height: 1; }
+.accordion-button[aria-expanded="true"] .acc-icon { transform: rotate(180deg); }
+.accordion-body { padding: 0 1.25rem 1.1rem; color: var(--vf-body); display: none; }
+.accordion-item.is-open .accordion-body { display: block; animation: fadein .2s ease; }
+
+/* Accordéon sombre (section FAQ index / pages foncées) */
+.accordion-dark .accordion-item { background: rgba(255,255,255,.06); }
+.accordion-dark .accordion-button { color: #fff; }
+.accordion-dark .accordion-body { color: #c4c5c7; }
+
+/* ————— Tabs pills ————— */
+.nav-pill { border-radius: .5rem; padding: .45rem 1rem; font-weight: 600; font-size: .9rem; color: var(--vf-primary); border: 1px solid var(--vf-primary); }
+.nav-pill.is-active { background: var(--vf-primary); color: #fff; }
+[data-tab-panel] { display: none; }
+[data-tab-panel].is-active { display: block; animation: fadein .2s ease; }
+
+/* Cartes analyse : titre au survol */
+.card-title-link { text-decoration: underline; text-decoration-color: transparent; transition: text-decoration-color .2s, color .2s; }
+a:hover .card-title-link, .card-title-link:hover { text-decoration-color: currentColor; color: var(--vf-primary); }
+
+/* Compteurs, révélations */
+[data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
+[data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* Toast simple (remplace SweetAlert/alertes Livewire) */
+.vf-toast {
+  position: fixed; top: 1rem; right: 1rem; z-index: 9999; display: flex; gap: .6rem;
+  align-items: flex-start; max-width: 340px; background: #fff; border: 1px solid #E5E7EB;
+  border-radius: .6rem; box-shadow: 0 1rem 3rem rgba(32,33,36,.15); padding: .8rem 1rem;
+  animation: fadein .2s ease;
+}
+.vf-toast.is-danger { border-left-color: #d6293e; }
+
+/* Détail : liens verts par défaut dans les contenus d'article */
+.prose-vf a { color: var(--vf-primary); font-weight: 600; }
+.prose-vf p { margin-bottom: 1rem; line-height: 1.75; }
+.prose-vf h2 { font-size: 1.6rem; font-weight: 700; margin: 2rem 0 1rem; }
+.prose-vf h6 { font-weight: 700; margin: 1.5rem 0 .5rem; color: var(--vf-dark); }
+.prose-vf ul, .prose-vf ol { padding-left: 1.25rem; margin-bottom: 1rem; }
+.prose-vf ul { list-style: disc; }
+.prose-vf ol { list-style: decimal; }
+.prose-vf li { margin-bottom: .5rem; line-height: 1.7; }
+.prose-vf strong { color: var(--vf-dark); }
+
+/* ————— Cadre iPhone (Mizzle .iphone-x reproduit) ————— */
+.iphone-x {
+  position: relative; width: 300px; height: 620px; margin: 0 auto;
+  border: 12px solid #202124; border-radius: 44px; background-size: cover !important;
+  background-position: top center !important; box-shadow: 0 1.5rem 3rem rgba(32,33,36,.18);
+}
+.iphone-x-small { width: 260px; height: 530px; }
+.iphone-x i, .iphone-x b { position: absolute; left: 50%; transform: translateX(-50%); background: #202124; }
+.iphone-x i { top: 0; width: 46%; height: 24px; border-bottom-left-radius: 16px; border-bottom-right-radius: 16px; }
+.iphone-x b { top: 9px; width: 44px; height: 5px; border-radius: 3px; background: #3c4043; z-index: 1; }
+.rotate-13 { transform: rotate(13deg); }
+.rotate-33 { transform: rotate(33deg); }
+.rotate-335 { transform: rotate(-25deg); }
+@media (min-width: 640px) { .rotate-sm-343 { transform: rotate(-17deg); } }
+
+/* ————— Carrousel générique (cartes problème) ————— */
+[data-carousel] .carousel-track { display: flex; transition: transform .4s ease; }
+[data-carousel] .carousel-slide { flex: 0 0 100%; min-width: 0; }
+
+/* Logos partenaires */
+.grayscale { filter: grayscale(1); opacity: .75; transition: filter .2s, opacity .2s; }
+.grayscale:hover { filter: none; opacity: 1; }
+
+/* Compteur cercles (pourquoi-verifall) */
+.stat-circle { border-radius: 9999px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 1rem; }
+
+/* Carrousel multi-colonnes (articles similaires du blog) */
+[data-carousel].carousel-cols { overflow: hidden; }
+[data-carousel].carousel-cols .carousel-track { display: flex; gap: 2rem; transition: transform .4s ease; }
+[data-carousel].carousel-cols .carousel-slide { flex: 0 0 100%; }
+@media (min-width: 640px) { [data-carousel].carousel-cols .carousel-slide { flex-basis: calc(50% - 1rem); } }
+@media (min-width: 1024px) { [data-carousel].carousel-cols .carousel-slide { flex-basis: calc(33.333% - 1.334rem); } }
+
+/* ————— Verification Trace (signature auth) ————— */
+.verification-trace { display: flex; align-items: center; width: 100%; }
+.trace-point {
+  display: flex; flex-direction: column; align-items: center; gap: .3rem;
+  color: rgba(255,255,255,.55); transition: color .25s;
+}
+.trace-point .trace-top { font-size: .68rem; font-weight: 800; letter-spacing: .2em; }
+.trace-point .trace-bottom { font-size: .72rem; font-weight: 500; opacity: .8; }
+.trace-point .trace-dot {
+  width: 12px; height: 12px; border-radius: 9999px;
+  border: 2px solid rgba(255,255,255,.55); transition: all .25s;
+}
+.trace-point.is-active { color: #fff; }
+.trace-point.is-active .trace-top { color: #09B850; }
+.trace-point.is-active .trace-dot { background: #09B850; border-color: #09B850; box-shadow: 0 0 0 5px rgba(9,184,80,.25); }
+.trace-line { flex: 1 1 auto; height: 1px; background: rgba(255,255,255,.3); margin: 0 .75rem; }
+
+/* Filigrane FAKE NEWS sur les cartes d'analyses démenties */
+.fact-stamp {
+  position: absolute; top: 42%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-18deg);
+  font-family: "Instrument Sans", sans-serif; font-weight: 800;
+  font-size: 2rem; letter-spacing: .1em; white-space: nowrap;
+  color: rgba(214,41,62,.10); border: 4px solid rgba(214,41,62,.10);
+  border-radius: .5rem; padding: .1em .4em; pointer-events: none; z-index: 1;
+}
+
+/* Anti-chevauchement label/placeholder : le placeholder n'apparaît qu'au focus */
+.form-floating input::placeholder, .form-floating textarea::placeholder { color: transparent; transition: color .15s; }
+.form-floating input:focus::placeholder, .form-floating textarea:focus::placeholder { color: #9CA3AF; }
+
+/* Slider partenaires : 3 logos par vue desktop, 2 tablette, 1 mobile ; dots invisibles */
+.carousel-partners .carousel-slide { flex: 0 0 100%; }
+@media (min-width: 640px) { .carousel-partners .carousel-slide { flex: 0 0 50%; } }
+@media (min-width: 1024px) { .carousel-partners .carousel-slide { flex: 0 0 33.333%; } }
+.carousel-partners [data-carousel-dots] { display: none; }

@@ -1,0 +1,6 @@
+# LAYOUT_INSTRUCTION.md — Les 3 shells (transposition exacte du prototype)
+
+1. **layouts/public.blade.php** : topbar Mizzle-like du front, menu 6 entrées exactes dans cet ordre : Pourquoi Vérif'All ? · Fonctionnalités · Comment ça marche ? · Notre Équipe · Tutoriels · Actualités ; CTA Connexion/Inscription ; footer complet du prototype ; burger mobile.
+2. **layouts/citizen.blade.php** : topbar (logo, recherche, unités, notifications, avatar dropdown) ; sidebar sombre #1F2124 **sans label « MENU PRINCIPAL »**, 10 entrées, aria-current ; **bottom-nav 5 entrées <1024 px uniquement** ; FAB Vérifier mobile ; drawer + backdrop.
+3. **layouts/staff.blade.php** : sidebar deep-green #052E16 groupée repliable (details/summary, groupe actif ouvert, filet mint, aération vague 11) — admin 45 entrées / mentor 12 (§7) ; topbar Command Center : burger, logo, badge rôle, recherche globale, **+ Créer** (admin), fullscreen, notifications lues/non-lues, journal d'audit (admin), menu compte (Mon profil/Paramètres | Mon espace/Ma performance, séparateur, Déconnexion POST).
+Ordre CSS dans les 3 : fonts → citizen.css → (staff.css → quill.snow.css) → **tailwind.css dernier**. Slots : `$header` (page_header : breadcrumb + titre + desc + actions), `$slot`, toasts + modales globales en fin de body. Skip-link « Aller au contenu » + `<main id="contenu">` partout.

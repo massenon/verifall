@@ -1,0 +1,74 @@
+/* ------------------------------------------------------------------------
+   Sélecteur de langue FR | EN.
+
+   Aucune classe Tailwind : le build est FIGÉ, repris du prototype. Une classe
+   absente ne produirait aucune erreur, seulement deux boutons sans style
+   collés au reste de l'en-tête.
+   ------------------------------------------------------------------------ */
+
+.vf-langues {
+  display: inline-flex;
+  align-items: center;
+  gap: .125rem;
+  padding: .125rem;
+  border: 1px solid var(--vf-line, #e5e7eb);
+  border-radius: .5rem;
+}
+
+.vf-langue-form {
+  display: inline-flex;
+  margin: 0;
+}
+
+.vf-langue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* 34 px de haut : assez pour être touché au pouce sans alourdir l'en-tête,
+     qui porte déjà le bouton de compte et l'ouverture du menu. */
+  min-width: 34px;
+  height: 30px;
+  padding: 0 .5rem;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--vf-slate2, #6b7280);
+  background: transparent;
+  border: 0;
+  border-radius: .375rem;
+  cursor: pointer;
+  transition: color .15s, background-color .15s;
+}
+
+.vf-langue:hover {
+  color: var(--vf-primary, #09b850);
+}
+
+.vf-langue:focus-visible {
+  outline: 2px solid var(--vf-primary, #09b850);
+  outline-offset: 1px;
+}
+
+.vf-langue.is-active {
+  color: #fff;
+  background: var(--vf-primary, #09b850);
+  cursor: default;
+}
+
+/* Variante pour un fond sombre — la barre du compte citoyen. */
+.vf-langue-sombre {
+  color: rgba(255, 255, 255, .72);
+}
+
+.vf-langue-sombre:hover {
+  color: #fff;
+}
+
+.vf-langue-sombre.is-active {
+  color: #fff;
+  background: rgba(255, 255, 255, .18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vf-langue { transition: none; }
+}

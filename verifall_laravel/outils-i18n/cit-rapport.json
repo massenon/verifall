@@ -1,0 +1,22 @@
+{
+  "<span class=\"material-symbols-rounded !text-[17px]\" aria-hidden=\"true\">picture_as_pdf</span> PDF": "picture_as_pdf_pdf",
+  "📥 Votre contenu soumis": "votre_contenu_soumis",
+  "La rhétorique de ce contenu n'a pas pu être évaluée : aucun moteur sémantique n'a répondu sur ce point.": "la_rhetorique_de_ce_contenu_n_a",
+  "🔒 L'analyse porte uniquement sur le contenu soumis, jamais sur son auteur. Elle est indépendante du verdict : une information exacte peut être formulée pour stigmatiser.": "l_analyse_porte_uniquement_sur_le_contenu",
+  "💡 Pourquoi ce résultat ?": "pourquoi_ce_resultat",
+  "🤖 Moteurs d'analyse mobilisés": "moteurs_d_analyse_mobilises",
+  "Moteur": "moteur",
+  "Avis": "avis",
+  "Confiance": "confiance",
+  "Temps": "temps",
+  "🔍 Sources et preuves consultées": "sources_et_preuves_consultees",
+  "Aucune source n'a pu être consultée pour cette analyse.": "aucune_source_n_a_pu_etre_consultee",
+  "ℹ️ Avertissement sur l'usage de l'IA": "i_avertissement_sur_l_usage_de_l",
+  "Ce rapport est produit par des moteurs automatiques et peut comporter des erreurs. Les sources ci-dessus sont là pour que vous puissiez vérifier vous-même. En cas de doute, demandez une contre-expertise.": "ce_rapport_est_produit_par_des_moteurs",
+  "📣 Diffuser la vérité": "diffuser_la_verite",
+  "Un démenti ne circule que si quelqu'un le partage. Renvoyez ce rapport à qui vous a transmis la rumeur.": "un_dementi_ne_circule_que_si_quelqu",
+  "Ce verdict vous semble faux ?": "ce_verdict_vous_semble_faux",
+  "Signalez-le : un vérificateur humain reprendra le dossier.": "signalez_le_un_verificateur_humain_reprendra_le",
+  "🧰 Vérifier soi-même": "verifier_soi_meme",
+  "Le répertoire d'outils OSINT vous forme à l'autonomie.": "le_repertoire_d_outils_osint_vous_forme"
+}

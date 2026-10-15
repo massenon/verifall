@@ -1,0 +1,20 @@
+{
+  "VF_ENV": "development",
+  "VF_API_BASE_URL": "http://10.0.2.2:8000",
+  "VF_WEB_BASE_URL": "http://10.0.2.2:8000",
+  "VF_REVERB_HOST": "",
+  "VF_REVERB_KEY": "",
+  "VF_REVERB_CLUSTER": "",
+  "VF_REVERB_TLS": false,
+  "VF_TELEMETRY_DSN": "",
+
+  "VF_FEATURE_NOTIFICATIONS": false,
+  "VF_FEATURE_RETOUR_UTILITE": false,
+
+  "VF_DEV_SESSION": false,
+  "VF_DEV_TOKEN": "",
+  "VF_DEV_USER_UUID": "",
+  "VF_DEV_USER_PRENOM": "",
+  "VF_DEV_USER_EMAIL": "",
+  "VF_DEV_USER_UNITES": 0
+}

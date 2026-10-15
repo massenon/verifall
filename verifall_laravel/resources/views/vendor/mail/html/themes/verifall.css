@@ -1,0 +1,482 @@
+/* ==========================================================================
+   Thème courriel — Vérif'All
+   ==========================================================================
+
+   Les mails partaient sous le thème Laravel : gris ardoise, bouton bleu, pied
+   « Laravel ». Rien n'était faux, rien n'était à nous — et un démenti reçu sous
+   une identité générique perd exactement ce qui le rend crédible.
+
+   Trois contraintes gouvernent ce fichier, et aucune n'est du confort :
+
+     1. **Tout est en ligne à l'envoi.** Laravel injecte ce CSS dans le HTML par
+        `CssToInlineStyles`. Ce qui ne s'inline pas — un `@media`, un
+        pseudo-élément — n'existe pas chez la moitié des destinataires. Les
+        rares règles qui doivent survivre sont laissées dans `<style>` par le
+        gabarit de mise en page, pas ici.
+     2. **Pas de `flex`, pas de `grid`.** Outlook rend le HTML avec le moteur de
+        Word. Les tableaux ne sont pas un archaïsme, ce sont les seuls conteneurs
+        qui tiennent partout.
+     3. **Les couleurs sont celles de la charte**, reprises telles quelles de
+        `verifall.css` : vert #09B850, encre #202124, texte #606261, filets
+        #e9ecef. Un vert « à peu près » est plus visible qu'une autre couleur.
+   ========================================================================== */
+
+/* ————————————————————————————————————————————————— socle */
+
+body {
+    background-color: #f4f6f5;
+    color: #606261;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-text-size-adjust: none;
+    margin: 0;
+    padding: 0;
+    width: 100% !important;
+}
+
+/* Les clients de messagerie ignorent `rem` : tout est en pixels. */
+p, ul, ol, blockquote {
+    line-height: 1.6;
+    text-align: left;
+    color: #606261;
+    font-size: 16px;
+}
+
+a {
+    color: #09B850;
+    text-decoration: underline;
+}
+
+a img { border: none; }
+
+/* ————————————————————————————————————————————— titres */
+
+h1 {
+    color: #202124;
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 0;
+    text-align: left;
+}
+
+h2 {
+    color: #202124;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 0;
+    text-align: left;
+}
+
+h3 {
+    color: #202124;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 0;
+    text-align: left;
+}
+
+/* ————————————————————————————————————— structure du message */
+
+.wrapper {
+    background-color: #f4f6f5;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+}
+
+.content {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+}
+
+/* ————————————————————————————————————————————— en-tête */
+
+.header {
+    padding: 26px 0;
+    text-align: center;
+}
+
+.header a {
+    color: #202124;
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: -0.3px;
+}
+
+/* Le filet vert sous l'en-tête : la seule signature graphique qui traverse
+   TOUS les clients de messagerie sans exception. */
+.brand-rule {
+    background-color: #09B850;
+    height: 4px;
+    line-height: 4px;
+    font-size: 0;
+}
+
+/* ————————————————————————————————————————————— corps */
+
+.body {
+    background-color: #f4f6f5;
+    border-bottom: 1px solid #f4f6f5;
+    border-top: 1px solid #f4f6f5;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+}
+
+.inner-body {
+    background-color: #ffffff;
+    border-color: #e9ecef;
+    border-radius: 12px;
+    border-width: 1px;
+    border-style: solid;
+    margin: 0 auto;
+    padding: 0;
+    width: 570px;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    -premailer-width: 570px;
+}
+
+.content-cell {
+    max-width: 100vw;
+    padding: 32px;
+}
+
+/* ————————————————————————————————————————————— bouton */
+
+.action {
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    margin: 30px auto;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+}
+
+.button {
+    -webkit-text-size-adjust: none;
+    border-radius: 10px;
+    color: #ffffff;
+    display: inline-block;
+    overflow: hidden;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 14px 26px;
+}
+
+/* `button-primary` est le seul employé. Les trois autres existent parce que le
+   composant `<x-mail::button>` accepte une couleur, et qu'un `color="error"`
+   écrit un jour rendrait un bouton sans style. */
+.button-primary,
+.button-success {
+    background-color: #09B850;
+    border-bottom: 8px solid #09B850;
+    border-left: 18px solid #09B850;
+    border-right: 18px solid #09B850;
+    border-top: 8px solid #09B850;
+}
+
+.button-error {
+    background-color: #d6293e;
+    border-bottom: 8px solid #d6293e;
+    border-left: 18px solid #d6293e;
+    border-right: 18px solid #d6293e;
+    border-top: 8px solid #d6293e;
+}
+
+/* ————————————————————————————————————————————— encadré */
+
+.panel {
+    border-left: 4px solid #09B850;
+    margin: 21px 0;
+}
+
+.panel-content {
+    background-color: #f4f6f5;
+    color: #202124;
+    padding: 16px;
+}
+
+.panel-content p { color: #202124; }
+
+.panel-item { padding: 0; }
+
+.panel-item p:last-of-type {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* ————————————————————————————————————————————— tableau */
+
+.table table {
+    margin: 30px auto;
+    width: 100%;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    -premailer-width: 100%;
+}
+
+.table th {
+    border-bottom: 1px solid #e9ecef;
+    margin: 0;
+    padding-bottom: 8px;
+    color: #202124;
+    font-size: 14px;
+}
+
+.table td {
+    color: #606261;
+    font-size: 15px;
+    line-height: 18px;
+    margin: 0;
+    padding: 10px 0;
+}
+
+.content-cell img { max-width: 100%; }
+
+/* ————————————————————————————————————————— sous-copie et pied */
+
+.subcopy {
+    border-top: 1px solid #e9ecef;
+    margin-top: 26px;
+    padding-top: 20px;
+}
+
+.subcopy p {
+    font-size: 13px;
+    color: #8a8d8b;
+}
+
+.subcopy a { color: #8a8d8b; }
+
+.footer {
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+    width: 570px;
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    -premailer-width: 570px;
+}
+
+.footer p {
+    color: #9a9d9b;
+    font-size: 12px;
+    text-align: center;
+}
+
+.footer a {
+    color: #9a9d9b;
+    text-decoration: underline;
+}
+
+/* ==========================================================================
+   Jetons du système de courriels — ajoutés le 9 septembre 2026
+   ==========================================================================
+
+   La directive « ULTRA PREMIUM » demande (§44) que les décisions graphiques
+   soient centralisées, et qu'« un nouveau template n'invente pas ses propres
+   couleurs ». Ce bloc est cet endroit-là.
+
+   Trois choses valent d'être sues avant d'y toucher :
+
+     1. **Ces classes sont INLINÉES à l'envoi**, comme tout ce fichier. Elles
+        n'existent donc qu'en tant que déclarations simples : pas de `@media`
+        ici, pas de pseudo-élément, pas de sélecteur composé. Ce qui doit
+        survivre à l'inlining vit dans le `<style>` de `layout.blade.php`.
+
+     2. **Les composants doublent chaque classe d'un attribut `style`.** Ce
+        n'est pas de la redondance gratuite : l'inlining est fait par Laravel
+        avant l'envoi, et si l'étape échoue ou si le corps est repris ailleurs
+        (prévisualisation, journal des emails), l'attribut reste le seul
+        porteur du rendu.
+
+     3. **La palette de VERDICT ne vit pas ici.** Elle est dans
+        `App\Enums\VerdictFactCheck::couleurBarre()`, et c'est la même que la
+        carte de démenti et les pages publiques. Un verdict qui changerait de
+        couleur selon le canal détruirait la reconnaissance qu'on cherche à
+        construire. Les classes `.vf-badge--*` ci-dessous ne sont là que pour
+        la MISE EN FORME ; la teinte vient de l'enum.
+   ========================================================================== */
+
+/* ————————————————————————————————————————————————— preheader */
+
+/*
+ | Le texte de prévisualisation de la boîte de réception (§38).
+ |
+ | Il doit être DANS le corps, en tout premier, et invisible à l'écran. La
+ | recette est éprouvée et chacune de ses cinq déclarations sert : `display`
+ | et les dimensions nulles le retirent du flux, `max-height`/`overflow`
+ | empêchent Gmail de le rouvrir, et `mso-hide` fait le travail sous Outlook,
+ | qui ignore le reste.
+ */
+.vf-preheader {
+    display: none !important;
+    visibility: hidden;
+    opacity: 0;
+    color: transparent;
+    height: 0;
+    width: 0;
+    max-height: 0;
+    max-width: 0;
+    overflow: hidden;
+    mso-hide: all;
+    font-size: 1px;
+    line-height: 1px;
+}
+
+/* ————————————————————————————————————————————————— eyebrow */
+
+.vf-eyebrow {
+    color: #09B850;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    margin: 0 0 6px 0;
+}
+
+/* ————————————————————————————————————————————————— badges de verdict */
+
+/*
+ | La forme, pas la couleur. Le mot est TOUJOURS écrit en clair à l'intérieur :
+ | la couleur ne doit jamais être le seul porteur du verdict (§12 et §36), et
+ | c'est aussi ce qu'exige un lecteur qui ne les distingue pas.
+ */
+.vf-badge {
+    display: inline-block;
+    border-radius: 999px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    padding: 7px 18px;
+    text-transform: uppercase;
+    mso-line-height-rule: exactly;
+}
+
+/*
+ | Aucune teinte de verdict ICI, et c'est délibéré.
+ |
+ | Elles vivent dans `VerdictFactCheck::couleurBarre()`, d'où la carte de
+ | démenti et les pages publiques les tirent déjà. Les recopier ici en
+ | créerait une SECONDE source : le jour où un verdict change de couleur,
+ | l'une des deux suivrait et l'autre non, et le courriel dirait autre chose
+ | que la page. `SocleDesCourrielsTest` interdit cette recopie.
+ |
+ | Le composant `verdict.blade.php` pose donc la couleur en attribut `style`,
+ | depuis l'enum, et n'emploie `.vf-badge` que pour la forme.
+ */
+
+/* ————————————————————————————————————————————————— cartes */
+
+/*
+ | « Une card = une information » (§11). Les cartes sont autorisées mais
+ | doivent rester rares : le rayon est modéré, la bordure légère, et il n'y a
+ | AUCUNE ombre — les clients de messagerie les rendent mal, et la directive
+ | écarte de toute façon l'esthétique chargée (§45).
+ */
+.vf-card {
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 0 0 16px 0;
+}
+
+.vf-card--preuve { border-left: 4px solid #09B850; }
+.vf-card--source { background-color: #f4f6f5; border-color: #e9ecef; }
+.vf-card--alerte { border-left: 4px solid #D6293E; background-color: #fdf5f6; }
+.vf-card--cours { border-left: 4px solid #063B2A; }
+.vf-card--certificat { border-left: 4px solid #7C3AED; }
+
+.vf-card-titre {
+    color: #202124;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 22px;
+    margin: 0 0 6px 0;
+}
+
+.vf-card-texte {
+    color: #606261;
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0;
+}
+
+.vf-meta {
+    color: #8a8d8b;
+    font-size: 12px;
+    line-height: 18px;
+    margin: 0;
+}
+
+/* ————————————————————————————————————————————————— progression */
+
+/*
+ | Deux cellules de tableau, et une largeur en POURCENTAGE — jamais un `div`
+ | et une `width` en CSS, qu'Outlook ignore. Le pourcentage est toujours écrit
+ | en chiffres à côté : la barre seule ne dit rien à qui ne la voit pas.
+ */
+.vf-progress {
+    background-color: #e9ecef;
+    border-radius: 999px;
+    height: 10px;
+    line-height: 10px;
+    font-size: 1px;
+    mso-line-height-rule: exactly;
+}
+
+.vf-progress-remplissage {
+    background-color: #09B850;
+    border-radius: 999px;
+    height: 10px;
+    line-height: 10px;
+    font-size: 1px;
+    mso-line-height-rule: exactly;
+}
+
+.vf-progress-libelle {
+    color: #202124;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 0 0 6px 0;
+}
+
+/* ————————————————————————————————————————————————— action secondaire */
+
+/*
+ | « Ne jamais présenter quatre boutons avec la même importance visuelle »
+ | (§14). Celui-ci est un contour : lisible, cliquable, et clairement en
+ | retrait du bouton vert. 46 px de haut, dans la zone tactile demandée (§13).
+ */
+/*
+ | La classe est posée sur le `<td>`, PAS sur le `<a>`. Outlook ignore le
+ | `padding` d'un lien et respecte celui d'une cellule : mettre le contour et
+ | le remplissage sur le lien donnerait, sous Outlook, un bouton sans marge
+ | intérieure — donc hors de la zone tactile de 44-48 px exigée.
+ |
+ | Ne posez pas de bordure sur le `<a>` : elle doublerait celle de la cellule.
+ | Hauteur obtenue : 20 px de ligne + 2 × 12 px de padding + 2 × 2 px de
+ | bordure = 48 px.
+ */
+.vf-cta-secondaire {
+    background-color: #ffffff;
+    border: 2px solid #09B850;
+    border-radius: 10px;
+    color: #063B2A;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 20px;
+    padding: 12px 24px;
+    mso-line-height-rule: exactly;
+}

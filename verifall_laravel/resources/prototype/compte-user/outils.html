@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Répertoire des outils — Vérif'All</title>
+<meta name="description" content="OSINT & Fact-Checking Tool Hub : outils recommandés, répertoire par catégories (recherche, domaines, archives, métadonnées, IA, géolocalisation) et passerelle vers le cours OSINT.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/outils.html">
+<meta property="og:title" content="Répertoire des outils — Vérif'All">
+<meta property="og:description" content="OSINT & Fact-Checking Tool Hub : outils recommandés, répertoire par catégories (recherche, domaines, archives, métadonnées, IA, géolocalisation) et passerelle vers le cours OSINT.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link is-active" href="outils.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <header class="mb-6">
+    <nav class="text-xs text-slate2 mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-primary">Dashboard</a> <span class="text-line">/</span> <span class="text-ink font-medium">Outils</span></nav>
+    <p class="vf-eyebrow">Outils · OSINT · Fact-checking</p>
+    <h1 class="text-3xl lg:text-4xl font-display font-bold text-ink mb-2">Répertoire des outils</h1>
+    <p class="text-[15px] text-slate2 max-w-[620px] mb-2">Les bons outils pour enquêter, vérifier et comprendre une information avant de la partager.</p>
+    <p class="text-sm text-slate2 mb-5"><strong class="text-ink">15 outils référencés</strong> · <span class="text-primary font-semibold">● Sélection Vérif'All</span></p>
+    <div class="relative max-w-[720px] mb-4">
+      <label class="sr-only" for="tool-search">Rechercher un outil</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="tool-search" type="search" placeholder="Rechercher : image, domaine, métadonnées, IA…"
+             class="w-full h-[52px] bg-surface border border-line rounded-xl pl-11 pr-4 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10" data-tool-search>
+    </div>
+    <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar" role="tablist" aria-label="Catégories d'outils"><button type="button" class="hub-pill is-active" data-cat-pill="">Tous</button><button type="button" class="hub-pill" data-cat-pill="Recherche">Recherche</button><button type="button" class="hub-pill" data-cat-pill="Web & domaines">Web & domaines</button><button type="button" class="hub-pill" data-cat-pill="Archives">Archives</button><button type="button" class="hub-pill" data-cat-pill="Médias & métadonnées">Métadonnées</button><button type="button" class="hub-pill" data-cat-pill="Intelligence artificielle">IA</button><button type="button" class="hub-pill" data-cat-pill="Géolocalisation">Géolocalisation</button><button type="button" class="hub-pill" data-cat-pill="Fact-checking">Fact-checking</button>
+    </div>
+  </header>
+
+  <section class="mb-12" data-reco-wrap>
+    <h2 class="text-xl font-display font-bold text-ink mb-4">Outils recommandés</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <article class="card p-5 flex flex-col" data-tool data-cat="Recherche" data-search="recherche d'image inversée (google lens) retrouvez l'origine d'une image et découvrez où elle a déjà été publiée. origine d'image réutilisation recherche">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">image_search</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">IMAGE</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Recherche d'image inversée (Google Lens)</h3>
+        <p class="text-sm text-slate2 mb-3">Retrouvez l'origine d'une image et découvrez où elle a déjà été publiée.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Origine d'image</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Réutilisation</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://lens.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      <article class="card p-5 flex flex-col" data-tool data-cat="Archives" data-search="wayback machine consultez les versions antérieures d'une page, même supprimée. pages supprimées preuves archives">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">history</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">ARCHIVES</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Wayback Machine</h3>
+        <p class="text-sm text-slate2 mb-3">Consultez les versions antérieures d'une page, même supprimée.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Pages supprimées</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Preuves</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://web.archive.org" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      <article class="card p-5 flex flex-col" data-tool data-cat="Fact-checking" data-search="google fact check explorer cherchez si une affirmation a déjà été vérifiée dans le monde. rumeurs mondiales déjà vérifié ? fact-checking">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">fact_check</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">FACT-CHECK</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Google Fact Check Explorer</h3>
+        <p class="text-sm text-slate2 mb-3">Cherchez si une affirmation a déjà été vérifiée dans le monde.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Rumeurs mondiales</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Déjà vérifié ?</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://toolbox.google.com/factcheck/explorer" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="text-xl font-display font-bold text-ink mb-5">Tous les outils</h2>
+    <div class="mb-10" data-cat-section="Recherche">
+      <div class="flex items-center gap-2.5 mb-4 pb-2 border-b border-line">
+        <span class="material-symbols-rounded text-primary !text-[20px]" aria-hidden="true">image_search</span>
+        <h3 class="text-base font-display font-bold text-ink uppercase tracking-wide mb-0">Recherche</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <article class="card p-5 flex flex-col" data-tool data-cat="Recherche" data-search="recherche d'image inversée (google lens) retrouvez l'origine d'une image et découvrez où elle a déjà été publiée. origine d'image réutilisation recherche">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">image_search</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">IMAGE</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Recherche d'image inversée (Google Lens)</h3>
+        <p class="text-sm text-slate2 mb-3">Retrouvez l'origine d'une image et découvrez où elle a déjà été publiée.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Origine d'image</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Réutilisation</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://lens.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      <article class="card p-5 flex flex-col" data-tool data-cat="Recherche" data-search="tineye moteur spécialisé : première apparition d'une image et versions modifiées. antériorité montages recherche">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">image_search</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">IMAGE</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">TinEye</h3>
+        <p class="text-sm text-slate2 mb-3">Moteur spécialisé : première apparition d'une image et versions modifiées.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Antériorité</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Montages</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://tineye.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      <article class="card p-5 flex flex-col" data-tool data-cat="Recherche" data-search="invid / weverify découpez une vidéo en images clés pour lancer des recherches inversées. vidéos virales images clés recherche">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">movie</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">VIDÉO</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">InVID / WeVerify</h3>
+        <p class="text-sm text-slate2 mb-3">Découpez une vidéo en images clés pour lancer des recherches inversées.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Vidéos virales</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Images clés</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://www.invid-project.eu" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      </div>
+    </div>
+    <div class="mb-10" data-cat-section="Web & domaines">
+      <div class="flex items-center gap-2.5 mb-4 pb-2 border-b border-line">
+        <span class="material-symbols-rounded text-primary !text-[20px]" aria-hidden="true">language</span>
+        <h3 class="text-base font-display font-bold text-ink uppercase tracking-wide mb-0">Web & domaines</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <article class="card p-5 flex flex-col" data-tool data-cat="Web & domaines" data-search="whois lookup identifiez le propriétaire, la date de création et l'hébergeur d'un site. sites suspects ancienneté web & domaines">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">language</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">DOMAINE</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Whois Lookup</h3>
+        <p class="text-sm text-slate2 mb-3">Identifiez le propriétaire, la date de création et l'hébergeur d'un site.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Sites suspects</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Ancienneté</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://who.is" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      <article class="card p-5 flex flex-col" data-tool data-cat="Web & domaines" data-search="scamadviser score de confiance d'un site marchand ou d'une plateforme inconnue. arnaques e-commerce web & domaines">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">language</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">DOMAINE</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">ScamAdviser</h3>
+        <p class="text-sm text-slate2 mb-3">Score de confiance d'un site marchand ou d'une plateforme inconnue.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Arnaques</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">e-commerce</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://www.scamadviser.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      </div>
+    </div>
+    <div class="mb-10" data-cat-section="Archives">
+      <div class="flex items-center gap-2.5 mb-4 pb-2 border-b border-line">
+        <span class="material-symbols-rounded text-primary !text-[20px]" aria-hidden="true">history</span>
+        <h3 class="text-base font-display font-bold text-ink uppercase tracking-wide mb-0">Archives</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <article class="card p-5 flex flex-col" data-tool data-cat="Archives" data-search="wayback machine consultez les versions antérieures d'une page, même supprimée. pages supprimées preuves archives">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">history</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">ARCHIVES</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Wayback Machine</h3>
+        <p class="text-sm text-slate2 mb-3">Consultez les versions antérieures d'une page, même supprimée.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Pages supprimées</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Preuves</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://web.archive.org" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      <article class="card p-5 flex flex-col" data-tool data-cat="Archives" data-search="archive.today capturez et figez une page web comme preuve horodatée. capture de preuve horodatage archives">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">history</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">ARCHIVES</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Archive.today</h3>
+        <p class="text-sm text-slate2 mb-3">Capturez et figez une page web comme preuve horodatée.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Capture de preuve</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Horodatage</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://archive.ph" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      </div>
+    </div>
+    <div class="mb-10" data-cat-section="Médias & métadonnées">
+      <div class="flex items-center gap-2.5 mb-4 pb-2 border-b border-line">
+        <span class="material-symbols-rounded text-primary !text-[20px]" aria-hidden="true">data_object</span>
+        <h3 class="text-base font-display font-bold text-ink uppercase tracking-wide mb-0">Médias & métadonnées</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <article class="card p-5 flex flex-col" data-tool data-cat="Médias & métadonnées" data-search="exiftool en ligne lisez les métadonnées d'une photo : appareil, date, localisation. date réelle localisation médias & métadonnées">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">data_object</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">EXIF</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">ExifTool en ligne</h3>
+        <p class="text-sm text-slate2 mb-3">Lisez les métadonnées d'une photo : appareil, date, localisation.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Date réelle</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Localisation</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://exif.tools" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      <article class="card p-5 flex flex-col" data-tool data-cat="Médias & métadonnées" data-search="fotoforensics analyse ela pour repérer les zones retouchées d'une image. retouches montages médias & métadonnées">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">data_object</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">MÉDIAS</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">FotoForensics</h3>
+        <p class="text-sm text-slate2 mb-3">Analyse ELA pour repérer les zones retouchées d'une image.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Retouches</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Montages</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://fotoforensics.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      </div>
+    </div>
+    <div class="mb-10" data-cat-section="Intelligence artificielle">
+      <div class="flex items-center gap-2.5 mb-4 pb-2 border-b border-line">
+        <span class="material-symbols-rounded text-primary !text-[20px]" aria-hidden="true">smart_toy</span>
+        <h3 class="text-base font-display font-bold text-ink uppercase tracking-wide mb-0">Intelligence artificielle</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <article class="card p-5 flex flex-col" data-tool data-cat="Intelligence artificielle" data-search="hive ai detector estimez la probabilité qu'une image ait été générée par ia. images ia deepfakes intelligence artificielle">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">smart_toy</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">IA</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Hive AI Detector</h3>
+        <p class="text-sm text-slate2 mb-3">Estimez la probabilité qu'une image ait été générée par IA.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Images IA</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Deepfakes</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://hivemoderation.com/ai-generated-content-detection" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      <article class="card p-5 flex flex-col" data-tool data-cat="Intelligence artificielle" data-search="deepware scanner analysez une vidéo pour détecter des visages synthétiques. vidéos truquées visages intelligence artificielle">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">smart_toy</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">IA</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Deepware Scanner</h3>
+        <p class="text-sm text-slate2 mb-3">Analysez une vidéo pour détecter des visages synthétiques.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Vidéos truquées</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Visages</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://deepware.ai" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      </div>
+    </div>
+    <div class="mb-10" data-cat-section="Géolocalisation">
+      <div class="flex items-center gap-2.5 mb-4 pb-2 border-b border-line">
+        <span class="material-symbols-rounded text-primary !text-[20px]" aria-hidden="true">location_on</span>
+        <h3 class="text-base font-display font-bold text-ink uppercase tracking-wide mb-0">Géolocalisation</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <article class="card p-5 flex flex-col" data-tool data-cat="Géolocalisation" data-search="google earth confirmez ou infirmez le lieu supposé d'une photo ou d'une vidéo. lieux paysages géolocalisation">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">location_on</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">GÉO</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Google Earth</h3>
+        <p class="text-sm text-slate2 mb-3">Confirmez ou infirmez le lieu supposé d'une photo ou d'une vidéo.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Lieux</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Paysages</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://earth.google.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      <article class="card p-5 flex flex-col" data-tool data-cat="Géolocalisation" data-search="mapillary photos de rue collaboratives pour recouper des indices visuels. vues de rue indices géolocalisation">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">location_on</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">GÉO</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Mapillary</h3>
+        <p class="text-sm text-slate2 mb-3">Photos de rue collaboratives pour recouper des indices visuels.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Vues de rue</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Indices</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://www.mapillary.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      </div>
+    </div>
+    <div class="mb-10" data-cat-section="Fact-checking">
+      <div class="flex items-center gap-2.5 mb-4 pb-2 border-b border-line">
+        <span class="material-symbols-rounded text-primary !text-[20px]" aria-hidden="true">fact_check</span>
+        <h3 class="text-base font-display font-bold text-ink uppercase tracking-wide mb-0">Fact-checking</h3>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <article class="card p-5 flex flex-col" data-tool data-cat="Fact-checking" data-search="google fact check explorer cherchez si une affirmation a déjà été vérifiée dans le monde. rumeurs mondiales déjà vérifié ? fact-checking">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">fact_check</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">FACT-CHECK</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">Google Fact Check Explorer</h3>
+        <p class="text-sm text-slate2 mb-3">Cherchez si une affirmation a déjà été vérifiée dans le monde.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Rumeurs mondiales</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Déjà vérifié ?</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://toolbox.google.com/factcheck/explorer" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      <article class="card p-5 flex flex-col" data-tool data-cat="Fact-checking" data-search="afp factuel les vérifications de l'afp, dont de nombreux sujets africains. actualité afrique fact-checking">
+        <div class="flex items-start justify-between gap-2 mb-3">
+          <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-primary-soft"><span class="material-symbols-rounded text-primary">fact_check</span></span>
+          <span class="text-[10px] font-bold tracking-[.05em] uppercase text-slate2">FACT-CHECK</span>
+        </div>
+        <h3 class="text-base font-display font-bold text-ink leading-snug mb-1">AFP Factuel</h3>
+        <p class="text-sm text-slate2 mb-3">Les vérifications de l'AFP, dont de nombreux sujets africains.</p>
+        <p class="text-[11px] font-bold text-slate2 uppercase tracking-wide mb-1.5">Idéal pour</p>
+        <div class="flex flex-wrap gap-1.5 mb-4"><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Actualité</span><span class="rounded-full bg-canvas border border-line text-[11px] font-semibold text-slate2 px-2.5 py-1">Afrique</span></div>
+        <div class="mt-auto pt-3 border-t border-line">
+          <a href="https://factuel.afp.com" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark min-h-[44px]">Ouvrir l'outil <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">open_in_new</span></a>
+        </div>
+      </article>
+      </div>
+    </div>
+    <div class="hidden card p-10 text-center" data-tools-empty>
+      <span class="text-3xl block mb-2" aria-hidden="true">🔎</span>
+      <p class="text-base font-display font-bold text-ink mb-1">Aucun outil trouvé</p>
+      <p class="text-sm text-slate2 mb-4">Nous n'avons trouvé aucun outil correspondant à votre recherche.<br>Essayez un autre mot-clé ou explorez une catégorie.</p>
+      <button type="button" class="inline-flex rounded-xl border border-primary text-primary text-sm font-semibold px-5 py-2.5 hover:bg-primary hover:text-white transition-colors min-h-[44px] items-center" data-tools-reset>Effacer la recherche</button>
+    </div>
+  </section>
+
+  <section class="mt-12 rounded-2xl p-6 sm:p-8 bg-primary-soft border border-primary/20 flex flex-col sm:flex-row sm:items-center gap-5">
+    <span class="text-3xl shrink-0" aria-hidden="true">🎓</span>
+    <div class="flex-1">
+      <h2 class="text-lg font-display font-bold text-ink mb-1">Vous connaissez l'outil. Maintenant, apprenez à l'utiliser correctement.</h2>
+      <p class="text-sm text-slate2 mb-0">Le cours <strong class="text-ink">OSINT Fondamentaux</strong> vous accompagne étape par étape dans vos enquêtes.</p>
+    </div>
+    <a href="cours.html?c=B" class="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-5 py-3 hover:bg-primary-dark min-h-[48px]">Découvrir le cours <span class="material-symbols-rounded !text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </section>
+
+  <p class="text-xs text-slate2 mt-6 mb-0">Outils externes sélectionnés à titre informatif. Vérif'All ne garantit pas les résultats produits par ces services. Pour un verdict documenté, <a href="verifier.html" class="font-semibold text-primary">soumettez le contenu au laboratoire</a>.</p>
+<script>
+window.VFPage = function (VF, S) {
+  var search = document.querySelector('[data-tool-search]');
+  var pills = document.querySelectorAll('[data-cat-pill]');
+  var activeCat = '';
+  function apply() {
+    var q = search.value.trim().toLowerCase();
+    var visible = 0;
+    document.querySelectorAll('[data-tool]').forEach(function (el) {
+      var ok = true;
+      if (q && el.getAttribute('data-search').indexOf(q) === -1) ok = false;
+      if (activeCat && el.getAttribute('data-cat') !== activeCat) ok = false;
+      el.classList.toggle('hidden', !ok);
+      if (ok) visible++;
+    });
+    /* masquer les sections de catégorie vides + la zone recommandés si filtre actif */
+    document.querySelectorAll('[data-cat-section]').forEach(function (sec) {
+      var any = sec.querySelectorAll('[data-tool]:not(.hidden)').length > 0;
+      sec.classList.toggle('hidden', !any);
+    });
+    document.querySelector('[data-reco-wrap]').classList.toggle('hidden', !!q || !!activeCat);
+    document.querySelector('[data-tools-empty]').classList.toggle('hidden', visible > 0);
+  }
+  search.addEventListener('input', apply);
+  pills.forEach(function (p) {
+    p.addEventListener('click', function () {
+      pills.forEach(function (x) { x.classList.remove('is-active'); });
+      p.classList.add('is-active');
+      activeCat = p.getAttribute('data-cat-pill');
+      apply();
+    });
+  });
+  document.querySelector('[data-tools-reset]').addEventListener('click', function () {
+    search.value = ''; activeCat = '';
+    pills.forEach(function (x) { x.classList.toggle('is-active', x.getAttribute('data-cat-pill') === ''); });
+    apply();
+  });
+};
+</script>
+<style>.hub-pill{display:inline-flex;align-items:center;min-height:44px;padding:0 1.1rem;border-radius:999px;border:1px solid var(--vf-line);background:#fff;font-size:.875rem;font-weight:600;color:#64748B;white-space:nowrap}.hub-pill:hover{border-color:var(--vf-primary);color:var(--vf-primary)}.hub-pill.is-active{background:#09B850;border-color:#09B850;color:#fff}.no-scrollbar{scrollbar-width:none}.no-scrollbar::-webkit-scrollbar{display:none}</style>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+<a href="verifier.html" class="fab lg:hidden" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[28px]" aria-hidden="true">add</span></a>
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+# Identifiants de signature Android — MODÈLE
+#
+# Recopier ce fichier en `android/key.properties` et le renseigner.
+# Le fichier réel n'est PAS versionné (`.gitignore`), et ne doit jamais l'être.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# 1. Créer le magasin de clés (une seule fois, et pour toute la vie de l'app)
+# ─────────────────────────────────────────────────────────────────────────────
+#
+#   keytool -genkey -v -keystore ~/verifall-televersement.jks \
+#     -keyalg RSA -keysize 2048 -validity 10000 -alias televersement
+#
+# Le fichier produit se sauvegarde comme un SECRET D'INFRASTRUCTURE, pas comme
+# un fichier de projet : le perdre, c'est perdre la capacité de mettre à jour
+# l'application — les personnes déjà installées ne recevraient plus jamais de
+# version.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# 2. Activer la « signature d'application Play » — le seul filet
+# ─────────────────────────────────────────────────────────────────────────────
+#
+# Google conserve alors la clé de DISTRIBUTION et l'on ne détient que la clé de
+# TÉLÉVERSEMENT. C'est ce qui rend l'accident ci-dessus réparable : une clé de
+# téléversement perdue se remplace, une clé de distribution non.
+# D'où le nom d'alias suggéré ci-dessus.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# 3. Vérifier
+# ─────────────────────────────────────────────────────────────────────────────
+#
+#   flutter build appbundle
+#
+# Sans ce fichier, la construction du bundle ÉCHOUE avec un message explicite —
+# elle ne produit pas un artefact signé en débogage à votre insu.
+# `flutter run --release` continue de fonctionner sans magasin de clés.
+
+storeFile=/chemin/absolu/vers/verifall-televersement.jks
+storePassword=
+keyAlias=televersement
+keyPassword=

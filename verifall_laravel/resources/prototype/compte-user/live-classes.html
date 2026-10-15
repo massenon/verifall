@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Live Classes — Vérif'All</title>
+<meta name="description" content="Classes Zoom en direct avec les mentors Vérif'All : sessions à venir, en direct et replays.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/live-classes.html">
+<meta property="og:title" content="Live Classes — Vérif'All">
+<meta property="og:description" content="Classes Zoom en direct avec les mentors Vérif'All : sessions à venir, en direct et replays.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link" href="catalogue.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+    <div><nav class="text-xs text-slate2 mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-primary">Dashboard</a> <span class="text-line" aria-hidden="true">/</span> <span class="text-ink font-medium">Live Classes</span></nav>
+      <h1 class="text-2xl md:text-3xl font-display font-bold text-ink leading-tight">Live Classes</h1><p class="text-slate2 mt-1 mb-0">Vos classes Zoom en direct avec les mentors Vérif'All : posez vos questions, approfondissez les cours.</p>
+    </div>
+  </div>
+  <div class="flex gap-1.5 mb-5" data-tabs data-tabs-hook="">
+    <button type="button" class="pill-tab is-active" data-tab="lc-upcoming">À venir</button>
+    <button type="button" class="pill-tab" data-tab="lc-live">En direct</button>
+    <button type="button" class="pill-tab" data-tab="lc-past">Terminées</button>
+  </div>
+  <div data-tabs-scope>
+    <div data-tab-panel="lc-upcoming" class="is-active space-y-4" data-lc-upcoming></div>
+    <div data-tab-panel="lc-live" class="space-y-4" data-lc-live></div>
+    <div data-tab-panel="lc-past" class="space-y-4" data-lc-past></div>
+  </div>
+
+  <div class="modal-backdrop" id="modal-join">
+    <div class="modal p-6" role="dialog" aria-modal="true" aria-labelledby="join-title">
+      <div class="flex items-center gap-3 mb-3">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-vfalse/10 text-vfalse"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">videocam</span></span>
+        <h2 id="join-title" class="text-lg font-display font-bold text-ink mb-0">Rejoindre la classe</h2>
+      </div>
+      <p class="text-sm text-slate2 mb-1">Vous allez rejoindre :</p>
+      <p class="text-sm font-semibold text-ink mb-4" data-join-title></p>
+      <div class="rounded-xl bg-canvas border border-line p-3 mb-4">
+        <p class="text-xs text-slate2 mb-1">Lien Zoom de la session</p>
+        <p class="text-sm font-mono text-ink mb-0 break-all" data-join-link>https://zoom.us/j/8214479021</p>
+      </div>
+      <div class="flex gap-2 justify-end">
+        <button type="button" class="rounded-xl px-4 py-2.5 text-sm font-semibold text-slate2 hover:bg-canvas" data-modal-close>Annuler</button>
+        <button type="button" class="rounded-xl bg-primary text-white px-5 py-2.5 text-sm font-semibold hover:bg-primary-dark" data-join-copy>Copier le lien et rejoindre</button>
+      </div>
+    </div>
+  </div>
+<script>
+window.VFPage = function (VF) {
+  var CLASSES = [
+    { id: 'lc1', title: 'Fact-checking avancé : cas pratiques béninois', course: 'Introduction au fact-checking', mentor: 'Dr. Samuel A.', when: 'Demain · 15:00', duration: '60 min', status: 'upcoming', dt: nextDay(15), zoom: 'https://zoom.us/j/8214479021' },
+    { id: 'lc2', title: 'Atelier OSINT : géolocaliser une photo en direct', course: 'OSINT Fondamentaux', mentor: 'Atman Bouba', when: 'Vendredi · 18:30', duration: '90 min', status: 'upcoming', dt: nextDay(18, 4), zoom: 'https://zoom.us/j/8214479022' },
+    { id: 'lc3', title: 'Q&R — Détecter les images IA', course: 'Détection des Deepfakes', mentor: 'Gloria Tchidime', when: 'En ce moment', duration: '45 min', status: 'live', zoom: 'https://zoom.us/j/8214479023' },
+    { id: 'lc4', title: 'Introduction : vos premiers réflexes de vérification', course: 'Introduction au fact-checking', mentor: 'Dr. Samuel A.', when: 'Mardi dernier', duration: '60 min', status: 'past' },
+    { id: 'lc5', title: 'Métadonnées et archives web', course: 'OSINT Fondamentaux', mentor: 'Atman Bouba', when: 'Il y a 2 semaines', duration: '75 min', status: 'past' }
+  ];
+  function nextDay(hour, plusDays) {
+    var d = new Date();
+    d.setDate(d.getDate() + (plusDays || 1));
+    d.setHours(hour, 0, 0, 0);
+    return d;
+  }
+  function esc(s) { return String(s).replace(/</g, '&lt;'); }
+  function icsDate(d) {
+    return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  }
+  function card(c) {
+    var badge = c.status === 'live'
+      ? '<span class="vbadge vbadge-false"><span class="inline-block w-2 h-2 rounded-full bg-vfalse animate-pulse"></span> EN DIRECT</span>'
+      : c.status === 'upcoming'
+        ? '<span class="vbadge vbadge-progress">PLANIFIÉE</span>'
+        : '<span class="vbadge vbadge-true">TERMINÉE</span>';
+    var actions = '';
+    if (c.status === 'live') {
+      actions = '<button type="button" class="rounded-xl bg-vfalse text-white text-sm font-semibold px-4 py-2.5 hover:opacity-90" data-join="' + c.id + '">Rejoindre maintenant</button>';
+    } else if (c.status === 'upcoming') {
+      actions = '<button type="button" class="rounded-xl border border-line text-sm font-semibold text-ink px-4 py-2.5 hover:bg-canvas" data-ics="' + c.id + '">Ajouter au calendrier</button>'
+        + '<button type="button" class="rounded-xl bg-canvas text-sm font-semibold text-slate2 px-4 py-2.5 cursor-not-allowed" disabled title="Le lien s\'active 10 minutes avant le début">Rejoindre bientôt</button>';
+    } else {
+      actions = '<a href="mes-tutoriels.html" class="rounded-xl border border-line text-sm font-semibold text-ink px-4 py-2.5 hover:bg-canvas inline-flex items-center gap-1.5"><span class="material-symbols-rounded !text-[18px]">play_circle</span> Voir le replay</a>';
+    }
+    return '<article class="card p-5">'
+      + '<div class="flex flex-wrap items-center justify-between gap-2 mb-2">' + badge + '<span class="text-xs text-slate2">' + esc(c.when) + ' · ' + esc(c.duration) + '</span></div>'
+      + '<h2 class="text-base font-display font-bold text-ink leading-snug mb-1">' + esc(c.title) + '</h2>'
+      + '<p class="text-xs text-slate2 mb-4">' + esc(c.course) + ' · animée par ' + esc(c.mentor) + '</p>'
+      + '<div class="flex flex-wrap gap-2">' + actions + '</div></article>';
+  }
+  function fill(sel, status, emptyMsg) {
+    var list = CLASSES.filter(function (c) { return c.status === status; });
+    document.querySelector(sel).innerHTML = list.length
+      ? list.map(card).join('')
+      : '<div class="card p-8 text-center"><span class="material-symbols-rounded text-slate2 !text-[36px] block mb-2">videocam_off</span><p class="text-sm text-slate2 mb-0">' + emptyMsg + '</p></div>';
+  }
+  fill('[data-lc-upcoming]', 'upcoming', 'Aucune classe planifiée pour le moment. Les mentors annoncent les prochaines sessions dans les notifications.');
+  fill('[data-lc-live]', 'live', 'Aucune classe en direct actuellement.');
+  fill('[data-lc-past]', 'past', 'Aucune classe terminée.');
+
+  var current = null;
+  document.addEventListener('click', function (e) {
+    var j = e.target.closest('[data-join]');
+    if (j) {
+      current = CLASSES.find(function (c) { return c.id === j.getAttribute('data-join'); });
+      document.querySelector('[data-join-title]').textContent = current.title;
+      document.querySelector('[data-join-link]').textContent = current.zoom;
+      VF.openModal('modal-join');
+    }
+    var i = e.target.closest('[data-ics]');
+    if (i) {
+      var c = CLASSES.find(function (x) { return x.id === i.getAttribute('data-ics'); });
+      var end = new Date(c.dt.getTime() + parseInt(c.duration, 10) * 60000);
+      var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Verifall//LiveClass//FR', 'BEGIN:VEVENT',
+        'UID:' + c.id + '@verifall.com',
+        'DTSTAMP:' + icsDate(new Date()),
+        'DTSTART:' + icsDate(c.dt),
+        'DTEND:' + icsDate(end),
+        'SUMMARY:' + c.title.replace(/,/g, '\\,'),
+        'DESCRIPTION:Live Class Vérif\'All — ' + c.course.replace(/,/g, '\\,') + ' (mentor : ' + c.mentor + ')',
+        'LOCATION:' + c.zoom,
+        'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+      var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'verifall-live-class.ics';
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 800);
+      VF.toast('Événement ajouté : fichier calendrier téléchargé.');
+    }
+  });
+  var copyBtn = document.querySelector('[data-join-copy]');
+  if (copyBtn) copyBtn.addEventListener('click', function () {
+    var link = document.querySelector('[data-join-link]').textContent;
+    function done() {
+      VF.closeModal('modal-join');
+      VF.toast('Lien copié — la fenêtre Zoom s\'ouvrirait ici en production.');
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(link).then(done, done);
+    } else { done(); }
+  });
+};
+</script>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+<a href="verifier.html" class="fab lg:hidden" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[28px]" aria-hidden="true">add</span></a>
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>

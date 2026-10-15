@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Catalogue de cours — Académie Vérif'All</title>
+<meta name="description" content="La bibliothèque d'apprentissage Vérif'All : progression, reprise intelligente, filtres gratuit/premium et parcours certifiant.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://verifall.com/compte-user/catalogue.html">
+<meta property="og:title" content="Catalogue de cours — Académie Vérif'All">
+<meta property="og:description" content="La bibliothèque d'apprentissage Vérif'All : progression, reprise intelligente, filtres gratuit/premium et parcours certifiant.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<link rel="icon" href="../images/favicon.png">
+<link rel="stylesheet" href="../css/fonts/fonts.css">
+<link rel="stylesheet" href="css/citizen.css">
+<link rel="stylesheet" href="../css/tailwind.css">
+</head>
+<body class="font-sans text-slate2 bg-canvas antialiased">
+<a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-surface focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-card">Aller au contenu</a>
+
+<header class="fixed top-0 inset-x-0 z-40 h-[72px] bg-surface border-b border-line shadow-[0_1px_0_rgba(17,24,39,.02)]">
+  <div class="h-full flex items-center gap-3 lg:gap-5 px-4 lg:px-6">
+    <button type="button" class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-canvas text-ink" data-drawer-open aria-label="Ouvrir le menu" aria-expanded="false">
+      <span class="material-symbols-rounded " aria-hidden="true">menu</span>
+    </button>
+    <a href="dashboard.html" class="shrink-0" aria-label="Vérif'All — tableau de bord">
+      <img src="../images/logo.png" alt="Vérif'All" width="171" height="60" class="h-10 w-auto">
+    </a>
+    <div class="hidden md:flex flex-1 min-w-0 max-w-xl relative mr-auto ml-4 lg:ml-8" data-global-search>
+      <label for="global-search" class="sr-only">Recherche globale</label>
+      <span class="material-symbols-rounded absolute left-4 top-1/2 -translate-y-1/2 text-slate2 !text-[20px]" aria-hidden="true">search</span>
+      <input id="global-search" type="search" autocomplete="off" placeholder="Rechercher une vérification, un cours, un outil…"
+             class="w-full bg-canvas border border-line rounded-full pl-11 pr-4 py-3 text-sm text-ink outline-none focus:bg-surface focus:border-primary focus:ring-4 focus:ring-primary/10 transition-colors">
+      <div class="hidden absolute top-full left-0 right-0 mt-2 bg-surface border border-line rounded-2xl shadow-cardlg py-2 max-h-80 overflow-auto z-30" data-search-results role="listbox"></div>
+    </div>
+    <div class="flex-1 md:hidden"></div>
+    <div class="flex items-center gap-2 lg:gap-3 shrink-0 ml-auto md:ml-0">
+    <a href="verifier.html" class="hidden sm:inline-flex items-center gap-1.5 rounded-xl bg-brandred text-white text-sm font-semibold px-5 py-3 hover:opacity-90 transition-opacity shadow-[0_2px_8px_rgba(214,41,62,.35)]">
+      <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span> Vérifier
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="relative inline-flex items-center justify-center w-11 h-11 rounded-full hover:bg-canvas text-ink" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Notifications">
+        <span class="material-symbols-rounded !text-[24px]" aria-hidden="true">notifications</span>
+        <span class="absolute top-2 right-2.5 w-2.5 h-2.5 rounded-full bg-vfalse ring-2 ring-surface" data-notif-dot></span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-[340px] bg-surface border border-line rounded-2xl shadow-cardlg z-30" data-dropdown-menu>
+        <div class="px-4 pt-4 pb-2 flex items-center justify-between">
+          <h6 class="font-display font-bold text-ink mb-0">Notifications</h6>
+          <button type="button" class="text-xs font-semibold text-primary" data-notif-clear>Tout marquer lu</button>
+        </div>
+        <div class="px-4 pb-2 flex gap-1.5" data-tabs>
+          <button type="button" class="pill-tab is-active" data-tab="notif-all">Tout</button>
+          <button type="button" class="pill-tab" data-tab="notif-verif">Vérifications</button>
+          <button type="button" class="pill-tab" data-tab="notif-lms">Apprentissage</button>
+        </div>
+        <div class="max-h-72 overflow-auto pb-2" data-notif-list></div>
+      </div>
+    </div>
+    <a href="unites.html" class="hidden sm:inline-flex items-center gap-1 rounded-xl bg-surface border border-line px-3.5 py-2.5 hover:border-primary transition-colors" title="Mes unités de vérification">
+      <span class="material-symbols-rounded !text-[21px] text-primary icon-fill" aria-hidden="true">bolt</span> <span class="text-base font-bold text-ink" data-units-badge>34</span>
+    </a>
+    <div class="relative" data-dropdown>
+      <button type="button" class="flex items-center gap-1.5" data-dropdown-toggle aria-expanded="false" aria-haspopup="true" aria-label="Menu utilisateur">
+        <span class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-sidebarbg text-white font-bold text-sm ring-2 ring-line">AD</span>
+        <span class="material-symbols-rounded hidden sm:block text-slate2 !text-[22px]" aria-hidden="true">expand_more</span>
+      </button>
+      <div class="hidden absolute right-0 top-full mt-2 w-64 bg-surface border border-line rounded-2xl shadow-cardlg py-2 z-30" data-dropdown-menu>
+        <div class="px-4 py-3 border-b border-line">
+          <p class="font-display font-bold text-ink leading-tight mb-0">Adderly D.</p>
+          <p class="text-xs text-slate2 mb-0">Citoyen vérificateur</p>
+          <p class="text-xs font-bold text-xp mt-1 mb-0"><span data-xp-badge>1 280</span> XP</p>
+        </div>
+        <nav class="py-1">
+          <a class="user-menu-link" href="evaluations.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">grading</span> Mes Évaluations</a>
+          <a class="user-menu-link" href="live-classes.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">videocam</span> Live Classes</a>
+          <a class="user-menu-link" href="statistiques.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">monitoring</span> Mes Statistiques</a>
+          <a class="user-menu-link" href="unites.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">bolt</span> Mes Unités</a>
+          <a class="user-menu-link" href="recompenses.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">military_tech</span> Mes Récompenses</a>
+          <a class="user-menu-link" href="profil.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">person</span> Mon Profil</a>
+          <a class="user-menu-link" href="reglages.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">settings</span> Réglages</a>
+        </nav>
+        <div class="border-t border-line pt-1">
+          <a class="user-menu-link text-brandred" href="../connexion.html"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span> Se déconnecter</a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</header>
+
+<aside id="sidebar" class="sidebar" data-drawer aria-label="Navigation principale">
+  <div class="flex flex-col h-full overflow-y-auto px-4 py-6">
+    <nav class="flex-1">
+      <div class="mb-4">
+        <a class="sidebar-link" href="dashboard.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">space_dashboard</span><span>Tableau de bord</span></a>
+        <a class="sidebar-link" href="verifier.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">search</span><span>Vérifier un contenu</span></a>
+        <a class="sidebar-link" href="mes-verifications.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">fact_check</span><span>Mes Vérifications</span></a>
+        <a class="sidebar-link" href="outils.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">construction</span><span>Liste des Outils</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">APPRENTISSAGE</p>
+        <a class="sidebar-link" href="mes-tutoriels.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">play_lesson</span><span>Mes Tutoriels</span></a>
+        <a class="sidebar-link is-active" href="catalogue.html" aria-current="page"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">school</span><span>Catalogue de Cours</span></a>
+        <a class="sidebar-link" href="recompenses.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">workspace_premium</span><span>Certificats & Badges</span></a>
+      </div>
+      <div class="mb-4"><p class="sidebar-label">COMMUNAUTÉ</p>
+        <a class="sidebar-link" href="forum.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">forum</span><span>Forum</span></a>
+        <a class="sidebar-link" href="hub-infos.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">newspaper</span><span>Hub d'Infos Bénin</span></a>
+        <a class="sidebar-link" href="parrainage.html"><span class="material-symbols-rounded !text-[21px]" aria-hidden="true">group_add</span><span>Mon Parrainage</span></a>
+      </div>
+    </nav>
+    <a href="../connexion.html" class="mt-4 flex items-center justify-center gap-2 rounded-xl bg-brandred text-white text-sm font-semibold px-3 py-3 hover:opacity-90 transition-opacity"><span class="material-symbols-rounded !text-[20px]" aria-hidden="true">logout</span><span>Déconnexion</span></a>
+  </div>
+</aside>
+<div class="drawer-backdrop hidden lg:hidden" data-drawer-backdrop aria-hidden="true"></div>
+<main id="contenu" class="app-main">
+
+  <header class="mb-6">
+    <nav class="text-xs text-slate2 mb-2" aria-label="Fil d'Ariane"><a href="dashboard.html" class="hover:text-primary">Dashboard</a> <span class="text-line">/</span> <span class="text-ink font-medium">Catalogue de cours</span></nav>
+    <div class="grid lg:grid-cols-3 gap-5 items-stretch">
+      <div class="lg:col-span-2 card p-6 sm:p-8 flex flex-col justify-center">
+        <h1 class="text-2xl lg:text-3xl font-display font-bold text-ink mb-2">Catalogue de cours</h1>
+        <p class="text-[15px] text-slate2 max-w-xl mb-4">Développez vos compétences de vérification et devenez plus efficace pour identifier les informations fiables.</p>
+        <p class="text-xs text-slate2 mb-5">✓ Evidence &nbsp;·&nbsp; ✓ Sources &nbsp;·&nbsp; ✓ Context &nbsp;·&nbsp; ✓ Verification</p>
+        <div class="flex flex-wrap gap-2">
+          <a href="#cat-grid" class="inline-flex items-center rounded-xl bg-primary text-white text-sm font-semibold px-5 py-2.5 hover:bg-primary-dark min-h-[44px]">Explorer les cours</a>
+          <a href="statistiques.html" class="inline-flex items-center rounded-xl border border-line bg-surface text-sm font-semibold text-ink px-5 py-2.5 hover:bg-canvas min-h-[44px]">Votre progression</a>
+        </div>
+      </div>
+      <div class="card p-6 flex flex-col">
+        <p class="vf-eyebrow">Votre progression</p>
+        <p class="text-3xl font-display font-black text-ink mb-1.5"><span data-cat-prog>0</span> %</p>
+        <div class="progress mb-2"><span data-cat-prog-bar style="width:0%"></span></div>
+        <p class="text-sm text-slate2 mb-4"><span data-cat-done>0</span> cours terminé(s) · <span data-cat-inprog>0</span> en cours</p>
+        <a href="mes-tutoriels.html" class="mt-auto hidden self-start inline-flex items-center gap-1 text-sm font-semibold text-primary min-h-[44px]" data-cat-continue-link>Continuer mon apprentissage <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>
+      </div>
+    </div>
+  </header>
+
+  <section class="mb-8 hidden" data-resume-wrap>
+    <div class="rounded-2xl border border-line bg-primary-soft/40 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center gap-4" style="border-left:4px solid var(--vf-primary)">
+      <div class="min-w-0 flex-1">
+        <p class="vf-eyebrow">Continuer</p>
+        <h2 class="text-lg font-display font-bold text-ink mb-1.5" data-resume-title>—</h2>
+        <div class="flex items-center gap-2.5 max-w-md mb-1"><span class="progress flex-1"><span data-resume-bar style="width:0%"></span></span><strong class="text-sm" data-resume-pct>0 %</strong></div>
+        <p class="text-xs text-slate2 mb-0" data-resume-meta>—</p>
+      </div>
+      <a href="mes-tutoriels.html" class="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-5 py-3 hover:bg-primary-dark min-h-[48px]" data-resume-cta>Continuer le cours <span class="material-symbols-rounded !text-[16px]" aria-hidden="true">arrow_forward</span></a>
+    </div>
+  </section>
+
+  <div class="flex gap-2 overflow-x-auto pb-1 mb-4 no-scrollbar" role="tablist" aria-label="Catégories de cours">
+    <button type="button" class="hub-pill is-active" data-cat-pill="">Tous</button>
+    <button type="button" class="hub-pill" data-cat-pill="Fact-Checking">Fact-checking</button>
+    <button type="button" class="hub-pill" data-cat-pill="OSINT">Sources &amp; OSINT</button>
+    <button type="button" class="hub-pill" data-cat-pill="IA">Désinformation &amp; IA</button>
+  </div>
+
+  <div class="flex flex-col md:flex-row gap-3 mb-8">
+    <div class="relative flex-1">
+      <label class="sr-only" for="cat-search">Rechercher un cours</label>
+      <span class="material-symbols-rounded absolute left-3.5 top-1/2 -translate-y-1/2 text-slate2 !text-[19px]" aria-hidden="true">search</span>
+      <input id="cat-search" type="search" placeholder="Rechercher un cours, une compétence…" class="w-full min-h-[48px] bg-surface border border-line rounded-xl pl-10 pr-3 text-sm outline-none focus:border-primary focus:ring-4 focus:ring-primary/10" data-cat-search>
+    </div>
+    <div class="hidden md:flex gap-3">
+      <select class="bg-surface border border-line rounded-xl px-3 min-h-[48px] text-sm" data-f-level aria-label="Filtrer par niveau">
+        <option value="">Niveau : tous</option><option>Débutant</option><option>Intermédiaire</option><option>Avancé</option>
+      </select>
+      <select class="bg-surface border border-line rounded-xl px-3 min-h-[48px] text-sm" data-f-price aria-label="Filtrer par prix">
+        <option value="">Prix : tous</option><option value="free">Gratuit</option><option value="premium">Premium</option>
+      </select>
+    </div>
+    <button type="button" class="md:hidden inline-flex items-center justify-center gap-1.5 rounded-xl border border-line bg-surface text-sm font-semibold text-ink min-h-[48px] px-4" data-sheet-open><span class="material-symbols-rounded !text-[18px]" aria-hidden="true">tune</span> Filtres</button>
+  </div>
+
+  <section class="mb-10" data-reco-wrap>
+    <h2 class="text-xl font-display font-bold text-ink mb-0.5">Recommandé pour vous</h2>
+    <p class="text-sm text-slate2 mb-4">Basé sur vos vérifications et votre progression.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-5" data-reco-grid></div>
+  </section>
+
+  <section id="cat-grid">
+    <h2 class="text-xl font-display font-bold text-ink mb-4">Tous les cours</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5" data-course-grid></div>
+    <div class="hidden card p-10 text-center mt-4" data-cat-empty>
+      <span class="text-3xl block mb-2" aria-hidden="true">🔎</span>
+      <p class="text-base font-display font-bold text-ink mb-1">Aucun cours trouvé</p>
+      <p class="text-sm text-slate2 mb-4">Essayez une autre recherche ou réinitialisez vos filtres.</p>
+      <button type="button" class="inline-flex rounded-xl border border-primary text-primary text-sm font-semibold px-5 py-2.5 hover:bg-primary hover:text-white transition-colors min-h-[44px] items-center" data-cat-reset>Réinitialiser les filtres</button>
+    </div>
+  </section>
+
+  <section class="mt-12 card p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center gap-5">
+    <span class="text-3xl shrink-0" aria-hidden="true">🏆</span>
+    <div class="flex-1">
+      <p class="vf-eyebrow">Parcours certifiant</p>
+      <h2 class="text-lg font-display font-bold text-ink mb-1">Maîtrisez les fondamentaux du fact-checking</h2>
+      <p class="text-sm text-slate2 mb-0">4 cours · environ 4 h 30 · Certificat Vérif'All signé et vérifiable.</p>
+    </div>
+    <a href="cours.html?c=A" class="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-primary text-white text-sm font-semibold px-5 py-3 hover:bg-primary-dark min-h-[48px]">Découvrir le parcours <span class="material-symbols-rounded !text-[16px]" aria-hidden="true">arrow_forward</span></a>
+  </section>
+
+  <div class="fixed inset-0 z-[70] hidden" data-sheet>
+    <div class="absolute inset-0 bg-black/50" data-sheet-close></div>
+    <div class="absolute inset-x-0 bottom-0 bg-surface rounded-t-3xl p-6 pb-8" role="dialog" aria-modal="true" aria-label="Filtres des cours">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-lg font-display font-bold text-ink mb-0">Filtres</h2>
+        <button type="button" class="w-10 h-10 inline-flex items-center justify-center rounded-lg hover:bg-canvas" data-sheet-close aria-label="Fermer"><span class="material-symbols-rounded " aria-hidden="true">close</span></button>
+      </div>
+      <p class="text-xs font-bold text-slate2 uppercase tracking-wide mb-2">Niveau</p>
+      <div class="flex flex-wrap gap-2 mb-5" data-sheet-level>
+        <button type="button" class="hub-pill is-active" data-v="">Tous</button>
+        <button type="button" class="hub-pill" data-v="Débutant">Débutant</button>
+        <button type="button" class="hub-pill" data-v="Intermédiaire">Intermédiaire</button>
+        <button type="button" class="hub-pill" data-v="Avancé">Avancé</button>
+      </div>
+      <p class="text-xs font-bold text-slate2 uppercase tracking-wide mb-2">Prix</p>
+      <div class="flex flex-wrap gap-2 mb-6" data-sheet-price>
+        <button type="button" class="hub-pill is-active" data-v="">Tous</button>
+        <button type="button" class="hub-pill" data-v="free">Gratuit</button>
+        <button type="button" class="hub-pill" data-v="premium">Premium</button>
+      </div>
+      <div class="flex gap-2">
+        <button type="button" class="flex-1 rounded-xl border border-line text-sm font-semibold text-ink py-3 min-h-[48px]" data-sheet-reset>Réinitialiser</button>
+        <button type="button" class="flex-1 rounded-xl bg-primary text-white text-sm font-semibold py-3 min-h-[48px]" data-sheet-apply>Appliquer</button>
+      </div>
+    </div>
+  </div>
+<script>
+window.VFPage = function (VF, S) {
+  function esc(x) { return String(x).replace(/</g, '&lt;'); }
+  var CATMAP = { A: 'Fact-Checking', B: 'OSINT', C: 'IA', D: 'Fact-Checking' };
+
+  /* ——— Widget Ma progression ——— */
+  var doneN = 0, inProgN = 0, sum = 0;
+  S.COURSES.forEach(function (c) {
+    var st = S.courseStatus(c.id);
+    sum += S.progress(c.id);
+    if (st === 'COMPLETED') doneN++;
+    else if (st === 'IN_PROGRESS' || st === 'ENROLLED') inProgN++;
+  });
+  var avg = Math.round(sum / S.COURSES.length);
+  document.querySelector('[data-cat-prog]').textContent = avg;
+  requestAnimationFrame(function () { document.querySelector('[data-cat-prog-bar]').style.width = avg + '%'; });
+  document.querySelector('[data-cat-done]').textContent = doneN;
+  document.querySelector('[data-cat-inprog]').textContent = inProgN;
+
+  /* ——— Reprendre : cours en cours le plus avancé ——— */
+  var resume = null;
+  S.COURSES.forEach(function (c) {
+    var st = S.courseStatus(c.id);
+    if (st === 'IN_PROGRESS' || st === 'ENROLLED') {
+      if (!resume || S.progress(c.id) > S.progress(resume.id)) resume = c;
+    }
+  });
+  if (resume) {
+    var rp = S.progress(resume.id);
+    var next = S.nextLesson(resume.id);
+    var rst = S.courseState(resume.id);
+    var href = next ? 'lecon.html?c=' + resume.id + '&l=' + next.id : 'cours.html?c=' + resume.id;
+    document.querySelector('[data-resume-wrap]').classList.remove('hidden');
+    document.querySelector('[data-resume-title]').textContent = resume.title;
+    document.querySelector('[data-resume-pct]').textContent = rp + ' %';
+    requestAnimationFrame(function () { document.querySelector('[data-resume-bar]').style.width = rp + '%'; });
+    document.querySelector('[data-resume-meta]').textContent = rst.completedLessons.length + ' / ' + resume.lessons.length + ' leçons' + (next ? ' · Prochaine : ' + next.title : '');
+    document.querySelector('[data-resume-cta]').href = href;
+    var link = document.querySelector('[data-cat-continue-link]');
+    link.classList.remove('hidden'); link.href = href;
+  }
+
+  /* ——— Un seul composant carte, 4 états ——— */
+  function courseCard(c) {
+    var status = S.courseStatus(c.id);
+    var prog = S.progress(c.id);
+    var st = S.courseState(c.id);
+    var price = c.free ? '<span class="vbadge vbadge-true">GRATUIT</span>' : '<span class="vbadge" style="background:rgba(124,58,237,.1);color:#6D28D9">PREMIUM · ' + c.cost + ' unités</span>';
+    var footer;
+    if (status === 'COMPLETED' && st.certId) {
+      footer = '<p class="mb-2"><span class="vbadge vbadge-true">✓ Certifié</span></p><a href="certificat.html?c=' + c.id + '" class="inline-flex items-center rounded-xl border border-primary text-primary text-sm font-semibold px-4 py-2.5 hover:bg-primary hover:text-white transition-colors min-h-[44px]">Voir certificat</a>';
+    } else if (status === 'COMPLETED') {
+      footer = '<p class="mb-2"><span class="vbadge vbadge-true">✓ Terminé</span></p><a href="cours.html?c=' + c.id + '" class="inline-flex items-center rounded-xl border border-line text-sm font-semibold text-ink px-4 py-2.5 hover:bg-canvas min-h-[44px]">Revoir</a>';
+    } else if (status === 'IN_PROGRESS' || status === 'ENROLLED') {
+      var next = S.nextLesson(c.id);
+      var href = next ? 'lecon.html?c=' + c.id + '&l=' + next.id : 'cours.html?c=' + c.id;
+      footer = '<div class="flex items-center gap-2 mb-2.5"><span class="progress flex-1"><span style="width:' + prog + '%"></span></span><strong class="text-xs">' + prog + ' %</strong></div>'
+        + '<a href="' + href + '" class="inline-flex items-center rounded-xl bg-primary text-white text-sm font-semibold px-4 py-2.5 hover:bg-primary-dark min-h-[44px]">Continuer <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>';
+    } else {
+      footer = '<a href="cours.html?c=' + c.id + '" class="inline-flex items-center rounded-xl bg-primary text-white text-sm font-semibold px-4 py-2.5 hover:bg-primary-dark min-h-[44px]">Commencer <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span></a>';
+    }
+    return '<article class="card flex flex-col overflow-hidden" data-course data-cat="' + CATMAP[c.id] + '" data-level="' + esc(c.level) + '" data-price="' + (c.free ? 'free' : 'premium') + '" data-search="' + esc((c.title + ' ' + c.desc + ' ' + c.level + ' ' + CATMAP[c.id]).toLowerCase()) + '">'
+      + '<a href="cours.html?c=' + c.id + '" class="block"><img src="' + c.cover + '" alt="" width="640" height="360" loading="lazy" class="w-full object-cover" style="aspect-ratio:16/9" aria-hidden="true"></a>'
+      + '<div class="p-4 flex flex-col flex-1">'
+      + '<p class="text-[10px] font-bold tracking-[.08em] text-primary uppercase mb-1.5">' + CATMAP[c.id] + '</p>'
+      + '<h3 class="text-base font-display font-bold text-ink leading-snug mb-1"><a href="cours.html?c=' + c.id + '" class="hover:text-primary transition-colors">' + esc(c.title) + '</a></h3>'
+      + '<p class="text-sm text-slate2 mb-2.5">' + esc(c.desc).slice(0, 110) + '…</p>'
+      + '<p class="text-xs text-slate2 mb-2">★ ' + c.rating + ' · ' + c.lessons.length + ' leçons · ' + esc(c.duration) + ' · ' + esc(c.level) + '</p>'
+      + '<p class="mb-3">' + price + '</p>'
+      + '<div class="mt-auto">' + footer + '</div></div></article>';
+  }
+
+  var grid = document.querySelector('[data-course-grid]');
+  grid.innerHTML = S.COURSES.map(courseCard).join('');
+
+  /* ——— Recommandé pour vous : cours non commencés ——— */
+  var recos = S.COURSES.filter(function (c) { return S.courseStatus(c.id) === 'NOT_STARTED'; }).slice(0, 2);
+  var recoWrap = document.querySelector('[data-reco-wrap]');
+  if (recos.length) document.querySelector('[data-reco-grid]').innerHTML = recos.map(courseCard).join('');
+  else recoWrap.classList.add('hidden');
+
+  /* ——— Recherche + filtres (recherche élargie : titre, desc, niveau, catégorie) ——— */
+  var search = document.querySelector('[data-cat-search]');
+  var fLevel = document.querySelector('[data-f-level]');
+  var fPrice = document.querySelector('[data-f-price]');
+  var pills = document.querySelectorAll('[data-cat-pill]');
+  var activeCat = '', mLevel = '', mPrice = '';
+  function apply() {
+    var q = search.value.trim().toLowerCase();
+    var lv = fLevel.value || mLevel, pr = fPrice.value || mPrice;
+    var visible = 0;
+    document.querySelectorAll('[data-course]').forEach(function (el) {
+      var ok = true;
+      if (q && el.getAttribute('data-search').indexOf(q) === -1) ok = false;
+      if (activeCat && el.getAttribute('data-cat') !== activeCat) ok = false;
+      if (lv && el.getAttribute('data-level') !== lv) ok = false;
+      if (pr && el.getAttribute('data-price') !== pr) ok = false;
+      el.classList.toggle('hidden', !ok);
+      if (ok) visible++;
+    });
+    document.querySelector('[data-cat-empty]').classList.toggle('hidden', visible > 0);
+    recoWrap.classList.toggle('hidden', !!q || !!activeCat || !!lv || !!pr || !recos.length);
+  }
+  [search, fLevel, fPrice].forEach(function (el) { el.addEventListener('input', apply); });
+  pills.forEach(function (p) {
+    p.addEventListener('click', function () {
+      pills.forEach(function (x) { x.classList.remove('is-active'); });
+      p.classList.add('is-active');
+      activeCat = p.getAttribute('data-cat-pill');
+      apply();
+    });
+  });
+  document.querySelector('[data-cat-reset]').addEventListener('click', function () {
+    search.value = ''; fLevel.value = ''; fPrice.value = ''; activeCat = ''; mLevel = ''; mPrice = '';
+    pills.forEach(function (x) { x.classList.toggle('is-active', x.getAttribute('data-cat-pill') === ''); });
+    apply();
+  });
+
+  /* ——— Bottom sheet mobile ——— */
+  var sheet = document.querySelector('[data-sheet]');
+  document.querySelector('[data-sheet-open]').addEventListener('click', function () { sheet.classList.remove('hidden'); });
+  sheet.querySelectorAll('[data-sheet-close]').forEach(function (b) { b.addEventListener('click', function () { sheet.classList.add('hidden'); }); });
+  function bindGroup(sel, setter) {
+    var wrap = sheet.querySelector(sel);
+    wrap.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-v]');
+      if (!b) return;
+      wrap.querySelectorAll('[data-v]').forEach(function (x) { x.classList.remove('is-active'); });
+      b.classList.add('is-active');
+      setter(b.getAttribute('data-v'));
+    });
+  }
+  bindGroup('[data-sheet-level]', function (v) { mLevel = v; });
+  bindGroup('[data-sheet-price]', function (v) { mPrice = v; });
+  sheet.querySelector('[data-sheet-reset]').addEventListener('click', function () {
+    mLevel = ''; mPrice = '';
+    sheet.querySelectorAll('.hub-pill').forEach(function (x) { x.classList.toggle('is-active', x.getAttribute('data-v') === ''); });
+    apply();
+  });
+  sheet.querySelector('[data-sheet-apply]').addEventListener('click', function () { sheet.classList.add('hidden'); apply(); });
+};
+</script>
+<style>.hub-pill{display:inline-flex;align-items:center;min-height:44px;padding:0 1.1rem;border-radius:999px;border:1px solid var(--vf-line);background:#fff;font-size:.875rem;font-weight:600;color:#64748B;white-space:nowrap}.hub-pill:hover{border-color:var(--vf-primary);color:var(--vf-primary)}.hub-pill.is-active{background:#09B850;border-color:#09B850;color:#fff}.no-scrollbar{scrollbar-width:none}.no-scrollbar::-webkit-scrollbar{display:none}</style>
+</main>
+
+<nav class="bottom-nav lg:hidden" aria-label="Navigation mobile">
+  <a href="dashboard.html" class="bn-item" data-bn="dashboard.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">home</span><span>Accueil</span></a>
+  <a href="catalogue.html" class="bn-item" data-bn="catalogue.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">school</span><span>Apprendre</span></a>
+  <a href="verifier.html" class="bn-verify" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[26px]" aria-hidden="true">search</span></a>
+  <a href="forum.html" class="bn-item" data-bn="forum.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">forum</span><span>Communauté</span></a>
+  <a href="profil.html" class="bn-item" data-bn="profil.html"><span class="material-symbols-rounded !text-[24px]" aria-hidden="true">person</span><span>Profil</span></a>
+</nav>
+<a href="verifier.html" class="fab lg:hidden" aria-label="Vérifier un contenu"><span class="material-symbols-rounded !text-[28px]" aria-hidden="true">add</span></a>
+<script src="js/vf-store.js" defer></script>
+<script src="js/citizen.js" defer></script>
+</body>
+</html>
