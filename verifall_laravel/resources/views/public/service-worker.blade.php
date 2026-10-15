@@ -65,6 +65,11 @@ self.addEventListener('activate', (evenement) => {
  */
 function conservable(reponse) {
   if (!reponse || !reponse.ok) return false;
+  /* Une réponse obtenue au bout d'une redirection n'est pas celle de l'adresse
+     demandée : `/mon-espace/…` sans session aboutit à la page de connexion.
+     La ranger sous l'adresse d'origine servirait, hors ligne, la connexion à
+     la place du tableau de bord. */
+  if (reponse.redirected) return false;
   /* `basic` = même origine. On ne conserve rien d'un tiers : on ne maîtrise ni
      sa durée de validité, ni ce qu'il renvoie. */
   if (reponse.type !== 'basic') return false;
@@ -77,6 +82,22 @@ function conservable(reponse) {
   if (reponse.headers.has('Set-Cookie')) return false;
 
   return true;
+}
+
+/**
+ * Range une copie dans un cache, sans jamais faire échouer la réponse.
+ *
+ * Un cache plein (quota du téléphone) ou indisponible fait rejeter `put`.
+ * Ce rejet ne doit ni remonter en « promesse non gérée », ni — pire — faire
+ * croire à un échec réseau alors que le serveur a bien répondu.
+ */
+async function conserver(nomDuCache, requete, reponse) {
+  try {
+    const cache = await caches.open(nomDuCache);
+    await cache.put(requete, reponse);
+  } catch (echec) {
+    /* Pas de cache cette fois-ci : la réponse, elle, part quand même. */
+  }
 }
 
 /** Limite la taille d'un cache, en jetant les entrées les plus anciennes. */
@@ -102,7 +123,13 @@ self.addEventListener('fetch', (evenement) => {
      revient à garder un lien mort, et à faire croire à un échec réseau. */
   if (url.pathname.startsWith('/api/') || url.searchParams.has('signature')) return;
 
+  /* `wire:navigate` et `redirectRoute(…, navigate: true)` — la connexion mène
+     ainsi au tableau de bord — chargent la page par un `fetch()` ordinaire :
+     ni `mode: 'navigate'`, ni `Accept: text/html`, seulement l'en-tête
+     `X-Livewire-Navigate`. Sans ce troisième test, une page authentifiée
+     passait pour une feuille de style, en cache d'abord. */
   const estUnePage = requete.mode === 'navigate'
+    || requete.headers.has('X-Livewire-Navigate')
     || (requete.headers.get('Accept') || '').includes('text/html');
 
   evenement.respondWith(estUnePage ? servirUnePage(requete) : servirUneRessource(requete));
@@ -116,29 +143,58 @@ self.addEventListener('fetch', (evenement) => {
  * donc le cache que lorsque le réseau a réellement échoué.
  */
 async function servirUnePage(requete) {
+  let reponse;
   try {
-    const reponse = await fetch(requete);
-
-    if (conservable(reponse)) {
-      const copie = reponse.clone();
-      const cache = await caches.open(CACHE_PAGES);
-      await cache.put(requete, copie);
-      plafonner(CACHE_PAGES, PAGES_MAX);
-    }
-
-    return reponse;
+    reponse = await fetch(requete);
   } catch (echec) {
+    /* Seul un échec RÉSEAU arrive ici. Une 401, une 403, une 500 sont des
+       réponses du serveur : elles repartent telles quelles, plus bas. */
+    return pageDeSecours(requete);
+  }
+
+  if (conservable(reponse)) {
+    await conserver(CACHE_PAGES, requete, reponse.clone());
+    plafonner(CACHE_PAGES, PAGES_MAX).catch(() => null);
+  }
+
+  return reponse;
+}
+
+/**
+ * Ce qu'on sert quand le réseau a échoué sur une page.
+ *
+ * Une page privée n'est jamais en cache (`no-store`, voir `conservable`) :
+ * le tableau de bord ne peut donc pas être remplacé par une version ancienne,
+ * ni par celle d'une autre personne. Il reçoit la page hors ligne — avec un
+ * statut 503, qui dit la vérité : ce n'est pas la page demandée.
+ */
+async function pageDeSecours(requete) {
+  try {
     const enCache = await caches.match(requete);
     if (enCache) return enCache;
 
     const horsLigne = await caches.match(PAGE_HORS_LIGNE);
-    if (horsLigne) return horsLigne;
-
-    return new Response(
-      'Vous êtes hors ligne, et cette page n’a pas encore été consultée sur cet appareil.',
-      { status: 503, headers: { 'Content-Type': 'text/plain; charset=UTF-8' } },
-    );
+    if (horsLigne) {
+      return new Response(horsLigne.body, {
+        status: 503,
+        statusText: 'Service Unavailable',
+        headers: horsLigne.headers,
+      });
+    }
+  } catch (echec) {
+    /* Cache illisible : on tombe sur la réponse de dernier recours. */
   }
+
+  return indisponible('Vous êtes hors ligne, et cette page n’a pas encore été consultée sur cet appareil.');
+}
+
+/** La réponse de dernier recours : jamais un succès simulé, jamais en cache. */
+function indisponible(message) {
+  return new Response(message, {
+    status: 503,
+    statusText: 'Service Unavailable',
+    headers: { 'Content-Type': 'text/plain; charset=UTF-8', 'Cache-Control': 'no-store' },
+  });
 }
 
 /**
@@ -149,14 +205,27 @@ async function servirUnePage(requete) {
  * forfait sans jamais servir de version périmée.
  */
 async function servirUneRessource(requete) {
-  const enCache = await caches.match(requete);
-  if (enCache) return enCache;
+  try {
+    const enCache = await caches.match(requete);
+    if (enCache) return enCache;
+  } catch (echec) {
+    /* Cache illisible : le réseau prend le relais. */
+  }
 
-  const reponse = await fetch(requete);
+  let reponse;
+  try {
+    reponse = await fetch(requete);
+  } catch (echec) {
+    /* Sans ce `catch`, le rejet remontait jusqu'à `respondWith` : « Uncaught
+       (in promise) TypeError: Failed to fetch », et une erreur réseau brute
+       pour la page. On répond 503, sans réessayer : un nouvel essai est
+       l'affaire de la page, pas d'une boucle ici. */
+    console.warn('[Service Worker] Échec réseau', { url: requete.url });
+    return indisponible('Ressource momentanément indisponible.');
+  }
 
   if (conservable(reponse)) {
-    const cache = await caches.open(CACHE_SOCLE);
-    cache.put(requete, reponse.clone());
+    await conserver(CACHE_SOCLE, requete, reponse.clone());
   }
 
   return reponse;
