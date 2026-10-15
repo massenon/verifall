@@ -182,6 +182,23 @@ for (const status of [401, 403, 500]) {
     verifier(`8. ${nom} non interceptée`, (await sw.requete(req)).intercepte === false);
   }
 }
+// --- 8b. Les autres requêtes Livewire gardent leur traitement ordinaire
+{
+  const sw = await preparer();
+  let appels = 0;
+  sw.setReseau(async () => { appels++; return serveur('/* livewire */', { headers: { 'Content-Type': 'application/javascript' } }); });
+  const script = ORIGINE + '/livewire/livewire.js?id=abc';
+  await sw.requete(new Request(script));
+  const second = await sw.requete(new Request(script));
+  verifier('8b. livewire.js (sans X-Livewire-Navigate) : ressource, cache d\'abord', appels === 1 && second.reponse?.status === 200, `${appels} appel(s) réseau`);
+}
+// --- 2c. Navigation classique sans session : la redirection opaque repart telle quelle
+{
+  const sw = await preparer();
+  sw.setReseau(async () => { const r = new Response(null, { status: 200 }); Object.defineProperty(r, 'type', { value: 'opaqueredirect' }); return r; });
+  const r = await sw.requete(navigation(DASH));
+  verifier('2c. redirection de navigation (opaqueredirect) transmise, jamais conservée', r.reponse?.type === 'opaqueredirect' && !(await contenu(sw)).includes(DASH));
+}
 // --- 9. Fuite entre sessions : purge à la déconnexion
 {
   const sw = await preparer();
