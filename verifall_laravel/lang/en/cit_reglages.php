@@ -60,6 +60,8 @@ return [
     'notifications' => '🔔 Notifications',
     'lettre_d_information' => 'Newsletter',
     'le_recap_mensuel_des_rumeurs_verifiees' => 'The monthly round-up of checked rumours.',
+    'historique_du_hub' => 'History of my Hub reading',
+    'historique_du_hub_aide' => 'Keeps what you read in the News Hub for 90 days, so you can find it again. Turning it off deletes the whole history.',
     'votre_accord_et_son_retrait_sont_horodates' => 'Your consent and its withdrawal are both timestamped: you can unsubscribe as easily as you subscribed.',
 
     'donnees_personnelles' => '🛡️ Personal data',

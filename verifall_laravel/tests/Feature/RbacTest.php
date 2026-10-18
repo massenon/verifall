@@ -93,6 +93,25 @@ describe('Mentor', function (): void {
         'system.settings', 'maintenance.backup', 'kyc.review']);
 });
 
+describe('Mentor — Hub et Communauté (arbitrage n° 177)', function (): void {
+    it('a le CRUD du Hub et de la Communauté', function (string $permission): void {
+        $mentor = User::factory()->create();
+        $mentor->assignRole(UserRole::Mentor->value);
+
+        expect($mentor->can($permission))->toBeTrue();
+    })->with(['hub_article.create', 'hub_article.update', 'hub_article.delete', 'hub_portal.manage',
+        'hub_job.manage', 'forum.moderate', 'forum.delete', 'forum_category.manage',
+        'post.create', 'post.update', 'post.delete', 'blog_category.manage',
+        'faq.manage', 'partner.manage', 'testimonial.manage']);
+
+    it('ne publie ni article ni actualité, et ne touche pas aux abonnés', function (string $permission): void {
+        $mentor = User::factory()->create();
+        $mentor->assignRole(UserRole::Mentor->value);
+
+        expect($mentor->can($permission))->toBeFalse();
+    })->with(['hub_article.publish', 'post.publish', 'newsletter.view', 'newsletter.send']);
+});
+
 describe('Modérateur', function (): void {
     it('modère le forum et rend des verdicts', function (string $permission): void {
         $moderateur = User::factory()->create();

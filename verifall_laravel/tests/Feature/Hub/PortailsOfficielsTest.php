@@ -171,15 +171,27 @@ it('crée, modifie et supprime un portail', function () {
 });
 
 it('refuse la gestion à qui ne détient pas hub_portal.manage', function () {
+    // Le modérateur, et non plus le mentor : depuis l'arbitrage n° 177, le
+    // mentor a le CRUD du Hub. Le modérateur n'a pas même la vue des portails.
+    $moderateur = User::factory()->create(['otp_verified_at' => now()]);
+    $moderateur->assignRole(UserRole::Moderateur->value);
+
+    expect($moderateur->can('hub_portal.view'))->toBeFalse();
+
+    $this->actingAs($moderateur, 'staff')
+        ->get(route('staff.hub-portals'))
+        ->assertForbidden();
+});
+
+it('ouvre la gestion des portails au mentor (arbitrage n° 177)', function () {
     $mentor = User::factory()->create(['otp_verified_at' => now()]);
     $mentor->assignRole(UserRole::Mentor->value);
 
-    // Le mentor n'a même pas la vue : la route le refuse en amont.
-    expect($mentor->can('hub_portal.view'))->toBeFalse();
+    expect($mentor->can('hub_portal.manage'))->toBeTrue();
 
     $this->actingAs($mentor, 'staff')
         ->get(route('staff.hub-portals'))
-        ->assertForbidden();
+        ->assertOk();
 });
 
 it('journalise l’ouverture de la rubrique', function () {

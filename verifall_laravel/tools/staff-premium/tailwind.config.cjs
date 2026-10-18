@@ -29,9 +29,12 @@ module.exports = {
      ajoutée hors de ces dossiers n'aurait pas ses classes : l'y ranger. */
   content: [
     './resources/views/components/premium/**/*.blade.php',
-    './resources/views/components/layouts/console*.blade.php',
+    './resources/views/components/layouts/staff.blade.php',
+    './resources/views/components/lucide.blade.php',
     './resources/views/livewire/staff/**/*.blade.php',
     './resources/views/livewire/auth/staff-*.blade.php',
+    './resources/views/livewire/auth/verrou-*.blade.php',
+    './resources/views/components/layouts/console-*.blade.php',
     './resources/views/staff/**/*.blade.php',
     './app/Support/Rbac/MenuDuBackOffice.php',
     './app/View/Components/Premium/**/*.php',

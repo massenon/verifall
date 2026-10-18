@@ -140,7 +140,7 @@ describe('les doublons du menu', function (): void {
         // `entreesDuMenu()`.
         $libelles = collect(MenuDuBackOffice::GROUPES)->flatten(1)->pluck(1);
 
-        expect($libelles)->toContain('Portails Officiels')
+        expect($libelles)->toContain('Portails officiels')
             ->and(entreesDuMenu('staff.hub-portals'))->toBe(1);
 
         $this->actingAs(administrateur(), 'staff')

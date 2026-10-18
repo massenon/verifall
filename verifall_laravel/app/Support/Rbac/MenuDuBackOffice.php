@@ -57,116 +57,96 @@ final class MenuDuBackOffice
      */
     public const GROUPES = [
         /*
+         | Ordre, libellés et icônes Lucide de la console premium
+         | (`resources/prototype-premium/assets/js/app.js`, arbitrage n° 176).
+         | Les gardes, elles, restent lues sur les routes : changer de libellé ne
+         | change aucun droit.
+         |
          | Sans intitulé : le tableau de bord seul, avant le premier groupe.
-         | C'est la porte, elle n'appartient à aucune rubrique.
          */
         '' => [
-            'staff.dashboard' => ['space_dashboard', 'Tableau de Bord'],
+            'staff.dashboard' => ['layout-dashboard', 'Tableau de bord'],
         ],
 
-        'FACT-CHECKING' => [
-            /*
-             | `staff.content-reports` occupait cette ligne sous le libellé
-             | « Signalements », et reparaissait en COMMUNAUTÉ sous « Contenus
-             | signalés ». Il ne liste que les contenus signalés du forum : la
-             | seconde place est la bonne, et le premier libellé désignait autre
-             | chose. Le vrai écran des signalements citoyens est
-             | `staff.verifications`, écrit le 3 septembre ; il prend la ligne
-             | qui l'attendait.
-             |
-             | `staff.unit-journal`, en revanche, est un DOUBLON VOULU — voir
-             | DOUBLONS_ASSUMES.
-             */
-            'staff.verifications' => ['fact_check', 'Signalements'],
-            'staff.knowledge' => ['verified', 'Fact checks'],
-            'staff.trusted-sources' => ['verified_user', 'Sources vérifiées'],
-            'staff.source-categories' => ['category', 'Catégories de sources'],
-            'staff.tipline' => ['forum', 'Tipline WhatsApp'],
-            'staff.unit-journal' => ['bolt', 'Historiques des Unités IA'],
-            'staff.unit-packs' => ['sell', 'Packs d’unités'],
+        'Fact-checking' => [
+            // `staff.verifications` est l'écran des signalements CITOYENS ;
+            // les contenus signalés du forum sont en Communauté.
+            'staff.verifications' => ['flame', 'Signalements'],
+            'staff.knowledge' => ['file-check', 'Fact-checks'],
+            'staff.trusted-sources' => ['shield-check', 'Sources vérifiées'],
+            'staff.source-categories' => ['tags', 'Catégories de sources'],
+            'staff.tipline' => ['message-circle', 'Tipline WhatsApp'],
+            // Doublon voulu avec « Journaux » — voir DOUBLONS_ASSUMES.
+            'staff.unit-journal' => ['zap', 'Unités IA'],
+            'staff.unit-packs' => ['package', 'Packs d’unités'],
+            'staff.tools' => ['wrench', 'Répertoire des outils'],
         ],
 
-        'PARRAINAGE' => [
-            'staff.referrals' => ['group_add', 'Suivi des parrainages'],
-            'staff.tools' => ['handyman', 'Répertoire des outils'],
+        'Académie' => [
+            'staff.courses' => ['library', 'Tous les cours'],
+            'staff.course-categories' => ['folder-tree', 'Catégories'],
+            'staff.question-bank' => ['list-checks', 'Banque de questions'],
+            'staff.exams' => ['file-check-2', 'Examens'],
+            'staff.exam-grading' => ['pen-line', 'Correction'],
+            'staff.course-enrolment' => ['user-plus', 'Inscriptions aux cours'],
+            'staff.exam-enrolment' => ['clipboard-list', 'Inscriptions aux examens'],
+            'staff.certificates' => ['award', 'Certificats'],
+            'staff.certificate-template' => ['scroll-text', 'Modèle de certificat'],
+            'staff.course-units' => ['badge-dollar-sign', 'Ventes premium'],
+            'staff.exam-stats' => ['chart-pie', 'Statistiques globales'],
         ],
 
-        'ACADÉMIE (LMS)' => [
-            'staff.course-categories' => ['category', 'Catégories'],
-            'staff.courses' => ['school', 'Tous les Cours'],
-            'staff.question-bank' => ['quiz', 'Banque de Questions'],
-            'staff.live-classes' => ['videocam', 'Live Classes'],
-            'staff.certificates' => ['workspace_premium', 'Certificats'],
-            'staff.course-units' => ['payments', 'Unités des Cours Premium'],
+        'Espace mentor' => [
+            'staff.live-classes' => ['video', 'Live classes'],
+            'staff.my-content' => ['folder-open', 'Mes contenus'],
+            'staff.my-students' => ['users', 'Mes apprenants'],
+            'staff.progression' => ['trending-up', 'Progression'],
+            'staff.mentor-analytics' => ['chart-line', 'Ma performance'],
         ],
 
-        'ESPACE MENTOR' => [
-            'staff.my-students' => ['group', 'Mes Étudiants'],
-            'staff.progression' => ['trending_up', 'Progression'],
-            'staff.mentor-analytics' => ['insights', 'Performance'],
-            'staff.my-content' => ['library_books', 'Mes contenus'],
-        ],
-
-        'EXAMENS' => [
-            'staff.exams' => ['assignment', 'Liste des Examens'],
-            'staff.exam-grading' => ['grading', 'Correction Examens'],
-            'staff.exam-stats' => ['monitoring', 'Statistiques Globales'],
-            'staff.course-enrolment' => ['how_to_reg', 'Enrôlement aux Cours'],
-            'staff.exam-enrolment' => ['app_registration', 'Enrôlement aux Examens'],
-        ],
-
-        'HUB OPPORTUNITÉS' => [
+        'Hub d’infos' => [
             'staff.hub-news' => ['newspaper', 'Actualités'],
-            'staff.hub-jobs' => ['work', 'Jobs Vérifiés'],
-            'staff.hub-portals' => ['account_balance', 'Portails Officiels'],
+            'staff.hub-portals' => ['landmark', 'Portails officiels'],
+            'staff.hub-jobs' => ['briefcase', 'Offres d’emploi'],
         ],
 
-        'COMMUNAUTÉ' => [
-            'staff.forum-categories' => ['category', 'Catégories du Forum'],
-            'staff.forum' => ['forum', 'Forum Citoyen'],
+        'Communauté' => [
+            'staff.forum' => ['messages-square', 'Forum citoyen'],
+            'staff.forum-categories' => ['folder', 'Catégories du forum'],
             'staff.content-reports' => ['flag', 'Contenus signalés'],
-            'staff.moderation-keywords' => ['shield', 'Mots surveillés'],
-        ],
-
-        'BLOG' => [
-            'staff.blog-categories' => ['category', 'Catégories du Blog'],
-            'staff.posts' => ['edit_note', 'Articles du Blog'],
-        ],
-
-        'RESSOURCES & COM' => [
-            'staff.partners' => ['handshake', 'Nos Partenaires'],
-            'staff.faq' => ['quiz', 'Gestion FAQ'],
-            'staff.testimonials' => ['reviews', 'Témoignages'],
-            'staff.newsletter' => ['mail', 'Newsletters'],
+            'staff.moderation-keywords' => ['list-filter', 'Mots surveillés'],
+            'staff.posts' => ['pen-tool', 'Articles du blog'],
+            'staff.blog-categories' => ['folder', 'Catégories du blog'],
+            'staff.newsletter' => ['mail', 'Infolettres'],
+            'staff.faq' => ['circle-help', 'FAQ'],
+            'staff.testimonials' => ['quote', 'Témoignages'],
+            'staff.partners' => ['handshake', 'Partenaires'],
             'staff.contact-messages' => ['inbox', 'Messages reçus'],
         ],
 
-        'UTILISATEURS' => [
-            'staff.users' => ['group', 'Utilisateurs'],
-            'staff.mentors' => ['co_present', 'Mentors'],
-            'staff.kyc' => ['badge', 'Vérification KYC'],
-            'staff.roles' => ['admin_panel_settings', 'Rôles & Permissions'],
+        'Utilisateurs' => [
+            'staff.users' => ['users', 'Utilisateurs'],
+            'staff.mentors' => ['presentation', 'Mentors'],
+            'staff.kyc' => ['id-card', 'Vérification KYC'],
+            'staff.roles' => ['key-round', 'Rôles et permissions'],
+            'staff.referrals' => ['gift', 'Parrainages'],
         ],
 
-        'CONFIG SYSTÈME' => [
-            'staff.settings' => ['settings', 'Réglages du Système'],
-            'staff.email-templates' => ['stacked_email', 'Templates Emails'],
-            'staff.campaigns' => ['campaign', 'Campagnes Publicitaires'],
-            'staff.badges' => ['military_tech', 'Badges de progression'],
-            'staff.certificate-template' => ['wallpaper', 'Certificat Template'],
+        'Système' => [
+            'staff.settings' => ['settings', 'Réglages'],
+            'staff.email-templates' => ['mails', 'Modèles de courriels'],
+            'staff.campaigns' => ['megaphone', 'Campagnes'],
+            'staff.badges' => ['medal', 'Badges'],
+            'staff.maintenance-mode' => ['construction', 'Mode maintenance'],
+            'staff.backups' => ['database-backup', 'Sauvegardes'],
+            'staff.cron' => ['timer', 'Tâches planifiées'],
         ],
 
-        'SÉCURITÉ' => [
-            'staff.audit' => ['security', 'Logs d’Audit'],
-            'staff.email-logs' => ['outgoing_mail', 'Logs Emails'],
-            'staff.unit-journal' => ['receipt_long', 'Logs Unités IA'],
-            'staff.alerts' => ['gpp_maybe', 'Alertes Intrusion'],
-        ],
-
-        'MAINTENANCE' => [
-            'staff.maintenance-mode' => ['engineering', 'Mode maintenance'],
-            'staff.backups' => ['backup', 'Sauvegardes BD'],
-            'staff.cron' => ['schedule', 'Tâches Cron'],
+        'Journaux' => [
+            'staff.audit' => ['scroll', 'Journal d’audit'],
+            'staff.email-logs' => ['mail-check', 'Courriels'],
+            'staff.unit-journal' => ['receipt', 'Unités'],
+            'staff.alerts' => ['shield-alert', 'Alertes d’intrusion'],
         ],
     ];
 

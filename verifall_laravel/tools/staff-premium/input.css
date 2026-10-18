@@ -198,3 +198,8 @@
 
 /* Le champ refuse : une secousse courte, désactivée si les mouvements sont réduits. */
 @keyframes secousse { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+
+/* Console : groupes de navigation repliables (<details>), chevron tourné quand
+   le groupe est fermé. Le marqueur natif du <summary> est masqué. */
+.groupe-nav > summary::-webkit-details-marker { display: none; }
+.groupe-nav:not([open]) .chevron-groupe { transform: rotate(-90deg); }

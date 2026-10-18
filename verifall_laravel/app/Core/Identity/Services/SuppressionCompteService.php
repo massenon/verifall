@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Identity\Services;
 
+use App\Models\ConsultationHub;
 use App\Models\DataExport;
+use App\Models\HistoriqueConnexion;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -237,6 +239,11 @@ final class SuppressionCompteService
                 ->where('user_id', $utilisateur->id)->delete();
 
             DataExport::where('user_id', $utilisateur->id)->delete();
+
+            // Les deux historiques rattachés au compte (arbitrage n° 178) : la
+            // personne n'existe plus, rien ne justifie de les garder.
+            HistoriqueConnexion::where('user_id', $utilisateur->id)->delete();
+            ConsultationHub::where('user_id', $utilisateur->id)->delete();
 
             $this->audit->record(
                 AuditLogService::SUPPRESSION, 'profile', null,

@@ -6,6 +6,7 @@ namespace App\Livewire\Citizen;
 
 use App\Core\Identity\Services\AuditLogService;
 use App\Core\Identity\Services\ExportDonneesService;
+use App\Core\Identity\Services\HistoriqueDuHub;
 use App\Core\Identity\Services\OtpService;
 use App\Core\Identity\Services\PreferencesService;
 use App\Core\Identity\Services\SecurityLogService;
@@ -103,6 +104,7 @@ final class Reglages extends Component
             'utilisateur' => $utilisateur,
             'preferences' => $preferences->toutes($utilisateur),
             'newsletter' => $preferences->newsletterActive($utilisateur),
+            'historiqueHub' => app(HistoriqueDuHub::class)->estActif($utilisateur),
             'sessions' => $sessions->pour($utilisateur, Session::getId()),
             'deuxFacteursActive' => $deuxFacteurs->estActive($utilisateur),
             'canaux' => PreferenceNotification::cases(),
@@ -291,6 +293,22 @@ final class Reglages extends Component
             : $infolettre->desabonnerCompteVerifie($utilisateur);
 
         $this->toastSuccess('Lettre d\'information'.($accepte ? ' : activée.' : ' : désactivée.'));
+    }
+
+    /**
+     * Consentement à l'historique des lectures du Hub. Le retrait efface
+     * l'historique sur-le-champ (arbitrage n° 178).
+     */
+    public function basculerHistoriqueHub(HistoriqueDuHub $historique): void
+    {
+        $utilisateur = $this->utilisateur();
+        $accepte = ! $historique->estActif($utilisateur);
+
+        $historique->definir($utilisateur, $accepte, request()->ip(), request()->userAgent());
+
+        $this->toastSuccess($accepte
+            ? 'Historique du Hub activé.'
+            : 'Historique du Hub désactivé et effacé.');
     }
 
     // ==================================================== mot de passe

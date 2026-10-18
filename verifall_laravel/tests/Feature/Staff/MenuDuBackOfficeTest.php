@@ -192,9 +192,9 @@ it('rend la barre sans lien interdit, sur une page réelle', function () {
     $this->actingAs($mentor, 'staff')
         ->get(route('staff.my-students'))
         ->assertOk()
-        ->assertSee('Mes Étudiants')
-        ->assertDontSee('Rôles &amp; Permissions', escape: false)
-        ->assertDontSee('Réglages du Système');
+        ->assertSee('Mes apprenants')
+        ->assertDontSee('Rôles et permissions')
+        ->assertDontSee('Modèles de courriels');
 });
 
 it('ouvre le groupe de la page courante', function () {
@@ -202,8 +202,11 @@ it('ouvre le groupe de la page courante', function () {
     // l'on ne voit pas où l'on se trouve.
     $admin = membreAvecRole(UserRole::Admin->value);
 
-    $this->actingAs($admin, 'staff')
+    $html = $this->actingAs($admin, 'staff')
         ->get(route('staff.settings'))
         ->assertOk()
-        ->assertSee('CONFIG SYSTÈME');
+        ->content();
+
+    // Le groupe « Système » est rendu ouvert et marqué comme courant.
+    expect(preg_match('/data-groupe="systeme"\s+open\s+data-courant/', $html))->toBe(1);
 });

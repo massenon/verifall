@@ -34,6 +34,8 @@ return [
     'notifications' => '🔔 Notifications',
     'lettre_d_information' => 'Lettre d\'information',
     'le_recap_mensuel_des_rumeurs_verifiees' => 'Le récap mensuel des rumeurs vérifiées.',
+    'historique_du_hub' => 'Historique de mes lectures du Hub',
+    'historique_du_hub_aide' => 'Garde 90 jours ce que vous lisez dans le Hub d\'infos, pour le retrouver. Désactiver efface tout l\'historique.',
     'votre_accord_et_son_retrait_sont_horodates' => 'Votre accord et son retrait sont horodatés : vous pouvez vous désabonner aussi simplement que vous vous êtes abonné.',
     'donnees_personnelles' => '🛡️ Données personnelles',
     'conformement_au_code_du_numerique_beninois_vous' => 'Conformément au code du numérique béninois, vous pouvez exporter l\'ensemble de vos données ou demander leur suppression.',

@@ -37,6 +37,7 @@ use App\Http\Controllers\Staff\DonneesDesSourcesVerifieesController;
 use App\Http\Controllers\Staff\DonneesDesUtilisateursController;
 use App\Http\Controllers\Staff\DonneesDuJournalDesUnitesController;
 use App\Http\Controllers\Staff\PieceKycController;
+use App\Http\Controllers\Staff\VerrouillerLaSessionController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\Webhooks\MomoWebhookController;
 use App\Http\Middleware\CompteActif;
@@ -46,6 +47,7 @@ use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
 use App\Livewire\Auth\StaffLogin;
+use App\Livewire\Auth\VerrouDeSession as VerrouDeSessionEcran;
 use App\Livewire\Citizen\ArticleHub;
 use App\Livewire\Citizen\Catalogue;
 use App\Livewire\Citizen\Certificat;
@@ -1087,9 +1089,17 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
         // inscrite au journal d'audit.
         Route::post('deconnexion', StaffLogoutController::class)
             ->name('logout');
+
+        // Verrouillage de session (arbitrage n° 180) : POST seulement.
+        Route::post('verrouiller', VerrouillerLaSessionController::class)
+            ->name('lock');
     });
 
     Route::get('connexion', StaffLogin::class)->middleware('guest:staff')->name('login');
+
+    // L'écran de verrouillage : la garde staff y est DÉCONNECTÉE ; c'est la
+    // session qui sait qui revient (VerrouDeSession).
+    Route::get('verrou', VerrouDeSessionEcran::class)->middleware('guest:staff')->name('verrou');
 });
 
 // ------------------------------------------------ guide vivant des composants

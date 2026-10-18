@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Livewire\Citizen;
 
+use App\Core\Identity\Services\HistoriqueDuHub;
 use App\Core\Marketing\Services\SuiviDesVisites;
 use App\Models\HubArticle;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
@@ -38,6 +40,10 @@ final class ArticleHub extends Component
          | rafraîchissements — voir SuiviDesVisites.
          */
         app(SuiviDesVisites::class)->enregistrer($breve, request());
+
+        // Rattaché au compte SEULEMENT si la personne y a consenti (n° 178).
+        $lecteur = auth()->user();
+        app(HistoriqueDuHub::class)->noter($lecteur instanceof User ? $lecteur : null, 'actualite', (int) $breve->getKey(), (string) $breve->title, 'lu');
     }
 
     public function render(): View
