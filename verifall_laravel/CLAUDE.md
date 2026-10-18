@@ -37,6 +37,12 @@
     corrigée à la racine le même jour. Chemin vérifié et compte recomposé le
     1er septembre 2026 (`find resources/prototype -name '*.html' | wc -l`).
   - Le relevé de fidélité écran par écran est `docs/CONFORMITE_PROTOTYPE.md`.
+  - **Exception depuis le 18 octobre 2026 : l'administration et l'espace mentor.**
+    Leur référence est désormais **`resources/prototype-premium/`** (console premium,
+    page de connexion `connexion.html`, verrouillage de session), validée par le
+    porteur du projet. `resources/prototype/` reste la référence de l'espace
+    citoyen et des pages publiques. Le plan de transposition est
+    `docs/IMPLEMENTATION_PLAN.md` ; la décision est l'arbitrage n° 176.
 - **Architecture** : Clean Architecture / DDD simplifié — `Models → Repositories → Services → Livewire Components`. Domaines : FactChecking, Lms, Community, Hub, Identity, Economy, Gamification, Marketing.
 
 ## Règles de développement (NON NÉGOCIABLES)

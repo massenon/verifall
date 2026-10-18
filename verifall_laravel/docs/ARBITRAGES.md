@@ -4763,3 +4763,24 @@ combler. Changer la destination est une décision produit, signalée et non pris
 **Ce qui n'était pas un défaut.** Les autres `alt=""` du dépôt sont corrects :
 images décoratives portant `aria-hidden="true"`, à côté d'un lien qui porte déjà
 le titre. Un `alt` vide y est le bon motif.
+
+## 176. La console admin et mentor change de référence visuelle
+
+**La décision.** Le 18 octobre 2026, le porteur du projet a demandé de passer
+du prototype premium (`resources/prototype-premium/`) à l'implémentation de
+l'administration et de l'espace mentor. Pour ces deux espaces, la « référence
+visuelle absolue » de `CLAUDE.md` est donc ce prototype, et non plus
+`resources/prototype/`. L'espace citoyen et les pages publiques ne changent pas.
+
+**Ce que cela change.** Le design system staff (`adminbrand`, Inter, Material
+Symbols) cède la place à celui du prototype premium : colonne vert forêt
+`#0E2A1E`, Bricolage Grotesque et Public Sans, icônes Lucide, mode sombre, thème
+clair par défaut. Le build Tailwind citoyen reste figé ; le staff reçoit sa propre
+feuille, construite et contrôlée de la même façon.
+
+**Ce qui ne change pas.** Les services, dépôts, Policies, permissions et le
+contrat DataTables. On réhabille ; on ne réécrit pas la logique.
+
+**Ce qui reste à trancher.** Les décisions D5 à D7 de
+`docs/IMPLEMENTATION_PLAN.md` : permissions du mentor sur le Hub et la
+Communauté, corps éditable des modèles de courriels, et données RGPD des fiches.
