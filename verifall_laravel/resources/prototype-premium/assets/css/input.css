@@ -91,7 +91,8 @@
   .dark .p-info { @apply bg-blue-950 text-blue-300; }
 
   /* --- Tableaux --- */
-  .tableau { @apply w-full text-sm; }
+  /* `relative` : le libellé `sr-only` (absolu) d'une colonne reste dans le conteneur qui défile, au lieu d'élargir la page sur téléphone. */
+  .tableau { @apply relative w-full text-sm; }
   .tableau thead th { @apply text-left font-medium text-[13px] text-encre-3 px-4 py-2.5 border-b border-trait whitespace-nowrap; }
   .dark .tableau thead th { @apply text-nuit-3 border-nuit-trait; }
   .tableau tbody td { @apply px-4 py-3 border-b border-trait align-middle; }

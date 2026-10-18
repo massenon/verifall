@@ -23,11 +23,17 @@
     mentor: [
       ['', [['m-tableau-de-bord', 'layout-dashboard', 'Tableau de bord'], ['m-live', 'video', 'Live classes']]],
       ['Espace pédagogique', [['m-cours', 'library', 'Mes cours'], ['m-sections', 'list-tree', 'Sections et leçons'], ['m-contenus', 'folder-open', 'Mes contenus'], ['m-quiz', 'list-checks', 'Quiz'], ['m-devoirs', 'pen-line', 'Devoirs à corriger', '5'], ['m-examens', 'file-check-2', 'Examens']]],
-      ['Suivi', [['m-apprenants', 'users', 'Mes apprenants'], ['m-progression', 'trending-up', 'Progression'], ['m-certificats', 'award', 'Certificats'], ['m-performance', 'chart-line', 'Ma performance']]],
+      ['Suivi', [['m-apprenants', 'users', 'Mes apprenants'], ['m-progression', 'trending-up', 'Progression'], ['m-certificats', 'award', 'Certificats'], ['m-performance', 'chart-line', 'Ma performance'], ['m-profil', 'id-card', 'Mon profil']]],
+      ['Hub d\'infos', [['m-hub-actualites', 'newspaper', 'Actualités'], ['m-hub-portails', 'landmark', 'Portails officiels'], ['m-hub-jobs', 'briefcase', 'Offres d\'emploi']]],
+      ['Communauté', [['m-forum-discussions', 'messages-square', 'Forum citoyen'], ['m-forum-categories', 'folder', 'Catégories du forum'], ['m-blog', 'pen-tool', 'Articles du blog'], ['m-blog-categories', 'folder', 'Catégories du blog'], ['m-editeur', 'square-pen', 'Nouvel article'], ['m-mediatheque', 'images', 'Médiathèque'], ['m-newsletters', 'mail', 'Infolettres'], ['m-faq', 'circle-help', 'FAQ'], ['m-temoignages', 'quote', 'Témoignages'], ['m-partenaires', 'handshake', 'Partenaires']]],
     ],
   };
   const ACCUEIL = { admin: 'tableau-de-bord', mentor: 'm-tableau-de-bord' };
-  const PARTAGES = ['compte', 'editeur'];
+  const PARTAGES = ['compte'];
+  /* Écrans communs aux deux espaces : depuis l'espace mentor, un lien interne
+     vers l'un d'eux (« #/blog » depuis l'éditeur, par exemple) reste dans
+     l'espace mentor au lieu de basculer dans l'administration. */
+  VF.MODULES_MENTOR = ['hub-actualites', 'hub-portails', 'hub-jobs', 'forum-discussions', 'forum-categories', 'blog', 'blog-categories', 'editeur', 'mediatheque', 'newsletters', 'faq', 'temoignages', 'partenaires', 'profil-citoyen'];
 
   VF.nettoyages = [];
   const replies = (() => { try { return new Set(JSON.parse(localStorage.getItem('vf-replies') || '[]')); } catch (e) { return new Set(); } })();
@@ -46,6 +52,9 @@
     const moi = VF.moi[espace];
     $('#espace-libelle').textContent = espace === 'admin' ? 'Console d\'administration' : 'Espace mentor';
     $('#moi-nom').textContent = moi.nom; $('#moi-role').textContent = moi.role; $('#moi-avatar').textContent = moi.initiales;
+    $('#profil-avatar').textContent = moi.initiales;
+    $('#profil-nom-court').textContent = moi.nom.split(' ')[0] + ' ' + (moi.nom.split(' ')[1] || '').charAt(0) + '.';
+    $('#profil-role-court').textContent = espace === 'admin' ? 'Administrateur' : 'Mentor';
     $$('[data-groupe]').forEach((b) => b.addEventListener('click', () => {
       const ul = b.nextElementSibling, ferme = !ul.classList.toggle('hidden');
       b.setAttribute('aria-expanded', String(ferme));
@@ -58,12 +67,17 @@
     if (lienActif) lienActif.scrollIntoView({ block: 'nearest' });
   };
 
-  const libelleDe = (id) => { for (const e of Object.values(NAV)) for (const [, liens] of e) for (const l of liens) if (l[0] === id) return l[2]; return id === 'compte' ? 'Mon compte' : id; };
+  const AUTRES_TITRES = { compte: 'Mon compte', 'profil-citoyen': 'Fiche citoyen', 'profil-mentor': 'Fiche mentor', 'm-profil-citoyen': 'Fiche apprenant', 'email-modele': 'Modèle de courriel' };
+  const libelleDe = (id) => { for (const e of Object.values(NAV)) for (const [, liens] of e) for (const l of liens) if (l[0] === id) return l[2]; return AUTRES_TITRES[id] || id; };
 
   const router = () => {
     const [chemin, requete] = (location.hash.replace(/^#\/?/, '') || '').split('?');
     const params = Object.fromEntries(new URLSearchParams(requete || ''));
     let id = chemin || ACCUEIL[VF.espace || 'admin'];
+    if (VF.espace === 'mentor' && VF.MODULES_MENTOR.includes(id) && VF.ecrans['m-' + id]) {
+      history.replaceState(null, '', '#/m-' + id + (requete ? '?' + requete : ''));
+      id = 'm-' + id;
+    }
     if (!VF.ecrans[id]) id = ACCUEIL[VF.espace || 'admin'];
     VF.espace = espaceDe(id);
 
@@ -112,9 +126,89 @@
   panneau.innerHTML = `<div class="flex items-center justify-between px-3 pt-1.5 pb-2"><p class="font-titre font-semibold">Notifications</p><button class="text-xs texte-2 hover:underline" data-tout-lu>Tout marquer comme lu</button></div>` +
     VF.notifications.map((n) => `<a href="${n.lien}" class="flex gap-3 px-3 py-2.5 hover:bg-papier dark:hover:bg-nuit"><span class="mt-0.5 ${{ critique: 'text-red-700 dark:text-red-400', alerte: 'text-amber-700 dark:text-amber-300', info: 'text-blue-700 dark:text-blue-300' }[n.ton]}">${icone(n.icone, 'w-[18px] h-[18px]')}</span><span class="min-w-0"><span class="block text-sm font-medium">${esc(n.titre)}</span><span class="block text-xs texte-2">${esc(n.detail)}</span></span></a>`).join('');
   const bNotifs = $('#bouton-notifs');
-  bNotifs.addEventListener('click', (e) => { e.stopPropagation(); const ouvert = panneau.classList.toggle('hidden'); bNotifs.setAttribute('aria-expanded', String(!ouvert)); icones(); });
+  bNotifs.addEventListener('click', (e) => { e.stopPropagation(); $('#menu-profil').classList.add('hidden'); $('#bouton-profil').setAttribute('aria-expanded', 'false'); const ouvert = panneau.classList.toggle('hidden'); bNotifs.setAttribute('aria-expanded', String(!ouvert)); icones(); });
   document.addEventListener('click', (e) => { if (!panneau.contains(e.target)) { panneau.classList.add('hidden'); bNotifs.setAttribute('aria-expanded', 'false'); } });
   panneau.querySelector('[data-tout-lu]').addEventListener('click', () => { bNotifs.querySelector('span')?.remove(); toast('Notifications marquées comme lues.', 'info'); });
+
+  /* ---------- Plein écran ---------- */
+  const bPlein = $('#bascule-plein-ecran');
+  const pleinPossible = document.fullscreenEnabled || document.webkitFullscreenEnabled;
+  const enPlein = () => document.fullscreenElement || document.webkitFullscreenElement;
+  const majPlein = () => {
+    const actif = !!enPlein();
+    bPlein.innerHTML = icone(actif ? 'minimize' : 'maximize');
+    bPlein.setAttribute('aria-pressed', String(actif));
+    bPlein.setAttribute('aria-label', actif ? 'Quitter le plein écran' : 'Plein écran');
+    bPlein.title = actif ? 'Quitter le plein écran (Échap)' : 'Plein écran';
+    icones();
+  };
+  if (!pleinPossible) bPlein.remove();
+  else {
+    bPlein.addEventListener('click', () => {
+      const r = document.documentElement;
+      const p = enPlein() ? (document.exitFullscreen || document.webkitExitFullscreen).call(document) : (r.requestFullscreen || r.webkitRequestFullscreen).call(r);
+      if (p && p.catch) p.catch(() => toast('Le navigateur a refusé le plein écran.', 'alerte'));
+    });
+    document.addEventListener('fullscreenchange', majPlein);
+    document.addEventListener('webkitfullscreenchange', majPlein);
+  }
+
+  /* ---------- Menu du profil ---------- */
+  const bProfil = $('#bouton-profil'), mProfil = $('#menu-profil');
+  const fermerProfil = (rendreFocus) => { mProfil.classList.add('hidden'); bProfil.setAttribute('aria-expanded', 'false'); if (rendreFocus) bProfil.focus(); };
+  const rendreProfil = () => {
+    const espace = VF.espace || 'admin', moi = VF.moi[espace], sombre = document.documentElement.classList.contains('dark');
+    const lien = (href, ic, libelle, extra = '') => `<a href="${href}" class="menu-item" role="menuitem">${icone(ic)}<span class="flex-1">${esc(libelle)}</span>${extra}</a>`;
+    const bouton = (action, ic, libelle, extra = '', classe = '') => `<button class="menu-item ${classe}" role="menuitem" data-profil="${action}">${icone(ic, classe ? '!text-current' : '')}<span class="flex-1 text-left">${esc(libelle)}</span>${extra}</button>`;
+    mProfil.innerHTML = `
+      <div class="flex items-center gap-3 px-3 pt-2 pb-3">
+        <span class="avatar w-11 h-11 !text-sm">${esc(moi.initiales)}</span>
+        <div class="min-w-0"><p class="font-medium truncate">${esc(moi.nom)}</p><p class="text-xs texte-3 truncate">${esc(moi.email)}</p>
+          <p class="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-green-800 dark:text-bon"><span class="w-1.5 h-1.5 rounded-full bg-bon"></span>En ligne — ${esc(moi.role)}</p></div>
+      </div>
+      <div class="my-1 border-t filet"></div>
+      ${lien(espace === 'admin' ? '#/compte' : '#/m-profil', 'circle-user-round', espace === 'admin' ? 'Mon profil' : 'Mon profil et mon activité')}
+      ${lien('#/compte?onglet=securite', 'shield-check', 'Sécurité et connexions')}
+      ${lien('#/compte?onglet=pref', 'sliders-horizontal', 'Préférences')}
+      ${lien(espace === 'admin' ? '#/parametres' : '#/m-performance', espace === 'admin' ? 'settings' : 'chart-line', espace === 'admin' ? 'Réglages de la plateforme' : 'Ma performance')}
+      <div class="my-1 border-t filet"></div>
+      ${bouton('espace', 'arrow-left-right', espace === 'admin' ? 'Passer à l\'espace mentor' : 'Passer à l\'administration')}
+      ${bouton('theme', sombre ? 'sun' : 'moon', sombre ? 'Thème clair' : 'Thème sombre')}
+      ${bouton('commande', 'command', 'Raccourcis et recherche', '<span class="kbd">Ctrl K</span>')}
+      ${lien(espace === 'admin' ? '#/faq' : '#/m-faq', 'life-buoy', 'Aide et FAQ')}
+      <div class="my-1 border-t filet"></div>
+      ${bouton('sortir', 'log-out', 'Se déconnecter', '', '!text-red-700 dark:!text-red-400')}`;
+    icones();
+  };
+  bProfil.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const ouvrir = mProfil.classList.contains('hidden');
+    panneau.classList.add('hidden'); bNotifs.setAttribute('aria-expanded', 'false');
+    if (!ouvrir) return fermerProfil();
+    rendreProfil();
+    mProfil.classList.remove('hidden'); bProfil.setAttribute('aria-expanded', 'true');
+    const premier = mProfil.querySelector('.menu-item'); if (premier) premier.focus();
+  });
+  mProfil.addEventListener('keydown', (e) => {
+    const items = $$('.menu-item', mProfil), i = items.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+    else if (e.key === 'Home') { e.preventDefault(); items[0].focus(); }
+    else if (e.key === 'End') { e.preventDefault(); items[items.length - 1].focus(); }
+    else if (e.key === 'Escape') { e.stopPropagation(); fermerProfil(true); }
+    else if (e.key === 'Tab') fermerProfil();
+  });
+  mProfil.addEventListener('click', (e) => {
+    const t = e.target.closest('.menu-item');
+    if (!t) return;
+    fermerProfil();
+    const action = t.dataset.profil;
+    if (action === 'espace') { const cible = VF.espace === 'mentor' ? 'admin' : 'mentor'; VF.espace = cible; location.hash = '#/' + ACCUEIL[cible]; }
+    else if (action === 'theme') VF.appliquerTheme(document.documentElement.classList.contains('dark') ? 'clair' : 'sombre');
+    else if (action === 'commande') ouvrirCommande();
+    else if (action === 'sortir') VF.ui.confirmer({ titre: 'Se déconnecter ?', texte: 'Votre session sera fermée sur cet appareil. Les brouillons non enregistrés seront perdus.', bouton: 'Se déconnecter', siOui: () => toast('Vous êtes déconnecté. Dans l\'application, vous seriez renvoyé vers la page de connexion.', 'info') });
+  });
+  document.addEventListener('click', (e) => { if (!mProfil.contains(e.target) && !bProfil.contains(e.target)) fermerProfil(); });
 
   /* ---------- Palette de commandes (Ctrl K) ---------- */
   const ouvrirCommande = () => {

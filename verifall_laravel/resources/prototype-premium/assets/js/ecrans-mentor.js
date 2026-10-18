@@ -80,7 +80,7 @@
     colonnes: [{ cle: 'qui', libelle: 'Apprenant', type: 'personne' }, { cle: 'cours', libelle: 'Cours', muet: true }, { cle: 'progression', libelle: 'Progression', type: 'jauge' }, { cle: 'moyenne', libelle: 'Moyenne', muet: true }, { cle: 'etat', libelle: 'État', type: 'pastille', etats: S.activite }, { cle: 'derniere', libelle: 'Dernière activité', type: 'date' }],
     filtres: [{ cle: 'etat', libelle: 'État', options: [{ valeur: 'actif', libelle: 'Actif' }, { valeur: 'inactif', libelle: 'Inactif' }, { valeur: 'termine', libelle: 'Terminé' }] }],
     lignes: VF.apprenants.map((a) => ({ qui: a, cours: a.cours, progression: a.progression, moyenne: a.moyenne + ' / 20', etat: a.etat, derniere: a.derniere })),
-    actionsLigne: (l) => [{ libelle: 'Envoyer un message', ic: 'message-square', action: () => toast('Message envoyé à ' + l.qui.nom + '.') }, { libelle: 'Relancer', ic: 'send', action: () => toast('Relance envoyée.') }],
+    actionsLigne: (l) => [{ libelle: 'Voir la fiche de l\'apprenant', ic: 'id-card', action: () => (location.hash = VF.lienProfil('m-profil-citoyen', l.qui)) }, { libelle: 'Envoyer un message', ic: 'message-square', action: () => toast('Message envoyé à ' + l.qui.nom + '.') }, { libelle: 'Relancer', ic: 'send', action: () => toast('Relance envoyée.') }],
     actionsGroupees: [{ libelle: 'Relancer', ic: 'send' }, { libelle: 'Envoyer un message', ic: 'message-square' }],
     supprimable: false,
   });
@@ -118,4 +118,9 @@
   VF.ecrans['m-devoirs'] = (r) => VF.ecrans['correction'](r, { mentor: true });
   VF.ecrans['m-progression'] = (r) => VF.ecrans['analytique-lms'](r, { mentor: true });
   VF.ecrans['m-live'] = (r) => VF.ecrans['calendrier'](r, { mentor: true });
+
+  /* Hub d'infos et Communauté : les mêmes écrans que l'administration, ouverts
+     depuis l'espace mentor (la liste est dans VF.MODULES_MENTOR, app.js). */
+  ['hub-actualites', 'hub-portails', 'hub-jobs', 'forum-discussions', 'forum-categories', 'blog', 'blog-categories', 'editeur', 'mediatheque', 'newsletters', 'faq', 'temoignages', 'partenaires']
+    .forEach((id) => { VF.ecrans['m-' + id] = (r, p) => VF.ecrans[id](r, p); });
 })(window.VF);

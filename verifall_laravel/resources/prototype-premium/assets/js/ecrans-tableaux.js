@@ -282,7 +282,7 @@
     colonnes: [{ cle: 'qui', libelle: 'Citoyen', type: 'personne' }, { cle: 'ville', libelle: 'Ville', muet: true }, { cle: 'unites', libelle: 'Unités', type: 'nombre' }, { cle: 'verifs', libelle: 'Vérifications', type: 'nombre' }, { cle: 'etat', libelle: 'État', type: 'pastille', etats: S.activite }, { cle: 'date', libelle: 'Inscrit le', type: 'date' }],
     filtres: [{ cle: 'etat', libelle: 'État', options: [{ valeur: 'actif', libelle: 'Actif' }, { valeur: 'inactif', libelle: 'Inactif' }, { valeur: 'suspendu', libelle: 'Suspendu' }] }, { cle: 'ville', libelle: 'Ville', options: ['Cotonou', 'Porto-Novo', 'Parakou', 'Abomey-Calavi', 'Bohicon'] }],
     lignes: n(40, (i) => ({ qui: personne(), ville: choisir(['Cotonou', 'Porto-Novo', 'Parakou', 'Abomey-Calavi', 'Bohicon']), unites: entre(0, 900), verifs: entre(0, 140), etat: i % 13 === 0 ? 'suspendu' : i % 4 === 0 ? 'inactif' : 'actif', date: jours(entre(1, 400)) })),
-    actionsLigne: (l) => [{ libelle: 'Voir la fiche', ic: 'id-card', action: () => toast('Fiche de ' + l.qui.nom + '.', 'info') }, { libelle: 'Créditer des unités', ic: 'coins', action: () => toast('50 unités créditées. Journalisé.') }, { libelle: 'Réinitialiser le mot de passe', ic: 'key-round', action: () => toast('Lien de réinitialisation envoyé.') }, { libelle: l.etat === 'suspendu' ? 'Réactiver' : 'Suspendre', ic: l.etat === 'suspendu' ? 'circle-check' : 'ban', action: () => toast(l.etat === 'suspendu' ? 'Compte réactivé.' : 'Compte suspendu. La personne est déconnectée.', 'alerte') }],
+    actionsLigne: (l) => [{ libelle: 'Voir la fiche complète', ic: 'id-card', action: () => (location.hash = VF.lienProfil('profil-citoyen', { ...l.qui, ville: l.ville })) }, { libelle: 'Créditer des unités', ic: 'coins', action: () => toast('50 unités créditées. Journalisé.') }, { libelle: 'Réinitialiser le mot de passe', ic: 'key-round', action: () => toast('Lien de réinitialisation envoyé.') }, { libelle: l.etat === 'suspendu' ? 'Réactiver' : 'Suspendre', ic: l.etat === 'suspendu' ? 'circle-check' : 'ban', action: () => toast(l.etat === 'suspendu' ? 'Compte réactivé.' : 'Compte suspendu. La personne est déconnectée.', 'alerte') }],
     actionsGroupees: [{ libelle: 'Créditer des unités', ic: 'coins' }, { libelle: 'Envoyer un message', ic: 'mail' }, { libelle: 'Suspendre', ic: 'ban', danger: true }],
     champs: [{ nom: 'nom', libelle: 'Nom complet', regles: 'requis' }, { nom: 'email', libelle: 'Courriel', type: 'email', regles: 'requis|email' }, { nom: 'ville', libelle: 'Ville', options: ['Cotonou', 'Porto-Novo', 'Parakou', 'Abomey-Calavi', 'Bohicon'] }],
     nouvelle: (v) => ({ qui: { nom: v.nom, initiales: v.nom.split(' ').map((m) => m[0]).join('').slice(0, 2), email: v.email }, unites: 50, verifs: 0, etat: 'actif', date: new Date() }),
@@ -291,7 +291,8 @@
   definir('mentors', {
     titre: 'Mentors', sousTitre: 'Les formateurs de l\'Académie, leurs cours et leur réactivité.', fil: ['Utilisateurs'], entite: 'mentor',
     colonnes: [{ cle: 'qui', libelle: 'Mentor', type: 'personne' }, { cle: 'cours', libelle: 'Cours', type: 'nombre' }, { cle: 'apprenants', libelle: 'Apprenants', type: 'nombre' }, { cle: 'delai', libelle: 'Délai de correction', muet: true }, { cle: 'note', libelle: 'Note', type: 'etoiles' }, { cle: 'etat', libelle: 'État', type: 'pastille', etats: S.activite }],
-    lignes: VF.equipe.filter((e) => e.role === 'Mentor').concat([{ nom: 'Prudence Akpovi', initiales: 'PA' }, { nom: 'Ulrich Kpadonou', initiales: 'UK' }]).map((e, i) => ({ qui: { nom: e.nom, initiales: e.initiales, email: e.nom.split(' ')[0].toLowerCase() + '@verifall.com' }, cours: entre(1, 6), apprenants: e.apprenants || entre(20, 300), delai: choisir(['5 h', '11 h', '1 j', '2 j']), note: e.satisfaction || 4.4, etat: i === 5 ? 'attente' : 'actif' })),
+    lignes: VF.equipe.filter((e) => e.role === 'Mentor').concat([{ nom: 'Prudence Akpovi', initiales: 'PA' }, { nom: 'Ulrich Kpadonou', initiales: 'UK' }]).map((e, i) => ({ qui: { nom: e.nom, initiales: e.initiales, email: e.nom.split(' ')[0].toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '') + '@verifall.com' }, cours: entre(1, 6), apprenants: e.apprenants || entre(20, 300), delai: choisir(['5 h', '11 h', '1 j', '2 j']), note: e.satisfaction || 4.4, etat: i === 5 ? 'attente' : 'actif' })),
+    actionsLigne: (l) => [{ libelle: 'Voir la fiche complète', ic: 'id-card', action: () => (location.hash = VF.lienProfil('profil-mentor', l.qui)) }, { libelle: 'Envoyer un message', ic: 'message-square', action: () => toast('Message envoyé à ' + l.qui.nom + '.') }],
     champs: [{ nom: 'nom', libelle: 'Nom complet', regles: 'requis' }, { nom: 'email', libelle: 'Courriel', type: 'email', regles: 'requis|email' }, { nom: 'specialite', libelle: 'Spécialité', options: ['OSINT', 'Image', 'Vidéo', 'Éducation', 'Sécurité'] }],
   });
 
@@ -312,13 +313,7 @@
     champs: [{ nom: 'nom', libelle: 'Nom', regles: 'requis' }, { nom: 'condition', libelle: 'Condition d\'obtention', regles: 'requis' }, { nom: 'points', libelle: 'Points', type: 'number', regles: 'nombre' }],
   });
 
-  definir('emails-modeles', {
-    titre: 'Modèles de courriels', fil: ['Système'], entite: 'modèle',
-    colonnes: [{ cle: 'nom', libelle: 'Modèle', type: 'titre', sous: 'declencheur' }, { cle: 'envois', libelle: 'Envois (30 j)', type: 'nombre' }, { cle: 'maj', libelle: 'Modifié le', type: 'date' }],
-    lignes: [['Code d\'inscription', 'Inscription citoyenne'], ['Réinitialisation du mot de passe', 'Mot de passe oublié'], ['Fact-check publié', 'Abonnement à un thème'], ['Certificat obtenu', 'Fin de cours'], ['Relance d\'un apprenant', 'Inactivité de 14 jours'], ['Confirmation de paiement', 'Paiement Mobile Money']].map(([nom, declencheur]) => ({ nom, declencheur, envois: entre(30, 9000), maj: jours(entre(2, 80)) })),
-    actionsLigne: () => [{ libelle: 'Modifier le contenu', ic: 'pen-line', action: () => (location.hash = '#/editeur?type=courriel') }, { libelle: 'Envoyer un test', ic: 'flask-conical', action: () => toast('Test envoyé.') }],
-    supprimable: false,
-  });
+  /* Modèles de courriels : écran à part, avec son éditeur — ecrans-courriels.js. */
 
   const journalDef = (titre, sous, lignes, colonnes, extra = {}) => ({ titre, sousTitre: sous, fil: ['Journaux'], entite: 'entrée', feminin: true, plage: true, supprimable: false, colonnes, lignes, ...extra });
 

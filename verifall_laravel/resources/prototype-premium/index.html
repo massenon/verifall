@@ -88,6 +88,21 @@
               <div id="panneau-notifs" class="menu right-0 mt-2 w-[340px] hidden"></div>
             </div>
             <button id="bascule-theme" class="btn-icone" aria-label="Changer de thème"><i data-lucide="moon"></i></button>
+            <button id="bascule-plein-ecran" class="btn-icone hidden sm:inline-flex" aria-label="Plein écran" aria-pressed="false" title="Plein écran (F11)"><i data-lucide="maximize"></i></button>
+            <div class="relative ml-1">
+              <button id="bouton-profil" class="flex items-center gap-2 h-10 pl-1 pr-1 sm:pr-2 rounded-full hover:bg-white dark:hover:bg-nuit-carte transition-colors" aria-label="Menu du profil" aria-haspopup="menu" aria-expanded="false" aria-controls="menu-profil">
+                <span class="relative">
+                  <span id="profil-avatar" class="avatar w-8 h-8">MA</span>
+                  <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-bon ring-2 ring-papier dark:ring-nuit" aria-hidden="true"></span>
+                </span>
+                <span class="hidden md:block text-left leading-tight">
+                  <span id="profil-nom-court" class="block text-[13px] font-medium">Mawuli A.</span>
+                  <span id="profil-role-court" class="block text-[11px] texte-3">Administrateur</span>
+                </span>
+                <i data-lucide="chevron-down" class="hidden md:block w-3.5 h-3.5 texte-3"></i>
+              </button>
+              <div id="menu-profil" class="menu right-0 mt-2 w-[290px] hidden" role="menu" aria-labelledby="bouton-profil"></div>
+            </div>
           </div>
         </div>
       </header>
@@ -122,6 +137,8 @@
   <script src="assets/js/ecrans-analytique.js"></script>
   <script src="assets/js/ecrans-outils.js"></script>
   <script src="assets/js/ecrans-mentor.js"></script>
+  <script src="assets/js/ecrans-profils.js"></script>
+  <script src="assets/js/ecrans-courriels.js"></script>
   <script src="assets/js/app.js"></script>
 </body>
 </html>

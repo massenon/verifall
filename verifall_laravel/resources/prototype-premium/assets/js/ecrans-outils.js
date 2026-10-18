@@ -266,7 +266,7 @@
 
   /* ======================= Mon compte (onglets) ======================= */
 
-  VF.ecrans['compte'] = (racine) => {
+  VF.ecrans['compte'] = (racine, { onglet = 'profil' } = {}) => {
     const moi = VF.moi[VF.espace || 'admin'];
     racine.innerHTML = `
       ${enTete({ titre: 'Mon compte', sousTitre: 'Votre profil, la sécurité de votre accès et vos préférences.' })}
@@ -316,6 +316,8 @@
         </section>
       </div>`;
     onglets(racine); bascules(racine);
+    const ongletDemande = $(`[role="tab"][data-onglet="${onglet}"]`, racine);
+    if (ongletDemande && onglet !== 'profil') ongletDemande.click();
     $('#f-profil', racine).addEventListener('submit', (e) => { e.preventDefault(); if (valider(e.target)) toast('Profil enregistré.'); });
     $('#f-mdp', racine).addEventListener('submit', (e) => {
       e.preventDefault();
