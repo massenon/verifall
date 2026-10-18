@@ -37,9 +37,9 @@ Messages de contact, Statistiques du cours.
 | D2 | Une feuille CSS **staff** séparée, compilée depuis la config du prototype premium ; `tailwind.css` (citoyen) reste figé | Feuille `public/assets/css/staff-premium.css`, construite par `tools/staff-premium/build.sh`, empreinte contrôlée comme la citoyenne | Phase 1 |
 | D3 | Icônes : Lucide (vendorisé en SVG via un composant `<x-lucide>`) à la place de Material Symbols, côté staff seulement | Oui ; Material Symbols reste chargé pour le citoyen | Phase 1 |
 | D4 | Graphiques : ApexCharts 3.54.1 vendorisé, avec la vue « Tableau » obligatoire | Oui, pour les nouveaux écrans d'analyse ; les SVG existants restent tant qu'ils ne sont pas refaits | Phases 4 et 7 |
-| D5 | Hub et Communauté dans l'espace mentor : quelles permissions ? `CLAUDE.md` interdit d'en inventer | Accorder au rôle Mentor des permissions **existantes** en lecture (`hub_article.view`, `forum.view`, `post.view`, `post.create`, `faq.view`…), via `MatricePermissions` et un semis ; l'écriture reste admin | Phase 6 |
-| D6 | Corps des modèles de courriels éditable ? (`EmailTemplate` ne surcharge que le sujet) | Non pour les 24 courriels système. Oui seulement pour un futur type « courriel libre » (campagnes), hors de ce plan | Phase 5 |
-| D7 | RGPD : Hub consulté et historique de connexion rattachés à un compte (PRD des fiches, Q1 et Q2) | DPO ; en attendant, ces deux onglets ne sont pas construits | Phase 5 |
+| D5 | Hub et Communauté dans l'espace mentor | **Tranché le 18 oct.** : CRUD sur les permissions existantes, sans publier, sans les abonnés (arbitrage n° 177) | — |
+| D6 | Copywriting des courriels système | **Tranché le 18 oct.** : objet, titre, corps, bouton modifiables ; la logique reste au code. Déjà en place (arbitrage n° 179) | — |
+| D7 | RGPD : connexions et Hub consulté par compte | **Tranché et implémenté le 18 oct.** : connexions en intérêt légitime (12 mois, IP tronquée), Hub sur consentement (90 jours). `docs/RGPD_HISTORIQUES.md`, arbitrage n° 178 | — |
 | D8 | Délai du verrouillage | Verrou côté client à 15 min, `StaffIdleTimeout` inchangé à 30 min | Phase 3 |
 | D9 | Thème | Clair par défaut. Préférence par personne (`users.preferences->theme` : `light`, `dark` ou `system`) | Phase 2 |
 
@@ -103,25 +103,25 @@ prouve qu'elle est finie.
 
 ### Phase 2 — Coquille de la console (E 4)
 
-- [ ] **P2-1 Layout `components/layouts/console.blade.php`.** Colonne vert forêt
+- [x] **P2-1 Layout de la console.** *18 oct. : il REMPLACE `components/layouts/staff.blade.php` (consigne « on remplace l'ancienne vue »), sans drapeau ; les écrans gardent leur habillage jusqu'à la phase 5.* Colonne vert forêt
   de 264 px, groupes repliables mémorisés, zone principale de 1 480 px au plus,
   pied de page. Sur téléphone, colonne en tiroir. Remplace `staff.blade.php`
   derrière le drapeau.
-- [ ] **P2-2 Navigation.** `MenuDuBackOffice::GROUPES` reprend l'ordre, les
+- [x] **P2-2 Navigation.** *18 oct.* `MenuDuBackOffice::GROUPES` reprend l'ordre, les
   libellés et les icônes Lucide du prototype (`app.js`, `NAV`) ; les compteurs
   (signalements, corrections, KYC) viennent d'un service mis en cache 60 s.
   *Fini quand* : `MenuDuBackOfficeTest` et `NavigationBackOfficeTest` sont verts.
-- [ ] **P2-3 Barre du haut.** Recherche (ouvre la palette), **Actions rapides**,
+- [x] **P2-3 Barre du haut.** *18 oct.* Recherche (ouvre la palette), **Actions rapides**,
   calendrier, cloche (`Staff\Cloche` réhabillée), thème, plein écran, avatar et
   menu du profil (profil, sécurité, préférences, réglages ou performance, espace,
   thème, aide, verrouiller, se déconnecter en POST).
-- [ ] **P2-4 Actions rapides.** `config/console.php` déclare les actions de
+- [x] **P2-4 Actions rapides.** *18 oct.* `config/console.php` déclare les actions de
   chaque espace (icône, libellé, aide, **route**). Comme le menu, chaque action
   n'apparaît que si la route est autorisée. Raccourci clavier `A`.
-- [ ] **P2-5 Palette Ctrl K.** Composant Livewire `Staff\Palette` : écrans
+- [~] **P2-5 Palette Ctrl K.** *18 oct. : les écrans autorisés ; la recherche dans les données reste à faire.* Composant Livewire `Staff\Palette` : écrans
   autorisés, plus recherche dans les signalements, cours et comptes (dépôts
   existants, 8 résultats par type, débounce 250 ms).
-- [ ] **P2-6 Thème.** Clair par défaut. Colonne `preferences` (JSON) sur `users`,
+- [~] **P2-6 Thème.** *18 oct. : clair par défaut, choix mémorisé sur l'appareil ; la préférence en base reste à faire (Mon compte).* Clair par défaut. Colonne `preferences` (JSON) sur `users`,
   lue au rendu du layout pour éviter le flash. Le choix « comme le système »
   suit `prefers-color-scheme`. *Fini quand* : le test du layout vérifie que
   `class="dark"` est absent par défaut.
@@ -130,7 +130,7 @@ prouve qu'elle est finie.
 
 ### Phase 3 — Connexion, verrouillage, compte (E 4)
 
-- [ ] **P3-1 Page de connexion premium.** `Auth\StaffLogin` réhabillé sur
+- [x] **P3-1 Page de connexion premium.** *18 oct.* `Auth\StaffLogin` réhabillé sur
   `connexion.html` : registre des verdicts (alimenté par les 6 derniers
   fact-checks publiés, mis en cache 10 min, statique si mouvements réduits),
   formulaire, étape 2FA à 6 cases avec collage, compteur d'essais lu dans
@@ -138,7 +138,7 @@ prouve qu'elle est finie.
   *Fini quand* : les tests `Auth/*Staff*` sont verts et le rendu est mesuré.
 - [ ] **P3-2 Mot de passe oublié staff.** `Auth\StaffMotDePasseOublie` et la
   réinitialisation (broker `staff`), avec un modèle de courriel du catalogue.
-- [ ] **P3-3 Verrouillage de session.** Route `staff.verrou` (GET et POST),
+- [x] **P3-3 Verrouillage de session.** *18 oct. : verrouiller DÉCONNECTE la garde (arbitrage n° 180).* Route `staff.verrou` (GET et POST),
   middleware `SessionVerrouillee` : tant que `session('staff.verrouillee_a')`
   est posée, toute route staff redirige vers l'écran de verrouillage.
   Déverrouillage par `Hash::check` ; 5 échecs ferment la session et la
@@ -156,7 +156,7 @@ prouve qu'elle est finie.
   de vérification (file triée par temps restant avant l'objectif de 6 h),
   chiffres clés, verdicts, signalements et fact-checks, état des moteurs,
   journal. Mêmes services, ApexCharts à la place des SVG.
-- [ ] **P4-2 Tableau de bord mentor dédié.** Nouveau composant
+- [x] **P4-2 Tableau de bord mentor dédié.** *18 oct. : route `staff.mentor.dashboard`.* Nouveau composant
   `Staff\Mentor\TableauDeBord` (route `staff.mentor.dashboard`, redirection
   du mentor à la connexion) :
   - « Ma journée » : frise de 8 h à 22 h avec lives, échéances de correction et vérifications assignées ;
@@ -230,4 +230,6 @@ console complète au nouvel habit (phases 1 à 5).
 |---|---|---|
 | 18 oct. 2026 | P0-1, P0-2 | Cartographie et plan |
 | 18 oct. 2026 | P0-3 | `CLAUDE.md` et arbitrage n° 176 |
+| 18 oct. 2026 | D5, D6, D7 | Arbitrages n° 177 à 179, historiques RGPD implémentés |
+| 18 oct. 2026 | P2, P3-1, P3-3, P4-2 | Coquille premium à la place de l'ancien layout, connexion, verrouillage serveur (n° 180), tableau de bord mentor |
 | 18 oct. 2026 | P1-1, P1-2 | Feuille `staff-premium.css`, polices, bibliothèques, icônes Lucide côté serveur, `tests/Feature/Console/FondationsPremiumTest.php` |

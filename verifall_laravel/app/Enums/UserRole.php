@@ -77,6 +77,11 @@ enum UserRole: string
      */
     public function routeApresConnexion(): string
     {
-        return $this === self::Citoyen ? 'citizen.dashboard' : 'staff.dashboard';
+        return match ($this) {
+            self::Citoyen => 'citizen.dashboard',
+            // Le mentor arrive sur SON tableau de bord (P4-2).
+            self::Mentor => 'staff.mentor.dashboard',
+            default => 'staff.dashboard',
+        };
     }
 }

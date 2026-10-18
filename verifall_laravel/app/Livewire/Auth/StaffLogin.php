@@ -36,7 +36,7 @@ use Livewire\Component;
  * jamais par une propriété publique du composant : celles-ci voyagent dans la
  * charge utile Livewire et sont modifiables côté client.
  */
-#[Layout('components.layouts.staff-auth', ['title' => "Administration — Verif'All"])]
+#[Layout('components.layouts.console-connexion', ['title' => "Administration — Vérif'All"])]
 final class StaffLogin extends Component
 {
     use InteractsWithToasts;

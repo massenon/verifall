@@ -41,6 +41,7 @@ use App\Http\Controllers\Staff\VerrouillerLaSessionController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\Webhooks\MomoWebhookController;
 use App\Http\Middleware\CompteActif;
+use App\Http\Middleware\EnvoyerLeMentorVersSonTableauDeBord;
 use App\Http\Middleware\GuardStaffParDefaut;
 use App\Http\Middleware\SansIndexation;
 use App\Livewire\Auth\ForgotPassword;
@@ -116,6 +117,7 @@ use App\Livewire\Staff\JournalDesEmails as StaffJournalDesEmails;
 use App\Livewire\Staff\JournalDesUnites as StaffJournalDesUnites;
 use App\Livewire\Staff\LiveClasses as StaffLiveClasses;
 use App\Livewire\Staff\Maintenance as StaffMaintenance;
+use App\Livewire\Staff\Mentor\TableauDeBord as TableauDeBordDuMentor;
 use App\Livewire\Staff\Mentors as StaffMentors;
 use App\Livewire\Staff\MesContenus;
 use App\Livewire\Staff\MesEtudiants;
@@ -634,7 +636,13 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
          | chantier. Signalé en production.
          */
         Route::get('tableau-de-bord', TableauDeBordPersonnel::class)
+            ->middleware(EnvoyerLeMentorVersSonTableauDeBord::class)
             ->name('dashboard');
+
+        // Le tableau de bord du MENTOR (IMPLEMENTATION_PLAN, P4-2) : sa
+        // journée, ses copies, ses cours. Borné à ses cours par le dépôt.
+        Route::get('mentor/tableau-de-bord', TableauDeBordDuMentor::class)
+            ->middleware('can:student.view')->name('mentor.dashboard');
 
         /*
          | ÉCONOMIE. La grille tarifaire, modifiable sans déploiement — c'est

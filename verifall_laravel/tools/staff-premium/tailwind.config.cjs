@@ -31,6 +31,7 @@ module.exports = {
     './resources/views/components/premium/**/*.blade.php',
     './resources/views/components/layouts/staff.blade.php',
     './resources/views/components/lucide.blade.php',
+    './resources/views/components/champ-mot-de-passe.blade.php',
     './resources/views/livewire/staff/**/*.blade.php',
     './resources/views/livewire/auth/staff-*.blade.php',
     './resources/views/livewire/auth/verrou-*.blade.php',

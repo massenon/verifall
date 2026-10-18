@@ -16,6 +16,7 @@ use App\Core\Application\Contracts\DepotNotes;
 use App\Core\Application\Contracts\DepotPlanDuSite;
 use App\Core\Application\Contracts\DepotSignalementsContenu;
 use App\Core\Application\Contracts\DepotSourcesFiables;
+use App\Core\Application\Contracts\DepotTableauDeBordMentor;
 use App\Core\Application\Contracts\DepotUtilisateurs;
 use App\Core\Application\Contracts\UnitLogRepositoryInterface;
 use App\Core\Application\Contracts\XpLogRepositoryInterface;
@@ -36,6 +37,7 @@ use App\Infrastructure\Persistence\DepotNotesEloquent;
 use App\Infrastructure\Persistence\DepotPlanDuSiteEloquent;
 use App\Infrastructure\Persistence\DepotSignalementsContenuEloquent;
 use App\Infrastructure\Persistence\DepotSourcesFiablesEloquent;
+use App\Infrastructure\Persistence\DepotTableauDeBordMentorEloquent;
 use App\Infrastructure\Persistence\DepotUtilisateursEloquent;
 use App\Infrastructure\Persistence\EloquentUnitLogRepository;
 use App\Infrastructure\Persistence\EloquentXpLogRepository;
@@ -103,6 +105,9 @@ final class AppServiceProvider extends ServiceProvider
         // Boîte de contact. Le formulaire du prototype ne postait nulle part ;
         // il poste désormais ici.
         $this->app->bind(DepotMessagesContact::class, DepotMessagesContactEloquent::class);
+
+        // Tableau de bord du mentor (P4-2), borné à ses cours.
+        $this->app->bind(DepotTableauDeBordMentor::class, DepotTableauDeBordMentorEloquent::class);
 
         // File de modération des contenus signalés. Elle existait en base
         // depuis des mois ; il lui manquait un lecteur.

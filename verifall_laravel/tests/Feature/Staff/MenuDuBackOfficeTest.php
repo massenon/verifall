@@ -159,8 +159,10 @@ it('donne au mentor un menu strictement PLUS PETIT', function () {
     $admin = collect(MenuDuBackOffice::pour(membreAvecRole(UserRole::Admin->value)))
         ->flatten(1)->pluck('route');
 
+    // Seule exception, voulue : la porte d'entrée. Le mentor a SON tableau de
+    // bord (P4-2), l'administrateur celui de la plateforme — un seul chacun.
     expect($mentor->count())->toBeLessThan($admin->count())
-        ->and($mentor->diff($admin)->values()->all())->toBe([]);
+        ->and($mentor->diff($admin)->values()->all())->toBe(['staff.mentor.dashboard']);
 });
 
 it('n’affiche AUCUN groupe vide', function () {

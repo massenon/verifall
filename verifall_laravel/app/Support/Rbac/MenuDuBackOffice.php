@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Support\Rbac;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
@@ -66,6 +67,8 @@ final class MenuDuBackOffice
          */
         '' => [
             'staff.dashboard' => ['layout-dashboard', 'Tableau de bord'],
+            // Le tableau de bord DU MENTOR (P4-2) : voir `estTableauDeBordDe()`.
+            'staff.mentor.dashboard' => ['layout-dashboard', 'Tableau de bord'],
         ],
 
         'Fact-checking' => [
@@ -203,7 +206,7 @@ final class MenuDuBackOffice
             $retenues = [];
 
             foreach ($entrees as $route => [$icone, $libelle]) {
-                if (! self::autorise($membre, $route)) {
+                if (! self::autorise($membre, $route) || ! self::estTableauDeBordDe($membre, $route)) {
                     continue;
                 }
 
@@ -216,6 +219,27 @@ final class MenuDuBackOffice
         }
 
         return $visible;
+    }
+
+    /**
+     * Un seul « Tableau de bord » par personne.
+     *
+     * Le mentor a le sien (sa journée, ses copies, ses cours) ; l'administrateur
+     * et le modérateur gardent celui de la plateforme. Un compte qui porte les
+     * deux rôles voit celui de l'administration — c'est son métier principal ;
+     * l'espace mentor reste dans son groupe. Ce n'est pas une garde (les routes
+     * gardent la leur) : c'est le choix de la porte d'entrée affichée.
+     */
+    public static function estTableauDeBordDe(User $membre, string $route): bool
+    {
+        $mentorSeul = $membre->hasRole(UserRole::Mentor->value)
+            && ! $membre->hasAnyRole([UserRole::Admin->value, UserRole::Moderateur->value]);
+
+        return match ($route) {
+            'staff.dashboard' => ! $mentorSeul,
+            'staff.mentor.dashboard' => $mentorSeul,
+            default => true,
+        };
     }
 
     /**

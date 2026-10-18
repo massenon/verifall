@@ -61,8 +61,9 @@ it('donne enfin un œil à la connexion du PERSONNEL', function () {
     $this->get(route('staff.login'))
         ->assertOk()
         ->assertSee('data-pwd-eye="a-pass"', escape: false)
-        // La variante ne change QUE le conteneur : le comportement est partagé.
-        ->assertSee('class="ffield"', escape: false)
+        // Depuis la console premium (n° 176), la variante « console » : seul le
+        // conteneur change, le bouton et son comportement sont partagés.
+        ->assertSee('class="champ !h-11 pr-11"', escape: false)
         /*
          | ET le script. Sans lui, le bouton serait du balisage mort : il
          | s'afficherait et un clic ne ferait rien. Cette mise en page ne le

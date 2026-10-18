@@ -170,5 +170,5 @@ it('réserve la portée globale au seul administrateur', function (): void {
 it('oriente chaque rôle vers le bon shell après connexion', function (): void {
     expect(UserRole::Citoyen->routeApresConnexion())->toBe('citizen.dashboard')
         ->and(UserRole::Admin->routeApresConnexion())->toBe('staff.dashboard')
-        ->and(UserRole::Mentor->routeApresConnexion())->toBe('staff.dashboard');
+        ->and(UserRole::Mentor->routeApresConnexion())->toBe('staff.mentor.dashboard');
 });
