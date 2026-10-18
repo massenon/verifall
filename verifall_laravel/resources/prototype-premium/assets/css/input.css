@@ -195,3 +195,6 @@
 .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="2"]::before, .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="2"]::before { content: 'Titre'; }
 .ql-snow .ql-picker.ql-header .ql-picker-label[data-value="3"]::before, .ql-snow .ql-picker.ql-header .ql-picker-item[data-value="3"]::before { content: 'Sous-titre'; }
 .ql-snow .ql-picker.ql-header { width: 112px; }
+
+/* Le champ refuse : une secousse courte, désactivée si les mouvements sont réduits. */
+@keyframes secousse { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }

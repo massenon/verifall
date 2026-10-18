@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connexion — Vérif'All</title>
+  <meta name="description" content="Connexion du personnel et des mentors à la console Vérif'All.">
+  <meta name="theme-color" content="#0E2A1E">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('vf-theme'); } catch (e) {}
+      if (t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+    })();
+  </script>
+</head>
+<!--
+  La page de connexion de la console (personnel et mentors).
+
+  Ce qu'on retient : à gauche, le registre des verdicts. Des affirmations
+  réelles du quotidien béninois reçoivent leur verdict l'une après l'autre ;
+  c'est le seul mouvement de la page, et il s'arrête si les mouvements sont
+  réduits. À droite, le formulaire reste sobre : identifiants, puis code de
+  double authentification, ou lien de réinitialisation.
+
+  En Laravel : layout invité, `Auth\Connexion` (Livewire), limitation de débit
+  `LoginAttempt` (5 essais, verrou de 15 min), 2FA par `TwoFactorService`.
+-->
+<body class="min-h-screen bg-papier dark:bg-nuit">
+  <a href="#formulaire" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 btn-primaire">Aller au formulaire</a>
+
+  <div class="min-h-screen grid lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
+
+    <!-- Le registre des verdicts -->
+    <aside class="relative overflow-hidden bg-foret text-white flex flex-col" aria-label="Derniers verdicts publiés">
+      <div class="flex items-center gap-2.5 px-6 sm:px-10 h-16 lg:h-20">
+        <span class="inline-flex w-8 h-8 rounded-ctrl bg-brand items-center justify-center" aria-hidden="true"><i data-lucide="compass" class="w-[18px] h-[18px] text-foret"></i></span>
+        <span class="font-titre font-semibold text-[17px]">Vérif'All</span>
+      </div>
+
+      <div class="hidden lg:flex flex-1 flex-col px-10 pb-10">
+        <h1 class="font-titre font-semibold text-[40px] xl:text-[46px] leading-[1.05] tracking-tight max-w-[14ch] mt-6">Chaque rumeur reçoit sa réponse.</h1>
+        <p class="mt-4 text-white/70 max-w-[42ch] leading-relaxed">Les derniers verdicts publiés par l'équipe. Connectez-vous pour reprendre la file là où vous l'avez laissée.</p>
+
+        <ol id="registre" class="relative mt-10 flex-1 space-y-3 overflow-hidden" aria-live="off"></ol>
+
+        <p class="mt-6 text-xs text-white/45">Données de démonstration. Sur la plateforme, ce sont les fact-checks réellement publiés.</p>
+      </div>
+
+      <!-- Sur téléphone : un seul verdict, en bandeau -->
+      <div class="lg:hidden px-6 pb-5 -mt-1">
+        <p class="font-titre text-xl font-semibold leading-snug">Chaque rumeur reçoit sa réponse.</p>
+      </div>
+    </aside>
+
+    <!-- Le formulaire -->
+    <main id="formulaire" class="flex flex-col px-6 sm:px-10 py-10 lg:py-0" tabindex="-1">
+      <div class="flex justify-end lg:h-20 lg:items-center -mt-4 lg:mt-0">
+        <button id="theme" class="btn-icone" aria-label="Passer en thème sombre"><i data-lucide="moon"></i></button>
+      </div>
+
+      <div class="flex-1 grid place-items-center">
+        <div class="w-full max-w-[400px]">
+
+          <!-- Étape 1 : identifiants -->
+          <section data-etape="identifiants">
+            <h2 class="font-titre text-[28px] font-semibold leading-tight text-encre dark:text-white">Connexion à la console</h2>
+            <p class="mt-2 texte-2">Réservée au personnel et aux mentors de l'Académie.</p>
+
+            <div id="bandeau" class="hidden mt-6 rounded-ctrl border px-3.5 py-3 text-sm flex items-start gap-2.5" role="status"></div>
+
+            <form id="f-connexion" class="mt-7 space-y-5" novalidate>
+              <div>
+                <label for="email" class="etiquette">Adresse électronique</label>
+                <input id="email" name="email" type="email" class="champ !h-11" autocomplete="username" inputmode="email" placeholder="prenom.nom@verifall.com" required>
+                <p class="aide" data-aide-email></p>
+              </div>
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <label for="mdp" class="etiquette !mb-0">Mot de passe</label>
+                  <button type="button" class="text-[13px] font-medium text-brand-700 dark:text-brand hover:underline" data-aller="oubli">Mot de passe oublié ?</button>
+                </div>
+                <div class="relative">
+                  <input id="mdp" name="mdp" type="password" class="champ !h-11 pr-11" autocomplete="current-password" required>
+                  <button type="button" class="btn-icone absolute right-1 top-1" id="voir-mdp" aria-label="Afficher le mot de passe" aria-pressed="false"><i data-lucide="eye"></i></button>
+                </div>
+                <p class="aide" data-aide-mdp></p>
+                <p class="hidden mt-1.5 text-xs text-amber-800 dark:text-amber-300 items-center gap-1" id="majuscules"><i data-lucide="arrow-big-up" class="w-3.5 h-3.5"></i>La touche Majuscule est verrouillée.</p>
+              </div>
+              <label class="flex items-start gap-2.5 text-sm cursor-pointer">
+                <input type="checkbox" class="case mt-0.5" name="appareil">
+                <span><span class="font-medium">Faire confiance à cet appareil</span><span class="block texte-3 text-xs mt-0.5">Le code de double authentification ne sera plus demandé ici pendant 30 jours.</span></span>
+              </label>
+              <button type="submit" class="btn-primaire w-full !h-11 text-[15px]" id="b-connexion"><span>Se connecter</span></button>
+            </form>
+
+            <details class="mt-8 rounded-ctrl border filet bg-white dark:bg-nuit-carte px-4 py-3 text-sm">
+              <summary class="cursor-pointer font-medium">Comptes de démonstration</summary>
+              <ul class="mt-2 space-y-1.5 texte-2">
+                <li><button type="button" class="hover:underline text-left" data-demo="mawuli.adjovi@verifall.com">mawuli.adjovi@verifall.com</button> — administrateur</li>
+                <li><button type="button" class="hover:underline text-left" data-demo="fifame.h@verifall.com">fifame.h@verifall.com</button> — mentor</li>
+                <li>Mot de passe : 8 caractères ou plus. Code : 6 chiffres au choix.</li>
+              </ul>
+            </details>
+          </section>
+
+          <!-- Étape 2 : double authentification -->
+          <section data-etape="code" hidden>
+            <button type="button" class="btn-fantome btn-sm -ml-2.5 mb-4" data-aller="identifiants"><i data-lucide="arrow-left"></i>Changer de compte</button>
+            <h2 class="font-titre text-[28px] font-semibold leading-tight text-encre dark:text-white">Code de vérification</h2>
+            <p class="mt-2 texte-2">Saisissez le code à 6 chiffres affiché par votre application d'authentification pour <span class="font-medium text-encre dark:text-white" data-qui></span>.</p>
+            <form id="f-code" class="mt-7" novalidate>
+              <fieldset>
+                <legend class="sr-only">Code à 6 chiffres</legend>
+                <div class="flex gap-2 sm:gap-2.5" data-cases>
+                  <input class="champ !h-14 !w-full text-center font-titre !text-2xl font-semibold tabular-nums" inputmode="numeric" autocomplete="one-time-code" maxlength="1" aria-label="Chiffre 1">
+                  <input class="champ !h-14 !w-full text-center font-titre !text-2xl font-semibold tabular-nums" inputmode="numeric" maxlength="1" aria-label="Chiffre 2">
+                  <input class="champ !h-14 !w-full text-center font-titre !text-2xl font-semibold tabular-nums" inputmode="numeric" maxlength="1" aria-label="Chiffre 3">
+                  <input class="champ !h-14 !w-full text-center font-titre !text-2xl font-semibold tabular-nums" inputmode="numeric" maxlength="1" aria-label="Chiffre 4">
+                  <input class="champ !h-14 !w-full text-center font-titre !text-2xl font-semibold tabular-nums" inputmode="numeric" maxlength="1" aria-label="Chiffre 5">
+                  <input class="champ !h-14 !w-full text-center font-titre !text-2xl font-semibold tabular-nums" inputmode="numeric" maxlength="1" aria-label="Chiffre 6">
+                </div>
+              </fieldset>
+              <p class="aide" data-aide-code>Le code change toutes les 30 secondes.</p>
+              <button type="submit" class="btn-primaire w-full !h-11 text-[15px] mt-6">Vérifier et entrer</button>
+            </form>
+            <p class="mt-5 text-sm texte-2">Plus d'accès à votre application ? <button type="button" class="font-medium text-brand-700 dark:text-brand hover:underline" data-secours>Utiliser un code de secours</button></p>
+          </section>
+
+          <!-- Mot de passe oublié -->
+          <section data-etape="oubli" hidden>
+            <button type="button" class="btn-fantome btn-sm -ml-2.5 mb-4" data-aller="identifiants"><i data-lucide="arrow-left"></i>Retour à la connexion</button>
+            <h2 class="font-titre text-[28px] font-semibold leading-tight text-encre dark:text-white">Réinitialiser le mot de passe</h2>
+            <p class="mt-2 texte-2">Indiquez votre adresse. Si un compte du personnel y correspond, vous recevrez un lien valable 60 minutes.</p>
+            <form id="f-oubli" class="mt-7 space-y-5" novalidate>
+              <div>
+                <label for="email-oubli" class="etiquette">Adresse électronique</label>
+                <input id="email-oubli" type="email" class="champ !h-11" autocomplete="username" required>
+                <p class="aide" data-aide-oubli></p>
+              </div>
+              <button type="submit" class="btn-primaire w-full !h-11 text-[15px]">Recevoir le lien</button>
+            </form>
+          </section>
+
+          <!-- Lien envoyé -->
+          <section data-etape="envoye" hidden>
+            <span class="inline-flex w-12 h-12 rounded-full bg-brand-50 text-brand-700 dark:bg-brand/10 dark:text-brand items-center justify-center"><i data-lucide="mail-check" class="w-6 h-6"></i></span>
+            <h2 class="mt-4 font-titre text-[28px] font-semibold leading-tight text-encre dark:text-white">Vérifiez votre boîte de réception</h2>
+            <p class="mt-2 texte-2">Si <span class="font-medium text-encre dark:text-white" data-qui-oubli></span> correspond à un compte, le lien vient de partir. Pensez aux courriers indésirables.</p>
+            <button type="button" class="btn-second w-full !h-11 mt-7" data-aller="identifiants">Retour à la connexion</button>
+          </section>
+        </div>
+      </div>
+
+      <footer class="pt-8 lg:pb-8 text-xs texte-3 flex flex-wrap gap-x-5 gap-y-1">
+        <span>Vous êtes citoyen ? Connectez-vous sur <a class="underline hover:text-encre dark:hover:text-white" href="#">verifall.com</a>.</span>
+        <a class="underline hover:text-encre dark:hover:text-white" href="#">Confidentialité</a>
+      </footer>
+    </main>
+  </div>
+
+  <div id="toasts" class="fixed bottom-4 right-4 z-[60] flex flex-col gap-2 w-[min(360px,calc(100vw-2rem))]" aria-live="polite"></div>
+
+  <script src="assets/vendor/lucide/lucide.min.js"></script>
+  <script src="assets/js/connexion.js"></script>
+</body>
+</html>

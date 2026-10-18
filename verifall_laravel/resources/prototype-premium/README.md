@@ -15,7 +15,17 @@ Fonts ; hors ligne, la police système prend le relais.
 - **Barre du haut** : l'icône plein écran, et l'avatar rond qui ouvre le menu du
   profil (profil, sécurité, préférences, changement d'espace, thème, aide,
   déconnexion). Il se pilote aussi au clavier : flèches, Début, Fin, Échap.
-- **Thème** : l'icône lune ou soleil, ou l'onglet Préférences de « Mon compte ».
+- **Thème** : clair par défaut, quel que soit le réglage du système. L'icône
+  lune ou soleil, ou l'onglet Préférences de « Mon compte » ; « Comme le
+  système » suit alors le réglage de l'appareil.
+- **Connexion** : `connexion.html`. À gauche, le registre des verdicts ; à
+  droite, identifiants puis code de double authentification, ou mot de passe
+  oublié. Comptes de démonstration dans la page.
+- **Actions rapides** : le bouton vert de la barre du haut, ou la touche `A`.
+  Les gestes fréquents de l'espace en cours.
+- **Verrouillage** : `Ctrl L`, le menu du profil, ou 15 minutes sans geste.
+  L'écran garde le travail en cours et redemande le mot de passe ; il survit
+  à un rechargement. Cinq échecs ferment la session.
 - Les données sont fictives. Rien n'est envoyé : les boutons affichent une
   notification qui dit ce qui se passerait.
 
@@ -32,7 +42,7 @@ Fonts ; hors ligne, la police système prend le relais.
 | Utilisateurs | Citoyens, Mentors, **fiche complète d'un citoyen** (9 onglets : vue d'ensemble, vérifications et échecs, rapports, Académie, Hub d'opportunités, communauté, unités et badges, connexions et sécurité, journal complet), **fiche complète d'un mentor** (cours créés, apprenants, statistiques, corrections et vérifications assignées, lives et examens, revenus, connexions, journal), Vérification KYC (pièces en visionneuse), Rôles et permissions (matrice) |
 | Système | Réglages (onglets : général, moteurs IA, paiements, sécurité, maintenance), **Modèles de courriels** (CRUD complet : liste, création, modification, duplication, activation, suppression ; éditeur avec variables autorisées en JSON ou en texte, aide-mémoire des variables à copier ou insérer, contrôles avant enregistrement, aperçu ordinateur et téléphone, envoi de test), Campagnes, Badges, Sauvegardes, Tâches planifiées |
 | Journaux | Audit, Courriels, Unités, Alertes d'intrusion |
-| Mentor | Tableau de bord (boîte de correction), Live classes, Mes cours, Sections et leçons, Mes contenus, Quiz, Devoirs à corriger, Examens, Mes apprenants (et la fiche de chaque apprenant, sans les données sensibles), Progression, Certificats, Ma performance, Mon profil, **Hub d'infos** (Actualités, Portails officiels, Offres d'emploi) et **Communauté** (Forum, catégories, Blog, catégories, Nouvel article, Médiathèque, Infolettres, FAQ, Témoignages, Partenaires) |
+| Mentor | Tableau de bord du mentor (« Ma journée » de 8 h à 22 h, boîte de correction, vérifications assignées, mes cours et leur tendance, activité, décrochage, questions du forum, sessions), Live classes, Mes cours, Sections et leçons, Mes contenus, Quiz, Devoirs à corriger, Examens, Mes apprenants (et la fiche de chaque apprenant, sans les données sensibles), Progression, Certificats, Ma performance, Mon profil, **Hub d'infos** (Actualités, Portails officiels, Offres d'emploi) et **Communauté** (Forum, catégories, Blog, catégories, Nouvel article, Médiathèque, Infolettres, FAQ, Témoignages, Partenaires) |
 | Compte | Profil, sécurité (mot de passe, double authentification, sessions), préférences (langue, thème, notifications) |
 
 Chaque écran de liste offre : recherche, filtres, période, tri, pagination,
@@ -64,6 +74,7 @@ racine du dépôt.
 
 ```
 index.html                 la coquille : colonne, barre du haut, couches
+connexion.html             la page de connexion (assets/js/connexion.js)
 tailwind.config.js         les jetons de design
 assets/css/input.css       les composants (boutons, champs, pastilles, tableaux…)
 assets/css/app.css         le CSS compilé, à régénérer après modification

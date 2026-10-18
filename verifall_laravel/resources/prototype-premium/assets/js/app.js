@@ -114,7 +114,7 @@
   VF.appliquerTheme = (choix) => {
     const sombre = choix === 'sombre' || (choix === 'systeme' && window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.classList.toggle('dark', sombre);
-    try { choix === 'systeme' ? localStorage.removeItem('vf-theme') : localStorage.setItem('vf-theme', sombre ? 'dark' : 'light'); } catch (e) { /* thème non mémorisé */ }
+    try { localStorage.setItem('vf-theme', choix === 'systeme' ? 'system' : sombre ? 'dark' : 'light'); } catch (e) { /* thème non mémorisé */ }
     majIconeTheme();
     if (!location.hash.startsWith('#/compte')) router();
   };
@@ -177,6 +177,7 @@
       ${bouton('commande', 'command', 'Raccourcis et recherche', '<span class="kbd">Ctrl K</span>')}
       ${lien(espace === 'admin' ? '#/faq' : '#/m-faq', 'life-buoy', 'Aide et FAQ')}
       <div class="my-1 border-t filet"></div>
+      ${bouton('verrouiller', 'lock', 'Verrouiller la session', '<span class="kbd">Ctrl L</span>')}
       ${bouton('sortir', 'log-out', 'Se déconnecter', '', '!text-red-700 dark:!text-red-400')}`;
     icones();
   };
@@ -206,9 +207,144 @@
     if (action === 'espace') { const cible = VF.espace === 'mentor' ? 'admin' : 'mentor'; VF.espace = cible; location.hash = '#/' + ACCUEIL[cible]; }
     else if (action === 'theme') VF.appliquerTheme(document.documentElement.classList.contains('dark') ? 'clair' : 'sombre');
     else if (action === 'commande') ouvrirCommande();
-    else if (action === 'sortir') VF.ui.confirmer({ titre: 'Se déconnecter ?', texte: 'Votre session sera fermée sur cet appareil. Les brouillons non enregistrés seront perdus.', bouton: 'Se déconnecter', siOui: () => toast('Vous êtes déconnecté. Dans l\'application, vous seriez renvoyé vers la page de connexion.', 'info') });
+    else if (action === 'verrouiller') verrouiller('manuel');
+    else if (action === 'sortir') VF.ui.confirmer({ titre: 'Se déconnecter ?', texte: 'Votre session sera fermée sur cet appareil. Les brouillons non enregistrés seront perdus.', bouton: 'Se déconnecter', siOui: seDeconnecter });
   });
   document.addEventListener('click', (e) => { if (!mProfil.contains(e.target) && !bProfil.contains(e.target)) fermerProfil(); });
+
+  /* ---------- Actions rapides ----------
+     Les gestes les plus fréquents de chaque espace, à un clic de n'importe
+     quel écran. Chacun mène à l'écran qui le réalise. */
+  const ACTIONS = {
+    admin: [
+      ['flame', 'Traiter le signalement le plus urgent', 'File triée par échéance', '#/signalements'],
+      ['file-check', 'Publier un fact-check', 'Verdict, sources, carte de démenti', '#/fact-checks'],
+      ['square-pen', 'Écrire un article', 'Blog, avec aperçu Google', '#/editeur'],
+      ['library', 'Créer un cours', 'Constructeur de cours', '#/constructeur'],
+      ['coins', 'Créditer des unités', 'À un citoyen, journalisé', '#/utilisateurs'],
+      ['id-card', 'Examiner un dossier KYC', '6 en attente', '#/kyc'],
+      ['mail', 'Programmer une infolettre', '12 840 abonnés', '#/editeur?type=infolettre'],
+      ['mails', 'Nouveau modèle de courriel', 'Avec ses variables', '#/email-modele'],
+      ['user-plus', 'Inviter un mentor', 'Il recevra un lien d\'activation', '#/mentors'],
+      ['database-backup', 'Sauvegarder la base', 'Sauvegarde complète maintenant', 'sauvegarde'],
+    ],
+    mentor: [
+      ['pen-line', 'Corriger les devoirs', '5 copies, dont 1 urgente', '#/m-devoirs'],
+      ['video', 'Programmer un live', 'Calendrier des sessions', '#/m-live'],
+      ['list-tree', 'Ajouter une leçon', 'Sections et leçons', '#/m-sections'],
+      ['list-checks', 'Créer un quiz', 'Depuis la banque de questions', '#/m-quiz'],
+      ['upload', 'Déposer un contenu', 'Vidéo, PDF ou image', '#/m-contenus'],
+      ['send', 'Relancer les inactifs', '14 jours sans activité', '#/m-progression'],
+      ['square-pen', 'Écrire un article', 'Blog de la communauté', '#/m-editeur'],
+      ['messages-square', 'Répondre au forum', 'Questions sans réponse', '#/m-forum-discussions'],
+    ],
+  };
+  const bActions = $('#bouton-actions'), mActions = $('#menu-actions');
+  const fermerActions = (focus) => { mActions.classList.add('hidden'); bActions.setAttribute('aria-expanded', 'false'); if (focus) bActions.focus(); };
+  const ouvrirActions = () => {
+    const liste = ACTIONS[VF.espace || 'admin'];
+    mActions.innerHTML = `<p class="px-2 pt-1 pb-2 text-xs texte-3">Actions rapides — ${VF.espace === 'mentor' ? 'espace mentor' : 'administration'}</p>
+      <div class="grid sm:grid-cols-2 gap-1">${liste.map(([ic, titre, aide, cible]) => `<a href="${cible.startsWith('#') ? cible : '#'}" data-action-rapide="${esc(cible)}" role="menuitem" class="flex items-start gap-3 rounded-ctrl p-2.5 hover:bg-papier dark:hover:bg-nuit focus:bg-papier dark:focus:bg-nuit focus:outline-none">
+        <span class="inline-flex w-8 h-8 shrink-0 items-center justify-center rounded-ctrl bg-brand-50 text-brand-700 dark:bg-brand/10 dark:text-brand">${icone(ic, 'w-4 h-4')}</span>
+        <span class="min-w-0"><span class="block text-sm font-medium leading-snug">${esc(titre)}</span><span class="block text-xs texte-3 truncate">${esc(aide)}</span></span></a>`).join('')}</div>`;
+    mActions.classList.remove('hidden'); bActions.setAttribute('aria-expanded', 'true');
+    icones();
+    const premier = mActions.querySelector('[role=menuitem]'); if (premier) premier.focus();
+  };
+  bActions.addEventListener('click', (e) => { e.stopPropagation(); fermerProfil(); panneau.classList.add('hidden'); mActions.classList.contains('hidden') ? ouvrirActions() : fermerActions(); });
+  mActions.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-action-rapide]');
+    if (!a) return;
+    fermerActions();
+    if (a.dataset.actionRapide === 'sauvegarde') { e.preventDefault(); toast('Sauvegarde lancée. Vous serez notifié à la fin.', 'info'); }
+  });
+  mActions.addEventListener('keydown', (e) => {
+    const items = $$('[role=menuitem]', mActions), i = items.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+    else if (e.key === 'Escape') { e.stopPropagation(); fermerActions(true); }
+    else if (e.key === 'Tab') fermerActions();
+  });
+  document.addEventListener('click', (e) => { if (!mActions.contains(e.target) && !bActions.contains(e.target)) fermerActions(); });
+
+  /* ---------- Déconnexion et verrouillage de session ----------
+     Après 15 minutes sans geste, l'écran se verrouille : l'état de la page est
+     conservé, mais le mot de passe est redemandé. En Laravel, c'est
+     `password.confirm` (le délai de `auth.password_timeout`) sur un écran dédié. */
+  const DELAI_VERROU = 15 * 60 * 1000;
+  const seDeconnecter = () => { try { sessionStorage.removeItem('vf-verrou'); } catch (e) { /* rien à effacer */ } location.href = 'connexion.html?sortie=1'; };
+  let minuteurVerrou, essais = 0;
+  const verrou = $('#verrou');
+  const heure = () => new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit' }).format(new Date());
+  const jour = () => new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date());
+  const verrouiller = (raison) => {
+    if (!verrou.classList.contains('hidden')) return;
+    fermerProfil(); fermerActions();
+    ['modale', 'tiroir'].forEach((id) => { if (!$('#' + id).classList.contains('hidden')) VF.ui.fermerCouche(id); });
+    const moi = VF.moi[VF.espace || 'admin'];
+    const depuis = heure();
+    essais = 0;
+    try { sessionStorage.setItem('vf-verrou', raison); } catch (e) { /* verrou non mémorisé */ }
+    verrou.innerHTML = `
+      <div class="fixed inset-0 z-[70] bg-foret/95 backdrop-blur-md text-white flex flex-col" role="dialog" aria-modal="true" aria-labelledby="verrou-titre">
+        <div class="flex items-center justify-between px-6 h-16"><span class="inline-flex items-center gap-2.5 font-titre font-semibold"><span class="inline-flex w-8 h-8 rounded-ctrl bg-brand items-center justify-center">${icone('compass', 'w-[18px] h-[18px] text-foret')}</span>Vérif'All</span><span class="text-sm text-white/60">${esc(VF.espace === 'mentor' ? 'Espace mentor' : 'Console d\'administration')}</span></div>
+        <div class="flex-1 grid place-items-center px-4 pb-16">
+          <div class="w-full max-w-sm text-center">
+            <p class="font-titre text-[72px] sm:text-[96px] leading-none font-semibold tabular-nums tracking-tight" data-horloge>${heure()}</p>
+            <p class="mt-2 text-white/70 first-letter:uppercase" data-jour>${jour()}</p>
+            <div class="mt-10 flex flex-col items-center">
+              <span class="avatar w-16 h-16 !text-lg ring-4 ring-white/10">${esc(moi.initiales)}</span>
+              <h2 id="verrou-titre" class="mt-3 font-titre text-xl font-semibold">${esc(moi.nom)}</h2>
+              <p class="mt-1 text-sm text-white/60">${raison === 'inactivite' ? `Session verrouillée à ${depuis} après 15 minutes sans activité.` : `Session verrouillée à ${depuis}.`} Votre travail est conservé.</p>
+            </div>
+            <form class="mt-6 text-left" data-form-verrou novalidate>
+              <label for="verrou-mdp" class="sr-only">Mot de passe</label>
+              <div class="relative">
+                <input id="verrou-mdp" type="password" autocomplete="current-password" class="w-full h-12 pl-4 pr-24 rounded-ctrl bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/40" placeholder="Mot de passe" required>
+                <button type="submit" class="absolute right-1.5 top-1.5 h-9 px-3 rounded-[6px] bg-brand text-foret font-medium text-sm inline-flex items-center gap-1.5 hover:bg-brand-600 hover:text-white">${icone('lock-open', 'w-4 h-4')}Déverrouiller</button>
+              </div>
+              <p class="mt-2 min-h-[20px] text-sm text-red-200 flex items-center gap-1.5" data-erreur-verrou aria-live="polite"></p>
+            </form>
+            <button class="mt-4 text-sm text-white/70 hover:text-white underline underline-offset-4" data-sortir-verrou>Ce n'est pas vous ? Se déconnecter</button>
+          </div>
+        </div>
+        <p class="px-6 pb-5 text-center text-xs text-white/40">Démo : tout mot de passe de 8 caractères ou plus déverrouille. Après 5 échecs, la session est fermée.</p>
+      </div>`;
+    verrou.classList.remove('hidden'); verrou.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('overflow-hidden');
+    $('#contenu').setAttribute('inert', ''); $('#colonne').setAttribute('inert', '');
+    icones();
+    const champMdp = $('#verrou-mdp', verrou);
+    setTimeout(() => champMdp.focus(), 50);
+    const tic = setInterval(() => { const h = $('[data-horloge]', verrou); if (!h) return clearInterval(tic); h.textContent = heure(); }, 15000);
+    $('[data-sortir-verrou]', verrou).addEventListener('click', seDeconnecter);
+    $('[data-form-verrou]', verrou).addEventListener('submit', (e) => {
+      e.preventDefault();
+      const err = $('[data-erreur-verrou]', verrou);
+      if (champMdp.value.length >= 8) return deverrouiller();
+      essais += 1;
+      champMdp.value = ''; champMdp.focus();
+      champMdp.classList.add('animate-[secousse_.3s]'); setTimeout(() => champMdp.classList.remove('animate-[secousse_.3s]'), 320);
+      if (essais >= 5) { err.textContent = 'Cinq essais manqués : la session est fermée.'; setTimeout(seDeconnecter, 900); return; }
+      err.innerHTML = `${icone('circle-alert', 'w-4 h-4')}Mot de passe incorrect. Il reste ${5 - essais} essai${5 - essais > 1 ? 's' : ''}.`;
+      icones();
+    });
+  };
+  const deverrouiller = () => {
+    verrou.classList.add('hidden'); verrou.setAttribute('aria-hidden', 'true'); verrou.innerHTML = '';
+    document.body.classList.remove('overflow-hidden');
+    $('#contenu').removeAttribute('inert'); $('#colonne').removeAttribute('inert');
+    try { sessionStorage.removeItem('vf-verrou'); } catch (e) { /* rien */ }
+    relancerMinuteur();
+    toast('Session déverrouillée. Bon retour.', 'info');
+  };
+  const relancerMinuteur = () => { clearTimeout(minuteurVerrou); minuteurVerrou = setTimeout(() => verrouiller('inactivite'), DELAI_VERROU); };
+  ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((ev) => document.addEventListener(ev, () => { if (verrou.classList.contains('hidden')) relancerMinuteur(); }, { passive: true }));
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'l' && !e.shiftKey) { e.preventDefault(); verrouiller('manuel'); }
+    else if (e.key.toLowerCase() === 'a' && !e.ctrlKey && !e.metaKey && !e.altKey && !/input|textarea|select/i.test(document.activeElement.tagName) && !document.activeElement.isContentEditable && verrou.classList.contains('hidden')) { e.preventDefault(); ouvrirActions(); }
+  });
+  VF.verrouiller = verrouiller;
 
   /* ---------- Palette de commandes (Ctrl K) ---------- */
   const ouvrirCommande = () => {
@@ -260,4 +396,7 @@
   window.addEventListener('hashchange', router);
   majIconeTheme();
   router();
+  relancerMinuteur();
+  /* Un rechargement ne lève pas le verrou. */
+  try { const r = sessionStorage.getItem('vf-verrou'); if (r) verrouiller(r); } catch (e) { /* rien */ }
 })(window.VF);

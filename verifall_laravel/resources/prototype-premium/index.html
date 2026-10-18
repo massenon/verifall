@@ -18,11 +18,12 @@
   <link rel="stylesheet" href="assets/css/app.css">
 
   <script>
-    /* Thème choisi avant le premier rendu : pas de flash clair en mode sombre. */
+    /* Thème choisi avant le premier rendu : pas de flash. Clair par défaut ;
+       le sombre seulement si la personne l'a choisi, ou a choisi « comme le système ». */
     (function () {
       var t = null;
       try { t = localStorage.getItem('vf-theme'); } catch (e) {}
-      if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      if (t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
       }
     })();
@@ -79,7 +80,13 @@
 
           <div class="ml-auto flex items-center gap-1">
             <button class="btn-icone sm:hidden" data-commande aria-label="Rechercher"><i data-lucide="search"></i></button>
-            <a href="#/calendrier" class="btn-icone" aria-label="Calendrier"><i data-lucide="calendar-days"></i></a>
+            <div class="relative">
+              <button id="bouton-actions" class="btn-primaire !h-9 !px-2.5 lg:!px-3.5 mr-1" aria-haspopup="menu" aria-expanded="false" aria-controls="menu-actions" title="Actions rapides (A)">
+                <i data-lucide="zap"></i><span class="hidden lg:inline">Actions rapides</span>
+              </button>
+              <div id="menu-actions" class="menu right-0 mt-2 w-[min(92vw,420px)] hidden !p-2" role="menu" aria-labelledby="bouton-actions"></div>
+            </div>
+            <a href="#/calendrier" class="btn-icone hidden sm:inline-flex" aria-label="Calendrier"><i data-lucide="calendar-days"></i></a>
             <div class="relative">
               <button id="bouton-notifs" class="btn-icone relative" aria-label="Notifications" aria-expanded="false">
                 <i data-lucide="bell"></i>
@@ -119,6 +126,7 @@
   <div id="tiroir" class="hidden" aria-hidden="true"></div>
   <div id="modale" class="hidden" aria-hidden="true"></div>
   <div id="commande" class="hidden" aria-hidden="true"></div>
+  <div id="verrou" class="hidden" aria-hidden="true"></div>
   <div id="toasts" class="fixed bottom-4 right-4 z-[60] flex flex-col gap-2 w-[min(360px,calc(100vw-2rem))]" aria-live="polite"></div>
 
   <script src="assets/vendor/lucide/lucide.min.js"></script>

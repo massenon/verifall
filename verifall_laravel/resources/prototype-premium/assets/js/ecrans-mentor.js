@@ -12,30 +12,86 @@
   const S = VF.statuts;
   const mesCours = VF.cours.filter((c) => c.mentor === 'Fifamè Houngbédji');
 
+  /*
+   | Le tableau de bord du mentor : le sien, pas une variante de celui de
+   | l'administration. Ce qu'on retient, c'est « Ma journée » : une frise de
+   | 8 h à 22 h où se placent le live, les échéances de correction et les
+   | vérifications assignées. Le reste répond à « qui a besoin de moi ? ».
+   */
   VF.ecrans['m-tableau-de-bord'] = (racine) => {
     G.detruireTout();
+    const DEBUT = 8, FIN = 22, MAINTENANT = 11.5;
+    const journee = [
+      [9, 0.75, 'pen-line', 'Échéance — copie de Kossi Tossou', 'Corriger avant 9 h 45', 'critique', '#/m-devoirs'],
+      [11, 1, 'search-check', 'Vérification SIG-4822 assignée', 'Reste 2 h 20 sur l\'objectif de 6 h', 'alerte', '#/signalements'],
+      [14, 1, 'messages-square', 'Permanence forum', '3 questions sans réponse', 'info', '#/m-forum-discussions'],
+      [18, 1.5, 'video', 'Live — OSINT pas à pas', '214 inscrits', 'live', '#/m-live'],
+    ];
+    const tons = { critique: 'bg-red-50 border-red-200 text-red-900 dark:bg-red-950/40 dark:border-red-900/60 dark:text-red-100', alerte: 'bg-amber-50 border-amber-200 text-amber-900 dark:bg-amber-950/30 dark:border-amber-900/60 dark:text-amber-100', info: 'bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-950/30 dark:border-blue-900/60 dark:text-blue-100', live: 'bg-brand-50 border-brand/40 text-foret dark:bg-brand/10 dark:border-brand/40 dark:text-white' };
+    const pos = (h) => ((h - DEBUT) / (FIN - DEBUT)) * 100;
+    const coursStats = mesCours.map((c, i) => ({ ...c, actifs: Math.round(c.inscrits * [0.31, 0.42, 0.18][i % 3]), tendance: Array.from({ length: 12 }, (_, k) => Math.round(c.inscrits / 40 + k * (i + 1) + VF.outils.entre(0, 9))) }));
+    const assignees = VF.signalements.filter((s) => s.etat !== 'publie').slice(0, 4);
+    const questions = [['Exercice Whois : je bloque à l\'étape 3', 'Entraide Académie', 'il y a 40 min', 'Gbaguidi Afi'], ['Comment savoir si une image est générée par IA ?', 'Questions de vérification', 'il y a 2 h', 'Ismaël Sanni'], ['Le quiz 4 compte-t-il pour le certificat ?', 'Entraide Académie', 'hier', 'Carine Dossou']];
+
     racine.innerHTML = `
-      ${enTete({ titre: 'Bonjour Fifamè', sousTitre: '5 copies attendent votre correction, dont une urgente. Votre prochain live commence ce soir à 18 h.', actions: `<a href="#/m-devoirs" class="btn-primaire">${icone('pen-line')}Corriger maintenant</a>` })}
+      <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
+        <div>
+          <p class="text-sm texte-2">Jeudi 15 octobre</p>
+          <h1 class="text-[28px] sm:text-[32px] font-semibold leading-tight">Bonjour Fifamè, 4 rendez-vous aujourd'hui</h1>
+          <p class="mt-1 text-sm texte-2 max-w-2xl">Une copie est urgente avant 9 h 45. Votre live commence à 18 h.</p>
+        </div>
+        <div class="flex flex-wrap gap-2"><a href="#/m-profil" class="btn-second">${icone('id-card')}Mon profil</a><a href="#/m-devoirs" class="btn-primaire">${icone('pen-line')}Corriger maintenant</a></div>
+      </div>
+
+      <section class="carte p-5 mb-6" aria-labelledby="t-journee">
+        <div class="flex flex-wrap items-baseline justify-between gap-2 mb-4"><h2 id="t-journee" class="carte-titre">Ma journée</h2><p class="text-xs texte-3">De 8 h à 22 h — la ligne verte marque l'heure actuelle</p></div>
+        <div class="hidden md:block relative h-[150px]">
+          <div class="absolute inset-x-0 top-6 border-t filet"></div>
+          ${Array.from({ length: (FIN - DEBUT) / 2 + 1 }, (_, i) => DEBUT + i * 2).map((h) => `<span class="absolute top-0 ${h === FIN ? '-translate-x-full' : h === DEBUT ? '' : '-translate-x-1/2'} text-[11px] texte-3 tabular-nums whitespace-nowrap" style="left:${pos(h)}%">${h} h</span><span class="absolute top-5 h-2 border-l filet" style="left:${pos(h)}%"></span>`).join('')}
+          <span class="absolute top-4 bottom-0 w-0.5 bg-brand rounded-full" style="left:${pos(MAINTENANT)}%" aria-hidden="true"><span class="absolute -top-1 -left-[3px] w-2 h-2 rounded-full bg-brand"></span></span>
+          ${journee.map(([h, d, ic, titre, detail, ton, lien], i) => `<a href="${lien}" class="absolute top-10 rounded-ctrl border px-2.5 py-2 hover:shadow-flottant transition-shadow ${tons[ton]} ${h + d < MAINTENANT ? 'opacity-60' : ''}" style="left:${pos(h)}%;width:max(${((d) / (FIN - DEBUT)) * 100}%,210px);margin-top:${(i % 2) * 46}px">
+            <span class="flex items-center gap-1.5 text-[13px] font-medium leading-tight">${icone(ic, 'w-3.5 h-3.5 shrink-0')}<span class="truncate">${esc(titre)}</span></span>
+            <span class="block mt-0.5 text-xs opacity-80 truncate">${String(Math.floor(h)).padStart(2, '0')} h ${String(Math.round((h % 1) * 60)).padStart(2, '0')} — ${esc(detail)}</span></a>`).join('')}
+        </div>
+        <ol class="md:hidden space-y-2">${journee.map(([h, , ic, titre, detail, ton, lien]) => `<li><a href="${lien}" class="flex items-start gap-3 rounded-ctrl border px-3 py-2.5 ${tons[ton]}"><span class="text-xs font-semibold tabular-nums w-10 shrink-0 pt-0.5">${Math.floor(h)} h${h % 1 ? Math.round((h % 1) * 60) : ''}</span><span class="min-w-0"><span class="flex items-center gap-1.5 text-sm font-medium">${icone(ic, 'w-3.5 h-3.5')}${esc(titre)}</span><span class="block text-xs opacity-80">${esc(detail)}</span></span></a></li>`).join('')}</ol>
+      </section>
+
       <div class="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
-        ${kpi({ libelle: 'Mes apprenants', valeur: fmt.nombre(1342), delta: 8, aide: 'actifs sur 30 jours', ic: 'users' })}
+        ${kpi({ libelle: 'Apprenants actifs', valeur: fmt.nombre(1342), delta: 8, aide: 'sur 30 jours', ic: 'users' })}
         ${kpi({ libelle: 'Copies à corriger', valeur: '5', aide: 'délai moyen : 11 h', ic: 'pen-line' })}
         ${kpi({ libelle: 'Complétion de mes cours', valeur: '60 %', delta: 4, ic: 'circle-check' })}
         ${kpi({ libelle: 'Note des apprenants', valeur: '4,8', aide: 'sur 5 — 412 avis', ic: 'star' })}
       </div>
+
       <div class="grid lg:grid-cols-3 gap-4 mb-4">
         <section class="carte lg:col-span-2 overflow-hidden">
-          <div class="carte-tete"><div><h2 class="carte-titre">Boîte de correction</h2><p class="text-xs texte-3 mt-0.5">Les plus anciennes et les urgentes d'abord</p></div><a href="#/m-devoirs" class="btn-fantome btn-sm">Tout voir</a></div>
-          <ul class="divide-y divide-trait dark:divide-nuit-trait">${VF.copies.map((c) => `<li class="flex items-center gap-3 px-5 py-3"><span class="avatar w-9 h-9">${esc(c.initiales)}</span><div class="min-w-0 flex-1"><p class="text-sm font-medium truncate">${esc(c.apprenant)} — ${esc(c.devoir)}</p><p class="text-xs texte-3 truncate">${esc(c.cours)}, soumis ${esc(c.soumis)}</p></div>${c.urgence === 'urgent' ? pastille('p-critique', 'clock-alert', 'Urgent') : c.urgence === 'en_cours' ? pastille('p-info', 'pen-line', 'Entamée') : pastille('p-neutre', 'inbox', 'Nouveau')}<a href="#/m-devoirs" class="btn-second btn-sm hidden sm:inline-flex">Ouvrir</a></li>`).join('')}</ul>
+          <div class="carte-tete"><div><h2 class="carte-titre">Boîte de correction</h2><p class="text-xs texte-3 mt-0.5">Les urgentes et les plus anciennes d'abord</p></div><a href="#/m-devoirs" class="btn-fantome btn-sm">Tout voir</a></div>
+          <ul class="divide-y divide-trait dark:divide-nuit-trait">${VF.copies.map((c) => `<li class="flex items-center gap-3 px-5 py-3"><span class="avatar w-9 h-9">${esc(c.initiales)}</span><div class="min-w-0 flex-1"><p class="text-sm font-medium truncate">${esc(c.apprenant)} — ${esc(c.devoir)}</p><p class="text-xs texte-3 truncate">${esc(c.cours)}, soumis ${esc(c.soumis)}</p></div>${c.urgence === 'urgent' ? pastille('p-critique', 'clock-alert', 'Urgent') : c.urgence === 'en_cours' ? pastille('p-info', 'pen-line', 'Entamée') : pastille('p-neutre', 'inbox', 'Nouveau')}<a href="#/m-devoirs" class="btn-second btn-sm hidden sm:inline-flex">Corriger</a></li>`).join('')}</ul>
         </section>
-        ${carte({ titre: 'Prochaines sessions', actions: `<a href="#/m-live" class="btn-fantome btn-sm">Calendrier</a>`, corps: `<ul class="space-y-3">${VF.evenements.filter((e) => e.type === 'live' && new Date(e.start) >= new Date(2026, 9, 15)).sort((a, b) => new Date(a.start) - new Date(b.start)).map((e) => { const d = new Date(e.start); return `<li class="flex items-center gap-3 p-3 rounded-ctrl border filet"><span class="inline-flex w-9 h-9 items-center justify-center rounded-ctrl bg-brand-50 dark:bg-brand/10 text-brand-700 dark:text-brand">${icone('video', 'w-4 h-4')}</span><div class="min-w-0 flex-1"><p class="text-sm font-medium truncate">${esc(e.title.replace('Live — ', ''))}</p><p class="text-xs texte-3">${new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(d)}</p></div></li>`; }).join('')}</ul>` })}
+        ${carte({ titre: 'Vérifications assignées', aide: 'Objectif : verdict en 6 h', actions: '<a href="#/signalements" class="btn-fantome btn-sm">File</a>', corps: `<ul class="space-y-3">${assignees.map((s) => `<li class="flex items-start gap-3"><span class="mt-0.5 ${s.echeance < 120 ? 'text-red-700 dark:text-red-400' : 'texte-3'}">${icone(s.echeance < 120 ? 'clock-alert' : 'clock', 'w-4 h-4')}</span><div class="min-w-0"><p class="text-sm font-medium line-clamp-2">${esc(s.texte)}</p><p class="text-xs texte-3 mt-0.5"><span class="${s.echeance < 120 ? 'text-red-700 dark:text-red-400 font-medium' : ''}">reste ${fmt.duree(s.echeance)}</span> — ${esc(s.id)}</p></div></li>`).join('')}</ul>` })}
       </div>
-      <div class="grid lg:grid-cols-3 gap-4">
+
+      <section class="carte mb-4">
+        <div class="carte-tete"><div><h2 class="carte-titre">Mes cours en un coup d'œil</h2><p class="text-xs texte-3 mt-0.5">Inscriptions des 12 dernières semaines</p></div><a href="#/m-cours" class="btn-fantome btn-sm">Mes cours</a></div>
+        <div class="overflow-x-auto"><table class="tableau"><thead><tr><th>Cours</th><th>Inscrits</th><th>Actifs (7 j)</th><th>Complétion</th><th>Note</th><th>Tendance</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>
+          ${coursStats.map((c, i) => `<tr><td><div class="flex items-center gap-3"><img src="${esc(c.image)}" alt="" class="w-12 h-9 rounded-md object-cover"><div><p class="font-medium">${esc(c.titre)}</p><p class="text-xs texte-3">${esc(c.niveau)} — ${c.lecons} leçons</p></div></div></td><td class="tabular-nums">${fmt.nombre(c.inscrits)}</td><td class="tabular-nums">${fmt.nombre(c.actifs)}</td><td><div class="flex items-center gap-2 min-w-[120px]"><div class="jauge"><span style="width:${c.completion}%"></span></div><span class="text-xs tabular-nums texte-2 whitespace-nowrap">${c.completion} %</span></div></td><td><span class="inline-flex items-center gap-1">${icone('star', 'w-3.5 h-3.5 text-amber-500 fill-amber-400')}${String(c.note).replace('.', ',')}</span></td><td><div id="g-m-tend-${i}" class="w-28"></div></td><td class="text-right"><a href="#/m-sections" class="btn-second btn-sm">Ouvrir</a></td></tr>`).join('')}
+        </tbody></table></div>
+      </section>
+
+      <div class="grid lg:grid-cols-3 gap-4 mb-4">
         ${G.carte({ id: 'g-m-activite', titre: 'Activité de mes apprenants', aide: 'Leçons terminées par jour', hauteur: 240, classe: 'lg:col-span-2' })}
-        ${carte({ titre: 'À risque de décrochage', aide: 'Aucune activité depuis 14 jours', corps: `<ul class="space-y-3">${VF.apprenants.filter((a) => a.etat === 'inactif').slice(0, 5).map((a) => `<li class="flex items-center gap-3"><span class="avatar w-8 h-8">${esc(a.initiales)}</span><div class="min-w-0 flex-1"><p class="text-sm font-medium truncate">${esc(a.nom)}</p><p class="text-xs texte-3">${a.progression} % — ${fmt.date(a.derniere)}</p></div><button class="btn-second btn-sm" data-relancer="${esc(a.nom)}">Relancer</button></li>`).join('')}</ul>` })}
+        ${carte({ titre: 'À risque de décrochage', aide: 'Aucune activité depuis 14 jours', corps: `<ul class="space-y-3">${VF.apprenants.filter((a) => a.etat === 'inactif').slice(0, 5).map((a) => `<li class="flex items-center gap-3"><a href="${VF.lienProfil ? VF.lienProfil('m-profil-citoyen', a) : '#/m-apprenants'}" class="avatar w-8 h-8" aria-label="Fiche de ${esc(a.nom)}">${esc(a.initiales)}</a><div class="min-w-0 flex-1"><p class="text-sm font-medium truncate">${esc(a.nom)}</p><p class="text-xs texte-3">${a.progression} % — ${fmt.date(a.derniere)}</p></div><button class="btn-second btn-sm" data-relancer="${esc(a.nom)}">Relancer</button></li>`).join('')}</ul>` })}
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-4">
+        ${carte({ titre: 'Questions du forum sans réponse', aide: 'Dans les groupes que vous animez', actions: '<a href="#/m-forum-discussions" class="btn-fantome btn-sm">Forum</a>', corps: `<ul class="space-y-3">${questions.map(([q, g, quand, qui]) => `<li class="flex items-start gap-3">${icone('message-circle-question', 'w-4 h-4 mt-0.5 texte-3 shrink-0')}<div class="min-w-0 flex-1"><p class="text-sm font-medium">${esc(q)}</p><p class="text-xs texte-3">${esc(qui)} dans ${esc(g)}, ${esc(quand)}</p></div><a href="#/m-forum-discussions" class="btn-second btn-sm">Répondre</a></li>`).join('')}</ul>` })}
+        ${carte({ titre: 'Prochaines sessions', actions: '<a href="#/m-live" class="btn-fantome btn-sm">Calendrier</a>', corps: `<ul class="space-y-3">${VF.evenements.filter((e) => e.type === 'live' && new Date(e.start) >= new Date(2026, 9, 15)).sort((a, b) => new Date(a.start) - new Date(b.start)).map((e) => { const d = new Date(e.start); return `<li class="flex items-center gap-3 p-3 rounded-ctrl border filet"><span class="inline-flex w-9 h-9 items-center justify-center rounded-ctrl bg-brand-50 dark:bg-brand/10 text-brand-700 dark:text-brand">${icone('video', 'w-4 h-4')}</span><div class="min-w-0"><p class="text-sm font-medium truncate">${esc(e.title.replace('Live — ', ''))}</p><p class="text-xs texte-3">${new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).format(d)}</p></div></li>`; }).join('')}</ul>` })}
       </div>`;
+
     const x = Array.from({ length: 30 }, (_, i) => { const d = new Date(2026, 9, 15); d.setDate(d.getDate() - (29 - i)); return fmt.jourCourt(d); });
     const s = VF.series.inscriptions.map((v) => Math.round(v * 1.6));
     G.monter('g-m-activite', 'area', { series: [{ name: 'Leçons terminées', data: s }], colors: [G.couleurs()[0]], xaxis: { categories: x, tickAmount: 6 }, legend: { show: false }, fill: { type: 'gradient', gradient: { opacityFrom: 0.18, opacityTo: 0, stops: [0, 100] } } }, { hauteur: 240, tableau: { colonnes: ['Jour', 'Leçons terminées'], lignes: x.map((j, i) => [j, s[i]]) } });
+    coursStats.forEach((c, i) => G.etincelle('g-m-tend-' + i, c.tendance));
     $$('[data-relancer]', racine).forEach((b) => b.addEventListener('click', () => { b.disabled = true; b.textContent = 'Relancé'; toast(`Relance envoyée à ${b.dataset.relancer}.`); }));
     icones();
   };

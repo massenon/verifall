@@ -7,7 +7,7 @@
  |   npx tailwindcss@3.4.17 -c tailwind.config.js -i assets/css/input.css -o assets/css/app.css --minify
  */
 module.exports = {
-  content: ['./index.html', './assets/js/**/*.js'],
+  content: ['./*.html', './assets/js/**/*.js'],
   darkMode: 'class',
   theme: {
     extend: {
