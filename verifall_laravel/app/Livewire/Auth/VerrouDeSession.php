@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Livewire\Auth;
 
 use App\Core\Identity\Services\VerrouDeSession as Verrou;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -23,33 +22,40 @@ final class VerrouDeSession extends Component
 
     public ?string $erreur = null;
 
-    public function mount(Verrou $verrou): ?RedirectResponse
+    public function mount(Verrou $verrou): void
     {
         if ($verrou->etat(request()) === null) {
-            return redirect()->route('staff.login');
+            $this->redirectRoute('staff.login');
+
+            return;
         }
 
         if ($verrou->estExpire(request())) {
             $verrou->fermer(request());
-
-            return redirect()->route('staff.login')->with('inactivite', true);
+            session()->flash('inactivite', true);
+            $this->redirectRoute('staff.login');
         }
-
-        return null;
     }
 
-    public function deverrouiller(Verrou $verrou): ?RedirectResponse
+    public function deverrouiller(Verrou $verrou): void
     {
         $retour = $verrou->etat(request())['retour'] ?? route('staff.dashboard');
         $resultat = $verrou->deverrouiller(request(), $this->motDePasse);
         $this->motDePasse = '';
 
-        return match ($resultat) {
-            'ok' => redirect()->to($retour),
-            'expire' => redirect()->route('staff.login')->with('inactivite', true),
-            'ferme' => redirect()->route('staff.login')->with('verrou_ferme', true),
+        match ($resultat) {
+            'ok' => $this->redirect($retour),
+            'expire' => $this->versLaConnexion('inactivite'),
+            'ferme' => $this->versLaConnexion('verrou_ferme'),
             default => $this->refuser($verrou),
         };
+    }
+
+    /** Retour à la connexion complète, avec le bandeau qui dit pourquoi. */
+    private function versLaConnexion(string $motif): void
+    {
+        session()->flash($motif, true);
+        $this->redirectRoute('staff.login');
     }
 
     public function render(Verrou $verrou): View
@@ -66,13 +72,11 @@ final class VerrouDeSession extends Component
         ]);
     }
 
-    private function refuser(Verrou $verrou): null
+    private function refuser(Verrou $verrou): void
     {
         $restants = Verrou::ESSAIS_MAX - ($verrou->etat(request())['echecs'] ?? 0);
         $this->erreur = $restants > 1
             ? "Mot de passe incorrect. Il reste {$restants} essais."
             : 'Mot de passe incorrect. Dernier essai avant la fermeture de la session.';
-
-        return null;
     }
 }

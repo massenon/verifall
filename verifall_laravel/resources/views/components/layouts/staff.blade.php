@@ -199,11 +199,7 @@
       <span class="relative flex w-2 h-2 shrink-0" aria-hidden="true"><span class="absolute inset-0 rounded-full bg-amber-500 animate-ping opacity-60"></span><span class="relative w-2 h-2 rounded-full bg-amber-500"></span></span>
       <span class="font-medium">Site fermé au public</span>
       <span class="opacity-80">
-        @php
-          $finBandeau = $maintenance->enRetard() ? ' — l’heure annoncée est dépassée'
-              : ($maintenance->finAnnoncee() ? ' — réouverture annoncée à '.$maintenance->finAnnoncee()->format('H:i') : '');
-        @endphp
-        depuis {{ $maintenance->debut()?->locale('fr')->diffForHumans() ?? 'quelques instants' }}{{ $finBandeau }}. Seule l’équipe connectée voit la plateforme.
+        depuis {{ $maintenance->debut()?->locale('fr')->diffForHumans() ?? 'quelques instants' }}{{ $maintenance->enRetard() ? ' — l’heure annoncée est dépassée' : ($maintenance->finAnnoncee() ? ' — réouverture annoncée à '.$maintenance->finAnnoncee()->format('H:i') : '') }}. Seule l’équipe connectée voit la plateforme.
       </span>
       @if (\App\Support\Rbac\MenuDuBackOffice::autorise($membre, 'staff.maintenance-mode') && ! request()->routeIs('staff.maintenance-mode'))
         <a href="{{ route('staff.maintenance-mode') }}" class="ml-auto inline-flex items-center gap-1 font-medium underline underline-offset-2 hover:no-underline"><x-lucide name="construction" class="w-3.5 h-3.5" />Gérer la maintenance</a>
