@@ -26,6 +26,12 @@
   $ecransDeLaPalette = collect($menuDuBackOffice)->flatMap(fn (array $entrees, string $groupe) => collect($entrees)
       ->map(fn (array $e): array => ['url' => route($e['route']), 'libelle' => $e['libelle'], 'groupe' => $groupe ?: 'Accueil']))
       ->unique('url')->values();
+
+  // Le site est-il fermé au public ? Lu dans les réglages, déjà en cache.
+  // Le dire sur CHAQUE écran : on oublie vite qu'on a fermé, et le public, lui,
+  // attend devant la porte.
+  $maintenance = app(\App\Core\Application\Services\ModeMaintenance::class);
+  $siteFerme = $membre !== null && $maintenance->estActif();
 @endphp
 <!DOCTYPE html>
 <html lang="fr">
@@ -187,6 +193,23 @@
       </div>
     </div>
   </header>
+
+  @if ($siteFerme)
+    <div data-bandeau-maintenance role="status" class="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 sm:px-6 py-2 text-[13px] bg-amber-50 text-amber-900 border-b border-amber-200 dark:bg-amber-950/60 dark:text-amber-100 dark:border-amber-900/60">
+      <span class="relative flex w-2 h-2 shrink-0" aria-hidden="true"><span class="absolute inset-0 rounded-full bg-amber-500 animate-ping opacity-60"></span><span class="relative w-2 h-2 rounded-full bg-amber-500"></span></span>
+      <span class="font-medium">Site fermé au public</span>
+      <span class="opacity-80">
+        @php
+          $finBandeau = $maintenance->enRetard() ? ' — l’heure annoncée est dépassée'
+              : ($maintenance->finAnnoncee() ? ' — réouverture annoncée à '.$maintenance->finAnnoncee()->format('H:i') : '');
+        @endphp
+        depuis {{ $maintenance->debut()?->locale('fr')->diffForHumans() ?? 'quelques instants' }}{{ $finBandeau }}. Seule l’équipe connectée voit la plateforme.
+      </span>
+      @if (\App\Support\Rbac\MenuDuBackOffice::autorise($membre, 'staff.maintenance-mode') && ! request()->routeIs('staff.maintenance-mode'))
+        <a href="{{ route('staff.maintenance-mode') }}" class="ml-auto inline-flex items-center gap-1 font-medium underline underline-offset-2 hover:no-underline"><x-lucide name="construction" class="w-3.5 h-3.5" />Gérer la maintenance</a>
+      @endif
+    </div>
+  @endif
 
   <main id="contenu" class="console-contenu flex-1 w-full max-w-[1480px] px-4 sm:px-6 py-6" tabindex="-1">
     {{ $slot }}

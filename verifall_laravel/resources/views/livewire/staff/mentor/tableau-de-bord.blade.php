@@ -16,7 +16,7 @@
   <div class="flex flex-wrap items-end justify-between gap-4">
     <div>
       <p class="text-sm texte-2 first-letter:uppercase">{{ now()->locale('fr')->translatedFormat('l j F') }}</p>
-      <h1 class="text-[28px] sm:text-[32px] font-semibold leading-tight">
+      <h1 class="text-[28px] sm:text-[32px] font-semibold leading-tight text-encre dark:text-white">
         Bonjour {{ $prenom }}, {{ $nbJournee === 0 ? 'rien de planifié aujourd’hui' : $nbJournee.' rendez-vous aujourd’hui' }}
       </h1>
       <p class="mt-1 text-sm texte-2 max-w-2xl">

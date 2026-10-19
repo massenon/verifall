@@ -17,7 +17,7 @@
       ['Hub d\'infos', [['hub-actualites', 'newspaper', 'Actualités'], ['hub-portails', 'landmark', 'Portails officiels'], ['hub-jobs', 'briefcase', 'Offres d\'emploi']]],
       ['Communauté', [['forum-discussions', 'messages-square', 'Forum citoyen'], ['forum-categories', 'folder', 'Catégories du forum'], ['blog', 'pen-tool', 'Articles du blog'], ['blog-categories', 'folder', 'Catégories du blog'], ['editeur', 'square-pen', 'Nouvel article'], ['mediatheque', 'images', 'Médiathèque'], ['newsletters', 'mail', 'Infolettres'], ['faq', 'circle-help', 'FAQ'], ['temoignages', 'quote', 'Témoignages'], ['partenaires', 'handshake', 'Partenaires']]],
       ['Utilisateurs', [['utilisateurs', 'users', 'Citoyens'], ['mentors', 'presentation', 'Mentors'], ['kyc', 'id-card', 'Vérification KYC', '6'], ['roles', 'key-round', 'Rôles et permissions']]],
-      ['Système', [['parametres', 'settings', 'Réglages'], ['emails-modeles', 'mails', 'Modèles de courriels'], ['campagnes', 'megaphone', 'Campagnes'], ['badges', 'medal', 'Badges'], ['sauvegardes', 'database-backup', 'Sauvegardes'], ['cron', 'timer', 'Tâches planifiées']]],
+      ['Système', [['parametres', 'settings', 'Réglages'], ['emails-modeles', 'mails', 'Modèles de courriels'], ['campagnes', 'megaphone', 'Campagnes'], ['badges', 'medal', 'Badges'], ['sauvegardes', 'database-backup', 'Sauvegardes'], ['cron', 'timer', 'Tâches planifiées'], ['maintenance', 'construction', 'Mode maintenance']]],
       ['Journaux', [['audit', 'scroll', 'Journal d\'audit'], ['logs-emails', 'mail-check', 'Courriels'], ['logs-unites', 'receipt', 'Unités'], ['alertes', 'shield-alert', 'Alertes d\'intrusion']]],
     ],
     mentor: [

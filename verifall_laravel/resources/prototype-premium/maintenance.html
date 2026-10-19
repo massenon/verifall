@@ -1,0 +1,546 @@
+<!doctype html>
+<!-- Page publique de maintenance. Implémentée dans Laravel : resources/views/maintenance.blade.php. -->
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#EEF2EC">
+    <title>Maintenance en cours — Vérif'All</title>
+
+    <link rel="icon" href="assets/img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --papier: #EEF2EC;
+            --carte: #F8FAF6;
+            --foret: #0E2A1E;
+            --mousse: #536459;
+            --trait: #CFDACF;
+            --vert: #09B850;
+            --vert-fonce: #067a36;
+            --ambre: #8A5A00;
+            --titre: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+            --texte: 'Public Sans', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { -webkit-text-size-adjust: 100%; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(1200px 600px at 85% 20%, rgba(9, 184, 80, .07), transparent 60%),
+                var(--papier);
+            color: var(--foret);
+            font: 400 17px/1.6 var(--texte);
+        }
+
+        .page {
+            min-height: 100vh;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: clamp(20px, 4vw, 48px) clamp(16px, 4vw, 48px);
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: clamp(28px, 5vw, 56px);
+        }
+
+        .marque { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+        .marque svg { flex: none; }
+        .marque b { font: 700 18px/1 var(--titre); letter-spacing: -.01em; }
+        .marque > span > span { display: block; font-size: 13px; color: var(--mousse); margin-top: 3px; }
+
+        .scene {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+            align-items: center;
+            gap: clamp(32px, 6vw, 88px);
+        }
+
+        h1 {
+            margin: 0 0 20px;
+            font: 650 clamp(40px, 7.2vw, 84px)/.96 var(--titre);
+            letter-spacing: -.035em;
+            max-width: 11ch;
+            text-wrap: balance;
+        }
+
+        .message { margin: 0 0 28px; max-width: 34em; font-size: clamp(17px, 1.6vw, 19px); color: #24392E; }
+
+        /* Les faits, en une ligne de repères — pas une rangée de cartes. */
+        .reperes { display: flex; flex-wrap: wrap; gap: 10px 28px; margin: 0 0 32px; padding: 0; list-style: none; }
+        .reperes li { display: flex; flex-direction: column; }
+        .reperes small { font-size: 13px; color: var(--mousse); }
+        .reperes strong { font: 600 20px/1.2 var(--titre); font-variant-numeric: tabular-nums; }
+
+        .retard {
+            margin: 0 0 32px;
+            padding: 14px 16px;
+            max-width: 34em;
+            border-left: 3px solid #E0A100;
+            background: rgba(224, 161, 0, .10);
+            color: var(--ambre);
+            border-radius: 0 10px 10px 0;
+            font-size: 15px;
+        }
+
+        form { display: flex; gap: 8px; max-width: 30em; }
+        label.cache { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+        input[type="email"] {
+            flex: 1 1 auto;
+            min-width: 0;
+            height: 52px;
+            padding: 0 16px;
+            border: 1.5px solid var(--trait);
+            border-radius: 12px;
+            background: var(--carte);
+            color: var(--foret);
+            font: 400 16px var(--texte);
+            transition: border-color .15s, box-shadow .15s;
+        }
+
+        input[type="email"]::placeholder { color: #7D8C82; }
+        input[type="email"]:focus { outline: none; border-color: var(--vert); box-shadow: 0 0 0 4px rgba(9, 184, 80, .16); }
+
+        .bouton {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 52px;
+            padding: 0 22px;
+            border: 0;
+            border-radius: 12px;
+            background: var(--foret);
+            color: #fff;
+            font: 600 16px var(--texte);
+            text-decoration: none;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background .15s;
+        }
+
+        .bouton:hover { background: #18432f; }
+        .bouton:focus-visible, input:focus-visible, .marque:focus-visible { outline: 3px solid var(--vert); outline-offset: 3px; }
+        .bouton-vert { background: var(--vert-fonce); }
+        .bouton-vert:hover { background: #055f2a; }
+
+        .aide { margin: 12px 0 0; font-size: 14px; color: var(--mousse); max-width: 32em; }
+        .erreur { margin: 10px 0 0; font-size: 14px; color: #B42323; }
+
+        .confirme {
+            display: flex; gap: 12px; align-items: flex-start;
+            max-width: 32em; margin: 0; padding: 16px 18px;
+            border-radius: 12px; background: rgba(9, 184, 80, .10); color: #075A2B; font-size: 15px;
+        }
+
+        /* ---------- la boussole ---------- */
+        .boussole { position: relative; width: min(100%, 460px); aspect-ratio: 1; margin-left: auto; }
+        .boussole svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+        .graduation { stroke: var(--foret); }
+        .anneau-fond { stroke: var(--trait); }
+        .anneau-temps { stroke: var(--vert); transition: stroke-dashoffset 1s linear; }
+        .cardinal { font: 600 15px var(--titre); fill: var(--foret); }
+        .cardinal-n { fill: var(--vert-fonce); }
+
+        .aiguille { transform-origin: 200px 200px; animation: chercher 2.6s cubic-bezier(.3, .6, .2, 1) both; }
+        .boussole[data-libre] .aiguille { animation: chercher 2.6s cubic-bezier(.3, .6, .2, 1) both, osciller 7s ease-in-out 2.6s infinite; }
+
+        @keyframes chercher {
+            0% { transform: rotate(-118deg); }
+            45% { transform: rotate(22deg); }
+            70% { transform: rotate(-9deg); }
+            86% { transform: rotate(4deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @keyframes osciller {
+            0%, 100% { transform: rotate(0deg); }
+            30% { transform: rotate(7deg); }
+            65% { transform: rotate(-5deg); }
+        }
+
+        .cadran {
+            position: absolute; left: 50%; top: 70%; transform: translate(-50%, -50%);
+            display: flex; gap: 6px; align-items: baseline;
+            font: 600 clamp(26px, 4.2vw, 38px)/1 var(--titre); font-variant-numeric: tabular-nums; letter-spacing: -.02em;
+            white-space: nowrap;
+        }
+        .cadran i { font-style: normal; color: var(--mousse); font-weight: 500; }
+
+        .revenu { display: none; }
+        body[data-revenu] .revenu { display: flex; }
+        body[data-revenu] .attente { display: none; }
+
+        footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 14px; color: var(--mousse); border-top: 1px solid var(--trait); padding-top: 18px; }
+
+        @media (max-width: 860px) {
+            .scene { grid-template-columns: 1fr; }
+            .boussole { order: -1; width: min(72vw, 300px); margin: 0 auto; }
+            h1 { max-width: 13ch; }
+        }
+
+        @media (max-width: 480px) {
+            form { flex-direction: column; }
+            .bouton { width: 100%; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .aiguille, .boussole[data-libre] .aiguille { animation: none; }
+            .anneau-temps { transition: none; }
+        }
+    </style>
+</head>
+<body data-fin="2026-10-19T04:50:03+00:00" data-retard="0">
+<div class="page">
+    <header>
+        <a class="marque" href="index.html">
+            <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="#0E2A1E"/><path d="M17 6l4 11-4 11-4-11z" fill="#09B850"/><path d="M17 17l4 0-4 11-4-11z" fill="#fff" opacity=".85"/></svg>
+            <span><b>Vérif’All</b><span>La boussole contre la désinformation numérique</span></span>
+        </a>
+    </header>
+
+    <main class="scene">
+        <div>
+            <h1>La boussole se recalibre.</h1>
+
+            <div class="attente">
+                <p class="message">Nous installons une nouvelle version de Vérif’All. Vos vérifications, vos cours et vos certificats sont conservés.</p>
+
+                
+                                    <ul class="reperes">
+                                                    <li><small>Fermé depuis</small><strong>02:40</strong></li>
+                                                                            <li><small>Retour annoncé</small><strong>04:50</strong></li>
+                                            </ul>
+                
+                                    <form action="#" onsubmit="event.preventDefault(); this.outerHTML = '<p class=&quot;confirme&quot; role=&quot;status&quot;>C’est noté. Vous recevrez un courriel dès que le service sera rétabli — un seul, et rien d’autre.</p>';">                        <label for="email" class="cache">Votre adresse e-mail</label>
+                        <input type="email" id="email" name="email" required
+                               placeholder="votre@adresse.com" autocomplete="email"
+                               value="" >
+                        <button type="submit" class="bouton">Prévenez-moi</button>
+                    </form>
+
+                    
+                    
+                    <p class="aide">
+                        Un seul message, à la réouverture. Votre adresse ne rejoint aucune liste
+                        de diffusion et n’est pas conservée au-delà.
+                    </p>
+                            </div>
+
+            <div class="revenu" role="status" aria-live="polite" style="flex-direction:column;gap:20px;align-items:flex-start">
+                <p class="message" style="margin:0">Le service est revenu. Merci de votre patience.</p>
+                <a class="bouton bouton-vert" href="index.html">Retourner sur Vérif’All</a>
+            </div>
+        </div>
+
+        
+        <div class="boussole" id="boussole"
+              data-debut="2026-10-19T02:40:03+00:00" data-fin="2026-10-19T04:50:03+00:00" >
+            <svg viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+                <circle class="anneau-fond" cx="200" cy="200" r="178" fill="none" stroke-width="10"/>
+                <circle class="anneau-temps" id="anneau" cx="200" cy="200" r="178" fill="none" stroke-width="10"
+                        stroke-linecap="round" transform="rotate(-90 200 200)"
+                        stroke-dasharray="1118.4" stroke-dashoffset="1118.4"/>
+                <g class="graduation">
+                                            <line x1="200" y1="34" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(0 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(6 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(12 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(18 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(24 200 200)"/>
+                                            <line x1="200" y1="38" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(30 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(36 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(42 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(48 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(54 200 200)"/>
+                                            <line x1="200" y1="38" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(60 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(66 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(72 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(78 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(84 200 200)"/>
+                                            <line x1="200" y1="34" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(90 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(96 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(102 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(108 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(114 200 200)"/>
+                                            <line x1="200" y1="38" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(120 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(126 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(132 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(138 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(144 200 200)"/>
+                                            <line x1="200" y1="38" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(150 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(156 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(162 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(168 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(174 200 200)"/>
+                                            <line x1="200" y1="34" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(180 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(186 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(192 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(198 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(204 200 200)"/>
+                                            <line x1="200" y1="38" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(210 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(216 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(222 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(228 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(234 200 200)"/>
+                                            <line x1="200" y1="38" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(240 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(246 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(252 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(258 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(264 200 200)"/>
+                                            <line x1="200" y1="34" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(270 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(276 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(282 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(288 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(294 200 200)"/>
+                                            <line x1="200" y1="38" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(300 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(306 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(312 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(318 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(324 200 200)"/>
+                                            <line x1="200" y1="38" x2="200" y2="48"
+                              stroke-width="2" opacity="0.9"
+                              transform="rotate(330 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(336 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(342 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(348 200 200)"/>
+                                            <line x1="200" y1="41" x2="200" y2="48"
+                              stroke-width="1" opacity="0.35"
+                              transform="rotate(354 200 200)"/>
+                                    </g>
+                <text class="cardinal cardinal-n" x="200" y="76" text-anchor="middle">N</text>
+                <text class="cardinal" x="330" y="205" text-anchor="middle">E</text>
+                <text class="cardinal" x="200" y="336" text-anchor="middle">S</text>
+                <text class="cardinal" x="70" y="205" text-anchor="middle">O</text>
+                <circle cx="200" cy="200" r="118" fill="none" stroke="var(--trait)" stroke-width="1"/>
+                <g class="aiguille">
+                    <path d="M200 96 L214 200 L200 212 L186 200 Z" fill="var(--vert)"/>
+                    <path d="M200 244 L214 200 L200 188 L186 200 Z" fill="var(--foret)" opacity=".85"/>
+                    <circle cx="200" cy="200" r="9" fill="var(--papier)" stroke="var(--foret)" stroke-width="3"/>
+                </g>
+            </svg>
+
+                            <div class="cadran" id="compte" role="timer" aria-live="off" data-fin="2026-10-19T04:50:03+00:00">
+                    <span id="cpt-h">--</span><i>:</i><span id="cpt-m">--</span><i>:</i><span id="cpt-s">--</span>
+                </div>
+                    </div>
+    </main>
+
+    <footer>
+        <span>Vérif’All, Bénin</span>
+        <span>Une question urgente ? <a href="mailto:contact@verifall.com" style="color:inherit">contact@verifall.com</a></span>
+    </footer>
+</div>
+
+<script>
+    /* Prototype : la maintenance a commencé il y a 35 min, retour annoncé dans 95 min. */
+    (function () {
+        var debut = new Date(Date.now() - 35 * 60000), fin = new Date(Date.now() + 95 * 60000);
+        var hh = function (d) { return d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); };
+        var b = document.getElementById('boussole'), c = document.getElementById('compte');
+        b.setAttribute('data-debut', debut.toISOString()); b.setAttribute('data-fin', fin.toISOString());
+        c.setAttribute('data-fin', fin.toISOString());
+        var r = document.querySelectorAll('.reperes strong'); r[0].textContent = hh(debut); r[1].textContent = hh(fin);
+    })();
+</script>
+<script>
+    (function () {
+        'use strict';
+
+        /* Le décompte et l'anneau. Recalculés depuis les horodatages SERVEUR à
+           chaque tic : partir d'une durée figée dériverait sur un onglet mis en
+           veille, et le compteur mentirait au réveil. */
+        var compte = document.getElementById('compte');
+        var boussole = document.getElementById('boussole');
+        var anneau = document.getElementById('anneau');
+        var tour = 1118.4;
+
+        if (compte) {
+            var fin = new Date(compte.getAttribute('data-fin')).getTime();
+            var debut = boussole.getAttribute('data-debut') ? new Date(boussole.getAttribute('data-debut')).getTime() : null;
+            var h = document.getElementById('cpt-h');
+            var m = document.getElementById('cpt-m');
+            var s = document.getElementById('cpt-s');
+            var deux = function (n) { return n < 10 ? '0' + n : String(n); };
+
+            var tic = function () {
+                var maintenant = Date.now();
+                var reste = Math.max(0, Math.floor((fin - maintenant) / 1000));
+
+                h.textContent = deux(Math.floor(reste / 3600));
+                m.textContent = deux(Math.floor((reste % 3600) / 60));
+                s.textContent = deux(reste % 60);
+
+                if (debut !== null && fin > debut) {
+                    var part = Math.min(1, Math.max(0, (maintenant - debut) / (fin - debut)));
+                    anneau.setAttribute('stroke-dashoffset', String(tour * (1 - part)));
+                }
+
+                if (reste === 0) {
+                    /* Arrivé à zéro, on RECHARGE plutôt que de laisser un compteur
+                       figé : soit le site est revenu, soit la page dira « nous avons
+                       dépassé l'heure ». Dans les deux cas, c'est plus honnête. */
+                    window.location.reload();
+                }
+            };
+
+            tic();
+            setInterval(tic, 1000);
+        }
+
+        /* La réouverture s'annonce d'elle-même : un appel léger toutes les 30 s,
+           seulement quand l'onglet est visible. Si l'équipe change l'heure
+           annoncée, ou si elle est dépassée, la page se recharge pour le dire. */
+        var etat = "";
+        var finAffichee = document.body.getAttribute('data-fin') || '';
+        var retardAffiche = document.body.getAttribute('data-retard') === '1';
+
+        var sonder = function () {
+            if (document.hidden || !window.fetch) { return; }
+
+            fetch(etat, { headers: { Accept: 'application/json' }, cache: 'no-store' })
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (e) {
+                    if (!e) { return; }
+                    if (!e.actif) {
+                        document.body.setAttribute('data-revenu', '');
+                        clearInterval(minuterie);
+                    } else if ((e.fin_annoncee || '') !== finAffichee || Boolean(e.en_retard) !== retardAffiche) {
+                        window.location.reload();
+                    }
+                })
+                .catch(function () { /* réseau coupé : on réessaiera au prochain tic */ });
+        };
+
+        /* Prototype : aucun serveur à interroger. Dans Laravel, la page sonde
+           maintenance.etat toutes les 30 s et annonce la réouverture. */
+        var minuterie = null; void sonder;
+    })();
+</script>
+</body>
+</html>

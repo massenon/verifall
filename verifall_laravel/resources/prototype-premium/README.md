@@ -40,7 +40,7 @@ Fonts ; hors ligne, la police système prend le relais.
 | Hub d'infos | Actualités, Portails officiels, Offres d'emploi vérifiées |
 | Communauté | Forum, Blog, éditeur d'article (Quill et aperçu Google), Médiathèque (GLightbox), Infolettres, FAQ (recherche et catégories), Témoignages, Partenaires, catégories |
 | Utilisateurs | Citoyens, Mentors, **fiche complète d'un citoyen** (9 onglets : vue d'ensemble, vérifications et échecs, rapports, Académie, Hub d'opportunités, communauté, unités et badges, connexions et sécurité, journal complet), **fiche complète d'un mentor** (cours créés, apprenants, statistiques, corrections et vérifications assignées, lives et examens, revenus, connexions, journal), Vérification KYC (pièces en visionneuse), Rôles et permissions (matrice) |
-| Système | Réglages (onglets : général, moteurs IA, paiements, sécurité, maintenance), **Modèles de courriels** (CRUD complet : liste, création, modification, duplication, activation, suppression ; éditeur avec variables autorisées en JSON ou en texte, aide-mémoire des variables à copier ou insérer, contrôles avant enregistrement, aperçu ordinateur et téléphone, envoi de test), Campagnes, Badges, Sauvegardes, Tâches planifiées |
+| Système | Réglages (onglets : général, moteurs IA, paiements, sécurité, maintenance), **Modèles de courriels** (CRUD complet : liste, création, modification, duplication, activation, suppression ; éditeur avec variables autorisées en JSON ou en texte, aide-mémoire des variables à copier ou insérer, contrôles avant enregistrement, aperçu ordinateur et téléphone, envoi de test), Campagnes, Badges, Sauvegardes, Tâches planifiées, **Mode maintenance** (état, motifs, heure annoncée, ce qui passe pendant la fermeture, historique ; page publique `maintenance.html`) |
 | Journaux | Audit, Courriels, Unités, Alertes d'intrusion |
 | Mentor | Tableau de bord du mentor (« Ma journée » de 8 h à 22 h, boîte de correction, vérifications assignées, mes cours et leur tendance, activité, décrochage, questions du forum, sessions), Live classes, Mes cours, Sections et leçons, Mes contenus, Quiz, Devoirs à corriger, Examens, Mes apprenants (et la fiche de chaque apprenant, sans les données sensibles), Progression, Certificats, Ma performance, Mon profil, **Hub d'infos** (Actualités, Portails officiels, Offres d'emploi) et **Communauté** (Forum, catégories, Blog, catégories, Nouvel article, Médiathèque, Infolettres, FAQ, Témoignages, Partenaires) |
 | Compte | Profil, sécurité (mot de passe, double authentification, sessions), préférences (langue, thème, notifications) |
@@ -75,6 +75,7 @@ racine du dépôt.
 ```
 index.html                 la coquille : colonne, barre du haut, couches
 connexion.html             la page de connexion (assets/js/connexion.js)
+maintenance.html           la page publique de maintenance (« la boussole se recalibre »)
 tailwind.config.js         les jetons de design
 assets/css/input.css       les composants (boutons, champs, pastilles, tableaux…)
 assets/css/app.css         le CSS compilé, à régénérer après modification

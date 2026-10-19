@@ -14,7 +14,7 @@ use App\Models\LiveClass;
 use App\Models\Thread;
 use App\Models\User;
 use App\Models\Verification;
-use Illuminate\Support\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -33,6 +33,9 @@ final class DepotTableauDeBordMentorEloquent implements DepotTableauDeBordMentor
         return Cache::remember("tableau-de-bord-mentor.{$mentor->id}", now()->addMinutes(5), fn (): array => $this->calculer($mentor));
     }
 
+    /**
+     * @return array<string, mixed> la forme décrite par le contrat
+     */
     private function calculer(User $mentor): array
     {
         $ids = $this->espace->idsDesCours($mentor);
@@ -170,7 +173,10 @@ final class DepotTableauDeBordMentorEloquent implements DepotTableauDeBordMentor
         return $series;
     }
 
-    private function creneau(Carbon $debut, float $duree, string $icone, string $titre, string $detail, string $ton, string $lien): array
+    /**
+     * @return array{heure: string, debut: float, duree: float, icone: string, titre: string, detail: string, ton: string, lien: string}
+     */
+    private function creneau(CarbonInterface $debut, float $duree, string $icone, string $titre, string $detail, string $ton, string $lien): array
     {
         return [
             'heure' => $debut->format('H\hi'),

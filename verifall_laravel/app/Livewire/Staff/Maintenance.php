@@ -56,12 +56,52 @@ final class Maintenance extends Component
     /** 'ouvrir' | 'fermer' | null — quelle confirmation est à l'écran. */
     public ?string $confirmation = null;
 
+    /**
+     * Des messages de départ, à reprendre et à préciser.
+     *
+     * Ils disent CE QUI SE PASSE, en une phrase, et jamais « nous améliorons
+     * votre expérience » : le public attend une raison, pas un slogan.
+     *
+     * @var array<string, array{0: string, 1: string, 2: string}> clé => [libellé, icône, texte]
+     */
+    public const MOTIFS = [
+        'mise_a_jour' => ['Mise à jour majeure', 'rocket', 'Nous installons une nouvelle version de Vérif’All. Vos vérifications, vos cours et vos certificats sont conservés.'],
+        'base' => ['Migration des données', 'database', 'Nous déplaçons la base de données vers une infrastructure plus solide. Aucune donnée n’est perdue pendant l’opération.'],
+        'securite' => ['Intervention de sécurité', 'shield-check', 'Nous appliquons un correctif de sécurité. Le service revient dès que le correctif est vérifié.'],
+        'hebergeur' => ['Travaux de l’hébergeur', 'server', 'Notre hébergeur intervient sur ses serveurs. Nous rouvrons dès qu’il nous rend la main.'],
+    ];
+
+    /** Les durées proposées d'un clic, en minutes. */
+    public const DUREES = [30, 60, 120, 240];
+
     public function mount(ModeMaintenance $maintenance): void
     {
         abort_unless($this->acteur()->can('maintenance.mode'), 403);
 
         $this->message = $maintenance->message();
         $this->finAnnoncee = $maintenance->finAnnoncee()?->format('Y-m-d\TH:i') ?? '';
+    }
+
+    /** Reprend un message de départ ; la personne le précise ensuite. */
+    public function appliquerMotif(string $cle): void
+    {
+        if (isset(self::MOTIFS[$cle])) {
+            $this->message = self::MOTIFS[$cle][2];
+        }
+    }
+
+    /** Annonce une fin dans N minutes, arrondie au quart d'heure supérieur. */
+    public function annoncerDans(int $minutes): void
+    {
+        if (! in_array($minutes, self::DUREES, true)) {
+            return;
+        }
+
+        // Une heure ronde se retient et se promet mieux que « 14 h 07 ».
+        $fin = now()->addMinutes($minutes);
+        $fin = $fin->addMinutes((15 - $fin->minute % 15) % 15)->second(0);
+
+        $this->finAnnoncee = $fin->format('Y-m-d\TH:i');
     }
 
     public function render(ModeMaintenance $maintenance): View
@@ -77,6 +117,8 @@ final class Maintenance extends Component
             // de courriels qui partiront.
             'enAttente' => $enAttente,
             'dejaPrevenus' => MaintenanceWatcher::query()->whereNotNull('notified_at')->count(),
+            'historique' => $maintenance->historique(),
+            'messageAffiche' => $maintenance->message(),
         ]);
     }
 

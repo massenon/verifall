@@ -4873,3 +4873,38 @@ continué d'en accepter. Garde déconnectée, plus rien de la console ne répond
   `deverrouillage`, distincte d'une connexion.
 - Le verrou automatique (15 min) est déclenché par `console.js`, mais c'est un
   POST : sans JavaScript, l'expiration serveur de 30 minutes reste la garantie.
+
+## 181. Le mode maintenance laisse passer l'équipe, ses portes d'entrée et les paiements
+
+**Le besoin.** Fermer la plateforme au public pendant une mise à jour majeure,
+l'équipe gardant tout son accès (demande du 19 octobre 2026).
+
+**Le défaut trouvé.** Le mode existait (lot 10) et exemptait la PAGE de
+connexion de la console, mais le formulaire poste sur `/livewire/update`, que
+le middleware renvoyait en 503. Un membre non connecté voyait le formulaire
+sans pouvoir s'en servir : seule une session déjà ouverte pouvait rouvrir.
+L'écran de verrouillage (n° 180) avait le même défaut, puisqu'un membre
+verrouillé est déconnecté de la garde.
+
+**La décision.** `MaintenanceApplicative` laisse passer :
+- le personnel connecté (inchangé) ;
+- la connexion, la déconnexion et l'écran de verrouillage de la console ;
+- `/livewire/update` seulement quand **tous** les composants de l'appel sont
+  `auth.staff-login` ou `auth.verrou-de-session`. Le nom lu vient de
+  l'instantané envoyé par le navigateur ; Livewire en vérifie la somme de
+  contrôle avant toute exécution, donc un nom maquillé est rejeté plus loin ;
+- les rappels Mobile Money (`webhooks.momo`) : un opérateur qui reçoit 503 ne
+  rejoue pas toujours, et l'unité payée ne serait jamais créditée. La route
+  vérifie sa signature HMAC elle-même ;
+- la page de maintenance, son formulaire et son état (`maintenance.etat`) ;
+- `/up`, hors pile web.
+
+Les appels qui attendent du JSON (application mobile) reçoivent un 503 JSON
+avec `Retry-After` quand une heure est annoncée. Les tâches planifiées et la
+file continuent : c'est à l'équipe de les suspendre si la mise à jour l'exige,
+et l'écran le dit.
+
+**Ce qui n'est pas fait.** Pas de fermeture programmée : fermer à heure fixe
+couperait une saisie en cours, et la réouverture reste un geste humain pour la
+même raison (une maintenance qui se rouvrirait seule rouvrirait un site à
+moitié migré). Une annonce préalable aux citoyens reste à arbitrer (P6-7f).

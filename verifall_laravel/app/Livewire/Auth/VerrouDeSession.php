@@ -9,7 +9,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Livewire\Features\SupportRedirects\Redirector;
 
 /**
  * L'écran de verrouillage de la console (arbitrage n° 180).
@@ -24,7 +23,7 @@ final class VerrouDeSession extends Component
 
     public ?string $erreur = null;
 
-    public function mount(Verrou $verrou): ?Redirector
+    public function mount(Verrou $verrou): ?RedirectResponse
     {
         if ($verrou->etat(request()) === null) {
             return redirect()->route('staff.login');
@@ -39,7 +38,7 @@ final class VerrouDeSession extends Component
         return null;
     }
 
-    public function deverrouiller(Verrou $verrou): RedirectResponse|Redirector|null
+    public function deverrouiller(Verrou $verrou): ?RedirectResponse
     {
         $retour = $verrou->etat(request())['retour'] ?? route('staff.dashboard');
         $resultat = $verrou->deverrouiller(request(), $this->motDePasse);

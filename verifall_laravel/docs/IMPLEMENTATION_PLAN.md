@@ -185,7 +185,7 @@ chargement et erreur, mobile, sombre, mesure de fidélité, tests existants vert
 - [ ] **P5-5 Utilisateurs** (4) : Citoyens, Mentors, KYC (visionneuse), Rôles (matrice).
 - [ ] **P5-6 Système** (6) : Réglages en onglets, Modèles de courriels (le **sujet** seulement, selon D6, avec l'aide-mémoire des variables du catalogue), Campagnes, Badges, Sauvegardes, Tâches planifiées.
 - [ ] **P5-7 Journaux** (4) : Audit, Courriels, Unités, Alertes.
-- [ ] **P5-8 Hors prototype** (8) : Maintenance, Tipline, Packs d'unités, Parrainages, Signalements de contenu, Mots surveillés, Messages de contact, Statistiques du cours. Habillés avec les mêmes briques, sans maquette.
+- [ ] **P5-8 Hors prototype** (7) : Tipline, Packs d'unités, Parrainages, Signalements de contenu, Mots surveillés, Messages de contact, Statistiques du cours. Habillés avec les mêmes briques, sans maquette.
 
 ### Phase 6 — Fonctionnalités nouvelles (E 10)
 
@@ -195,6 +195,15 @@ chargement et erreur, mobile, sombre, mesure de fidélité, tests existants vert
 - [ ] **P6-4 Éditeur pleine page** (article et infolettre) : Quill purifié, aperçu Google, enregistrement automatique en brouillon.
 - [ ] **P6-5 Médiathèque** : disque `private`, routes signées, visionneuse.
 - [ ] **P6-6 Calendrier** : lives, examens, campagnes, maintenance ; glisser-déposer pour les droits `update`.
+
+- [ ] **P6-7 Mode maintenance premium** (E 2) — demandé le 19 octobre ; arbitrage n° 181. Fermer le site au public pendant une mise à jour majeure, l'équipe gardant tout son accès.
+  - [x] **P6-7a Exemptions sûres** : connexion console par Livewire (`/livewire/update` limité aux composants `auth.staff-login` et `auth.verrou-de-session`), écran de verrouillage, rappels Mobile Money, état `maintenance.etat`, réponse JSON 503 pour l'API.
+  - [x] **P6-7b Écran console** (`staff.maintenance-mode`) : état en grand, motifs de départ, durées d'un clic, aperçu, « pendant la maintenance », avant de fermer, avant de rouvrir, historique relu dans le journal d'audit.
+  - [x] **P6-7c Bandeau** dans la coquille tant que le site est fermé, sur tous les écrans.
+  - [x] **P6-7d Page publique premium** « La boussole se recalibre » : autonome, décompte honnête sur l'anneau de la boussole, retard dit franchement, réouverture annoncée sans rafraîchir.
+  - [x] **P6-7e Prototype** : écran `#/maintenance` et `maintenance.html`.
+  - [ ] **P6-7f** Fermeture programmée et annonce préalable aux citoyens (bandeau public « maintenance prévue à… ») — à arbitrer : fermer à heure fixe peut couper une saisie en cours.
+  - [ ] **P6-7g** Traduction anglaise de la page publique (`lang/en`), aujourd'hui en français seul.
 
 ### Phase 7 — Analytique (E 8)
 
@@ -232,4 +241,5 @@ console complète au nouvel habit (phases 1 à 5).
 | 18 oct. 2026 | P0-3 | `CLAUDE.md` et arbitrage n° 176 |
 | 18 oct. 2026 | D5, D6, D7 | Arbitrages n° 177 à 179, historiques RGPD implémentés |
 | 18 oct. 2026 | P2, P3-1, P3-3, P4-2 | Coquille premium à la place de l'ancien layout, connexion, verrouillage serveur (n° 180), tableau de bord mentor |
+| 19 oct. 2026 | P6-7a à e | Mode maintenance premium : exemptions (n° 181), écran console, bandeau, page publique, prototype ; `tests/Feature/Console/ModeMaintenanceConsoleTest.php` |
 | 18 oct. 2026 | P1-1, P1-2 | Feuille `staff-premium.css`, polices, bibliothèques, icônes Lucide côté serveur, `tests/Feature/Console/FondationsPremiumTest.php` |

@@ -443,6 +443,11 @@ Route::get('/maintenance', MaintenancePage::class)->name('maintenance');
 Route::post('/maintenance/prevenez-moi', MaintenanceController::class)
     ->middleware('throttle:6,1')->name('maintenance.watch');
 
+// L'état que la page interroge pour annoncer la réouverture sans qu'on
+// rafraîchisse en boucle. Trois champs, aucune donnée personnelle.
+Route::get('/maintenance/etat', [MaintenancePage::class, 'etat'])
+    ->middleware('throttle:30,1')->name('maintenance.etat');
+
 Route::get('/connexion', Login::class)->middleware('guest')->name('login');
 
 // POST exclusivement : un GET de deconnexion se declencherait depuis une
