@@ -203,3 +203,56 @@
    le groupe est fermé. Le marqueur natif du <summary> est masqué. */
 .groupe-nav > summary::-webkit-details-marker { display: none; }
 .groupe-nav:not([open]) .chevron-groupe { transform: rotate(-90deg); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   COUCHE DE COMPATIBILITÉ — les écrans pas encore réécrits (`st-*`, `ffield`,
+   plus de 50 vues) gardent leur HTML mais prennent les jetons premium, en clair
+   comme en sombre. Les anciennes feuilles sont pilotées par variables : on les
+   redéfinit ici, puis on corrige les quelques valeurs qu'elles écrivent en dur.
+   Chaque écran réécrit abandonne ses `st-*` ; quand il n'en reste plus, ce bloc
+   et les anciennes feuilles disparaissent (phase 8).
+   ═══════════════════════════════════════════════════════════════════ */
+:root {
+  --st-brand: #067a36; --st-deep: #0E2A1E; --st-emerald: #09B850; --st-mint: #c9efd9;
+  --st-ink: #142019; --st-text: #4A5A51; --st-slate: #4A5A51; --st-muted: #7A8981;
+  --st-border: #E3E8E4; --st-surface: #FFFFFF; --st-canvas: #F6F8F5;
+  --st-radius: 14px; --st-radius-sm: 8px;
+  --c-line: #E3E8E4; --c-ink: #142019; --c-slate: #4A5A51; --c-primary: #09B850;
+}
+.dark {
+  --st-brand: #09B850; --st-mint: rgba(9,184,80,.16);
+  --st-ink: #FFFFFF; --st-text: #B9C8BF; --st-slate: #B9C8BF; --st-muted: #7F9187;
+  --st-border: #22352B; --st-surface: #13211A; --st-canvas: #0A1510;
+  --c-line: #22352B; --c-ink: #FFFFFF; --c-slate: #B9C8BF;
+}
+.st-btn { font-family: "Public Sans", system-ui, sans-serif; border-radius: 8px; min-height: 36px; padding: 0 .9rem; font-weight: 500; }
+.st-btn-primary { color: #fff; }
+.st-btn-primary:hover { background: #079a43; }
+.st-input, .st-select, .st-textarea { border-radius: 8px; min-height: 40px; }
+.st-input:focus, .st-select:focus, .st-textarea:focus { border-color: #09B850; box-shadow: 0 0 0 3px rgba(9,184,80,.18); }
+.st-card { box-shadow: none; }
+.st-table th { text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 500; }
+.st-table td { height: 56px; }
+.ffield > input, .ffield > select, .ffield > textarea { border-radius: 8px; background: var(--st-surface); color: var(--st-ink); }
+.ffield > :is(input,select,textarea):focus { border-color: #09B850; box-shadow: 0 0 0 3px rgba(9,184,80,.18); }
+.ffield > label { color: var(--st-muted); }
+.dark .st-badge-draft { background: #0A1510; }
+.dark .st-badge-pub { color: #86efac; }
+.dark .st-badge-warn { color: #fcd34d; }
+.dark .st-badge-danger { color: #fca5a5; }
+.dark .st-badge-info { color: #93c5fd; }
+.dark .st-badge-premium { color: #c4b5fd; }
+.dark .st-chip { color: #86efac; }
+.dark .st-oc-backdrop, .dark .st-sheet-bg { background: rgba(0,0,0,.6); }
+.dark :is(.st-input, .st-select, .st-textarea) { color-scheme: dark; }
+.dark .ql-toolbar.ql-snow, .dark .ql-container.ql-snow { background: var(--st-surface); }
+.dark .rich-area { background: var(--st-surface); }
+.dark .rich-toolbar { background: var(--st-canvas); }
+/* Sombre : les titres et textes de l'ancien style écrivaient leur couleur en
+   dur (encre sur fond clair) ; on les rend lisibles sans réécrire les vues. */
+.dark .console-contenu { color: #B9C8BF; }
+.dark .console-contenu :is(h1, h2, h3, h4, .font-display, .text-heading, th, label, strong) { color: #fff; }
+.dark .console-contenu :is(a:not([class*="btn"]):not([class*="st-"]):not([class*="menu"])) { color: #86efac; }
+.dark .console-contenu :is(.text-body, .text-slate, .text-muted) { color: #B9C8BF; }
+.dark .console-contenu :is(.bg-white, .bg-light) { background: var(--st-surface); }
+.dark .console-contenu :is(.border, .border-line, .border-b, .border-t) { border-color: var(--st-border); }
