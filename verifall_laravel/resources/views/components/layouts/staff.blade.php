@@ -49,6 +49,8 @@
       (function () {
         var t = null;
         try { t = localStorage.getItem('vf-theme'); } catch (e) {}
+        /* Le navigateur d'abord ; à défaut, le thème gardé avec le compte. */
+        if (t === null) t = @json($membre?->console_theme);
         if (t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
       })();
     </script>
@@ -67,7 +69,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/staff-premium.css') }}">
     @stack('styles')
 </head>
-<body class="console min-h-screen bg-papier dark:bg-nuit text-encre dark:text-white font-sans antialiased" @if($membre !== null && $membre->tour_done_at === null) data-tour-auto="staff" @endif>
+<body data-theme-url="{{ route('staff.theme') }}" data-search-url="{{ route('staff.search') }}" class="console min-h-screen bg-papier dark:bg-nuit text-encre dark:text-white font-sans antialiased" @if($membre !== null && $membre->tour_done_at === null) data-tour-auto="staff" @endif>
 <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[80] btn-primaire">Aller au contenu</a>
 
 {{-- ═══════════════════════════════════════ Colonne de navigation --}}

@@ -1,5 +1,5 @@
 @php
-  $onglets = ['profil' => ['circle-user-round', 'Profil'], 'securite' => ['shield-check', 'Sécurité'], 'connexions' => ['history', 'Connexions']];
+  $onglets = ['profil' => ['circle-user-round', 'Profil'], 'securite' => ['shield-check', 'Sécurité'], 'sessions' => ['monitor-smartphone', 'Sessions'], 'connexions' => ['history', 'Connexions']];
   $initiales = \Illuminate\Support\Str::of($membre->name)->explode(' ')->filter()->take(2)->map(fn (string $m): string => mb_strtoupper(mb_substr($m, 0, 1)))->implode('');
 @endphp
 <div class="space-y-6 max-w-4xl">
@@ -39,6 +39,21 @@
     <section class="carte p-5 flex items-center justify-between gap-3">
       <div><h2 class="carte-titre">Double authentification</h2><p class="text-sm texte-2 mt-1">{{ $deuxFacteurs ? 'Activée : un code de votre application est demandé à chaque connexion.' : 'Non activée. Elle s’active à la prochaine connexion à la console.' }}</p></div>
       <span class="{{ $deuxFacteurs ? 'p-bon' : 'p-alerte' }}"><x-lucide :name="$deuxFacteurs ? 'shield-check' : 'triangle-alert'" />{{ $deuxFacteurs ? 'Activée' : 'Inactive' }}</span>
+    </section>
+  @elseif ($onglet === 'sessions')
+    <section class="carte">
+      <div class="carte-tete"><h2 class="carte-titre">Appareils connectés</h2><button type="button" class="btn-second btn-sm" wire:click="fermerLesAutres" wire:confirm="Fermer toutes les autres sessions ?">Fermer toutes les autres</button></div>
+      <ul class="divide-y divide-trait dark:divide-nuit-trait">
+        @forelse ($sessions as $s)
+          <li class="flex items-center gap-3 px-5 py-3">
+            <x-lucide :name="$s['appareil'] === 'Mobile' ? 'smartphone' : 'monitor'" class="w-5 h-5 texte-3" />
+            <span class="flex-1 min-w-0"><span class="block text-sm font-medium">{{ $s['navigateur'] }} · {{ $s['appareil'] }}</span><span class="block text-xs texte-3">Dernière activité {{ $s['derniere'] }}</span></span>
+            @if ($s['courante'])<span class="p-bon">Cette session</span>@else<button type="button" class="btn-fantome btn-sm" wire:click="fermerLaSession('{{ $s['id'] }}')">Fermer</button>@endif
+          </li>
+        @empty
+          <li class="px-5 py-4 text-sm texte-2">Aucune session enregistrée.</li>
+        @endforelse
+      </ul>
     </section>
   @else
     <section class="carte">

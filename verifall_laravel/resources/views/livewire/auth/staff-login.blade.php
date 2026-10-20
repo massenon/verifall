@@ -1,5 +1,8 @@
 <div>
     {{-- Bandeaux de retour : sortie, inactivité, verrou fermé après 5 échecs. --}}
+    @if (session('mot_de_passe_change'))
+        <div class="mb-6 rounded-ctrl border px-3.5 py-3 text-sm flex items-start gap-2.5 bg-green-50 border-green-200 text-green-900 dark:bg-green-950/30 dark:border-green-900/60 dark:text-green-100" role="status"><x-lucide name="check" class="w-4 h-4 mt-0.5 shrink-0" />Mot de passe modifié. Connectez-vous avec le nouveau.</div>
+    @endif
     @if (session('inactivite'))
         <div class="mb-6 rounded-ctrl border px-3.5 py-3 text-sm flex items-start gap-2.5 bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-950/30 dark:border-blue-900/60 dark:text-blue-100" role="status"><x-lucide name="clock" class="w-4 h-4 mt-0.5 shrink-0" />Votre session a expiré après une période d'inactivité. Reconnectez-vous pour continuer.</div>
     @elseif (session('verrou_ferme'))
@@ -21,6 +24,7 @@
                 <x-champ-mot-de-passe variante="console" id="a-pass" label="Mot de passe" modele="motDePasse" />
                 @error('motDePasse') <p class="aide-erreur" role="alert"><x-lucide name="circle-alert" class="w-3.5 h-3.5" />{{ $message }}</p> @enderror
             </div>
+            <p class="text-right -mt-2"><a href="{{ route('staff.password.request') }}" class="text-sm underline underline-offset-2 texte-2 hover:text-encre">Mot de passe oublié ?</a></p>
             <button type="submit" class="btn-primaire w-full !h-11 text-[15px]" wire:loading.attr="disabled">
                 {{-- Classes basculées par Livewire : aucune dépendance aux styles
                      injectés de `wire:loading`. --}}

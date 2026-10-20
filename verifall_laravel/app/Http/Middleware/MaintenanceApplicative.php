@@ -54,6 +54,7 @@ final class MaintenanceApplicative
         'maintenance.watch',
         'maintenance.etat',
         'staff.login',
+        'staff.password.request',
         'staff.logout',
         'staff.verrou',
         'webhooks.momo',
@@ -74,6 +75,7 @@ final class MaintenanceApplicative
      */
     private const COMPOSANTS_EXEMPTES = [
         'auth.staff-login',
+        'auth.staff-forgot-password',
         'auth.verrou-de-session',
     ];
 

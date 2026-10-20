@@ -81,9 +81,24 @@
   try { ecrans = JSON.parse(($('#palette-ecrans') || {}).textContent || '[]'); } catch (e) { ecrans = []; }
   var sansAccent = function (t) { return t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); };
   var sel = 0, liste = [];
+  /* Résultats de la recherche dans les données, demandés au serveur (350 ms
+     après la dernière frappe). Le serveur ne rend que ce que le droit de la
+     personne permet de lister. */
+  var donnees = [], minuterieRecherche = null;
+  var chercherDonnees = function (q) {
+    clearTimeout(minuterieRecherche);
+    var url = document.body.getAttribute('data-search-url');
+    if (!url || !window.fetch || q.trim().length < 2) { if (donnees.length) { donnees = []; rendrePalette(q); } return; }
+    minuterieRecherche = setTimeout(function () {
+      fetch(url + '?q=' + encodeURIComponent(q.trim()), { headers: { Accept: 'application/json' } })
+        .then(function (r) { return r.ok ? r.json() : { resultats: [] }; })
+        .then(function (j) { donnees = j.resultats || []; rendrePalette(q); })
+        .catch(function () {});
+    }, 350);
+  };
   var rendrePalette = function (q) {
     var t = sansAccent(q);
-    liste = ecrans.filter(function (e) { return sansAccent(e.libelle + ' ' + e.groupe).indexOf(t) !== -1; }).slice(0, 12);
+    liste = ecrans.filter(function (e) { return sansAccent(e.libelle + ' ' + e.groupe).indexOf(t) !== -1; }).slice(0, 12).concat(donnees);
     sel = Math.min(sel, Math.max(0, liste.length - 1));
     var ul = $('[data-palette-liste]', palette);
     ul.innerHTML = '';
@@ -112,13 +127,13 @@
     fermerMenus();
     palette.classList.remove('hidden'); palette.setAttribute('aria-hidden', 'false');
     var champ = $('[data-palette-champ]', palette);
-    champ.value = ''; sel = 0; rendrePalette(''); champ.focus();
+    champ.value = ''; sel = 0; donnees = []; rendrePalette(''); champ.focus();
   };
   $$('[data-palette-ouvrir]').forEach(function (b) { b.addEventListener('click', ouvrirPalette); });
   if (palette) {
     $('[data-palette-fermer]', palette).addEventListener('click', fermerPalette);
     var champ = $('[data-palette-champ]', palette);
-    champ.addEventListener('input', function () { sel = 0; rendrePalette(champ.value); });
+    champ.addEventListener('input', function () { sel = 0; rendrePalette(champ.value); chercherDonnees(champ.value); });
     champ.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowDown') { e.preventDefault(); sel = Math.min(sel + 1, liste.length - 1); rendrePalette(champ.value); }
       else if (e.key === 'ArrowUp') { e.preventDefault(); sel = Math.max(sel - 1, 0); rendrePalette(champ.value); }
@@ -132,6 +147,13 @@
     b.addEventListener('click', function () {
       var sombre = document.documentElement.classList.toggle('dark');
       ecrire('vf-theme', sombre ? 'dark' : 'light');
+      /* Gardé aussi avec le compte, pour le retrouver ailleurs. Sans réponse
+         attendue : un échec réseau ne gêne pas, le navigateur a déjà retenu. */
+      var url = document.body.getAttribute('data-theme-url');
+      var jeton = document.querySelector('meta[name="csrf-token"]');
+      if (url && jeton && window.fetch) {
+        fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-TOKEN': jeton.content }, body: JSON.stringify({ theme: sombre ? 'dark' : 'light' }) }).catch(function () {});
+      }
       fermerMenus();
     });
   });

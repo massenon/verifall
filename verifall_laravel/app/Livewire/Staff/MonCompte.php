@@ -6,6 +6,7 @@ namespace App\Livewire\Staff;
 
 use App\Core\Identity\Services\AuditLogService;
 use App\Core\Identity\Services\JournalDesConnexions;
+use App\Core\Identity\Services\SessionsService;
 use App\Models\User;
 use App\Support\Trait\InteractsWithToasts;
 use Illuminate\Support\Facades\Auth;
@@ -56,7 +57,7 @@ final class MonCompte extends Component
         $this->telephone = (string) $membre->phone;
         $this->ville = (string) $membre->city;
 
-        if (! in_array($this->onglet, ['profil', 'securite', 'connexions'], true)) {
+        if (! in_array($this->onglet, ['profil', 'securite', 'sessions', 'connexions'], true)) {
             $this->onglet = 'profil';
         }
     }
@@ -116,7 +117,21 @@ final class MonCompte extends Component
         $this->toastSuccess('Mot de passe modifié.');
     }
 
-    public function render(JournalDesConnexions $connexions): View
+    public function fermerLaSession(SessionsService $sessions, string $id): void
+    {
+        // Jamais la session courante par ce bouton : la déconnexion a le sien.
+        if ($id !== session()->getId() && $sessions->revoquer($this->membre(), $id)) {
+            $this->toastSuccess('Session fermée.');
+        }
+    }
+
+    public function fermerLesAutres(SessionsService $sessions): void
+    {
+        $n = $sessions->revoquerLesAutres($this->membre(), session()->getId());
+        $this->toastSuccess($n > 0 ? "{$n} session(s) fermée(s)." : 'Aucune autre session ouverte.');
+    }
+
+    public function render(JournalDesConnexions $connexions, SessionsService $sessions): View
     {
         $membre = $this->membre();
 
@@ -124,6 +139,7 @@ final class MonCompte extends Component
             'membre' => $membre,
             'roles' => $membre->getRoleNames(),
             'deuxFacteurs' => $membre->two_factor_confirmed_at !== null,
+            'sessions' => $this->onglet === 'sessions' ? $sessions->pour($membre, session()->getId()) : [],
             'connexions' => $this->onglet === 'connexions' ? $connexions->pour($membre, 30) : collect(),
         ]);
     }

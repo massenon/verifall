@@ -37,6 +37,8 @@ use App\Http\Controllers\Staff\DonneesDesSourcesVerifieesController;
 use App\Http\Controllers\Staff\DonneesDesUtilisateursController;
 use App\Http\Controllers\Staff\DonneesDuJournalDesUnitesController;
 use App\Http\Controllers\Staff\PieceKycController;
+use App\Http\Controllers\Staff\RechercheDeLaPaletteController;
+use App\Http\Controllers\Staff\ThemeDeLaConsoleController;
 use App\Http\Controllers\Staff\VerrouillerLaSessionController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\Webhooks\MomoWebhookController;
@@ -47,6 +49,7 @@ use App\Http\Middleware\SansIndexation;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Auth\StaffForgotPassword;
 use App\Livewire\Auth\StaffLogin;
 use App\Livewire\Auth\VerrouDeSession as VerrouDeSessionEcran;
 use App\Livewire\Citizen\ArticleHub;
@@ -1110,9 +1113,12 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
 
         // Mon compte : l'identité vient de la garde, jamais d'un paramètre.
         Route::get('mon-compte', MonCompte::class)->name('account');
+        Route::get('recherche', RechercheDeLaPaletteController::class)->middleware('throttle:60,1')->name('search');
+        Route::post('theme', ThemeDeLaConsoleController::class)->middleware('throttle:30,1')->name('theme');
     });
 
     Route::get('connexion', StaffLogin::class)->middleware('guest:staff')->name('login');
+    Route::get('mot-de-passe-oublie', StaffForgotPassword::class)->middleware('guest:staff')->name('password.request');
 
     // L'écran de verrouillage : la garde staff y est DÉCONNECTÉE ; c'est la
     // session qui sait qui revient (VerrouDeSession).

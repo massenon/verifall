@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
+use App\Core\Application\Services\ModeMaintenance;
 use App\Enums\UserRole;
+use App\Livewire\Auth\StaffForgotPassword;
 use App\Livewire\Staff\MonCompte;
 use App\Models\AuditLog;
 use App\Models\HistoriqueConnexion;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Livewire;
 
 beforeEach(function (): void {
@@ -57,4 +61,42 @@ it('montre l’historique des connexions de la personne seulement', function ():
 
     Livewire::actingAs($this->membre, 'staff')->test(MonCompte::class)->set('onglet', 'connexions')
         ->assertSee('1.2.3.0')->assertDontSee('9.9.9.0');
+});
+
+it('réinitialise le mot de passe de la console sans connecter la personne', function (): void {
+    Mail::fake();
+
+    Livewire::test(StaffForgotPassword::class)
+        ->set('email', $this->membre->email)->call('demander')->assertSet('etape', 2);
+
+    expect(Auth::guard('staff')->check())->toBeFalse();
+});
+
+it('laisse la réinitialisation joignable pendant une maintenance', function (): void {
+    app(ModeMaintenance::class)->activer($this->membre);
+
+    $this->get(route('staff.password.request'))->assertOk();
+});
+
+it('garde le thème choisi avec le compte', function (): void {
+    $this->actingAs($this->membre, 'staff')->postJson(route('staff.theme'), ['theme' => 'dark'])->assertOk();
+    expect($this->membre->fresh()->console_theme)->toBe('dark');
+
+    $this->actingAs($this->membre, 'staff')->postJson(route('staff.theme'), ['theme' => 'rose'])->assertStatus(422);
+});
+
+it('cherche dans les données seulement ce que le droit permet de lister', function (): void {
+    User::factory()->actif()->create(['name' => 'Kossi Zinsou', 'email' => 'kossi@example.test']);
+
+    $this->actingAs($this->membre, 'staff')->getJson(route('staff.search', ['q' => 'Zinsou']))->assertOk()->assertJsonCount(0, 'resultats');
+
+    $admin = User::factory()->actif()->create();
+    $admin->assignRole(UserRole::Admin->value);
+    $this->actingAs($admin, 'staff')->getJson(route('staff.search', ['q' => 'Zinsou']))->assertJsonPath('resultats.0.libelle', 'Kossi Zinsou');
+    $this->actingAs($admin, 'staff')->getJson(route('staff.search', ['q' => 'Z']))->assertJsonCount(0, 'resultats');
+});
+
+it('affiche l’onglet des sessions', function (): void {
+    Livewire::actingAs($this->membre, 'staff')->test(MonCompte::class)->set('onglet', 'sessions')
+        ->assertSee('Appareils connectés')->call('fermerLesAutres')->assertHasNoErrors();
 });
