@@ -245,3 +245,11 @@ console complète au nouvel habit (phases 1 à 5).
 | 18 oct. 2026 | P1-1, P1-2 | Feuille `staff-premium.css`, polices, bibliothèques, icônes Lucide côté serveur, `tests/Feature/Console/FondationsPremiumTest.php` |
 | 20 oct. 2026 | P3-2 (partiel) | Page « Mon compte » (`staff.account`) : profil, mot de passe, double authentification (état), historique des connexions ; reste : sessions actives, mot de passe oublié équipe |
 | 20 oct. 2026 | P3 (fin), P2-5, P2-6 | Mot de passe oublié console (sans connexion automatique, 2FA conservée), sessions actives, thème gardé avec le compte (`users.console_theme`), recherche dans les données depuis Ctrl K (comptes, cours, selon les droits) |
+| 20 oct. 2026 | P1-3, P5 (couche), P6-1 | Composants `<x-premium.*>` (entête, carte, pastille, chiffre, vide). Couche de compatibilité : les ~50 écrans `st-*` prennent les jetons premium, clair et sombre, sans réécriture. Fiche d'un compte routée (`staff.users.show`, onglets) : 18 tests de `FicheDuCompteTest` repassent au vert ; liaisons de dépôts manquantes ajoutées |
+
+### Ce qui reste, dit franchement
+
+- **Réécriture écran par écran (P5)** : la couche de compatibilité donne la couleur, la typographie des champs et le mode sombre, pas la mise en page du prototype. Chaque écran se réécrit avec les composants `<x-premium.*>` quand on le touche ; quand il n'en reste aucun en `st-*`, la couche et les anciennes feuilles disparaissent (P8).
+- **Centre de pilotage (P4)** : 4 tests de `CentreDePilotageTest` décrivent un écran (« Centre de pilotage », sections analytiques par droit) qui n'existe pas dans le code ; c'est un chantier produit, pas un habillage.
+- **P6-2, P6-4 à P6-6, P7** : Mon profil mentor, éditeur pleine page, médiathèque, calendrier, analytique — non commencés.
+- **P8** : suppression des anciennes feuilles impossible tant que P5 n'est pas fini.
