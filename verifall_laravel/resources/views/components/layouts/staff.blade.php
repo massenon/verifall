@@ -111,7 +111,7 @@
   </nav>
 
   <div class="p-3 border-t border-white/10 shrink-0">
-    <a href="{{ route('staff.settings') }}" class="flex items-center gap-3 p-2 rounded-ctrl hover:bg-white/[.06]">
+    <a href="{{ route('staff.account') }}" class="flex items-center gap-3 p-2 rounded-ctrl hover:bg-white/[.06]">
       <span class="avatar w-8 h-8">{{ $initialesStaff }}</span>
       <span class="min-w-0 leading-tight">
         <span class="block text-sm font-medium truncate">{{ $nomComplet }}</span>
@@ -176,7 +176,7 @@
               <div class="min-w-0"><p class="font-medium truncate">{{ $nomComplet }}</p><p class="text-xs texte-3 truncate">{{ $membre?->email }}</p></div>
             </div>
             <div class="my-1 border-t filet"></div>
-            <a href="{{ route('staff.settings') }}" class="menu-item" role="menuitem"><x-lucide name="circle-user-round" /><span class="flex-1">Mon profil</span></a>
+            <a href="{{ route('staff.account') }}" class="menu-item" role="menuitem"><x-lucide name="circle-user-round" /><span class="flex-1">Mon profil</span></a>
             @if (\App\Support\Rbac\MenuDuBackOffice::autorise($membre, 'staff.audit'))
               <a href="{{ route('staff.audit') }}" class="menu-item" role="menuitem" data-tour="audit"><x-lucide name="scroll" /><span class="flex-1">Journal d'audit</span></a>
             @endif

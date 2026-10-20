@@ -122,6 +122,7 @@ use App\Livewire\Staff\Mentors as StaffMentors;
 use App\Livewire\Staff\MesContenus;
 use App\Livewire\Staff\MesEtudiants;
 use App\Livewire\Staff\MessagesContact;
+use App\Livewire\Staff\MonCompte;
 use App\Livewire\Staff\MotsSurveilles;
 use App\Livewire\Staff\Opportunites;
 use App\Livewire\Staff\Outils as StaffOutils;
@@ -1106,6 +1107,9 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
         // Verrouillage de session (arbitrage n° 180) : POST seulement.
         Route::post('verrouiller', VerrouillerLaSessionController::class)
             ->name('lock');
+
+        // Mon compte : l'identité vient de la garde, jamais d'un paramètre.
+        Route::get('mon-compte', MonCompte::class)->name('account');
     });
 
     Route::get('connexion', StaffLogin::class)->middleware('guest:staff')->name('login');

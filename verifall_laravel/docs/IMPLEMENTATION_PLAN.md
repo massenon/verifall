@@ -243,3 +243,4 @@ console complète au nouvel habit (phases 1 à 5).
 | 18 oct. 2026 | P2, P3-1, P3-3, P4-2 | Coquille premium à la place de l'ancien layout, connexion, verrouillage serveur (n° 180), tableau de bord mentor |
 | 19 oct. 2026 | P6-7a à e | Mode maintenance premium : exemptions (n° 181), écran console, bandeau, page publique, prototype ; `tests/Feature/Console/ModeMaintenanceConsoleTest.php` |
 | 18 oct. 2026 | P1-1, P1-2 | Feuille `staff-premium.css`, polices, bibliothèques, icônes Lucide côté serveur, `tests/Feature/Console/FondationsPremiumTest.php` |
+| 20 oct. 2026 | P3-2 (partiel) | Page « Mon compte » (`staff.account`) : profil, mot de passe, double authentification (état), historique des connexions ; reste : sessions actives, mot de passe oublié équipe |
