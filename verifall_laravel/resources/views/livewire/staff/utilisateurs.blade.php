@@ -74,6 +74,7 @@
     <div wire:ignore
          data-vdt="utilisateurs"
          data-vdt-source="{{ route('staff.users.data') }}"
+         data-vdt-fiche="{{ route('staff.users.show', ['user' => '00000000-0000-0000-0000-000000000000']) }}"
          data-vdt-langue="{{ asset('assets/vendor/datatables/i18n/fr-FR-2.3.8.json') }}"
          data-vdt-vendor="{{ asset('assets/vendor/datatables/js') }}"
          data-vdt-evenement="{{ \App\Livewire\Staff\Utilisateurs::EVENEMENT_TABLE_A_RECHARGER }}"

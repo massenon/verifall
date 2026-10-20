@@ -27,6 +27,7 @@ use App\Http\Controllers\Public\ServiceWorkerController;
 use App\Http\Controllers\Public\SoutienController;
 use App\Http\Controllers\Staff\DonneesDeLaBanqueDeQuestionsController;
 use App\Http\Controllers\Staff\DonneesDeLaCorrectionController;
+use App\Http\Controllers\Staff\DonneesDeLaFicheDuCompteController;
 use App\Http\Controllers\Staff\DonneesDeLEnrolementAuxExamensController;
 use App\Http\Controllers\Staff\DonneesDesAbonnesController;
 use App\Http\Controllers\Staff\DonneesDesExamensController;
@@ -110,6 +111,7 @@ use App\Livewire\Staff\EnrolementAuxCours as StaffEnrolementAuxCours;
 use App\Livewire\Staff\EnrolementAuxExamens as StaffEnrolementAuxExamens;
 use App\Livewire\Staff\Examens as StaffExamens;
 use App\Livewire\Staff\FaitsVerifies;
+use App\Livewire\Staff\FicheUtilisateur;
 use App\Livewire\Staff\ForumCitoyen as StaffForumCitoyen;
 use App\Livewire\Staff\GabaritCertificat as StaffGabaritCertificat;
 use App\Livewire\Staff\GabaritsEmails as StaffGabaritsEmails;
@@ -1007,6 +1009,17 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
 
         Route::get('utilisateurs-data', DonneesDesUtilisateursController::class)
             ->middleware('can:viewAny,'.User::class)->name('users.data');
+
+        /*
+         | La fiche d'un compte : même garde sur la page et sur ses onglets
+         | (`can:view,user`), adressée par uuid et jamais par identifiant. Un
+         | segment fixe (`donnees`) sépare la source des onglets de l'uuid.
+         */
+        Route::get('utilisateurs/{user:uuid}', FicheUtilisateur::class)
+            ->middleware('can:view,user')->name('users.show');
+
+        Route::get('utilisateurs/{user:uuid}/donnees/{onglet}', DonneesDeLaFicheDuCompteController::class)
+            ->middleware('can:view,user')->name('users.show.data');
 
         Route::get('roles', StaffRoles::class)
             ->middleware('can:viewAny,'.SpatieRole::class)->name('roles');

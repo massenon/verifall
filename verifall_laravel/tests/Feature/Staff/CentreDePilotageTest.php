@@ -107,10 +107,9 @@ describe("l'accès", function (): void {
     it("ne montre pas au mentor les agrégats globaux qu'il n'a pas le droit de lire", function (): void {
         $mentor = unMentor();
 
+        // Le mentor seul a son propre tableau de bord : il n'arrive plus ici.
         pilotageConnecte($mentor)->get(route('staff.dashboard'))
-            ->assertOk()
-            ->assertDontSee('Blog & Actualités — analytics', escape: false)
-            ->assertDontSee('tdb-s-lms', escape: false);
+            ->assertRedirect(route('staff.mentor.dashboard'));
 
         Livewire::actingAs($mentor, 'staff')
             ->test(TableauDeBord::class)

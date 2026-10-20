@@ -77,7 +77,7 @@
             @foreach ($mentors as $mentor)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $mentor->name }}</p>
+                        <p class="font-semibold text-[#0F172A] mb-0"><a href="{{ route('staff.users.show', $mentor) }}" class="hover:underline">{{ $mentor->name }}</a></p>
                         <p class="text-xs text-[#64748B] mb-0">{{ $mentor->email }}</p>
                     </td>
                     <td class="whitespace-nowrap">
