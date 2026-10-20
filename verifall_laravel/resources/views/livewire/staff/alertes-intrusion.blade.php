@@ -1,13 +1,8 @@
-<div class="p-6 lg:p-8">
+<div>
 
-    <header class="mb-6">
-        <h1 class="text-2xl font-display font-bold text-[#0F172A]">Alertes Intrusion</h1>
-        <p class="mt-1 text-sm text-[#475569]">
-            Tentatives refusées et comportements anormaux. Les identités et les
-            adresses IP n'apparaissent que sous forme d'empreintes : elles
-            suffisent à corréler deux lignes sans exposer personne.
-        </p>
-    </header>
+    <x-premium.entete titre="Alertes Intrusion">
+        Tentatives refusées et comportements anormaux. Les identités et les adresses IP n'apparaissent que sous forme d'empreintes : elles suffisent à corréler deux lignes sans exposer personne.
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="3">
         <x-kpi variant="staff" :value="number_format($this->indicateurs['bloquees'], 0, ',', ' ')"

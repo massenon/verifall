@@ -12,30 +12,19 @@
   | de `post.update` par la matrice, et l'y mettre rendrait le droit
   | contournable.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Articles du blog</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Articles du blog</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Les textes de fond : méthode, coulisses, tribunes. Pour un démenti avec verdict,
-                passez par <a href="{{ route('staff.hub-news') }}" class="text-[#059669] underline">les actualités du Hub</a>.
-            </p>
-        </div>
-
-        @if ($peutCreer)
+<x-premium.entete titre="Articles du blog" :fil="['Articles du blog']">
+        Les textes de fond : méthode, coulisses, tribunes. Pour un démenti avec verdict, passez par <a href="{{ route('staff.hub-news') }}" class="text-[#059669] underline">les actualités du Hub</a>.
+        <x-slot:actions>
+            @if ($peutCreer)
             <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
                 <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
                 Nouveau billet
             </button>
         @endif
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"

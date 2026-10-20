@@ -256,3 +256,8 @@
 .dark .console-contenu :is(.text-body, .text-slate, .text-muted) { color: #B9C8BF; }
 .dark .console-contenu :is(.bg-white, .bg-light) { background: var(--st-surface); }
 .dark .console-contenu :is(.border, .border-line, .border-b, .border-t) { border-color: var(--st-border); }
+/* Tuiles de chiffres des écrans `st-*` : même rendu que <x-premium.chiffre>. */
+.st-kpi { background: var(--st-surface); border: 1px solid var(--st-border); border-radius: 14px; padding: 1rem; box-shadow: none; }
+.st-kpi-v { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 26px; line-height: 1; font-weight: 600; letter-spacing: -.01em; color: var(--st-ink); font-variant-numeric: tabular-nums; }
+.st-kpi-l { margin-top: .5rem; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--st-slate); }
+.st-kpi-t { margin-top: .35rem; font-size: 12px; color: var(--st-muted); }

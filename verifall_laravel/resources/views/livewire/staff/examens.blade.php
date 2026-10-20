@@ -20,30 +20,19 @@
   <link rel="stylesheet" href="{{ asset('assets/css/pages/datatables-staff.css') }}">
 @endpush
 
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Examens</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Examens</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Les épreuves certifiantes et leurs sessions. Une épreuve sans question ne se publie pas :
-                elle serait réussie par tout le monde.
-            </p>
-        </div>
-
-        @can('create', App\Models\Exam::class)
+<x-premium.entete titre="Examens" :fil="['Examens']">
+        Les épreuves certifiantes et leurs sessions. Une épreuve sans question ne se publie pas : elle serait réussie par tout le monde.
+        <x-slot:actions>
+            @can('create', App\Models\Exam::class)
             <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
                 <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
                 Nouvel examen
             </button>
         @endcan
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['actifs'], 0, ',', ' ')"

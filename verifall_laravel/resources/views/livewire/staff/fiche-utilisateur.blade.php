@@ -12,20 +12,17 @@
   | carte après une suspension, jamais les tables. Les modales sont DANS la
   | racine du composant (contrat §6.1).
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Fiche du compte</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                L'identité du compte et tout son historique sur la plateforme.
-            </p>
-        </div>
-        <a href="{{ route('staff.users') }}" class="st-btn st-btn-secondary">
+    <x-premium.entete titre="Fiche du compte">
+        L'identité du compte et tout son historique sur la plateforme.
+        <x-slot:actions>
+            <a href="{{ route('staff.users') }}" class="st-btn st-btn-secondary">
             <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">arrow_back</span>
             Retour aux utilisateurs
         </a>
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <div class="vfu-grille">
 

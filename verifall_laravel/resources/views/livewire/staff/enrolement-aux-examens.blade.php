@@ -18,30 +18,19 @@
   <link rel="stylesheet" href="{{ asset('assets/css/pages/datatables-staff.css') }}">
 @endpush
 
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Enrôlement aux examens</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Enrôlement aux examens</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Les inscrits, toutes sessions confondues. Choisissez une session dans les filtres pour
-                restreindre les indicateurs ci-dessous et inscrire un candidat à sa date.
-            </p>
-        </div>
-
-        @if ($peutInscrire && $session !== null)
+<x-premium.entete titre="Enrôlement aux examens" :fil="['Enrôlement aux examens']">
+        Les inscrits, toutes sessions confondues. Choisissez une session dans les filtres pour restreindre les indicateurs ci-dessous et inscrire un candidat à sa date.
+        <x-slot:actions>
+            @if ($peutInscrire && $session !== null)
             <button type="button" wire:click="ouvrirInscription" class="st-btn st-btn-primary">
                 <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">person_add</span>
                 Inscrire un candidat
             </button>
         @endif
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['inscrits'], 0, ',', ' ')"

@@ -6,30 +6,19 @@
   | et filtres, compteur de résultats, table sur grand écran et cartes sur
   | téléphone, tiroir de formulaire, modale de suppression nominative.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Packs d'unités</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Packs d'unités</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                La grille vendue aux citoyens. Le prix et la quantité sont lus ici, jamais
-                dans la requête d'achat.
-            </p>
-        </div>
-
-        @can('create', App\Models\UnitPack::class)
+<x-premium.entete titre="Packs d'unités" :fil="['Packs d\'unités']">
+        La grille vendue aux citoyens. Le prix et la quantité sont lus ici, jamais dans la requête d'achat.
+        <x-slot:actions>
+            @can('create', App\Models\UnitPack::class)
             <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
                 <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
                 Nouveau pack
             </button>
         @endcan
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="$indicateurs['packs']" label="Packs"

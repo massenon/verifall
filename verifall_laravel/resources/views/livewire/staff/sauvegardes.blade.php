@@ -13,7 +13,7 @@
   | L'écran lit donc le disque et dit ce qu'il y trouve. C'est ce qui répond à
   | la seule question qu'on se pose : « sommes-nous sauvegardés ? »
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
     <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
         <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
@@ -21,12 +21,9 @@
         <span class="text-[#0F172A] font-medium">Sauvegardes</span>
     </nav>
 
-    <header class="mb-4">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Sauvegardes de la base</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            L'état de ce qui existe sur le disque de sauvegarde.
-        </p>
-    </header>
+    <x-premium.entete titre="Sauvegardes de la base">
+        L'état de ce qui existe sur le disque de sauvegarde.
+    </x-premium.entete>
 
     {{-- La limite est ANNONCÉE en tête, comme pour le KYC au lot 7 : un écran
          qui laisse croire à plus qu'il ne fait est pire qu'un écran absent —

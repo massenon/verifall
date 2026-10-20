@@ -9,21 +9,11 @@
   |
   | Verrouiller n'est pas supprimer : un sujet verrouillé reste LISIBLE.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Forum citoyen</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Forum citoyen</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            Les sujets du débat, les plus actifs en tête. Pour traiter ce que les citoyens ont signalé,
-            passez par <a href="{{ route('staff.content-reports') }}" class="text-[#059669] underline">Signalements</a>.
-        </p>
-    </header>
+<x-premium.entete titre="Forum citoyen" :fil="['Forum citoyen']">
+        Les sujets du débat, les plus actifs en tête. Pour traiter ce que les citoyens ont signalé, passez par <a href="{{ route('staff.content-reports') }}" class="text-[#059669] underline">Signalements</a>.
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['sujets'], 0, ',', ' ')"

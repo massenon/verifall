@@ -8,15 +8,11 @@
   | que ce chantier a corrigé quatre fois, et le taire sur l'écran qui prétend
   | tout lister l'aurait recréé.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="mb-5">
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Gabarits d'emails</h1>
-        <p class="text-sm text-[#64748B] mb-0">
-            Le texte de tout ce que la plateforme envoie. La liste est fermée : elle énumère
-            les envois que le code déclenche, et rien d'autre.
-        </p>
-    </div>
+    <x-premium.entete titre="Gabarits d'emails">
+        Le texte de tout ce que la plateforme envoie. La liste est fermée : elle énumère les envois que le code déclenche, et rien d'autre.
+    </x-premium.entete>
 
     <x-data-table variant="staff" :count="count($gabarits)" :selectable="false">
         <x-slot:head>
@@ -167,16 +163,24 @@
         </div>
 
         @if ($variablesDuGabarit !== [])
-            <div class="mb-4">
-                <p class="block text-sm font-medium text-[#0F172A] mb-1">Variables disponibles</p>
-                {{-- Affichées parce qu'on n'écrit pas `{{ prenom }}` de mémoire —
-                     et un marqueur inventé part tel quel dans toutes les boîtes.
-                     L'enregistrement les refuse ; cette liste évite d'y arriver. --}}
-                <p class="text-xs text-[#64748B] mb-0">
+            {{-- Aide-mémoire des variables : un clic copie le marqueur. On n'écrit
+                 pas `{{ prenom }}` de mémoire — un marqueur inventé part tel quel
+                 dans toutes les boîtes. L'enregistrement les refuse ; cette liste
+                 évite d'y arriver. Alimentée par `CatalogueDesCourriels::variables()`. --}}
+            <div class="mb-4 rounded-ctrl border filet bg-papier dark:bg-nuit p-3.5" x-data="{ copie: null }">
+                <p class="text-sm font-medium mb-2 flex items-center gap-1.5"><x-lucide name="braces" class="w-4 h-4" />Variables disponibles</p>
+                <div class="flex flex-wrap gap-2">
                     @foreach ($variablesDuGabarit as $variable)
-                        <code>{{ $variable }}</code>@if (! $loop->last) &nbsp; @endif
+                        <button type="button" class="inline-flex items-center gap-1.5 h-7 px-2.5 rounded-ctrl border filet bg-white dark:bg-nuit-carte font-mono text-xs hover:border-brand/60 transition-colors"
+                                x-on:click="navigator.clipboard?.writeText(@js($variable)); copie = @js($variable); setTimeout(() => copie = null, 1500)"
+                                aria-label="Copier {{ $variable }}">
+                            <code>{{ $variable }}</code>
+                            <x-lucide name="copy" class="w-3 h-3 texte-3" x-show="copie !== @js($variable)" />
+                            <x-lucide name="check" class="w-3 h-3 text-bon" x-show="copie === @js($variable)" x-cloak />
+                        </button>
                     @endforeach
-                </p>
+                </div>
+                <p class="aide">Cliquez sur une variable pour la copier, puis collez-la dans le texte. Une variable qui n'est pas dans cette liste est refusée à l'enregistrement.</p>
             </div>
         @endif
 

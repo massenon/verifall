@@ -10,32 +10,19 @@
   | sans famille. C'est le bon comportement, mais c'est contre-intuitif — la
   | confirmation le dit, et le compteur d'orphelines reste affiché.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ route('staff.trusted-sources') }}" class="hover:text-[#065F46]">Sources vérifiées</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Catégories</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Catégories de sources</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Les familles du référentiel. Chacune porte une crédibilité par défaut, proposée à la création d'une fiche —
-                référencer trente agences de presse ne doit pas demander de taper « 90 » trente fois.
-            </p>
-        </div>
-
-        @can('create', App\Models\SourceCategory::class)
+<x-premium.entete titre="Catégories de sources" :fil="['Catégories']">
+        Les familles du référentiel. Chacune porte une crédibilité par défaut, proposée à la création d'une fiche — référencer trente agences de presse ne doit pas demander de taper « 90 » trente fois.
+        <x-slot:actions>
+            @can('create', App\Models\SourceCategory::class)
             <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
                 <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
                 Nouvelle famille
             </button>
         @endcan
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="3">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"

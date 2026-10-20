@@ -6,14 +6,11 @@
   | à travers tous les cours. D'où la liste plate et le filtre par FORMAT :
   | trier par cours reproduirait le constructeur, en moins bien.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="mb-5">
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Mes contenus</h1>
-        <p class="text-sm text-[#64748B] mb-0">
-            Leçons, quiz et classes en direct de tous vos cours, dans une seule liste.
-        </p>
-    </div>
+    <x-premium.entete titre="Mes contenus">
+        Leçons, quiz et classes en direct de tous vos cours, dans une seule liste.
+    </x-premium.entete>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
         <select wire:model.live="filtreFormat" class="st-input w-auto" aria-label="Filtrer par format">

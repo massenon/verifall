@@ -10,31 +10,19 @@
   | la française et qu'on oublie l'anglaise — et une FAQ à moitié corrigée est
   | pire qu'une FAQ pas corrigée, parce qu'on la croit à jour.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Gestion de la FAQ</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Gestion de la FAQ</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Les questions fréquentes, dans les deux langues du site.
-                Une question sans traduction anglaise s'affiche en français sur la version anglaise —
-                une FAQ incomplète vaut mieux qu'une FAQ trouée.
-            </p>
-        </div>
-
-        @if ($peutGerer)
+<x-premium.entete titre="Gestion de la FAQ" :fil="['Gestion de la FAQ']">
+        Les questions fréquentes, dans les deux langues du site. Une question sans traduction anglaise s'affiche en français sur la version anglaise — une FAQ incomplète vaut mieux qu'une FAQ trouée.
+        <x-slot:actions>
+            @if ($peutGerer)
             <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
                 <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
                 Nouvelle question
             </button>
         @endif
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"

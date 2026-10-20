@@ -8,21 +8,11 @@
   | AUCUNE action d'écriture, et c'est délibéré : un parrainage est la trace de
   | faits, pas une fiche. Voir la classe pour le raisonnement.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Parrainage</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Parrainage</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            Ce que le programme produit. La récompense part au moment où le filleul réalise
-            sa première vérification éligible — jamais à l'inscription seule.
-        </p>
-    </header>
+<x-premium.entete titre="Parrainage" :fil="['Parrainage']">
+        Ce que le programme produit. La récompense part au moment où le filleul réalise sa première vérification éligible — jamais à l'inscription seule.
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"

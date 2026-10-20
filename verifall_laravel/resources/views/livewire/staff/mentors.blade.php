@@ -9,23 +9,11 @@
   | Aucune création ici : elle reste sur « Utilisateurs », qui porte les trois
   | garde-fous du lot 3. Les dupliquer les ferait diverger au premier correctif.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Mentors</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Mentors</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                L'équipe pédagogique et sa charge réelle. Pour créer un compte ou donner le rôle,
-                passez par <a href="{{ route('staff.users') }}" class="text-[#059669] underline">Utilisateurs</a>.
-            </p>
-        </div>
-    </header>
+<x-premium.entete titre="Mentors" :fil="['Mentors']">
+        L'équipe pédagogique et sa charge réelle. Pour créer un compte ou donner le rôle, passez par <a href="{{ route('staff.users') }}" class="text-[#059669] underline">Utilisateurs</a>.
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"

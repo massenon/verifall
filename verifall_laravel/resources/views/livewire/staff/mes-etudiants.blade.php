@@ -6,18 +6,11 @@
   | dans ce cours », et fusionner les lignes obligerait à choisir un avancement
   | parmi trois.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="mb-5">
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Mes Étudiants</h1>
-        <p class="text-sm text-[#64748B] mb-0">
-            @if ($toutVoir)
-                Tous les inscrits de la plateforme, tous formateurs confondus.
-            @else
-                Les personnes inscrites à vos cours. Les moins avancées en tête.
-            @endif
-        </p>
-    </div>
+    <x-premium.entete titre="Mes Étudiants">
+        @if ($toutVoir) Tous les inscrits de la plateforme, tous formateurs confondus. @else Les personnes inscrites à vos cours. Les moins avancées en tête. @endif
+    </x-premium.entete>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
         <div class="ffield flex-1 mb-0" style="min-width: 220px;">

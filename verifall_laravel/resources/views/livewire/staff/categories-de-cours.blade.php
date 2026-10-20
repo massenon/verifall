@@ -11,30 +11,19 @@
   | n'a changé de rayon. C'est depuis cet écran que la rédaction unifie, en un
   | point et pour tous les cours du rayon à la fois.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Catégories de cours</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Catégories de cours</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Les rayons du catalogue. Renommer ici met à jour tous les cours du rayon d'un seul geste —
-                c'est ce que la chaîne libre interdisait.
-            </p>
-        </div>
-
-        @can('create', App\Models\CourseCategory::class)
+<x-premium.entete titre="Catégories de cours" :fil="['Catégories de cours']">
+        Les rayons du catalogue. Renommer ici met à jour tous les cours du rayon d'un seul geste — c'est ce que la chaîne libre interdisait.
+        <x-slot:actions>
+            @can('create', App\Models\CourseCategory::class)
             <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
                 <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
                 Nouvelle catégorie
             </button>
         @endcan
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"

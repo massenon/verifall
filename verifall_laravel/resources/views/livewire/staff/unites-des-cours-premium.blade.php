@@ -10,21 +10,11 @@
   | le prix actuel par le nombre d'inscrits appliquerait le tarif d'aujourd'hui
   | à des achats d'hier, et donnerait un chiffre faux qui a l'air juste.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Unités des cours premium</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Unités des cours premium</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            La grille tarifaire de l'Académie, vue d'un bloc. Modifier un tarif n'affecte
-            aucune inscription déjà payée : les inscrits gardent leur accès au prix consenti.
-        </p>
-    </header>
+<x-premium.entete titre="Unités des cours premium" :fil="['Unités des cours premium']">
+        La grille tarifaire de l'Académie, vue d'un bloc. Modifier un tarif n'affecte aucune inscription déjà payée : les inscrits gardent leur accès au prix consenti.
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['payants'], 0, ',', ' ')"

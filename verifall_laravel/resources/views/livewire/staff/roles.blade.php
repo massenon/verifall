@@ -9,21 +9,11 @@
   |
   | Un accès se donne en attribuant un RÔLE, à l'écran « Utilisateurs ».
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Rôles &amp; permissions</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Rôles &amp; permissions</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            Ce que chaque rôle recouvre exactement. Pour donner un accès à quelqu'un,
-            attribuez-lui un rôle depuis <a href="{{ route('staff.users') }}" class="text-[#059669] underline">Utilisateurs</a>.
-        </p>
-    </header>
+<x-premium.entete titre="Rôles &amp; permissions" :fil="['Rôles &amp; permissions']">
+        Ce que chaque rôle recouvre exactement. Pour donner un accès à quelqu'un, attribuez-lui un rôle depuis <a href="{{ route('staff.users') }}" class="text-[#059669] underline">Utilisateurs</a>.
+    </x-premium.entete>
 
     {{-- L'explication du caractère non modifiable, à l'écran et pas seulement
          dans le code : sans elle, l'absence de bouton « Modifier » passe pour

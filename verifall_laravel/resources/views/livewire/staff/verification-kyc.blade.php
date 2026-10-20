@@ -13,16 +13,11 @@
   |     seul le RETRAIT reste possible sans, parce qu'une vérification obtenue
   |     par fraude doit pouvoir tomber tout de suite.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="mb-5">
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Vérification d'identité</h1>
-        <p class="text-sm text-[#64748B] mb-0">
-            Les pièces sont détruites {{ $retentionJours }} jours après la décision. Ne subsiste
-            alors que la preuve que le contrôle a eu lieu — type de pièce, décision, motif,
-            examinateur.
-        </p>
-    </div>
+    <x-premium.entete titre="Vérification d'identité">
+        Les pièces sont détruites {{ $retentionJours }} jours après la décision. Ne subsiste alors que la preuve que le contrôle a eu lieu — type de pièce, décision, motif, examinateur.
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['en_attente'], 0, ',', ' ')"

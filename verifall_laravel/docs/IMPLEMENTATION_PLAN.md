@@ -253,3 +253,4 @@ console complète au nouvel habit (phases 1 à 5).
 - **Centre de pilotage (P4)** : 4 tests de `CentreDePilotageTest` décrivent un écran (« Centre de pilotage », sections analytiques par droit) qui n'existe pas dans le code ; c'est un chantier produit, pas un habillage.
 - **P6-2, P6-4 à P6-6, P7** : Mon profil mentor, éditeur pleine page, médiathèque, calendrier, analytique — non commencés.
 - **P8** : suppression des anciennes feuilles impossible tant que P5 n'est pas fini.
+| 20 oct. 2026 | P5 (lot 1) | 49 écrans sur ~59 passent à l'en-tête `<x-premium.entete>` (titre, fil, aide, actions), tuiles de chiffres `st-kpi` au rendu premium, Utilisateurs réécrit avec `<x-premium.chiffre>`, aide-mémoire des variables des courriels (un clic copie). Aucun test nouveau en échec. Restent à l'ancien en-tête : Faits vérifiés, Portails officiels, Constructeur de cours, Progression, Statistiques du cours, Fiche utilisateur (partiel) |

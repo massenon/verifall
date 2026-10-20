@@ -6,30 +6,18 @@
   | on ajoute souvent plusieurs mots d'affilée, et refermer entre chaque
   | rendrait le geste pénible.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Mots surveillés</span>
-    </nav>
-
-    <header class="mb-6 flex flex-wrap items-start justify-between gap-3">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Mots surveillés</h1>
-            <p class="text-[#64748B] text-sm mb-0 max-w-2xl">
-                Deux actions seulement. « Bloquer » refuse la publication, et se réserve à ce qui
-                n'a aucune raison d'être. « Publier et signaler » laisse le message paraître et
-                prévient la modération : sur un site de fact-checking, les mots d'une rumeur sont
-                précisément ceux qu'on vient signaler.
-            </p>
-        </div>
-        @can('update', \App\Models\ModerationKeyword::class)
+<x-premium.entete titre="Mots surveillés" :fil="['Mots surveillés']">
+        Deux actions seulement. « Bloquer » refuse la publication, et se réserve à ce qui n'a aucune raison d'être. « Publier et signaler » laisse le message paraître et prévient la modération : sur un site de fact-checking, les mots d'une rumeur sont précisément ceux qu'on vient signaler.
+        <x-slot:actions>
+            @can('update', \App\Models\ModerationKeyword::class)
             <button type="button" wire:click="ouvrirFormulaire" class="st-btn st-btn-primary shrink-0">
                 Ajouter un mot
             </button>
         @endcan
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($compteurs['total'], 0, ',', ' ')"

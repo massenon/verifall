@@ -10,21 +10,11 @@
   | (`scheduled_task_runs`). Une tâche sans aucune exécution enregistrée est
   | affichée en rouge — c'est le diagnostic que personne ne pouvait poser.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Tâches planifiées</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Tâches planifiées</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            Ce que le code déclare, et ce qui s'est réellement exécuté.
-            Les deux colonnes ne disent pas la même chose — et c'est tout l'intérêt.
-        </p>
-    </header>
+<x-premium.entete titre="Tâches planifiées" :fil="['Tâches planifiées']">
+        Ce que le code déclare, et ce qui s'est réellement exécuté. Les deux colonnes ne disent pas la même chose — et c'est tout l'intérêt.
+    </x-premium.entete>
 
     @if ($indicateurs['declarees'] > 0 && $indicateurs['jamais_executees'] === $indicateurs['declarees'])
         {{-- LE DIAGNOSTIC QUE PERSONNE NE POUVAIT POSER. Si AUCUNE tâche ne

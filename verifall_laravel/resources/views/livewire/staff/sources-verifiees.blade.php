@@ -16,30 +16,19 @@
   <link rel="stylesheet" href="{{ asset('assets/css/pages/datatables-staff.css') }}">
 @endpush
 
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Sources vérifiées</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Sources vérifiées</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Le moteur d'analyse consulte ce référentiel à chaque lien examiné.
-                Une source active n'est plus soupçonnée d'usurper une institution, et son nom apparaît dans le raisonnement rendu au citoyen.
-            </p>
-        </div>
-
-        @can('create', App\Models\TrustedSource::class)
+<x-premium.entete titre="Sources vérifiées" :fil="['Sources vérifiées']">
+        Le moteur d'analyse consulte ce référentiel à chaque lien examiné. Une source active n'est plus soupçonnée d'usurper une institution, et son nom apparaît dans le raisonnement rendu au citoyen.
+        <x-slot:actions>
+            @can('create', App\Models\TrustedSource::class)
             <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
                 <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
                 Référencer une source
             </button>
         @endcan
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"

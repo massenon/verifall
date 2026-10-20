@@ -8,7 +8,8 @@
       </nav>
     @endif
     <h1 class="text-[26px] sm:text-[28px] font-semibold leading-tight text-encre dark:text-white">{{ $titre }}</h1>
-    @if ($sous)<p class="mt-1 text-sm texte-2 max-w-2xl">{{ $sous }}</p>@endif
+    @if ($sous)<p class="mt-1 text-sm texte-2 max-w-2xl">{{ $sous }}</p>
+    @elseif (! $slot->isEmpty())<p class="mt-1 text-sm texte-2 max-w-2xl">{{ $slot }}</p>@endif
   </div>
   @isset($actions)<div class="flex flex-wrap items-center gap-2">{{ $actions }}</div>@endisset
 </div>

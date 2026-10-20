@@ -24,52 +24,30 @@
   <link rel="stylesheet" href="{{ asset('assets/css/pages/datatables-staff.css') }}">
 @endpush
 
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Utilisateurs</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Utilisateurs</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Les comptes et leurs rôles. Un compte du personnel n'entre qu'après avoir
-                enrôlé sa double authentification — elle se pose à la première connexion,
-                pas ici.
-            </p>
-        </div>
-
+    <x-premium.entete titre="Utilisateurs" :fil="['Utilisateurs']"
+        sous="Les comptes et leurs rôles. Un compte du personnel n'entre qu'après avoir enrôlé sa double authentification — elle se pose à la première connexion, pas ici.">
         @can('create', App\Models\User::class)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">person_add</span>
-                Nouveau compte
-            </button>
+            <x-slot:actions>
+                <button type="button" wire:click="ouvrirCreation" class="btn-primaire"><x-lucide name="user-plus" />Nouveau compte</button>
+            </x-slot:actions>
         @endcan
-    </header>
+    </x-premium.entete>
 
-    <x-kpi-grid variant="staff" :cols="4">
-        <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"
-               label="Comptes"
-               :trend="$indicateurs['personnel'].' au personnel'" />
-
-        <x-kpi variant="staff" :value="number_format($indicateurs['personnel'], 0, ',', ' ')"
-               label="Personnel"
-               trend="Portent au moins un rôle" />
-
-        <x-kpi variant="staff" :value="number_format($indicateurs['administrateurs'], 0, ',', ' ')"
-               label="Administrateurs"
-               :trend="$indicateurs['administrateurs'] <= 1 ? 'Le dernier ne peut pas être rétrogradé' : 'Accès complet'" />
-
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4 mb-6">
+        <x-premium.chiffre icone="users" libelle="Comptes" :valeur="number_format($indicateurs['total'], 0, ',', ' ')"
+            :aide="$indicateurs['personnel'].' au personnel'" />
+        <x-premium.chiffre icone="id-card" libelle="Personnel" :valeur="number_format($indicateurs['personnel'], 0, ',', ' ')"
+            aide="Portent au moins un rôle" />
+        <x-premium.chiffre icone="key-round" libelle="Administrateurs" :valeur="number_format($indicateurs['administrateurs'], 0, ',', ' ')"
+            :aide="$indicateurs['administrateurs'] <= 1 ? 'Le dernier ne peut pas être rétrogradé' : 'Accès complet'" />
         {{-- Le chiffre qui évite un faux signalement de panne : ces comptes ne
              peuvent pas encore entrer, et c'est normal — ils n'ont pas franchi
              l'enrôlement du second facteur. --}}
-        <x-kpi variant="staff" :value="number_format($indicateurs['sans2fa'], 0, ',', ' ')"
-               label="Sans 2FA confirmée"
-               trend="Enrôlement à la première connexion" />
-    </x-kpi-grid>
+        <x-premium.chiffre icone="shield-check" libelle="Sans 2FA confirmée" :valeur="number_format($indicateurs['sans2fa'], 0, ',', ' ')"
+            aide="Enrôlement à la première connexion" />
+    </div>
 
     <div wire:ignore
          data-vdt="utilisateurs"

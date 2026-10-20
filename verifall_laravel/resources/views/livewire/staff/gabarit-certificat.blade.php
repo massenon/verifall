@@ -14,28 +14,17 @@
   | couleur, on déposait une signature, et l'on découvrait le résultat en
   | délivrant un vrai diplôme à une vraie personne.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Certificat Template</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Certificat Template</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Le document tel qu'il sortira, sur un exemple. Les valeurs se règlent aux
-                <a href="{{ route('staff.settings') }}?onglet=certificats" class="text-[#059669] underline">Paramètres, onglet Certificats</a>.
-            </p>
-        </div>
-
-        <a href="{{ route('staff.settings') }}?onglet=certificats" class="st-btn st-btn-primary">
+<x-premium.entete titre="Certificat Template" :fil="['Certificat Template']">
+        Le document tel qu'il sortira, sur un exemple. Les valeurs se règlent aux <a href="{{ route('staff.settings') }}?onglet=certificats" class="text-[#059669] underline">Paramètres, onglet Certificats</a>.
+        <x-slot:actions>
+            <a href="{{ route('staff.settings') }}?onglet=certificats" class="st-btn st-btn-primary">
             <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">tune</span>
             Régler le certificat
         </a>
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <div class="st-card p-4 mb-6 border-l-4" style="border-left-color:#8A5A0B">
         <p class="text-sm text-[#334155] mb-2">

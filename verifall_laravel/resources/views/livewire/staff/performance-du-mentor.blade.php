@@ -5,14 +5,11 @@
   | temporelle ne la soutient, et une flèche inventée est pire qu'une colonne
   | absente. Voir le bloc de documentation du composant.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="mb-5">
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Performance</h1>
-        <p class="text-sm text-[#64748B] mb-0">
-            Quatre chiffres par cours, et un seul sur lequel vous pouvez agir : la complétion.
-        </p>
-    </div>
+    <x-premium.entete titre="Performance">
+        Quatre chiffres par cours, et un seul sur lequel vous pouvez agir : la complétion.
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="3">
         <x-kpi variant="staff" :value="number_format(count($lignes), 0, ',', ' ')" label="Cours" />

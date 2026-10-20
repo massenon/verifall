@@ -11,21 +11,11 @@
   | `PurgerDonneesExpirees`, qui applique une durée uniforme — un bouton
   | « vider » permettrait d'effacer la trace d'un envoi contesté.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Journal des e-mails</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Journal des e-mails</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            Ce qui est parti, et ce qui a échoué. Le contenu des messages n'est pas conservé :
-            un code à usage unique ne doit apparaître ni en journal, ni en base.
-        </p>
-    </header>
+<x-premium.entete titre="Journal des e-mails" :fil="['Journal des e-mails']">
+        Ce qui est parti, et ce qui a échoué. Le contenu des messages n'est pas conservé : un code à usage unique ne doit apparaître ni en journal, ni en base.
+    </x-premium.entete>
 
     @if ($indicateurs['echecs_24h'] > 0)
         {{-- L'alerte ne s'affiche que s'il y a matière : un bandeau permanent

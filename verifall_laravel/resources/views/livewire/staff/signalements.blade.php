@@ -5,15 +5,11 @@
   | cet écran sert à vider une file, et trier par date décroissante enterrerait
   | ce qui attend depuis le plus longtemps.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="mb-5">
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Signalements</h1>
-        <p class="text-sm text-[#64748B] mb-0">
-            Ce que les citoyens ont soumis à vérification. Les plus anciens d'abord —
-            ce sont ceux dont quelqu'un attend encore la réponse.
-        </p>
-    </div>
+    <x-premium.entete titre="Signalements">
+        Ce que les citoyens ont soumis à vérification. Les plus anciens d'abord — ce sont ceux dont quelqu'un attend encore la réponse.
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($chiffres['total'], 0, ',', ' ')" label="Total" />

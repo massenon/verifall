@@ -6,22 +6,11 @@
   | renvoyées au navigateur. Les dupliquer ici aurait signifié deux endroits où
   | écrire un jeton, donc un endroit où l'on oublie de le changer.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Tipline WhatsApp</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Tipline WhatsApp</h1>
-        <p class="text-[#64748B] text-sm mb-0 max-w-3xl">
-            Au Bénin, la désinformation ne circule pas sur le web : elle circule sur WhatsApp,
-            en images, en captures d'écran et en messages vocaux transférés. Une tipline
-            transforme la vérification d'une démarche en un réflexe.
-        </p>
-    </header>
+<x-premium.entete titre="Tipline WhatsApp" :fil="['Tipline WhatsApp']">
+        Au Bénin, la désinformation ne circule pas sur le web : elle circule sur WhatsApp, en images, en captures d'écran et en messages vocaux transférés. Une tipline transforme la vérification d'une démarche en un réflexe.
+    </x-premium.entete>
 
     @if ($active)
         <section class="st-card mb-6" aria-label="État de la tipline">

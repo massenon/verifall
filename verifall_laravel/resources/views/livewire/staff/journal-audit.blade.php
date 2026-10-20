@@ -1,20 +1,15 @@
-<div class="p-6 lg:p-8">
+<div>
 
     {{-- En-tête : titre + description + action unique (PAGE_SECTION_ORDER). --}}
-    <header class="mb-6 flex flex-wrap items-start justify-between gap-3">
-        <div>
-            <h1 class="text-2xl font-display font-bold text-[#0F172A]">Logs d'Audit</h1>
-            <p class="mt-1 text-sm text-[#475569]">
-                Traçabilité des actions du back-office. Consultation seule :
-                un journal modifiable ne prouverait rien.
-            </p>
-        </div>
-
-        <button type="button" wire:click="exporterCsv" class="st-btn st-btn-secondary">
+    <x-premium.entete titre="Logs d'Audit">
+        Traçabilité des actions du back-office. Consultation seule : un journal modifiable ne prouverait rien.
+        <x-slot:actions>
+            <button type="button" wire:click="exporterCsv" class="st-btn st-btn-secondary">
             <span class="material-symbols-rounded !text-[18px]" aria-hidden="true">download</span>
             Exporter en CSV
         </button>
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="3">
         <x-kpi variant="staff" :value="number_format($this->indicateurs['evenements'], 0, ',', ' ')"
