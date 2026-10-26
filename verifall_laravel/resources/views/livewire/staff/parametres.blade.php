@@ -90,11 +90,15 @@
                                 @endif
 
                             @elseif ($reglage->type->controle() === 'textarea')
-                                <label for="{{ $identifiant }}" class="block text-sm font-medium text-encre dark:text-white mb-1">{{ $reglage->libelle }}</label>
+                                <label for="{{ $identifiant }}" class="block text-sm font-medium text-encre dark:text-white mb-1">{{ $reglage->libelle }}@if ($reglage->secret) <x-lucide name="lock" class="w-4 h-4 texte-3" /><span class="sr-only">(valeur chiffrée)</span>@endif</label>
                                 <textarea id="{{ $identifiant }}" rows="3"
                                           wire:model="valeurs.{{ $reglage->cle }}"
                                           placeholder="{{ $reglage->exemple }}"
-                                          class="champ w-full"></textarea>
+                                          @if ($reglage->secret) autocomplete="off" spellcheck="false" @endif
+                                          class="champ w-full @if ($reglage->secret) font-mono text-xs @endif"></textarea>
+                                @if ($reglage->secret && ($secretsRenseignes[$reglage->cle] ?? false))
+                                    <p class="text-xs text-brand-700 dark:text-brand mt-1 mb-0">Une valeur est enregistrée. Laissez vide pour la conserver.</p>
+                                @endif
                                 @if ($reglage->aide)
                                     <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">{{ $reglage->aide }}</p>
                                 @endif
@@ -181,10 +185,23 @@
                             <span wire:loading.remove wire:target="enregistrer">Enregistrer</span>
                             <span wire:loading wire:target="enregistrer">Enregistrement…</span>
                         </button>
+                        @if ($onglet === 'seo')
+                            <button type="button" class="btn-secondaire" wire:click="testerGoogle">
+                                <span wire:loading.remove wire:target="testerGoogle">Tester la connexion Google</span>
+                                <span wire:loading wire:target="testerGoogle">Test en cours…</span>
+                            </button>
+                        @endif
                         <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                             Seul l'onglet affiché est enregistré.
                         </p>
                     </div>
+                    @if ($onglet === 'seo' && $essaiGoogle !== [])
+                        <ul class="space-y-1 text-sm" role="status">
+                            @foreach (['ga4' => 'Google Analytics 4', 'gsc' => 'Search Console'] as $cle => $nom)
+                                <li class="flex items-center gap-2"><span class="{{ $essaiGoogle[$cle]['ok'] ? 'p-bon' : 'p-critique' }}">{{ $nom }}</span> {{ $essaiGoogle[$cle]['message'] }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </form>
             </div>
         </section>

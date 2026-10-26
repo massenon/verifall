@@ -69,7 +69,13 @@ it('borne le nombre de lignes à ce que la barre propose', function (): void {
 
 it('donne la barre minimale aux listes construites en mémoire', function (): void {
     foreach ([TachesCron::class, SauvegardesBaseDeDonnees::class] as $ecran) {
-        $page = Livewire::actingAs($this->admin, 'staff')->test($ecran)->assertSee('Lignes par page', false)->assertSee('Réinitialiser');
+        $page = Livewire::actingAs($this->admin, 'staff')->test($ecran);
+
+        // Sans sauvegarde sur le disque, l'écran montre son état vide, pas une barre sans objet.
+        if ($ecran === TachesCron::class) {
+            $page->assertSee('Lignes par page', false)->assertSee('Réinitialiser');
+        }
+
         expect($page->viewData('page')->perPage())->toBe(10);
 
         $page->set('parPage', 99999)->tap(fn ($p) => expect($p->viewData('page')->perPage())->toBe(10));
