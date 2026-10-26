@@ -69,6 +69,7 @@ final class MenuDuBackOffice
             'staff.dashboard' => ['layout-dashboard', 'Tableau de bord'],
             // Le tableau de bord DU MENTOR (P4-2) : voir `estTableauDeBordDe()`.
             'staff.mentor.dashboard' => ['layout-dashboard', 'Tableau de bord'],
+            'staff.calendar' => ['calendar-days', 'Calendrier'],
         ],
 
         'Fact-checking' => [

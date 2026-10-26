@@ -80,7 +80,9 @@ it('donne un seul « Tableau de bord » à chacun dans le menu', function (): vo
     $admin = User::factory()->actif()->create();
     $admin->assignRole(UserRole::Admin->value);
 
-    $routes = fn (User $u): array => collect(MenuDuBackOffice::pour($u)[''] ?? [])->pluck('route')->all();
+    // Le calendrier partage le groupe d'accueil ; seul le tableau de bord compte ici.
+    $routes = fn (User $u): array => collect(MenuDuBackOffice::pour($u)[''] ?? [])->pluck('route')
+        ->reject(fn (string $r): bool => $r === 'staff.calendar')->values()->all();
 
     expect($routes($this->mentor))->toBe(['staff.mentor.dashboard'])
         ->and($routes($admin))->toBe(['staff.dashboard']);

@@ -36,6 +36,7 @@ use App\Http\Controllers\Staff\DonneesDesMessagesContactController;
 use App\Http\Controllers\Staff\DonneesDesSignalementsContenuController;
 use App\Http\Controllers\Staff\DonneesDesSourcesVerifieesController;
 use App\Http\Controllers\Staff\DonneesDesUtilisateursController;
+use App\Http\Controllers\Staff\DonneesDuCalendrierController;
 use App\Http\Controllers\Staff\DonneesDuJournalDesUnitesController;
 use App\Http\Controllers\Staff\PieceKycController;
 use App\Http\Controllers\Staff\RechercheDeLaPaletteController;
@@ -98,6 +99,7 @@ use App\Livewire\Staff\AlertesIntrusion;
 use App\Livewire\Staff\ArticlesDuBlog as StaffArticlesDuBlog;
 use App\Livewire\Staff\BadgesDeProgression as StaffBadgesDeProgression;
 use App\Livewire\Staff\BanqueDeQuestions as StaffBanqueDeQuestions;
+use App\Livewire\Staff\Calendrier;
 use App\Livewire\Staff\CampagnesPublicitaires as StaffCampagnesPublicitaires;
 use App\Livewire\Staff\CategoriesDeCours as StaffCategoriesDeCours;
 use App\Livewire\Staff\CategoriesDeSources as StaffCategoriesDeSources;
@@ -1126,6 +1128,10 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
 
         // Mon compte : l'identité vient de la garde, jamais d'un paramètre.
         Route::get('mon-compte', MonCompte::class)->name('account');
+
+        // Le calendrier : lecture seule, chaque famille d'événements filtrée par droit.
+        Route::get('calendrier', Calendrier::class)->middleware('can:viewAny,'.LiveClass::class)->name('calendar');
+        Route::get('calendrier/donnees', DonneesDuCalendrierController::class)->middleware(['can:viewAny,'.LiveClass::class, 'throttle:60,1'])->name('calendar.data');
         Route::get('recherche', RechercheDeLaPaletteController::class)->middleware('throttle:60,1')->name('search');
         Route::post('theme', ThemeDeLaConsoleController::class)->middleware('throttle:30,1')->name('theme');
     });
