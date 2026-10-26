@@ -6,6 +6,8 @@ namespace App\Livewire\Staff;
 
 use App\Core\Identity\Services\FicheDuCompte;
 use App\Core\Identity\Services\SuspensionDeCompte;
+use App\Core\Lms\Services\EspaceDuMentor;
+use App\Models\Enrollment;
 use App\Models\User;
 use App\Support\Trait\InteractsWithToasts;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +62,18 @@ final class FicheUtilisateur extends Component
     {
         $compte = $this->compte($fiche);
         $acteur = $this->acteur();
+
+        if ($fiche->estRestreint($acteur, $compte)) {
+            $cours = app(EspaceDuMentor::class)->idsDesCours($acteur);
+
+            return view('livewire.staff.fiche-apprenant', [
+                'identite' => $fiche->identiteReduite($compte),
+                'inscriptions' => Enrollment::query()
+                    ->with('course:id,title')
+                    ->where('user_id', $compte->id)->whereIn('course_id', $cours)
+                    ->orderByDesc('last_activity_at')->limit(50)->get(),
+            ]);
+        }
 
         return view('livewire.staff.fiche-utilisateur', [
             'compte' => $compte,

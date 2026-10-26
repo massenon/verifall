@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\UserRole;
+use App\Models\Campaign;
 use App\Models\LiveClass;
 use App\Models\User;
 use App\Support\Rbac\MenuDuBackOffice;
@@ -51,4 +52,11 @@ it('refuse une fenêtre à l’envers et borne la durée', function (): void {
 it('place le calendrier dans le menu de qui peut le voir', function (): void {
     expect(array_column(MenuDuBackOffice::pour($this->mentor)[''], 'route'))->toContain('staff.calendar')
         ->and(array_column(MenuDuBackOffice::pour($this->admin)[''], 'route'))->toContain('staff.calendar');
+});
+
+it('montre les campagnes programmées à qui peut les voir', function (): void {
+    Campaign::query()->forceCreate(['uuid' => (string) Str::uuid(), 'name' => 'Rentrée', 'subject' => 's', 'body' => 'b', 'audience' => 'all', 'status' => 'scheduled', 'scheduled_at' => now()->addDays(3)]);
+
+    $this->actingAs($this->admin, 'staff')->getJson(route('staff.calendar.data', $this->fenetre))->assertJsonFragment(['title' => 'Campagne — Rentrée']);
+    $this->actingAs($this->mentor, 'staff')->getJson(route('staff.calendar.data', $this->fenetre))->assertJsonMissing(['title' => 'Campagne — Rentrée']);
 });

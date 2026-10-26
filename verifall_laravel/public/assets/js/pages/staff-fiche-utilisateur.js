@@ -196,6 +196,28 @@
                     col('role', 'Ce compte est', { orderable: false, responsivePriority: 5 }),
                 ],
             },
+            connexions: {
+                vide: 'Aucune connexion enregistrée (conservation : 12 mois).',
+                ordre: [[0, 'desc']],
+                colonnes: [
+                    col('date', 'Date', { responsivePriority: 1 }),
+                    col('resultat', 'Résultat', { responsivePriority: 2, render: rendu(badge) }),
+                    col('espace', 'Espace', { responsivePriority: 4 }),
+                    col('methode', 'Méthode', { orderable: false, responsivePriority: 5 }),
+                    col('appareil', 'Appareil', { orderable: false, responsivePriority: 3 }),
+                    col('reseau', 'Réseau (IP tronquée)', { orderable: false, responsivePriority: 6 }),
+                ],
+            },
+            'lectures-hub': {
+                vide: 'Aucune lecture enregistrée (conservation : 90 jours, avec consentement).',
+                ordre: [[0, 'desc']],
+                colonnes: [
+                    col('date', 'Date', { responsivePriority: 2 }),
+                    col('rubrique', 'Rubrique', { responsivePriority: 3 }),
+                    col('titre', 'Contenu', { responsivePriority: 1 }),
+                    col('action', 'Geste', { orderable: false, responsivePriority: 4 }),
+                ],
+            },
             'verifications-assignees': {
                 vide: 'Aucune vérification ne lui est assignée.',
                 ordre: [[3, 'desc']],

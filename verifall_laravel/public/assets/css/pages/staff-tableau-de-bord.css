@@ -94,7 +94,7 @@
 }
 
 .tdb-champ { position: relative; display: block; }
-.tdb-champ .material-symbols-rounded {
+.tdb-champ svg {
   position: absolute; left: .75rem; top: 50%; transform: translateY(-50%);
   font-size: 19px; color: var(--st-muted); pointer-events: none;
 }
@@ -104,7 +104,7 @@
 .tdb-dates { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
 .tdb-dates label { display: grid; gap: .25rem; font-size: .72rem; font-weight: 700; color: var(--st-muted); }
 
-.tdb-commandes .st-btn { width: 100%; }
+.tdb-commandes .btn { width: 100%; }
 
 .tdb-periode-active {
   grid-column: 1 / -1;
@@ -117,7 +117,7 @@
 @container tdb (min-width: 720px) {
   .tdb-header { grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 2rem; }
   .tdb-commandes { grid-auto-flow: column; align-items: end; }
-  .tdb-commandes .st-btn { width: auto; }
+  .tdb-commandes .btn { width: auto; }
   .tdb-champ .st-select { min-width: 13rem; }
   .tdb-dates { grid-template-columns: repeat(2, 10.5rem); }
 }
@@ -163,7 +163,7 @@
   white-space: nowrap;
 }
 .tdb-lien:hover { color: var(--st-emerald); text-decoration: underline; }
-.tdb-lien .material-symbols-rounded { font-size: 16px; }
+.tdb-lien svg { font-size: 16px; }
 
 /* ================================ GRILLES ============================= */
 
@@ -225,7 +225,7 @@
   border-radius: var(--st-radius);
   background: rgba(220,38,38,.03);
 }
-.tdb-erreur .material-symbols-rounded { color: var(--st-danger); font-size: 22px; }
+.tdb-erreur svg { color: var(--st-danger); font-size: 22px; }
 .tdb-erreur p { margin: 0; font-size: .82rem; color: var(--st-slate); }
 .tdb-erreur strong { display: block; color: var(--st-ink); font-size: .88rem; }
 
@@ -306,7 +306,7 @@
   width: 30px; height: 30px; border-radius: 9px; flex: none;
   background: var(--st-mint); color: var(--st-brand);
 }
-.tdb-kpi-ico .material-symbols-rounded { font-size: 18px; }
+.tdb-kpi-ico svg { font-size: 18px; }
 
 /* La valeur domine (§9) : elle passe AVANT le libellé à la lecture visuelle. */
 .tdb-kpi-v {
@@ -370,7 +370,7 @@
   text-decoration: none;
   transition: border-color .15s, background .15s;
 }
-.tdb-action .material-symbols-rounded { font-size: 19px; color: var(--st-brand); }
+.tdb-action svg { font-size: 19px; color: var(--st-brand); }
 .tdb-action:hover { border-color: rgba(5,150,105,.45); background: var(--st-canvas); }
 .tdb-action.is-primaire { background: var(--st-emerald); border-color: var(--st-emerald); color: #fff; }
 .tdb-action.is-primaire .material-symbols-rounded { color: #fff; }
@@ -412,7 +412,7 @@
   border-radius: 10px;
   background: var(--st-surface);
 }
-.tdb-alerte .material-symbols-rounded { grid-row: span 2; font-size: 20px; margin-top: .05rem; }
+.tdb-alerte svg { grid-row: span 2; font-size: 20px; margin-top: .05rem; }
 .tdb-alerte.is-critique { border-left-color: var(--st-danger); background: rgba(220,38,38,.03); }
 .tdb-alerte.is-critique .material-symbols-rounded { color: var(--st-danger); }
 .tdb-alerte.is-attention { border-left-color: var(--st-warning); }
@@ -583,7 +583,7 @@
   width: 34px; height: 34px; border-radius: 50%;
   border: 1px solid var(--st-border); background: var(--st-canvas); color: var(--st-slate);
 }
-.tdb-evt-ico .material-symbols-rounded { font-size: 18px; }
+.tdb-evt-ico svg { font-size: 18px; }
 .tdb-evt-ico.is-pub { background: rgba(22,163,74,.08); color: #15803D; border-color: rgba(22,163,74,.18); }
 .tdb-evt-ico.is-warn { background: rgba(217,119,6,.09); color: #B45309; border-color: rgba(217,119,6,.2); }
 .tdb-evt-ico.is-info { background: rgba(37,99,235,.08); color: #1D4ED8; border-color: rgba(37,99,235,.18); }

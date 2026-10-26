@@ -11,16 +11,18 @@
     .fc .fc-daygrid-day-number, .fc .fc-col-header-cell-cushion { color: inherit; text-decoration: none; }
     .evt-live { background: #09B850; color: #0E2A1E; }
     .evt-examen { background: #0E2A1E; color: #fff; }
+    .evt-campagne { background: #3b82f6; color: #fff; }
     .evt-maintenance { background: #fab219; color: #3b2a00; }
   </style>
 @endpush
 
 <div>
-  <x-premium.entete titre="Calendrier" sous="Les lives, les sessions d'examen et les maintenances, au même endroit. Cliquez un événement pour ouvrir son écran." />
+  <x-premium.entete titre="Calendrier" sous="Les lives, les sessions d'examen, les campagnes et les maintenances, au même endroit. Cliquez un événement pour ouvrir son écran." />
 
   <div class="flex flex-wrap items-center gap-4 mb-4 text-sm texte-2" aria-label="Légende">
     <span class="inline-flex items-center gap-1.5"><i class="w-3 h-3 rounded-sm" style="background:#09B850"></i>Live</span>
     <span class="inline-flex items-center gap-1.5"><i class="w-3 h-3 rounded-sm" style="background:#0E2A1E"></i>Examen</span>
+    <span class="inline-flex items-center gap-1.5"><i class="w-3 h-3 rounded-sm" style="background:#3b82f6"></i>Campagne</span>
     <span class="inline-flex items-center gap-1.5"><i class="w-3 h-3 rounded-sm" style="background:#fab219"></i>Maintenance</span>
   </div>
 

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Policies;
 
+use App\Core\Lms\Services\EspaceDuMentor;
 use App\Enums\UserRole;
+use App\Models\Enrollment;
 use App\Models\User;
 
 /**
@@ -46,7 +48,21 @@ final class UserPolicy
      */
     public function view(User $utilisateur, User $cible): bool
     {
-        return $utilisateur->can('user.view') || $utilisateur->is($cible);
+        if ($utilisateur->can('user.view') || $utilisateur->is($cible)) {
+            return true;
+        }
+
+        // Un mentor ouvre la fiche de SES apprenants : inscrits à l'un de ses cours.
+        return $utilisateur->can('student.view') && self::estApprenantDe($utilisateur, $cible);
+    }
+
+    /** Vrai si `$cible` est inscrit à au moins un cours encadré par `$mentor`. */
+    public static function estApprenantDe(User $mentor, User $cible): bool
+    {
+        $cours = app(EspaceDuMentor::class)->idsDesCours($mentor);
+
+        return $cours !== [] && Enrollment::query()
+            ->where('user_id', $cible->id)->whereIn('course_id', $cours)->exists();
     }
 
     /**

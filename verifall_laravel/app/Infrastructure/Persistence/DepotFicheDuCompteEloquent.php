@@ -8,10 +8,12 @@ use App\Core\Application\Contracts\DepotFicheDuCompte;
 use App\Models\AssignmentSubmission;
 use App\Models\AuditLog;
 use App\Models\Certificate;
+use App\Models\ConsultationHub;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ExamAttempt;
+use App\Models\HistoriqueConnexion;
 use App\Models\KycSubmission;
 use App\Models\Payment;
 use App\Models\QuizAttempt;
@@ -57,6 +59,8 @@ final class DepotFicheDuCompteEloquent implements DepotFicheDuCompte
         'paiements' => ['date' => 'created_at', 'pack' => 'pack', 'montant' => 'amount_fcfa', 'unites' => 'units', 'statut' => 'status'],
         'forum' => ['sujet' => 'title', 'reponses' => 'replies_count', 'creeLe' => 'created_at'],
         'journal' => ['date' => 'created_at', 'action' => 'action', 'module' => 'module'],
+        'connexions' => ['date' => 'created_at', 'resultat' => 'resultat', 'espace' => 'espace'],
+        'lectures-hub' => ['date' => 'created_at', 'rubrique' => 'rubrique', 'titre' => 'titre'],
         'verifications-assignees' => ['affirmation' => 'claim', 'statut' => 'status', 'assigneeLe' => 'assigned_at', 'creeLe' => 'created_at'],
         'cours-encadres' => ['titre' => 'title', 'publie' => 'is_published', 'inscrits' => 'enrollments_count', 'creeLe' => 'created_at'],
         'corrections-devoirs' => ['statut' => 'status', 'note' => 'grade', 'corrigeLe' => 'reviewed_at'],
@@ -185,6 +189,9 @@ final class DepotFicheDuCompteEloquent implements DepotFicheDuCompte
                     ->where('target_type', User::class)
                     ->where('target_uuid', $compte->uuid))),
 
+            'connexions' => HistoriqueConnexion::query()->where('user_id', $compte->id),
+            'lectures-hub' => ConsultationHub::query()->where('user_id', $compte->id),
+
             'verifications-assignees' => Verification::query()->where('assigned_to', $compte->id),
             'cours-encadres' => Course::query()->where('instructor_id', $compte->id),
             'corrections-devoirs' => AssignmentSubmission::query()->where('reviewed_by', $compte->id),
@@ -253,6 +260,13 @@ final class DepotFicheDuCompteEloquent implements DepotFicheDuCompte
             // d'audit », sous la même permission.
             'journal' => $requete
                 ->select(['id', 'actor_id', 'actor_label', 'action', 'module', 'target_type', 'target_uuid', 'target_label', 'created_at']),
+
+            // Ni `ip_hash` : l'empreinte ne sert qu'à corréler, jamais à s'afficher.
+            'connexions' => $requete
+                ->select(['id', 'espace', 'resultat', 'methode', 'navigateur', 'systeme', 'ip_tronquee', 'pays', 'created_at']),
+
+            'lectures-hub' => $requete
+                ->select(['id', 'rubrique', 'titre', 'action', 'created_at']),
 
             'cours-encadres' => $requete
                 ->select(['id', 'title', 'level', 'is_published', 'published_at', 'created_at'])
@@ -346,6 +360,15 @@ final class DepotFicheDuCompteEloquent implements DepotFicheDuCompte
                     ->where('action', 'like', $motif)
                     ->orWhere('actor_label', 'like', $motif)
                     ->orWhere('target_label', 'like', $motif)));
+                break;
+
+            case 'connexions':
+                $requete->when($cherche, static fn (Builder $q) => $q->where(static fn (Builder $ou) => $ou
+                    ->where('navigateur', 'like', $motif)->orWhere('systeme', 'like', $motif)->orWhere('ip_tronquee', 'like', $motif)));
+                break;
+
+            case 'lectures-hub':
+                $requete->when($cherche, static fn (Builder $q) => $q->where('titre', 'like', $motif));
                 break;
 
             case 'cours-encadres':

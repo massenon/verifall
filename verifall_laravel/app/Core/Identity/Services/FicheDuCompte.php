@@ -14,9 +14,11 @@ use App\Enums\UserRole;
 use App\Models\AssignmentSubmission;
 use App\Models\AuditLog;
 use App\Models\Certificate;
+use App\Models\ConsultationHub;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\ExamAttempt;
+use App\Models\HistoriqueConnexion;
 use App\Models\Payment;
 use App\Models\QuizAttempt;
 use App\Models\Thread;
@@ -79,6 +81,10 @@ final readonly class FicheDuCompte
         'paiements' => ['libelle' => 'Paiements', 'roles' => null],
         'forum' => ['libelle' => 'Forum', 'roles' => null],
         'journal' => ['libelle' => 'Journal', 'roles' => null],
+        // Historiques RGPD (arbitrage n° 178) : mêmes droits que le Journal. Les lectures du
+        // Hub n'existent que si le compte a consenti à les garder.
+        'connexions' => ['libelle' => 'Connexions', 'roles' => null],
+        'lectures-hub' => ['libelle' => 'Lectures du Hub', 'roles' => null],
         'verifications-assignees' => ['libelle' => 'Vérifications assignées', 'roles' => [UserRole::Admin, UserRole::Moderateur, UserRole::Mentor]],
         'cours-encadres' => ['libelle' => 'Cours encadrés', 'roles' => [UserRole::Admin, UserRole::Mentor]],
         'corrections-devoirs' => ['libelle' => 'Corrections de devoirs', 'roles' => [UserRole::Admin, UserRole::Mentor]],
@@ -157,7 +163,10 @@ final readonly class FicheDuCompte
 
         $candidats = [];
         foreach (self::ONGLETS as $cle => $definition) {
-            if ($cle === 'journal' && ! $porte->allows('viewAny', AuditLog::class)) {
+            if (in_array($cle, ['journal', 'connexions', 'lectures-hub'], true) && ! $porte->allows('viewAny', AuditLog::class)) {
+                continue;
+            }
+            if ($cle === 'lectures-hub' && ! app(HistoriqueDuHub::class)->estActif($compte)) {
                 continue;
             }
             $candidats[] = $cle;
@@ -178,6 +187,35 @@ final readonly class FicheDuCompte
         }
 
         return $onglets;
+    }
+
+    /**
+     * Le regard est-il RESTREINT ? Oui pour qui peut ouvrir la fiche sans le droit
+     * de lister les comptes ni être le compte lui-même : un mentor devant son
+     * apprenant. Il ne voit alors que ce qui relève de son accompagnement.
+     */
+    public function estRestreint(User $acteur, User $compte): bool
+    {
+        return ! $acteur->can('user.view') && ! $acteur->is($compte);
+    }
+
+    /**
+     * L'identité vue par un mentor : nom, ville, ancienneté, progression. Ni courriel,
+     * ni dossier d'identité, ni connexions, ni solde — rien qui ne serve pas à suivre
+     * la personne dans SES cours.
+     *
+     * @return array{nom: string, initiales: string, ville: ?string, inscritLe: ?string, points: int, serie: int}
+     */
+    public function identiteReduite(User $compte): array
+    {
+        return [
+            'nom' => (string) $compte->name,
+            'initiales' => $compte->initiales() !== '' ? $compte->initiales() : '?',
+            'ville' => $compte->city,
+            'inscritLe' => $this->date($compte->created_at),
+            'points' => (int) $compte->xp,
+            'serie' => (int) $compte->streak_days,
+        ];
     }
 
     /**
@@ -244,12 +282,22 @@ final readonly class FicheDuCompte
         $porte = Gate::forUser($acteur);
         $porte->authorize('view', $compte);
 
+        // Un mentor n'accède pas aux onglets d'un apprenant : sa vue est celle de ses cours.
+        if ($this->estRestreint($acteur, $compte)) {
+            throw new AuthorizationException('Cette fiche ne se consulte pas par onglets.');
+        }
+
         if (! array_key_exists($onglet, self::ONGLETS)) {
             throw new AuthorizationException('Onglet inconnu.');
         }
 
-        if ($onglet === 'journal') {
+        if (in_array($onglet, ['journal', 'connexions', 'lectures-hub'], true)) {
             $porte->authorize('viewAny', AuditLog::class);
+        }
+
+        // Sans consentement, les lectures du Hub ne sont pas conservées : rien à montrer.
+        if ($onglet === 'lectures-hub' && ! app(HistoriqueDuHub::class)->estActif($compte)) {
+            throw new AuthorizationException('Aucun consentement à l’historique du Hub.');
         }
 
         if ($requete->export) {
@@ -404,6 +452,29 @@ final readonly class FicheDuCompte
                 'verdict' => $m->official_verdict?->libelle(),
                 'verrouille' => (bool) $m->is_locked,
                 'creeLe' => $this->date($m->created_at),
+            ],
+
+            $m instanceof HistoriqueConnexion => [
+                'date' => $this->date($m->created_at, true),
+                'resultat' => match ($m->resultat) {
+                    'reussie' => 'Réussie', 'bloquee' => 'Bloquée', default => 'Échouée',
+                },
+                'ton' => $m->resultat === 'reussie' ? 'ok' : 'alerte',
+                'espace' => $m->espace === 'console' ? 'Console' : 'Espace citoyen',
+                'methode' => match ($m->methode) {
+                    'sociale' => 'Compte social', 'deverrouillage' => 'Déverrouillage', default => 'Mot de passe',
+                },
+                'appareil' => trim(($m->navigateur ?? '').' · '.($m->systeme ?? ''), ' ·') ?: '—',
+                'reseau' => ($m->ip_tronquee ?? '—').($m->pays ? ' ('.$m->pays.')' : ''),
+            ],
+
+            $m instanceof ConsultationHub => [
+                'date' => $this->date($m->created_at, true),
+                'rubrique' => match ($m->rubrique) {
+                    'portail' => 'Portail officiel', 'offre' => 'Offre d’emploi', default => 'Actualité',
+                },
+                'titre' => (string) $m->titre,
+                'action' => (string) $m->action,
             ],
 
             $m instanceof AuditLog => [

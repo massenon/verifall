@@ -7,6 +7,8 @@ use App\Enums\UserRole;
 use App\Livewire\Auth\StaffForgotPassword;
 use App\Livewire\Staff\MonCompte;
 use App\Models\AuditLog;
+use App\Models\Course;
+use App\Models\Enrollment;
 use App\Models\HistoriqueConnexion;
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
@@ -107,4 +109,22 @@ it('laisse un mentor ouvrir sa propre fiche, et seulement la sienne', function (
     $autre = User::factory()->actif()->create();
     $this->actingAs($this->membre, 'staff')->get(route('staff.users.show', $autre))->assertForbidden();
     $this->actingAs($this->membre, 'staff')->getJson(route('staff.users.show.data', ['user' => $autre->uuid, 'onglet' => 'verifications']))->assertForbidden();
+});
+
+it('ouvre au mentor la fiche de son apprenant, réduite à sa progression', function (): void {
+    $cours = Course::query()->forceCreate(['uuid' => (string) Str::uuid(), 'slug' => 'c-mentor', 'title' => 'Cours du mentor', 'category' => 'x', 'description' => 'd', 'level' => 'beginner', 'duration_label' => '1 h', 'cost_units' => 0, 'instructor_id' => $this->membre->id]);
+    $apprenant = User::factory()->actif()->create(['email' => 'apprenant-prive@example.test', 'name' => 'Apprenant Visible']);
+    Enrollment::query()->forceCreate(['uuid' => (string) Str::uuid(), 'user_id' => $apprenant->id, 'course_id' => $cours->id, 'status' => 'in_progress', 'progress' => 40, 'last_activity_at' => now()]);
+
+    $page = $this->actingAs($this->membre, 'staff')->get(route('staff.users.show', $apprenant))->assertOk();
+    $page->assertSee('Apprenant Visible')->assertSee('Cours du mentor')->assertSee('40 %');
+    expect($page->getContent())->not->toContain('apprenant-prive@example.test');
+
+    // Pas d'onglets de données : ni connexions, ni paiements.
+    $this->actingAs($this->membre, 'staff')->getJson(route('staff.users.show.data', ['user' => $apprenant->uuid, 'onglet' => 'paiements']))->assertForbidden();
+    $this->actingAs($this->membre, 'staff')->getJson(route('staff.users.show.data', ['user' => $apprenant->uuid, 'onglet' => 'connexions']))->assertForbidden();
+
+    // Un citoyen inscrit ailleurs : refus.
+    $etranger = User::factory()->actif()->create();
+    $this->actingAs($this->membre, 'staff')->get(route('staff.users.show', $etranger))->assertForbidden();
 });

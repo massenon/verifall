@@ -8,6 +8,7 @@ use App\Core\Application\Services\ModeMaintenance;
 use App\Core\Lms\Services\EspaceDuMentor;
 use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
 use App\Models\Exam;
 use App\Models\ExamSession;
 use App\Models\LiveClass;
@@ -16,13 +17,14 @@ use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 /**
  * Les événements du calendrier de la console, pour une fenêtre de dates.
  *
- * Trois familles, chacune soumise au droit de lister son écran : les lives, les
- * sessions d'examen, les maintenances. Un mentor ne voit que SES lives (ceux
+ * Quatre familles, chacune soumise au droit de lister son écran : les lives, les
+ * sessions d'examen, les campagnes, les maintenances. Un mentor ne voit que SES lives (ceux
  * qu'il anime ou qui portent sur ses cours) — sauf s'il peut tout lister.
  * La fenêtre est bornée à 100 jours : un calendrier n'a pas à charger l'année.
  */
@@ -79,6 +81,22 @@ final class DonneesDuCalendrierController extends Controller
                         'classNames' => ['evt-examen'],
                         'url' => route('staff.exams'),
                         'extendedProps' => ['type' => 'Examen'],
+                    ];
+                });
+        }
+
+        if ($membre->can('campaign.view')) {
+            Campaign::query()
+                ->whereBetween(DB::raw('coalesce(scheduled_at, sent_at)'), [$debut, $fin])
+                ->orderBy('scheduled_at')->limit(200)->get(['id', 'name', 'scheduled_at', 'sent_at'])
+                ->each(function (Campaign $campagne) use (&$evenements): void {
+                    $quand = $campagne->scheduled_at ?? $campagne->sent_at;
+                    $evenements[] = [
+                        'title' => 'Campagne — '.$campagne->name,
+                        'start' => $quand->toIso8601String(),
+                        'classNames' => ['evt-campagne'],
+                        'url' => route('staff.campaigns'),
+                        'extendedProps' => ['type' => 'Campagne'],
                     ];
                 });
         }

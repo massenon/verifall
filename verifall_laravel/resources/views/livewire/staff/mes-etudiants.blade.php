@@ -54,7 +54,7 @@
             @foreach ($inscrits as $inscription)
                 <tr wire:key="etu-{{ $inscription->uuid }}">
                     <td>
-                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $inscription->user?->name ?? 'Compte supprimé' }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">@if ($inscription->user)<a href="{{ route('staff.users.show', $inscription->user) }}" class="hover:underline">{{ $inscription->user->name }}</a>@else Compte supprimé @endif</p>
                         <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $inscription->user?->email }}</p>
                     </td>
 
