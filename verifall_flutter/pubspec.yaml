@@ -125,33 +125,28 @@ flutter:
     # pas avoir a rouvrir ce fichier pendant que quatre autres parcours ecrivent.
     - assets/onboarding/
 
-  # Les polices sont des ressources LOCALES, jamais réseau (02-DESIGN-SYSTEM, en-tête
-  # de section) : un premier lancement qui attend une police distante affiche un écran
-  # nu sur une connexion lente — c'est-à-dire dans le cas d'usage principal du produit.
-  #
-  # Les fichiers ne sont pas versionnés dans ce dépôt (licences à déposer par le
-  # porteur du projet). Voir assets/fonts/README.md pour les six fichiers attendus.
-  # Tant qu'ils manquent, `VfTypography` retombe sur la police système et les captures
-  # de référence (06-TESTS §6.5) ne sont PAS exploitables.
-  #
-  # fonts:
-  #   - family: Inter
-  #     fonts:
-  #       - asset: assets/fonts/Inter-Regular.ttf
-  #       - asset: assets/fonts/Inter-Medium.ttf
-  #         weight: 500
-  #       - asset: assets/fonts/Inter-SemiBold.ttf
-  #         weight: 600
-  #       - asset: assets/fonts/Inter-Bold.ttf
-  #         weight: 700
-  #   - family: Instrument Sans
-  #     fonts:
-  #       - asset: assets/fonts/InstrumentSans-Bold.ttf
-  #         weight: 700
-  #       - asset: assets/fonts/InstrumentSans-ExtraBold.ttf
-  #         weight: 800
-  #   - family: IBM Plex Mono
-  #     fonts:
-  #       - asset: assets/fonts/IBMPlexMono-Regular.ttf
-  #       - asset: assets/fonts/IBMPlexMono-SemiBold.ttf
-  #         weight: 600
+  # Polices LOCALES (02-DESIGN-SYSTEM) — Inter 4.1, Instrument Sans 1.0 (VF wdth=100),
+  # IBM Plex Mono 1.1 ; toutes sous SIL OFL.
+  # InstrumentSans-ExtraBold.ttf = instance wght=700 (maximum de la famille) ;
+  # déclaré weight: 800 pour que Flutter l'utilise quand le thème demande FontWeight.w800.
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Inter-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Inter-Bold.ttf
+          weight: 700
+    - family: Instrument Sans
+      fonts:
+        - asset: assets/fonts/InstrumentSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/InstrumentSans-ExtraBold.ttf
+          weight: 800
+    - family: IBM Plex Mono
+      fonts:
+        - asset: assets/fonts/IBMPlexMono-Regular.ttf
+        - asset: assets/fonts/IBMPlexMono-SemiBold.ttf
+          weight: 600
