@@ -1,7 +1,10 @@
+import 'dart:async' show unawaited;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/errors/failure.dart';
+import '../../../../core/telemetry/consentement_telemetrie_store.dart';
 import '../../../../domain/entities/auth_consentements.dart';
 import '../../../../domain/entities/auth_inscription.dart';
 import '../../../../domain/repositories/auth_repository.dart';
@@ -30,6 +33,7 @@ class EtatInscription {
     this.motDePasse = '',
     this.codeParrainage = '',
     this.consentements = const AuthConsentements(),
+    this.consentementTelemetrie = false,
     this.formulaire = const EtatAuth(),
   });
 
@@ -44,6 +48,14 @@ class EtatInscription {
   final String motDePasse;
   final String codeParrainage;
   final AuthConsentements consentements;
+
+  /// Consentement local de télémétrie — **ne part pas vers le serveur**.
+  ///
+  /// Il est séparé de [AuthConsentements] parce qu'il pilote si un incident
+  /// quitte l'appareil, pas si un traitement est autorisé côté API. Le
+  /// mélanger dans le même objet ferait voyager une décision purement locale.
+  final bool consentementTelemetrie;
+
   final EtatAuth formulaire;
 
   EtatInscription copyWith({
@@ -55,6 +67,7 @@ class EtatInscription {
     String? motDePasse,
     String? codeParrainage,
     AuthConsentements? consentements,
+    bool? consentementTelemetrie,
     EtatAuth? formulaire,
   }) => EtatInscription(
     prenom: prenom ?? this.prenom,
@@ -65,6 +78,8 @@ class EtatInscription {
     motDePasse: motDePasse ?? this.motDePasse,
     codeParrainage: codeParrainage ?? this.codeParrainage,
     consentements: consentements ?? this.consentements,
+    consentementTelemetrie:
+        consentementTelemetrie ?? this.consentementTelemetrie,
     formulaire: formulaire ?? this.formulaire,
   );
 
@@ -127,13 +142,19 @@ class SignupFormController extends Notifier<EtatInscription> {
   /// POURQUOI la valeur voulue et non une bascule : une bascule perd sa cible
   /// quand l'état est reconstruit entre le geste et l'écriture, et l'on
   /// enregistrerait l'inverse du consentement donné.
-  void majConsentement({bool? cgu, bool? confidentialite, bool? newsletter}) {
+  void majConsentement({
+    bool? cgu,
+    bool? confidentialite,
+    bool? newsletter,
+    bool? telemetrie,
+  }) {
     state = state.copyWith(
       consentements: state.consentements.copyWith(
         cgu: cgu,
         confidentialite: confidentialite,
         newsletter: newsletter,
       ),
+      consentementTelemetrie: telemetrie,
     );
   }
 
@@ -196,6 +217,12 @@ class SignupFormController extends Notifier<EtatInscription> {
       // Le mot de passe est efface de l'état des que l'envoi a reussi : il n'a
       // plus aucune raison de rester en memoire, et l'ecran suivant est celui
       // du code.
+      // Persistance locale du consentement de télémétrie. Elle n'attend pas
+      // de réseau et ne doit pas bloquer la suite du parcours : `unawaited`
+      // est délibéré — le coffre sécurisé peut prendre quelques dizaines de ms.
+      if (state.consentementTelemetrie) {
+        unawaited(ConsentementTelemetrieStore().ecrire(true));
+      }
       state = state.copyWith(motDePasse: '', formulaire: const EtatAuth());
       return InscriptionAConfirmer(inscription);
     } on Failure catch (echec) {

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../logging/logging_providers.dart';
 import '../network/network_providers.dart';
+import 'consentement_telemetrie_store.dart';
 import 'identifiant_installation.dart';
 import 'puits_de_telemetrie.dart';
 import 'rapporteur_de_plantage.dart';
@@ -9,6 +10,19 @@ import 'rapporteur_de_plantage.dart';
 /// L'identifiant anonyme d'installation, partagé.
 final Provider<IdentifiantDInstallation> identifiantDInstallationProvider =
     Provider<IdentifiantDInstallation>((Ref ref) => IdentifiantDInstallation());
+
+/// Le dépôt du consentement de télémétrie (stockage sécurisé local).
+final Provider<ConsentementTelemetrieStore> consentementTelemetrieStoreProvider =
+    Provider<ConsentementTelemetrieStore>(
+      (Ref ref) => ConsentementTelemetrieStore(),
+    );
+
+/// Le consentement de télémétrie tel qu'il est stocké — pour les écrans qui
+/// doivent l'afficher et le modifier (Réglages).
+final FutureProvider<bool> consentementTelemetrieLuProvider =
+    FutureProvider<bool>(
+      (Ref ref) => ref.watch(consentementTelemetrieStoreProvider).lire(),
+    );
 
 /// Le puits vers lequel les incidents quittent l'appareil.
 ///

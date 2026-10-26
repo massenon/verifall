@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../../../core/errors/failure.dart';
 import '../../../../core/network/auth_controller.dart';
 import '../../../../core/router/vf_routes.dart';
+import '../../../../core/telemetry/telemetry_providers.dart';
 import '../../../../core/theme/vf_colors.dart';
 import '../../../../core/theme/vf_metrics.dart';
 import '../../../../core/theme/vf_typography.dart';
@@ -74,6 +76,9 @@ class _Corps extends ConsumerWidget {
     final AsyncValue<String> version = ref.watch(versionInstalleeProvider);
     final Uri? confidentialite = VfWebLinks.confidentialite(
       ref.watch(appConfigProvider),
+    );
+    final AsyncValue<bool> telemetrie = ref.watch(
+      consentementTelemetrieLuProvider,
     );
 
     return ListView(
@@ -150,6 +155,15 @@ class _Corps extends ConsumerWidget {
               icon: Icons.download_outlined,
               onTap: () => _exporter(context, ref),
             ),
+            VfSwitchTile(
+              label: 'Rapports de diagnostic',
+              description:
+                  'Incidents anonymes — jamais de données personnelles. '
+                  'Consentement local, retiré à la déconnexion.',
+              value: telemetrie.valueOrNull ?? false,
+              onChanged: (bool valeur) =>
+                  _basculerTelemetrie(context, ref, valeur),
+            ),
             // La ligne n'apparait QUE si l'adresse du site est configuree : une
             // ligne qui n'ouvre rien serait pire que son absence. Voir
             // `AppConfig.webBaseUrl` et l'arbitrage n° 138.
@@ -219,6 +233,30 @@ class _Corps extends ConsumerWidget {
         );
       }
     }
+  }
+
+  Future<void> _basculerTelemetrie(
+    BuildContext context,
+    WidgetRef ref,
+    bool valeur,
+  ) async {
+    await ref.read(consentementTelemetrieStoreProvider).ecrire(valeur);
+    if (!valeur) {
+      // La révocation ferme le SDK Sentry immédiatement. Les incidents suivants
+      // ne seront plus transmis dans cette session. Le puits reste branché en
+      // mémoire, mais la porte de consentement retourne `false` au redémarrage.
+      await Sentry.close();
+    }
+    ref.invalidate(consentementTelemetrieLuProvider);
+    if (!context.mounted) {
+      return;
+    }
+    VfToast.show(
+      context,
+      message: valeur
+          ? 'Rapports de diagnostic activés — actifs au prochain démarrage.'
+          : 'Rapports de diagnostic désactivés.',
+    );
   }
 
   Future<void> _basculerNewsletter(

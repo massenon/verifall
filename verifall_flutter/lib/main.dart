@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // `Override` et les types de famille vivent dans `misc.dart`, que
 // `flutter_riverpod` ne reexporte pas (arbitrage n° 142).
 import 'package:riverpod/misc.dart' show Override;
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'app.dart';
 import 'core/config/app_config.dart';
@@ -11,7 +12,9 @@ import 'core/network/local_data_purger.dart';
 import 'core/network/network_providers.dart';
 import 'core/session/deconnexion.dart';
 import 'core/state/riverpod_retry.dart';
+import 'core/telemetry/consentement_telemetrie_store.dart';
 import 'core/telemetry/identifiant_installation.dart';
+import 'core/telemetry/sentry_puits_de_telemetrie.dart';
 import 'core/telemetry/telemetry_providers.dart';
 import 'data/datasources/local/database.dart';
 import 'data/datasources/remote/auth/nom_appareil.dart';
@@ -50,6 +53,33 @@ Future<void> main() async {
   // LIVRAISON §7.6).
   final String identifiantInstallation = await IdentifiantDInstallation()
       .lireOuCreer();
+
+  // Le consentement de telemetrie, lu une fois au demarrage. C'est la seule
+  // lecture synchrone dont `main()` a besoin : on ne peut pas initialiser
+  // Sentry apres la construction du conteneur de providers, parce que
+  // `RapporteurDePlantage.brancher()` est appele immediatement apres.
+  final bool consentementTelemetrie = await ConsentementTelemetrieStore()
+      .lire();
+  final bool sentryActif =
+      consentementTelemetrie && config.telemetryDsn.isNotEmpty;
+
+  if (sentryActif) {
+    // L'init Sentry n'a lieu QUE si le consentement existe et que le DSN est
+    // configure. Pas de Sentry.init au demarrage sans les deux conditions.
+    //
+    // `attachFlutterErrorHandler: false` : RapporteurDePlantage installe deja
+    // FlutterError.onError et PlatformDispatcher.onError. Un second handler
+    // Sentry produirait deux entrees par incident, dont une brute (non
+    // expurgee). L'expurgation de LogRedactor se fait UNIQUEMENT dans le
+    // rapporteur ; cette option empeche Sentry de court-circuiter ce chemin.
+    await SentryFlutter.init(
+      (SentryFlutterOptions options) {
+        options.dsn = config.telemetryDsn;
+        options.attachFlutterErrorHandler = false;
+        options.enableAutoSessionTracking = false;
+      },
+    );
+  }
 
   final ProviderContainer container = ProviderContainer(
     // LA politique de reessai des providers, posee UNE FOIS pour les cinq
@@ -92,6 +122,19 @@ Future<void> main() async {
       // est moins precis mais jamais faux.
       if (nomAppareil != null)
         nomAppareilProvider.overrideWithValue(NomAppareilFixe(nomAppareil)),
+      // La porte de consentement lit la valeur capturee au demarrage. Elle ne
+      // change pas en cours de session : une revocation en Reglages ferme Sentry
+      // et s'applique au prochain demarrage ; un consentement en cours
+      // d'inscription s'active au demarrage suivant.
+      consentementTelemetrieProvider.overrideWith(
+        (Ref ref) => () => consentementTelemetrie,
+      ),
+      // Le puits Sentry n'est branche QUE si l'init a eu lieu — c'est la meme
+      // condition, evaluee une seule fois, qui garde les deux coherents.
+      if (sentryActif)
+        puitsDeTelemetrieProvider.overrideWithValue(
+          const SentryPuitsDetelemetrie(),
+        ),
     ],
   );
 

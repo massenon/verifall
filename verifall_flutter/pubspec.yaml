@@ -87,6 +87,9 @@ dependencies:
   # Le jour où Reverb sera réellement déployé, on le redéclarera en sachant
   # pourquoi.
 
+  # --- Télémétrie de plantage (07-LIVRAISON §7.6) --------------------------
+  sentry_flutter: ^8.11.0              # Puits Sentry — uniquement si DSN configuré et consentement.
+
   # --- Ajouts de la passe d'integration ------------------------------------
   # `device_info_plus` : le champ `appareil` des trois appels qui emettent un
   # jeton doit porter LE MODELE REEL du telephone (definition de fini de M1).
