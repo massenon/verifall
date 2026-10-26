@@ -106,6 +106,11 @@
          data-vdt-evenement="{{ \App\Livewire\Staff\SignalementsContenu::EVENEMENT_TABLE_A_RECHARGER }}">
 
         <section class="mb-4 flex flex-wrap items-center gap-3">
+            <div class="flex-1 min-w-[220px]">
+                <label for="sc-q" class="sr-only">Rechercher un signalement</label>
+                <input id="sc-q" type="search" data-vdt-recherche data-vdt-url="q" class="champ" placeholder="Rechercher un motif, un signaleur…">
+            </div>
+
             <select data-vdt-filtre="statut" data-vdt-url="statut" data-vdt-livewire="filtreStatut" class="champ w-auto" aria-label="Filtrer par statut">
                 <option value="">Statut : tous</option>
                 @foreach ($statuts as $statut)

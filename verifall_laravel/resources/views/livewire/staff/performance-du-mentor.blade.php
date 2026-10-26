@@ -30,7 +30,9 @@
                        title="Aucun cours ne vous est attribué"
                        description="Vos chiffres apparaîtront ici dès qu'un cours vous sera confié comme formateur." />
     @else
-        <x-data-table variant="staff" :count="count($lignes)" :selectable="false">
+        <x-premium.barre-de-liste placeholder="Rechercher un cours…" />
+
+        <x-data-table variant="staff" :count="$page->total()" :selectable="false">
             <x-slot:head>
                 <th scope="col">Cours</th>
                 <th scope="col">Apprenants</th>
@@ -40,7 +42,7 @@
                 <th class="text-right">Action</th>
             </x-slot:head>
 
-            @foreach ($lignes as $ligne)
+            @foreach ($page as $ligne)
                 <tr wire:key="perf-{{ $ligne['cours']->uuid }}">
                     <td>
                         <p class="font-semibold text-encre dark:text-white mb-0">{{ $ligne['cours']->title }}</p>
@@ -96,5 +98,7 @@
                 </tr>
             @endforeach
         </x-data-table>
+
+        <x-premium.pied-de-liste :liste="$page" />
     @endif
 </div>

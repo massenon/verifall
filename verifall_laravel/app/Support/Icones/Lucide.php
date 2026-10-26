@@ -49,7 +49,7 @@ final class Lucide
         'schedule' => 'clock', 'info' => 'info', 'done' => 'check', 'cancel' => 'circle-x', 'sync' => 'refresh-cw',
         'bolt' => 'zap', 'forum' => 'messages-square', 'favorite' => 'heart', 'quiz' => 'list-checks', 'receipt_long' => 'receipt',
         'campaign' => 'megaphone', 'database' => 'database', 'cloud_upload' => 'cloud-upload', 'history' => 'history',
-        'sensors' => 'radio', 'local_fire_department' => 'flame', 'translate' => 'languages', 'public' => 'globe',
+        'sensors' => 'radio', 'backup' => 'database-backup', 'insights' => 'chart-line', 'library_books' => 'library', 'inventory' => 'package', 'local_fire_department' => 'flame', 'translate' => 'languages', 'public' => 'globe',
     ];
 
     public static function existe(string $nom): bool

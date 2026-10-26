@@ -6,6 +6,7 @@ namespace App\Livewire\Staff;
 
 use App\Core\Lms\Services\EspaceDuMentor;
 use App\Models\User;
+use App\Support\Trait\ListeDeLaConsole;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
@@ -35,6 +36,8 @@ use Livewire\Component;
 #[Layout('components.layouts.staff', ['title' => "Performance · Vérif'All"])]
 final class PerformanceDuMentor extends Component
 {
+    use ListeDeLaConsole;
+
     public function mount(): void
     {
         abort_unless($this->acteur()->can('student.progress'), 403);
@@ -46,6 +49,7 @@ final class PerformanceDuMentor extends Component
 
         return view('livewire.staff.performance-du-mentor', [
             'lignes' => $lignes,
+            'page' => $this->paginerLaListe($lignes, fn (array $l): string => (string) ($l['cours']->title ?? '')),
             'totalApprenants' => array_sum(array_column($lignes, 'apprenants')),
             /*
              | La complétion d'ensemble est une MOYENNE DES MOYENNES, et l'écran

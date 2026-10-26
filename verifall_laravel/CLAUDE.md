@@ -110,6 +110,16 @@ déjà** celles de la quasi-totalité des écrans restants (`faq.*`, `partner.*`
 et elles sont semées. Un nouvel écran écrit sa Policy et sa garde de route —
 il n'invente pas de permission.
 
+## Règle de la console : toute liste a sa barre minimale
+
+Tout écran d'administration ou de mentor qui affiche un tableau offre, **au minimum** :
+une recherche, des filtres (repliés dans « Filtres avancés » quand il y en a plusieurs),
+le choix du nombre de lignes, la pagination avec son total (« Lignes 1 à 10 sur 130 »),
+un état vide qui propose de réinitialiser, et un bouton « Réinitialiser ».
+Briques : `<x-premium.barre-de-liste>` et `<x-premium.pied-de-liste>` ; trait
+`App\Support\Trait\ListeDeLaConsole` pour une liste construite en mémoire ; DataTables
+(`data-vdt-*`) pour les gros volumes. Une taille de page forgée dans l'adresse retombe sur 10.
+
 ## Flux d'exécution
 - Install : `composer install && cp .env.example .env && php artisan key:generate`
 - Dev : `php artisan serve` + `php artisan queue:work`

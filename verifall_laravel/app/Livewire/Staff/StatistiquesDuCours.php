@@ -9,11 +9,12 @@ use App\Core\Lms\Services\StatistiquesDeCours;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Support\Trait\InteractsWithToasts;
+use App\Support\Trait\ListeDeLaConsole;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
+use Livewire\Attributes\Url;
 use Livewire\Component;
-use Livewire\WithPagination;
 use RuntimeException;
 
 /**
@@ -42,8 +43,23 @@ use RuntimeException;
 #[Layout('components.layouts.staff', ['title' => "Statistiques du cours · Vérif'All"])]
 final class StatistiquesDuCours extends Component
 {
+    use ListeDeLaConsole;
+
+    /** '' | termine | en_cours | jamais */
+    #[Url(as: 'etat', except: '')]
+    public string $filtreEtat = '';
+
+    public function updatingFiltreEtat(): void
+    {
+        $this->resetPage();
+    }
+
+    protected function reinitialiserLesFiltres(): void
+    {
+        $this->reset('filtreEtat');
+    }
+
     use InteractsWithToasts;
-    use WithPagination;
 
     public string $slug = '';
 
@@ -63,7 +79,8 @@ final class StatistiquesDuCours extends Component
         return view('livewire.staff.statistiques-du-cours', [
             'cours' => $cours,
             'chiffres' => $statistiques->pour($cours),
-            'inscrits' => $statistiques->inscrits($cours),
+            'inscrits' => $statistiques->inscrits($cours, $this->lignesParPage(), $this->recherche, $this->filtreEtat),
+            'filtresActifs' => $this->filtreEtat !== '' ? 1 : 0,
             'reposJours' => StatistiquesDeCours::REPOS_JOURS,
         ]);
     }

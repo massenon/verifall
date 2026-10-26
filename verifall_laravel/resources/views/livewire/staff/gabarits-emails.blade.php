@@ -14,12 +14,52 @@
         Le texte de tout ce que la plateforme envoie. La liste est fermée : elle énumère les envois que le code déclenche, et rien d'autre.
     </x-premium.entete>
 
-    <x-data-table variant="staff" :count="count($gabarits)" :selectable="false">
+    <x-premium.barre-de-liste placeholder="Rechercher un événement, un sujet, une variable…" :actifs="$filtresActifs" reinitialiser="reinitialiserLaListe">
+        <div>
+            <label for="gab-f-etat" class="etiquette">État</label>
+            <select id="gab-f-etat" wire:model.live="filtreEtat" class="champ">
+                <option value="">Tous</option>
+                <option value="actif">Actif</option>
+                <option value="eteint">Éteint</option>
+                <option value="indispensable">Indispensable</option>
+                <option value="non_cable">Envoi non branché</option>
+            </select>
+        </div>
+        <div>
+            <label for="gab-f-texte" class="etiquette">Texte</label>
+            <select id="gab-f-texte" wire:model.live="filtreTexte" class="champ">
+                <option value="">Tous</option>
+                <option value="modifie">Modifié par l'équipe</option>
+                <option value="origine">Texte d'origine</option>
+            </select>
+        </div>
+        <div>
+            <label for="gab-f-variable" class="etiquette">Contient la variable</label>
+            <select id="gab-f-variable" wire:model.live="filtreVariable" class="champ">
+                <option value="">Toutes</option>
+                @foreach ($variablesDisponibles as $variable)<option value="{{ $variable }}">{{ $variable }}</option>@endforeach
+            </select>
+        </div>
+        <div>
+            <label for="gab-f-auteur" class="etiquette">Dernière modification par</label>
+            <select id="gab-f-auteur" wire:model.live="filtreAuteur" class="champ">
+                <option value="">Tous</option>
+                @foreach ($auteurs as $auteur)<option value="{{ $auteur }}">{{ $auteur }}</option>@endforeach
+            </select>
+        </div>
+    </x-premium.barre-de-liste>
+
+    <x-data-table variant="staff" :count="$gabarits->total()" :selectable="false">
         <x-slot:head>
-            <th scope="col">Événement déclencheur</th>
-            <th scope="col">Sujet de l'email</th>
+            @foreach ([['libelle', 'Événement déclencheur'], ['sujet', "Sujet de l'email"]] as [$col, $lib])
+                <th scope="col" aria-sort="{{ $tri === $col ? ($sens === 'asc' ? 'ascending' : 'descending') : 'none' }}">
+                    <button type="button" class="tri" wire:click="trierPar('{{ $col }}')">{{ $lib }}@if ($tri === $col)<x-lucide :name="$sens === 'asc' ? 'arrow-up' : 'arrow-down'" class="w-3 h-3" />@endif</button>
+                </th>
+            @endforeach
             <th scope="col">Variables</th>
-            <th scope="col">Dernière modif.</th>
+            <th scope="col" aria-sort="{{ $tri === 'modifieLe' ? ($sens === 'asc' ? 'ascending' : 'descending') : 'none' }}">
+                <button type="button" class="tri" wire:click="trierPar('modifieLe')">Dernière modif.@if ($tri === 'modifieLe')<x-lucide :name="$sens === 'asc' ? 'arrow-up' : 'arrow-down'" class="w-3 h-3" />@endif</button>
+            </th>
             <th class="text-right">Actions</th>
         </x-slot:head>
 
@@ -91,6 +131,14 @@
             </tr>
         @endforeach
     </x-data-table>
+
+    @if ($gabarits->isEmpty())
+        <div class="carte"><x-premium.vide icone="mails" titre="Aucun modèle ne correspond" texte="Changez la recherche ou retirez un filtre.">
+            <button type="button" class="btn-second" wire:click="reinitialiserLaListe">Réinitialiser les filtres</button>
+        </x-premium.vide></div>
+    @endif
+
+    <x-premium.pied-de-liste :liste="$gabarits" />
 
     {{-- ═══════════════════════════════════════════════════════ le formulaire --}}
     <x-offcanvas-form variant="staff"

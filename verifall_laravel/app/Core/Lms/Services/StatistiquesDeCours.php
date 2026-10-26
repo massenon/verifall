@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Core\Lms\Services;
 
 use App\Core\Lms\Notifications\RelanceDeCours;
+use App\Enums\StatutInscription;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\User;
@@ -71,11 +72,17 @@ final class StatistiquesDeCours
      *
      * @return LengthAwarePaginator<int, Enrollment>
      */
-    public function inscrits(Course $cours, int $parPage = 20): LengthAwarePaginator
+    public function inscrits(Course $cours, int $parPage = 20, string $recherche = '', string $etat = ''): LengthAwarePaginator
     {
+        $motif = '%'.addcslashes(trim($recherche), '%_\\').'%';
+
         return Enrollment::query()
             ->with('user:id,uuid,name,email')
             ->where('course_id', $cours->getKey())
+            ->when(trim($recherche) !== '', fn ($q) => $q->whereHas('user', fn ($u) => $u->where('name', 'like', $motif)->orWhere('email', 'like', $motif)))
+            ->when($etat === 'termine', fn ($q) => $q->where('status', StatutInscription::Termine))
+            ->when($etat === 'en_cours', fn ($q) => $q->where('status', '!=', StatutInscription::Termine)->where('progress', '>', 0))
+            ->when($etat === 'jamais', fn ($q) => $q->where('progress', 0))
             ->orderBy('progress')
             ->orderBy('created_at')
             ->paginate($parPage);

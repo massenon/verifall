@@ -65,7 +65,9 @@
                        title="Aucune sauvegarde sur le disque"
                        description="Le dossier est vide ou n'existe pas. Aucune sauvegarde n'est produite par la plateforme : elle doit être mise en place hors d'elle — tâche cron du serveur, outil de l'hébergeur, ou sauvegarde cPanel programmée." />
     @else
-        <x-data-table variant="staff" :count="count($fichiers)" :selectable="false">
+        <x-premium.barre-de-liste placeholder="Rechercher un fichier…" />
+
+        <x-data-table variant="staff" :count="$page->total()" :selectable="false">
             <x-slot:head>
                 <th scope="col">Fichier</th>
                 <th scope="col">Date</th>
@@ -73,7 +75,7 @@
                 <th scope="col">Taille</th>
             </x-slot:head>
 
-            @foreach ($fichiers as $fichier)
+            @foreach ($page as $fichier)
                 <tr>
                     <td class="font-mono text-sm text-encre dark:text-white">{{ $fichier['nom'] }}</td>
                     <td class="whitespace-nowrap text-sm text-encre-2 dark:text-nuit-2">
@@ -88,6 +90,8 @@
                 </tr>
             @endforeach
         </x-data-table>
+
+        <x-premium.pied-de-liste :liste="$page" />
     @endif
 
     <p class="text-xs text-encre-3 dark:text-nuit-3 mt-4 mb-0">

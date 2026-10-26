@@ -54,7 +54,9 @@
                        title="Aucune tâche déclarée"
                        description="Le planificateur est vide. C'est un état correct si le produit n'a rien à faire périodiquement — ce n'est pas le cas ici, ce qui mérite un coup d'œil à routes/console.php." />
     @else
-        <x-data-table variant="staff" :count="count($taches)" :selectable="false">
+        <x-premium.barre-de-liste placeholder="Rechercher une tâche…" />
+
+        <x-data-table variant="staff" :count="$page->total()" :selectable="false">
             <x-slot:head>
                 <th scope="col">Tâche</th>
                 <th scope="col">Fréquence</th>
@@ -63,7 +65,7 @@
                 <th scope="col">État</th>
             </x-slot:head>
 
-            @foreach ($taches as $tache)
+            @foreach ($page as $tache)
                 <tr>
                     <td>
                         <p class="font-semibold text-encre dark:text-white mb-0">
@@ -101,6 +103,8 @@
                 </tr>
             @endforeach
         </x-data-table>
+
+        <x-premium.pied-de-liste :liste="$page" />
     @endif
 
     <p class="text-xs text-encre-3 dark:text-nuit-3 mt-4 mb-0">

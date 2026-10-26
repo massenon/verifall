@@ -11,12 +11,15 @@ use App\Models\EmailTemplate;
 use App\Models\User;
 use App\Support\Trait\InteractsWithToasts;
 use Database\Seeders\GabaritsDEmailSeeder;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Url;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 /**
  * « Gabarits d'emails » — le texte de tout ce que la plateforme envoie.
@@ -60,6 +63,36 @@ use Livewire\Component;
 final class GabaritsEmails extends Component
 {
     use InteractsWithToasts;
+    use WithPagination;
+
+    /** Les valeurs acceptées du nombre de lignes : ce que la barre de liste propose. */
+    private const PAR_PAGE = [10, 25, 50, 100];
+
+    #[Url(as: 'q', except: '')]
+    public string $recherche = '';
+
+    /** '' | actif | eteint | indispensable | non_cable */
+    #[Url(as: 'etat', except: '')]
+    public string $filtreEtat = '';
+
+    /** '' | modifie | origine */
+    #[Url(as: 'texte', except: '')]
+    public string $filtreTexte = '';
+
+    #[Url(as: 'variable', except: '')]
+    public string $filtreVariable = '';
+
+    #[Url(as: 'auteur', except: '')]
+    public string $filtreAuteur = '';
+
+    #[Url(as: 'tri', except: 'libelle')]
+    public string $tri = 'libelle';
+
+    #[Url(as: 'sens', except: 'asc')]
+    public string $sens = 'asc';
+
+    #[Url(as: 'par', except: 10)]
+    public int $parPage = 10;
 
     #[Locked]
     public ?string $enEdition = null;
@@ -81,10 +114,81 @@ final class GabaritsEmails extends Component
         abort_unless($this->peutGerer(), 403);
     }
 
+    public function updating(string $nom): void
+    {
+        // Toute recherche ou tout filtre ramène à la première page.
+        if (in_array($nom, ['recherche', 'filtreEtat', 'filtreTexte', 'filtreVariable', 'filtreAuteur', 'parPage'], true)) {
+            $this->resetPage();
+        }
+    }
+
+    public function reinitialiserLaListe(): void
+    {
+        $this->reset('recherche', 'filtreEtat', 'filtreTexte', 'filtreVariable', 'filtreAuteur', 'tri', 'sens');
+        $this->parPage = 10;
+        $this->resetPage();
+    }
+
+    public function trierPar(string $colonne): void
+    {
+        if (! in_array($colonne, ['libelle', 'sujet', 'modifieLe'], true)) {
+            return;
+        }
+
+        $this->sens = $this->tri === $colonne && $this->sens === 'asc' ? 'desc' : 'asc';
+        $this->tri = $colonne;
+        $this->resetPage();
+    }
+
+    /**
+     * La liste filtrée, triée, puis paginée. Elle vient d'un catalogue en code, pas
+     * d'une table : on filtre en mémoire — vingt-cinq lignes, aucun volume en jeu.
+     */
+    private function page(): LengthAwarePaginator
+    {
+        $parPage = in_array($this->parPage, self::PAR_PAGE, true) ? $this->parPage : 10;
+        $q = mb_strtolower(trim($this->recherche));
+
+        $lignes = collect($this->lignes())
+            ->when($q !== '', fn ($c) => $c->filter(fn (array $l): bool => str_contains(mb_strtolower($l['libelle'].' '.$l['declencheur'].' '.$l['sujet'].' '.implode(' ', $l['variables'])), $q)))
+            ->when($this->filtreEtat !== '', fn ($c) => $c->filter(fn (array $l): bool => match ($this->filtreEtat) {
+                'actif' => $l['porte'] && $l['actif'],
+                'eteint' => $l['porte'] && ! $l['actif'] && ! $l['verrouille'],
+                'indispensable' => $l['verrouille'],
+                'non_cable' => ! $l['porte'],
+                default => true,
+            }))
+            ->when($this->filtreTexte !== '', fn ($c) => $c->filter(fn (array $l): bool => match ($this->filtreTexte) {
+                'modifie' => $l['personnalise'],
+                'origine' => ! $l['personnalise'],
+                default => true,
+            }))
+            ->when($this->filtreVariable !== '', fn ($c) => $c->filter(fn (array $l): bool => in_array($this->filtreVariable, $l['variables'], true)))
+            ->when($this->filtreAuteur !== '', fn ($c) => $c->filter(fn (array $l): bool => $l['modifiePar'] === $this->filtreAuteur));
+
+        $colonne = in_array($this->tri, ['libelle', 'sujet', 'modifieLe'], true) ? $this->tri : 'libelle';
+        $lignes = $lignes->sortBy(fn (array $l) => mb_strtolower((string) ($l[$colonne] ?? '')), SORT_NATURAL, $this->sens === 'desc')->values();
+
+        $courante = $this->getPage();
+
+        return new LengthAwarePaginator(
+            $lignes->forPage($courante, $parPage)->values()->all(),
+            $lignes->count(),
+            $parPage,
+            $courante,
+            ['path' => request()->url(), 'pageName' => 'page'],
+        );
+    }
+
     public function render(): View
     {
+        $toutes = collect($this->lignes());
+
         return view('livewire.staff.gabarits-emails', [
-            'gabarits' => $this->lignes(),
+            'gabarits' => $this->page(),
+            'variablesDisponibles' => $toutes->pluck('variables')->flatten()->unique()->sort()->values()->all(),
+            'auteurs' => $toutes->pluck('modifiePar')->filter()->unique()->sort()->values()->all(),
+            'filtresActifs' => collect([$this->filtreEtat, $this->filtreTexte, $this->filtreVariable, $this->filtreAuteur])->filter(fn (string $v): bool => $v !== '')->count(),
             'peutGerer' => $this->peutGerer(),
             'variablesDuGabarit' => $this->enEdition !== null
                 ? array_map(

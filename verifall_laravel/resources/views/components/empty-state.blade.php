@@ -9,7 +9,7 @@
 @php $staff = $variant === 'staff'; @endphp
 
 <div {{ $attributes->merge(['class' => ($staff ? 'carte' : 'card').' text-center px-6 py-12']) }}>
-    <x-lucide :name="$icon" class="w-4 h-4 {{ $staff ? 'text-encre-3 dark:text-nuit-3' : 'text-slate2/50' }}" />
+    <x-lucide :name="$icon" class="{{ $staff ? 'w-8 h-8 mx-auto text-encre-3 dark:text-nuit-3' : 'w-4 h-4 text-slate2/50' }}" />
 
     <h3 class="mt-3 font-display font-bold {{ $staff ? 'text-encre dark:text-white' : 'text-ink' }}">{{ $title }}</h3>
 

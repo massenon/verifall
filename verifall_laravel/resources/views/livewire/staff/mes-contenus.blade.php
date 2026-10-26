@@ -12,25 +12,34 @@
         Leçons, quiz et classes en direct de tous vos cours, dans une seule liste.
     </x-premium.entete>
 
-    <section class="mb-4 flex flex-wrap items-center gap-3">
-        <select wire:model.live="filtreFormat" class="champ w-auto" aria-label="Filtrer par format">
-            <option value="">Tous les formats</option>
-            <option value="lecon">Leçons</option>
-            <option value="quiz">Quiz</option>
-            <option value="direct">Classes en direct</option>
-        </select>
+    <x-premium.barre-de-liste placeholder="Rechercher un contenu ou un cours…" :actifs="$filtresActifs">
+        <div>
+            <label for="mc-f-format" class="etiquette">Format</label>
+            <select id="mc-f-format" wire:model.live="filtreFormat" class="champ">
+                <option value="">Tous les formats</option>
+                <option value="lecon">Leçons</option>
+                <option value="quiz">Quiz</option>
+                <option value="direct">Classes en direct</option>
+            </select>
+        </div>
+        <div>
+            <label for="mc-f-etat" class="etiquette">Statut</label>
+            <select id="mc-f-etat" wire:model.live="filtreEtat" class="champ">
+                <option value="">Tous</option>
+                <option value="en_ligne">En ligne</option>
+                <option value="brouillon">Brouillon</option>
+            </select>
+        </div>
+    </x-premium.barre-de-liste>
 
-        <span class="text-sm text-encre-3 dark:text-nuit-3">
-            {{ count($contenus) }} élément(s) · {{ number_format($minutes, 0, ',', ' ') }} minutes au total
-        </span>
-    </section>
+    <p class="text-sm texte-2 mb-3">{{ number_format($minutes, 0, ',', ' ') }} minutes au total sur la sélection.</p>
 
-    @if ($contenus === [])
-        <x-empty-state variant="staff" icon="library_books"
+    @if ($contenus->total() === 0)
+        <x-empty-state variant="staff" icon="library"
                        title="Aucun contenu"
-                       description="Vos leçons, quiz et classes en direct apparaîtront ici." />
+                       description="Vos leçons, quiz et classes en direct apparaîtront ici, ou la recherche est trop stricte." />
     @else
-        <x-data-table variant="staff" :count="count($contenus)" :selectable="false">
+        <x-data-table variant="staff" :count="$contenus->total()" :selectable="false">
             <x-slot:head>
                 <th scope="col">Contenu</th>
                 <th scope="col">Format</th>
@@ -57,6 +66,8 @@
                 </tr>
             @endforeach
         </x-data-table>
+
+        <x-premium.pied-de-liste :liste="$contenus" />
 
         {{-- Dit plutôt que laissé deviner : afficher « En ligne » sur chaque
              leçon donnerait l'illusion d'une information qui n'en est pas une. --}}

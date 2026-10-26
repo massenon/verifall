@@ -40,6 +40,18 @@
                        title="Aucun inscrit"
                        description="Les citoyens inscrits à ce cours apparaîtront ici, les moins avancés en tête." />
     @else
+        <x-premium.barre-de-liste placeholder="Rechercher un inscrit (nom, courriel)…" :actifs="$filtresActifs">
+            <div>
+                <label for="sc-f-etat" class="etiquette">Avancement</label>
+                <select id="sc-f-etat" wire:model.live="filtreEtat" class="champ">
+                    <option value="">Tous</option>
+                    <option value="termine">Ont terminé</option>
+                    <option value="en_cours">En cours</option>
+                    <option value="jamais">Jamais commencé</option>
+                </select>
+            </div>
+        </x-premium.barre-de-liste>
+
         <x-data-table variant="staff" :count="$inscrits->total()" :selectable="false">
             <x-slot:head>
                 <th scope="col">Citoyen</th>
@@ -98,7 +110,7 @@
             @endforeach
         </x-data-table>
 
-        <div class="mt-4">{{ $inscrits->links() }}</div>
+        <x-premium.pied-de-liste :liste="$inscrits" />
 
         <p class="text-xs text-encre-3 dark:text-nuit-3 mt-3 mb-0">
             Une relance part par notification et par courriel. Un même inscrit ne peut pas

@@ -13,27 +13,26 @@
                label="Sources distinctes" trend="salve unique ou campagne répartie" />
     </x-kpi-grid>
 
-    <section class="mb-4 flex flex-wrap items-center gap-3">
-        <select wire:model.live="filtreEvenement" class="champ w-auto" aria-label="Filtrer par type">
-            <option value="">Type : tous</option>
-            @foreach ($evenements as $evenement)
-                <option value="{{ $evenement }}">{{ $this->libelle($evenement) }}</option>
-            @endforeach
-        </select>
-
-        <select wire:model.live="filtreSeverite" class="champ w-auto" aria-label="Filtrer par criticité">
-            <option value="">Criticité : toutes</option>
-            <option value="info">Info</option>
-            <option value="warning">Sensible</option>
-            <option value="critical">Critique</option>
-        </select>
-
-        @if ($filtreEvenement !== '' || $filtreSeverite !== '')
-            <button type="button" wire:click="reinitialiser" class="text-sm text-brand-700 dark:text-brand font-semibold underline">
-                Réinitialiser
-            </button>
-        @endif
-    </section>
+    <x-premium.barre-de-liste placeholder="Rechercher un événement ou un compte…" :actifs="collect([$filtreEvenement, $filtreSeverite])->filter()->count()" reinitialiser="reinitialiserLaListe">
+        <div>
+            <label for="ai-f-type" class="etiquette">Type</label>
+            <select id="ai-f-type" wire:model.live="filtreEvenement" class="champ">
+                <option value="">Tous</option>
+                @foreach ($evenements as $evenement)
+                    <option value="{{ $evenement }}">{{ $this->libelle($evenement) }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div>
+            <label for="ai-f-niveau" class="etiquette">Criticité</label>
+            <select id="ai-f-niveau" wire:model.live="filtreSeverite" class="champ">
+                <option value="">Toutes</option>
+                <option value="info">Info</option>
+                <option value="warning">Sensible</option>
+                <option value="critical">Critique</option>
+            </select>
+        </div>
+    </x-premium.barre-de-liste>
 
     @if ($alertes->isEmpty())
         <x-empty-state variant="staff" icon="shield"
@@ -82,6 +81,6 @@
             @endforeach
         </x-card-list>
 
-        <div class="mt-4">{{ $alertes->links() }}</div>
+        <x-premium.pied-de-liste :liste="$alertes" />
     @endif
 </div>
