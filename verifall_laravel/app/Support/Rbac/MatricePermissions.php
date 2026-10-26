@@ -130,6 +130,8 @@ final class MatricePermissions
             // ------------------------------------------- RESSOURCES & COM
             'partner' => ['view', 'manage'],
             'faq' => ['view', 'manage'],
+            // Médiathèque : voir et déposer ; supprimer le sien (le droit `delete` couvre celui des autres).
+            'media' => ['view', 'upload', 'delete'],
             'testimonial' => ['view', 'manage'],
             'newsletter' => ['view', 'send'],
             /*
@@ -242,6 +244,7 @@ final class MatricePermissions
                 'post.view', 'post.create', 'post.update', 'post.delete',
                 'blog_category.view', 'blog_category.manage',
                 'faq.view', 'faq.manage',
+                'media.view', 'media.upload',
                 'partner.view', 'partner.manage',
                 'testimonial.view', 'testimonial.manage',
             ],

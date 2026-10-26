@@ -38,6 +38,7 @@ use App\Http\Controllers\Staff\DonneesDesSourcesVerifieesController;
 use App\Http\Controllers\Staff\DonneesDesUtilisateursController;
 use App\Http\Controllers\Staff\DonneesDuCalendrierController;
 use App\Http\Controllers\Staff\DonneesDuJournalDesUnitesController;
+use App\Http\Controllers\Staff\FichierDeLaMediathequeController;
 use App\Http\Controllers\Staff\PieceKycController;
 use App\Http\Controllers\Staff\RechercheDeLaPaletteController;
 use App\Http\Controllers\Staff\ThemeDeLaConsoleController;
@@ -124,6 +125,7 @@ use App\Livewire\Staff\JournalDesEmails as StaffJournalDesEmails;
 use App\Livewire\Staff\JournalDesUnites as StaffJournalDesUnites;
 use App\Livewire\Staff\LiveClasses as StaffLiveClasses;
 use App\Livewire\Staff\Maintenance as StaffMaintenance;
+use App\Livewire\Staff\Mediatheque;
 use App\Livewire\Staff\Mentor\TableauDeBord as TableauDeBordDuMentor;
 use App\Livewire\Staff\Mentors as StaffMentors;
 use App\Livewire\Staff\MesContenus;
@@ -1130,6 +1132,10 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
         Route::get('mon-compte', MonCompte::class)->name('account');
 
         // Le calendrier : lecture seule, chaque famille d'événements filtrée par droit.
+        // Médiathèque : images sur le disque privé, servies par lien signé ET droit revérifié.
+        Route::get('mediatheque', Mediatheque::class)->middleware('can:media.view')->name('media');
+        Route::get('mediatheque/{media}/fichier', FichierDeLaMediathequeController::class)->middleware(['signed', 'can:media.view'])->name('media.file');
+
         Route::get('calendrier', Calendrier::class)->middleware('can:viewAny,'.LiveClass::class)->name('calendar');
         Route::get('calendrier/donnees', DonneesDuCalendrierController::class)->middleware(['can:viewAny,'.LiveClass::class, 'throttle:60,1'])->name('calendar.data');
         Route::get('recherche', RechercheDeLaPaletteController::class)->middleware('throttle:60,1')->name('search');

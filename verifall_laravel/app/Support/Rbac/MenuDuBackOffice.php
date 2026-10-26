@@ -122,6 +122,7 @@ final class MenuDuBackOffice
             'staff.posts' => ['pen-tool', 'Articles du blog'],
             'staff.blog-categories' => ['folder', 'Catégories du blog'],
             'staff.newsletter' => ['mail', 'Infolettres'],
+            'staff.media' => ['images', 'Médiathèque'],
             'staff.faq' => ['circle-help', 'FAQ'],
             'staff.testimonials' => ['quote', 'Témoignages'],
             'staff.partners' => ['handshake', 'Partenaires'],
