@@ -137,7 +137,7 @@
                 <td><div class="flex items-center gap-2 min-w-[120px]"><div class="jauge"><span style="width: {{ $cours['completion'] }}%"></span></div><span class="text-xs tabular-nums texte-2 whitespace-nowrap">{{ $cours['completion'] }} %</span></div></td>
                 <td>{{ $cours['note'] !== null ? str_replace('.', ',', (string) $cours['note']) : '—' }}</td>
                 <td>
-                  <svg viewBox="0 0 100 30" class="w-28 h-8 text-[#2a78d6] dark:text-[#3987e5]" role="img" aria-label="Inscriptions par semaine : {{ implode(', ', $cours['tendance']) }}">
+                  <svg viewBox="0 0 100 30" class="w-28 h-8 text-blue-700 dark:text-blue-300 dark:text-blue-300" role="img" aria-label="Inscriptions par semaine : {{ implode(', ', $cours['tendance']) }}">
                     <polyline points="{{ $points }}" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" />
                   </svg>
                 </td>

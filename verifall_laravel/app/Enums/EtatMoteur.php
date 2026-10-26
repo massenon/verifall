@@ -113,11 +113,11 @@ enum EtatMoteur: string
     public function pastille(): string
     {
         return match ($this) {
-            self::Operationnel => 'st-badge st-badge-pub',
-            self::Configure => 'st-badge st-badge-info',
-            self::Simule, self::NonConfigure => 'st-badge st-badge-warn',
-            self::Injoignable => 'st-badge st-badge-danger',
-            self::Desactive, self::NonPorte => 'st-badge st-badge-arch',
+            self::Operationnel => 'pastille p-bon',
+            self::Configure => 'pastille p-info',
+            self::Simule, self::NonConfigure => 'pastille p-alerte',
+            self::Injoignable => 'pastille p-critique',
+            self::Desactive, self::NonPorte => 'pastille p-neutre',
         };
     }
 }

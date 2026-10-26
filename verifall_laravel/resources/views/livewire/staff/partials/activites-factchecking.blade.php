@@ -10,36 +10,36 @@
   | Pour les autres, la colonne reste en lecture — voir qui traite quoi est
   | utile à tout le monde, pouvoir le changer ne l'est pas.
 --}}
-<div class="st-card lg:col-span-2">
-    <div class="st-card-h flex items-center justify-between gap-3">
-        <h2 class="font-display font-bold text-[#0F172A] mb-0">Dernières activités de fact-checking</h2>
+<div class="carte lg:col-span-2">
+    <div class="carte-tete flex items-center justify-between gap-3">
+        <h2 class="font-titre font-bold text-encre dark:text-white mb-0">Dernières activités de fact-checking</h2>
         {{-- Pointait vers la base de connaissances, faute de mieux : ce panneau
              liste des VÉRIFICATIONS, la base contient des faits versés. Deux
              objets différents, et le lien menait donc à côté. --}}
-        <a href="{{ route('staff.verifications') }}" class="text-xs font-bold text-primary">Tout voir →</a>
+        <a href="{{ route('staff.verifications') }}" class="text-xs font-bold text-brand-700 dark:text-brand">Tout voir →</a>
     </div>
 
-    <div class="st-card-b">
+    <div class="carte-corps">
         @forelse ($activites as $activite)
-            <div class="py-2.5 border-b border-line last:border-0">
+            <div class="py-2.5 border-b border-trait dark:border-nuit-trait last:border-0">
                 <div class="flex items-start justify-between gap-3">
                     <div class="min-w-0">
-                        <p class="text-sm text-[#0F172A] mb-0 truncate" title="{{ $activite->claim }}">
+                        <p class="text-sm text-encre dark:text-white mb-0 truncate" title="{{ $activite->claim }}">
                             {{ $activite->apercu() }}
                         </p>
-                        <p class="text-xs text-[#64748B] mb-0">
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                             {{ $activite->reference() }}
                             @if ($activite->theme) · {{ $activite->theme->libelle() }} @endif
                             · {{ $activite->created_at?->diffForHumans() }}
                         </p>
                     </div>
-                    <span class="st-badge {{ $activite->status->badge() }} shrink-0">
+                    <span class="pastille {{ $activite->status->badge() }} shrink-0">
                         {{ $activite->status->libelle() }}
                     </span>
                 </div>
 
                 <div class="flex items-center justify-between gap-3 mt-2">
-                    <span class="text-xs text-[#64748B] min-w-0 truncate">
+                    <span class="text-xs text-encre-3 dark:text-nuit-3 min-w-0 truncate">
                         @if ($activite->assignee)
                             Confié à <span class="font-bold">{{ $activite->assignee->name }}</span>
                             {{ $activite->assigned_at?->diffForHumans() }}
@@ -52,7 +52,7 @@
                         <form wire:submit.prevent="assigner('{{ $activite->uuid }}')"
                               class="flex items-center gap-2 shrink-0">
                             <select wire:model="destinataire.{{ $activite->uuid }}"
-                                    class="st-input text-xs" style="min-height: 34px; padding: 0 .5rem;"
+                                    class="champ text-xs" style="min-height: 34px; padding: 0 .5rem;"
                                     aria-label="Confier {{ $activite->reference() }} à">
                                 <option value="">Confier à…</option>
                                 @foreach ($assignables as $membre)
@@ -62,7 +62,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <button type="submit" class="text-xs font-bold text-primary"
+                            <button type="submit" class="text-xs font-bold text-brand-700 dark:text-brand"
                                     wire:loading.attr="disabled"
                                     wire:target="assigner('{{ $activite->uuid }}')">
                                 Confier
@@ -72,7 +72,7 @@
                 </div>
             </div>
         @empty
-            <p class="text-sm text-[#64748B] mb-0">
+            <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">
                 Aucune vérification pour l'instant. Les analyses apparaîtront ici dès la première
                 demande citoyenne.
             </p>
@@ -81,7 +81,7 @@
         @if ($peutAssigner && $assignables->isEmpty())
             {{-- Un sélecteur vide est une impasse silencieuse : on dit pourquoi,
                  et ce qu'il faut faire. --}}
-            <p class="text-xs text-vfalse mb-0 mt-2">
+            <p class="text-xs text-critique mb-0 mt-2">
                 Aucun membre ne détient le droit de rendre un verdict : personne ne peut être
                 assigné. Attribuez le rôle Modérateur ou Administrateur depuis l'écran Rôles.
             </p>

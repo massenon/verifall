@@ -16,8 +16,8 @@
         Les questions fréquentes, dans les deux langues du site. Une question sans traduction anglaise s'affiche en français sur la version anglaise — une FAQ incomplète vaut mieux qu'une FAQ trouée.
         <x-slot:actions>
             @if ($peutGerer)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouvelle question
             </button>
         @endif
@@ -39,12 +39,12 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="fq-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="fq-q">Rechercher une question, une réponse</label>
+        <div class="flex-1 mb-0">
+            <label for="fq-q" class="etiquette">Rechercher une question, une réponse</label>
+<input id="fq-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreCategorie" class="st-input w-auto" aria-label="Filtrer par rubrique">
+        <select wire:model.live="filtreCategorie" class="champ w-auto" aria-label="Filtrer par rubrique">
             <option value="">Rubrique : toutes</option>
             @foreach ($categories as $uneCategorie)
                 <option value="{{ $uneCategorie }}">{{ $uneCategorie }}</option>
@@ -57,7 +57,7 @@
                        title="Aucune question"
                        description="La FAQ publique sera vide. Chaque question ajoutée ici y paraît immédiatement, une fois publiée.">
             <x-slot:action>
-                <button type="button" wire:click="reinitialiser" class="st-btn st-btn-secondary">
+                <button type="button" wire:click="reinitialiser" class="btn-second">
                     Réinitialiser les filtres
                 </button>
             </x-slot:action>
@@ -76,20 +76,20 @@
             @foreach ($questions as $question)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ Str::limit($question->question, 80) }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">{{ Str::limit(strip_tags($question->answer), 90) }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ Str::limit($question->question, 80) }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ Str::limit(strip_tags($question->answer), 90) }}</p>
                     </td>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">{{ $question->category ?? '—' }}</td>
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">{{ $question->category ?? '—' }}</td>
                     <td class="whitespace-nowrap">
                         @if (in_array($question->group_key, $traduites, true))
-                            <span class="st-badge st-badge-pub">Traduite</span>
+                            <span class="pastille p-bon">Traduite</span>
                         @else
                             {{-- Ce n'est pas une erreur : la page anglaise se replie sur
                                  le français. C'est un reste-à-faire, et il se voit. --}}
-                            <span class="text-xs text-[#64748B]">À traduire</span>
+                            <span class="text-xs text-encre-3 dark:text-nuit-3">À traduire</span>
                         @endif
                     </td>
-                    <td class="whitespace-nowrap text-[#64748B]">{{ $question->sort_order }}</td>
+                    <td class="whitespace-nowrap text-encre-3 dark:text-nuit-3">{{ $question->sort_order }}</td>
                     <td>
                         <x-badge-statut variant="staff"
                                         :statut="$question->is_published ? 'publie' : 'brouillon'"
@@ -98,16 +98,16 @@
                     <td class="text-right whitespace-nowrap">
                         @if ($peutGerer)
                             <button type="button" wire:click="basculerLaPublication('{{ $question->group_key }}')"
-                                    class="st-icnbtn" title="{{ $question->is_published ? 'Masquer' : 'Publier' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $question->is_published ? 'visibility_off' : 'visibility' }}</span>
+                                    class="btn-icone" title="{{ $question->is_published ? 'Masquer' : 'Publier' }}">
+                                <x-lucide :name="$question->is_published ? 'visibility_off' : 'visibility'" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="ouvrirEdition('{{ $question->group_key }}')"
-                                    class="st-icnbtn" title="Modifier (les deux langues)">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier (les deux langues)">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="demanderLaSuppression('{{ $question->group_key }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>
@@ -123,70 +123,70 @@
                           :title="$enEdition === null ? 'Nouvelle question' : 'Modifier la question'"
                           close="fermerLeTiroir">
             <form wire:submit="enregistrer" class="space-y-4">
-                <div class="ffield">
-                    <input id="fq-cat" type="text" wire:model="categorie" list="fq-cats" placeholder=" ">
-                    <label for="fq-cat">Rubrique (facultatif)</label>
+                <div>
+                    <label for="fq-cat" class="etiquette">Rubrique (facultatif)</label>
+<input id="fq-cat" type="text" wire:model="categorie" list="fq-cats" class="champ">
                     <datalist id="fq-cats">
                         @foreach ($categories as $uneCategorie)
                             <option value="{{ $uneCategorie }}"></option>
                         @endforeach
                     </datalist>
-                    @error('categorie') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('categorie') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="st-card p-3">
-                    <p class="text-xs font-bold text-[#64748B] mb-2">FRANÇAIS</p>
+                <div class="carte p-3">
+                    <p class="text-xs font-bold text-encre-3 dark:text-nuit-3 mb-2">FRANÇAIS</p>
 
-                    <div class="ffield">
-                        <textarea id="fq-qfr" wire:model="questionFr" rows="2" placeholder=" "></textarea>
-                        <label for="fq-qfr">Question</label>
-                        @error('questionFr') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div>
+                        <label for="fq-qfr" class="etiquette">Question</label>
+<textarea id="fq-qfr" wire:model="questionFr" rows="2" class="champ !h-auto py-2.5"></textarea>
+                        @error('questionFr') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <textarea id="fq-rfr" wire:model="reponseFr" rows="4" placeholder=" "></textarea>
-                        <label for="fq-rfr">Réponse</label>
-                        @error('reponseFr') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="fq-rfr" class="etiquette">Réponse</label>
+<textarea id="fq-rfr" wire:model="reponseFr" rows="4" class="champ !h-auto py-2.5"></textarea>
+                        @error('reponseFr') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
-                <div class="st-card p-3">
-                    <p class="text-xs font-bold text-[#64748B] mb-2">ENGLISH — facultatif</p>
+                <div class="carte p-3">
+                    <p class="text-xs font-bold text-encre-3 dark:text-nuit-3 mb-2">ENGLISH — facultatif</p>
 
-                    <div class="ffield">
-                        <textarea id="fq-qen" wire:model="questionEn" rows="2" placeholder=" "></textarea>
-                        <label for="fq-qen">Question</label>
-                        @error('questionEn') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div>
+                        <label for="fq-qen" class="etiquette">Question</label>
+<textarea id="fq-qen" wire:model="questionEn" rows="2" class="champ !h-auto py-2.5"></textarea>
+                        @error('questionEn') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <textarea id="fq-ren" wire:model="reponseEn" rows="4" placeholder=" "></textarea>
-                        <label for="fq-ren">Answer</label>
-                        @error('reponseEn') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="fq-ren" class="etiquette">Answer</label>
+<textarea id="fq-ren" wire:model="reponseEn" rows="4" class="champ !h-auto py-2.5"></textarea>
+                        @error('reponseEn') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <p class="text-xs text-[#64748B] mt-2 mb-0">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-2 mb-0">
                         Laissés vides, la version anglaise du site affiche le français.
                         Vider une traduction existante la supprime.
                     </p>
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-4">
-                    <div class="ffield mb-0">
-                        <input id="fq-ordre" type="number" min="0" wire:model="ordre" placeholder=" ">
-                        <label for="fq-ordre">Ordre d'affichage</label>
-                        @error('ordre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="fq-ordre" class="etiquette">Ordre d'affichage</label>
+<input id="fq-ordre" type="number" min="0" wire:model="ordre" class="champ">
+                        @error('ordre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
                     <label class="flex items-start gap-2.5 cursor-pointer">
                         <input type="checkbox" wire:model="publiee" class="mt-0.5">
-                        <span class="text-sm text-[#334155]">Publiée sur le site</span>
+                        <span class="text-sm text-encre-2 dark:text-nuit-2">Publiée sur le site</span>
                     </label>
                 </div>
 
                 <div class="flex gap-2 pt-2">
-                    <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                    <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                    <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                    <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
                 </div>
             </form>
         </x-offcanvas-form>

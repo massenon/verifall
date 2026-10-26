@@ -55,15 +55,10 @@
       })();
     </script>
 
-    {{-- Les écrans pas encore réhabillés gardent leur feuille d'origine pendant
-         la transposition (IMPLEMENTATION_PLAN, phase 5). La console premium
-         passe EN DERNIER : la coquille l'emporte. --}}
-    <link rel="stylesheet" href="{{ asset('assets/css/fonts/fonts.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/citizen.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/staff.css') }}">
+    {{-- Une seule feuille de mise en page : la console premium. `verifall-app.css`
+         ne garde que la visite guidée, les toasts et les menus de partage ;
+         Quill apporte son thème de base. --}}
     <link rel="stylesheet" href="{{ asset('assets/css/vendor/quill.snow.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/tailwind.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/staff-shell.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/verifall-app.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/fonts/premium.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/staff-premium.css') }}">

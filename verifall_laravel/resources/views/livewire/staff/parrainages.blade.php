@@ -41,19 +41,19 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="parrainage-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="parrainage-q">Rechercher un parrain ou un filleul</label>
+        <div class="flex-1 mb-0">
+            <label for="parrainage-q" class="etiquette">Rechercher un parrain ou un filleul</label>
+<input id="parrainage-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreStatut" class="st-input w-auto" aria-label="Filtrer par statut">
+        <select wire:model.live="filtreStatut" class="champ w-auto" aria-label="Filtrer par statut">
             <option value="">Statut : tous</option>
             @foreach ($statuts as $statut)
                 <option value="{{ $statut->value }}">{{ $statut->libelle() }}</option>
             @endforeach
         </select>
 
-        <select wire:model.live="filtrePeriode" class="st-input w-auto" aria-label="Filtrer par période">
+        <select wire:model.live="filtrePeriode" class="champ w-auto" aria-label="Filtrer par période">
             <option value="">Période : depuis toujours</option>
             <option value="7">7 derniers jours</option>
             <option value="30">30 derniers jours</option>
@@ -64,21 +64,21 @@
     @if ($recherche !== '' || $filtreStatut !== '' || $filtrePeriode !== '')
         <div class="mb-4 flex flex-wrap items-center gap-2">
             @if ($recherche !== '')
-                <span class="st-chip">{{ $recherche }}
+                <span class="pastille p-bon">{{ $recherche }}
                     <button type="button" wire:click="$set('recherche', '')" aria-label="Retirer la recherche">×</button>
                 </span>
             @endif
             @if ($filtreStatut !== '')
-                <span class="st-chip">{{ \App\Enums\StatutParrainage::from($filtreStatut)->libelle() }}
+                <span class="pastille p-bon">{{ \App\Enums\StatutParrainage::from($filtreStatut)->libelle() }}
                     <button type="button" wire:click="$set('filtreStatut', '')" aria-label="Retirer le filtre de statut">×</button>
                 </span>
             @endif
             @if ($filtrePeriode !== '')
-                <span class="st-chip">{{ $filtrePeriode }} derniers jours
+                <span class="pastille p-bon">{{ $filtrePeriode }} derniers jours
                     <button type="button" wire:click="$set('filtrePeriode', '')" aria-label="Retirer le filtre de période">×</button>
                 </span>
             @endif
-            <button type="button" wire:click="reinitialiser" class="text-sm text-[#059669] font-semibold underline">
+            <button type="button" wire:click="reinitialiser" class="text-sm text-brand-700 dark:text-brand font-semibold underline">
                 Réinitialiser
             </button>
         </div>
@@ -89,7 +89,7 @@
                        title="Aucun parrainage"
                        description="Aucun parrainage ne correspond à ces critères. Le programme se déclenche quand quelqu'un s'inscrit avec le code d'un autre.">
             <x-slot:action>
-                <button type="button" wire:click="reinitialiser" class="st-btn st-btn-secondary">
+                <button type="button" wire:click="reinitialiser" class="btn-second">
                     Réinitialiser les filtres
                 </button>
             </x-slot:action>
@@ -108,12 +108,12 @@
             @foreach ($parrainages as $parrainage)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $parrainage->referrer?->name ?? 'Compte supprimé' }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">{{ $parrainage->referrer?->email }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $parrainage->referrer?->name ?? 'Compte supprimé' }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $parrainage->referrer?->email }}</p>
                     </td>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $parrainage->referred?->name ?? 'Compte supprimé' }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">{{ $parrainage->referred?->email }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $parrainage->referred?->name ?? 'Compte supprimé' }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $parrainage->referred?->email }}</p>
                     </td>
                     <td>
                         <x-badge-statut variant="staff" :statut="$parrainage->status->cleBadge()" :label="$parrainage->status->libelle()" />
@@ -137,17 +137,17 @@
 
         <x-card-list variant="staff">
             @foreach ($parrainages as $parrainage)
-                <article class="st-card p-4">
+                <article class="carte p-4">
                     <div class="flex items-start justify-between gap-3 mb-2">
                         <div class="min-w-0">
-                            <p class="font-semibold text-[#0F172A] truncate mb-0">{{ $parrainage->referrer?->name ?? 'Compte supprimé' }}</p>
-                            <p class="text-xs text-[#64748B] mb-0">
+                            <p class="font-semibold text-encre dark:text-white truncate mb-0">{{ $parrainage->referrer?->name ?? 'Compte supprimé' }}</p>
+                            <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                                 a parrainé {{ $parrainage->referred?->name ?? 'un compte supprimé' }}
                             </p>
                         </div>
                         <x-badge-statut variant="staff" :statut="$parrainage->status->cleBadge()" :label="$parrainage->status->libelle()" class="shrink-0" />
                     </div>
-                    <p class="text-xs text-[#64748B] mb-0">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                         Inscrit le {{ $parrainage->registered_at?->translatedFormat('j M Y') ?? '—' }}
                         @if ($parrainage->rewarded_at !== null)
                             · {{ number_format((int) $parrainage->referrer_points + (int) $parrainage->referred_points, 0, ',', ' ') }} unités versées

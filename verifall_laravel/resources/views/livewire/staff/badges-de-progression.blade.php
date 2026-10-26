@@ -16,8 +16,8 @@
         Ce que les citoyens débloquent, et ce que ça leur rapporte. La condition affichée doit correspondre à la règle réelle — sinon elle promet ce qui n'arrivera pas.
         <x-slot:actions>
             @if ($peutGerer)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouveau badge
             </button>
         @endif
@@ -39,12 +39,12 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="bd-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="bd-q">Rechercher un badge</label>
+        <div class="flex-1 mb-0">
+            <label for="bd-q" class="etiquette">Rechercher un badge</label>
+<input id="bd-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreEtat" class="st-input w-auto" aria-label="Filtrer par état">
+        <select wire:model.live="filtreEtat" class="champ w-auto" aria-label="Filtrer par état">
             <option value="">État : tous</option>
             <option value="actifs">Actifs</option>
             <option value="inactifs">Inactifs</option>
@@ -76,21 +76,21 @@
                                  de glyphe. --}}
                             <span class="text-lg" aria-hidden="true">{{ $badge->icon }}</span>
                             <div>
-                                <p class="font-semibold text-[#0F172A] mb-0">{{ $badge->name }}</p>
-                                <p class="text-xs text-[#64748B] mb-0 font-mono">{{ $badge->slug }}</p>
+                                <p class="font-semibold text-encre dark:text-white mb-0">{{ $badge->name }}</p>
+                                <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0 font-mono">{{ $badge->slug }}</p>
                             </div>
                         </div>
                     </td>
-                    <td class="text-sm text-[#334155]">{{ Str::limit($badge->requirement_label, 60) }}</td>
+                    <td class="text-sm text-encre-2 dark:text-nuit-2">{{ Str::limit($badge->requirement_label, 60) }}</td>
                     <td class="whitespace-nowrap text-sm">
                         @if ($badge->xp_reward > 0)
-                            <span class="text-[#334155]">{{ $badge->xp_reward }} XP</span>
+                            <span class="text-encre-2 dark:text-nuit-2">{{ $badge->xp_reward }} XP</span>
                         @endif
                         @if ($badge->units_reward > 0)
-                            <span class="block text-[#059669]">{{ $badge->units_reward }} unité(s)</span>
+                            <span class="block text-brand-700 dark:text-brand">{{ $badge->units_reward }} unité(s)</span>
                         @endif
                         @if ($badge->xp_reward === 0 && $badge->units_reward === 0)
-                            <span class="text-xs text-[#64748B]">Honorifique</span>
+                            <span class="text-xs text-encre-3 dark:text-nuit-3">Honorifique</span>
                         @endif
                     </td>
                     <td class="whitespace-nowrap">{{ $badge->users_count }}</td>
@@ -102,16 +102,16 @@
                     <td class="text-right whitespace-nowrap">
                         @if ($peutGerer)
                             <button type="button" wire:click="basculerLActivation('{{ $badge->uuid }}')"
-                                    class="st-icnbtn" title="{{ $badge->is_active ? 'Désactiver' : 'Réactiver' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $badge->is_active ? 'visibility_off' : 'visibility' }}</span>
+                                    class="btn-icone" title="{{ $badge->is_active ? 'Désactiver' : 'Réactiver' }}">
+                                <x-lucide :name="$badge->is_active ? 'visibility_off' : 'visibility'" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="ouvrirEdition('{{ $badge->uuid }}')"
-                                    class="st-icnbtn" title="Modifier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="demanderLaSuppression('{{ $badge->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>
@@ -127,77 +127,77 @@
                           :title="$enEdition === null ? 'Nouveau badge' : 'Modifier le badge'"
                           close="fermerLeTiroir">
             <form wire:submit="enregistrer" class="space-y-4">
-                <div class="ffield">
-                    <input id="bd-nom" type="text" wire:model="nom" placeholder=" ">
-                    <label for="bd-nom">Nom du badge</label>
+                <div>
+                    <label for="bd-nom" class="etiquette">Nom du badge</label>
+<input id="bd-nom" type="text" wire:model="nom" class="champ">
                     @if ($enEdition !== null)
-                        <p class="text-xs text-[#64748B] mt-1 mb-0">
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                             L'identifiant technique ne change pas : c'est lui qui déclenche l'attribution.
                         </p>
                     @endif
-                    @error('nom') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('nom') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield">
-                    <textarea id="bd-desc" wire:model="descriptif" rows="3" placeholder=" "></textarea>
-                    <label for="bd-desc">Description</label>
-                    @error('descriptif') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="bd-desc" class="etiquette">Description</label>
+<textarea id="bd-desc" wire:model="descriptif" rows="3" class="champ !h-auto py-2.5"></textarea>
+                    @error('descriptif') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield">
-                    <input id="bd-cond" type="text" wire:model="condition" placeholder=" ">
-                    <label for="bd-cond">Condition affichée au citoyen</label>
-                    <p class="text-xs text-[#64748B] mt-1 mb-0">
+                <div>
+                    <label for="bd-cond" class="etiquette">Condition affichée au citoyen</label>
+<input id="bd-cond" type="text" wire:model="condition" class="champ">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                         Un libellé, pas une règle : c'est le code qui décide de l'attribution.
                         S'il ne correspond pas à la règle réelle, il promet ce qui n'arrivera pas.
                     </p>
-                    @error('condition') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('condition') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="grid sm:grid-cols-3 gap-4">
-                    <div class="ffield mb-0">
-                        <input id="bd-icone" type="text" wire:model="icone" placeholder=" ">
-                        <label for="bd-icone">Icône (emoji)</label>
-                        @error('icone') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="bd-icone" class="etiquette">Icône (emoji)</label>
+<input id="bd-icone" type="text" wire:model="icone" class="champ">
+                        @error('icone') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <input id="bd-xp" type="number" min="0" max="10000" wire:model="xp" placeholder=" ">
-                        <label for="bd-xp">Points XP</label>
-                        @error('xp') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="bd-xp" class="etiquette">Points XP</label>
+<input id="bd-xp" type="number" min="0" max="10000" wire:model="xp" class="champ">
+                        @error('xp') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <input id="bd-unites" type="number" min="0" max="100" wire:model="unites" placeholder=" ">
-                        <label for="bd-unites">Unités</label>
-                        @error('unites') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="bd-unites" class="etiquette">Unités</label>
+<input id="bd-unites" type="number" min="0" max="100" wire:model="unites" class="champ">
+                        @error('unites') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
-                <div class="ffield">
-                    <input id="bd-ordre" type="number" min="0" wire:model="ordre" placeholder=" ">
-                    <label for="bd-ordre">Ordre d'affichage</label>
-                    @error('ordre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="bd-ordre" class="etiquette">Ordre d'affichage</label>
+<input id="bd-ordre" type="number" min="0" wire:model="ordre" class="champ">
+                    @error('ordre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <label class="flex items-start gap-2.5 cursor-pointer">
                     <input type="checkbox" wire:model="actif" class="mt-0.5">
-                    <span class="text-sm text-[#334155]">
+                    <span class="text-sm text-encre-2 dark:text-nuit-2">
                         Badge actif
-                        <span class="block text-xs text-[#64748B]">
+                        <span class="block text-xs text-encre-3 dark:text-nuit-3">
                             Désactivé, il n'est plus attribué — ceux qui l'ont déjà le gardent.
                         </span>
                     </span>
                 </label>
 
-                <p class="text-xs text-[#64748B] mb-0">
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                     Les récompenses sont versées au moment du déblocage.
                     Les modifier ne crédite ni ne reprend rien à ceux qui ont déjà le badge.
                 </p>
 
                 <div class="flex gap-2 pt-2">
-                    <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                    <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                    <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                    <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
                 </div>
             </form>
         </x-offcanvas-form>

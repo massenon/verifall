@@ -1,3 +1,6 @@
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/pages/staff-tableau-de-bord.css') }}">
+@endpush
 {{--
   | 09 — L'Académie (§21).
   |
@@ -51,7 +54,7 @@
             </div>
         </dl>
 
-        <article class="st-card tdb-card tdb-mt">
+        <article class="carte tdb-card tdb-mt">
             <div class="tdb-card-h">
                 <div>
                     <h3 class="tdb-h3">Inscriptions et complétions</h3>

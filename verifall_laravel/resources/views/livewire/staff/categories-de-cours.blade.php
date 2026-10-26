@@ -17,8 +17,8 @@
         Les rayons du catalogue. Renommer ici met à jour tous les cours du rayon d'un seul geste — c'est ce que la chaîne libre interdisait.
         <x-slot:actions>
             @can('create', App\Models\CourseCategory::class)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouvelle catégorie
             </button>
         @endcan
@@ -44,9 +44,9 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="catc-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="catc-q">Rechercher une catégorie</label>
+        <div class="flex-1 mb-0">
+            <label for="catc-q" class="etiquette">Rechercher une catégorie</label>
+<input id="catc-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
     </section>
 
@@ -56,7 +56,7 @@
                        description="Le catalogue affichera les cours sans rayon. Créez une catégorie pour les regrouper.">
             <x-slot:action>
                 @can('create', App\Models\CourseCategory::class)
-                    <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
+                    <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
                         Nouvelle catégorie
                     </button>
                 @endcan
@@ -77,18 +77,18 @@
                     <td>
                         <div class="flex items-center gap-2">
                             @if ($categorie->icon !== null)
-                                <span class="material-symbols-rounded !text-[20px] text-[#64748B]" aria-hidden="true">{{ $categorie->icon }}</span>
+                                <x-lucide :name="$categorie->icon" class="w-4 h-4 text-encre-3 dark:text-nuit-3" />
                             @endif
                             <div>
-                                <p class="font-semibold text-[#0F172A] mb-0">{{ $categorie->name }}</p>
+                                <p class="font-semibold text-encre dark:text-white mb-0">{{ $categorie->name }}</p>
                                 @if ($categorie->description !== null)
-                                    <p class="text-xs text-[#64748B] mb-0">{{ Str::limit($categorie->description, 80) }}</p>
+                                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ Str::limit($categorie->description, 80) }}</p>
                                 @endif
                             </div>
                         </div>
                     </td>
                     <td class="whitespace-nowrap">{{ $categorie->cours_count }}</td>
-                    <td class="whitespace-nowrap text-[#64748B]">{{ $categorie->sort_order }}</td>
+                    <td class="whitespace-nowrap text-encre-3 dark:text-nuit-3">{{ $categorie->sort_order }}</td>
                     <td>
                         <x-badge-statut variant="staff"
                                         :statut="$categorie->is_published ? 'publie' : 'brouillon'"
@@ -97,18 +97,18 @@
                     <td class="text-right whitespace-nowrap">
                         @can('update', $categorie)
                             <button type="button" wire:click="basculerLaPublication('{{ $categorie->uuid }}')"
-                                    class="st-icnbtn" title="{{ $categorie->is_published ? 'Masquer du catalogue' : 'Afficher au catalogue' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $categorie->is_published ? 'visibility_off' : 'visibility' }}</span>
+                                    class="btn-icone" title="{{ $categorie->is_published ? 'Masquer du catalogue' : 'Afficher au catalogue' }}">
+                                <x-lucide :name="$categorie->is_published ? 'visibility_off' : 'visibility'" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="ouvrirEdition('{{ $categorie->uuid }}')"
-                                    class="st-icnbtn" title="Modifier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                         @endcan
                         @can('delete', $categorie)
                             <button type="button" wire:click="demanderLaSuppression('{{ $categorie->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endcan
                     </td>
@@ -123,52 +123,52 @@
                       :title="$enEdition === null ? 'Nouvelle catégorie' : 'Modifier la catégorie'"
                       close="fermerLeTiroir">
         <form wire:submit="enregistrer" class="space-y-4">
-            <div class="ffield">
-                <input id="catc-nom" type="text" wire:model="nom" placeholder=" ">
-                <label for="catc-nom">Nom de la catégorie</label>
+            <div>
+                <label for="catc-nom" class="etiquette">Nom de la catégorie</label>
+<input id="catc-nom" type="text" wire:model="nom" class="champ">
                 @if ($enEdition !== null)
                     {{-- L'avertissement compte : le renommage touche des cours
                          déjà publiés, et c'est justement ce qu'on veut. --}}
-                    <p class="text-xs text-[#64748B] mt-1 mb-0">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                         Le nouveau nom sera reporté sur tous les cours de ce rayon, catalogue citoyen compris.
                     </p>
                 @endif
-                @error('nom') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                @error('nom') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
-            <div class="ffield">
-                <textarea id="catc-desc" wire:model="descriptif" rows="3" placeholder=" "></textarea>
-                <label for="catc-desc">Ce que ce rayon regroupe</label>
-                @error('descriptif') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="catc-desc" class="etiquette">Ce que ce rayon regroupe</label>
+<textarea id="catc-desc" wire:model="descriptif" rows="3" class="champ !h-auto py-2.5"></textarea>
+                @error('descriptif') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
-                <div class="ffield mb-0">
-                    <input id="catc-icone" type="text" wire:model="icone" placeholder=" ">
-                    <label for="catc-icone">Icône (Material Symbols)</label>
-                    @error('icone') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="catc-icone" class="etiquette">Icône (Material Symbols)</label>
+<input id="catc-icone" type="text" wire:model="icone" class="champ">
+                    @error('icone') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="catc-ordre" type="number" min="0" wire:model="ordre" placeholder=" ">
-                    <label for="catc-ordre">Ordre d'affichage</label>
-                    @error('ordre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="catc-ordre" class="etiquette">Ordre d'affichage</label>
+<input id="catc-ordre" type="number" min="0" wire:model="ordre" class="champ">
+                    @error('ordre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
             <label class="flex items-start gap-2.5 cursor-pointer">
                 <input type="checkbox" wire:model="publiee" class="mt-0.5">
-                <span class="text-sm text-[#334155]">
+                <span class="text-sm text-encre-2 dark:text-nuit-2">
                     Afficher au catalogue
-                    <span class="block text-xs text-[#64748B]">
+                    <span class="block text-xs text-encre-3 dark:text-nuit-3">
                         Décochée, la catégorie reste ici mais disparaît des filtres du citoyen.
                     </span>
                 </span>
             </label>
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>

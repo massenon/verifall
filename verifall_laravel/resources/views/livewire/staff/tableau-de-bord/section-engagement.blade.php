@@ -1,3 +1,6 @@
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/pages/staff-tableau-de-bord.css') }}">
+@endpush
 {{--
   | 08 — Engagement des utilisateurs (§20).
   |
@@ -33,7 +36,7 @@
                 @endforeach
             </dl>
 
-            <article class="st-card tdb-card">
+            <article class="carte tdb-card">
                 <div class="tdb-card-h">
                     <div>
                         <h3 class="tdb-h3">Nouveaux utilisateurs</h3>

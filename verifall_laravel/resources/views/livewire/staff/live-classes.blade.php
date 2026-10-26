@@ -18,8 +18,8 @@
         Les séances en direct de l'Académie, et leur rediffusion. L'état — à venir, en direct, terminée — se déduit de l'heure : il n'y a pas de case à cocher.
         <x-slot:actions>
             @can('create', App\Models\LiveClass::class)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Programmer une séance
             </button>
         @endcan
@@ -50,18 +50,18 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="lc-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="lc-q">Rechercher un titre, un descriptif</label>
+        <div class="flex-1 mb-0">
+            <label for="lc-q" class="etiquette">Rechercher un titre, un descriptif</label>
+<input id="lc-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreEtat" class="st-input w-auto" aria-label="Filtrer par moment">
+        <select wire:model.live="filtreEtat" class="champ w-auto" aria-label="Filtrer par moment">
             <option value="">Moment : tous</option>
             <option value="upcoming">À venir</option>
             <option value="past">Passées</option>
         </select>
 
-        <select wire:model.live="filtre" class="st-input w-auto" aria-label="Filtrer par état">
+        <select wire:model.live="filtre" class="champ w-auto" aria-label="Filtrer par état">
             <option value="">État : tous</option>
             <option value="publiees">Publiées</option>
             <option value="brouillons">Brouillons</option>
@@ -73,21 +73,21 @@
     @if ($recherche !== '' || $filtreEtat !== '' || $filtre !== '')
         <div class="flex flex-wrap items-center gap-2 mb-4">
             @if ($recherche !== '')
-                <span class="st-chip">« {{ $recherche }} »
+                <span class="pastille p-bon">« {{ $recherche }} »
                     <button type="button" wire:click="$set('recherche', '')" aria-label="Retirer la recherche">×</button>
                 </span>
             @endif
             @if ($filtreEtat !== '')
-                <span class="st-chip">{{ $filtreEtat === 'upcoming' ? 'À venir' : 'Passées' }}
+                <span class="pastille p-bon">{{ $filtreEtat === 'upcoming' ? 'À venir' : 'Passées' }}
                     <button type="button" wire:click="$set('filtreEtat', '')" aria-label="Retirer le filtre de moment">×</button>
                 </span>
             @endif
             @if ($filtre !== '')
-                <span class="st-chip">{{ $filtre }}
+                <span class="pastille p-bon">{{ $filtre }}
                     <button type="button" wire:click="$set('filtre', '')" aria-label="Retirer le filtre d'état">×</button>
                 </span>
             @endif
-            <button type="button" wire:click="reinitialiser" class="text-sm text-[#059669] font-semibold underline">
+            <button type="button" wire:click="reinitialiser" class="text-sm text-brand-700 dark:text-brand font-semibold underline">
                 Réinitialiser
             </button>
         </div>
@@ -98,7 +98,7 @@
                        title="Aucune séance"
                        description="Aucune séance ne correspond à ces critères. Tant qu'aucune n'est programmée, l'onglet « Live Classes » citoyen reste vide.">
             <x-slot:action>
-                <button type="button" wire:click="reinitialiser" class="st-btn st-btn-secondary">
+                <button type="button" wire:click="reinitialiser" class="btn-second">
                     Réinitialiser les filtres
                 </button>
             </x-slot:action>
@@ -117,15 +117,15 @@
             @foreach ($seances as $seance)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $seance->title }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $seance->title }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                             {{ $seance->course?->title ?? 'Séance ouverte' }}
                             · {{ $seance->host?->name ?? "L'équipe Vérif'All" }}
                         </p>
                     </td>
                     <td class="whitespace-nowrap">
                         {{ $seance->starts_at?->translatedFormat('j M Y · H:i') ?? '—' }}
-                        <span class="block text-xs text-[#64748B]">{{ $seance->minutes }} min</span>
+                        <span class="block text-xs text-encre-3 dark:text-nuit-3">{{ $seance->minutes }} min</span>
                     </td>
                     <td class="whitespace-nowrap">{{ $seance->registrations_count }}{{ $seance->seats ? ' / '.$seance->seats : '' }}</td>
                     <td>
@@ -135,9 +135,9 @@
                                             :label="$seance->is_published ? 'Publiée' : 'Brouillon'" />
 
                             @if ($seance->etat() === 'live')
-                                <span class="st-badge st-badge-danger">En direct</span>
+                                <span class="pastille p-critique">En direct</span>
                             @elseif ($seance->etat() === 'past')
-                                <span class="st-badge st-badge-info">Terminée</span>
+                                <span class="pastille p-info">Terminée</span>
                             @endif
                         </div>
                     </td>
@@ -145,30 +145,30 @@
                         {{-- Trois états distincts, et la nuance compte : « déposée,
                              pas encore diffusée » n'est pas « rien ». --}}
                         @if ($seance->rediffusionDisponible())
-                            <span class="st-badge st-badge-pub">En ligne</span>
+                            <span class="pastille p-bon">En ligne</span>
                         @elseif ($seance->replay_url)
-                            <span class="st-badge st-badge-info">Programmée</span>
+                            <span class="pastille p-info">Programmée</span>
                         @elseif ($seance->estPassee())
-                            <span class="st-badge st-badge-danger">Manquante</span>
+                            <span class="pastille p-critique">Manquante</span>
                         @else
-                            <span class="text-xs text-[#64748B]">—</span>
+                            <span class="text-xs text-encre-3 dark:text-nuit-3">—</span>
                         @endif
                     </td>
                     <td class="text-right whitespace-nowrap">
                         @can('update', $seance)
                             <button type="button" wire:click="basculerLaPublication('{{ $seance->uuid }}')"
-                                    class="st-icnbtn" title="{{ $seance->is_published ? 'Retirer du calendrier' : 'Publier' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $seance->is_published ? 'visibility_off' : 'visibility' }}</span>
+                                    class="btn-icone" title="{{ $seance->is_published ? 'Retirer du calendrier' : 'Publier' }}">
+                                <x-lucide :name="$seance->is_published ? 'visibility_off' : 'visibility'" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="ouvrirEdition('{{ $seance->uuid }}')"
-                                    class="st-icnbtn" title="Modifier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                         @endcan
                         @can('delete', $seance)
                             <button type="button" wire:click="demanderLaSuppression('{{ $seance->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endcan
                     </td>
@@ -183,22 +183,22 @@
                       :title="$enEdition === null ? 'Programmer une séance' : 'Modifier la séance'"
                       close="fermerLeTiroir">
         <form wire:submit="enregistrer" class="space-y-4">
-            <div class="ffield">
-                <input id="lc-titre" type="text" wire:model="titre" placeholder=" ">
-                <label for="lc-titre">Titre de la séance</label>
-                @error('titre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="lc-titre" class="etiquette">Titre de la séance</label>
+<input id="lc-titre" type="text" wire:model="titre" class="champ">
+                @error('titre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
-            <div class="ffield">
-                <textarea id="lc-desc" wire:model="descriptif" rows="4" placeholder=" "></textarea>
-                <label for="lc-desc">Au programme</label>
-                @error('descriptif') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="lc-desc" class="etiquette">Au programme</label>
+<textarea id="lc-desc" wire:model="descriptif" rows="4" class="champ !h-auto py-2.5"></textarea>
+                @error('descriptif') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="lc-cours" class="block text-sm font-medium text-[#0F172A] mb-1">Cours rattaché</label>
-                    <select id="lc-cours" wire:model="coursId" class="st-input w-full">
+                    <label for="lc-cours" class="block text-sm font-medium text-encre dark:text-white mb-1">Cours rattaché</label>
+                    <select id="lc-cours" wire:model="coursId" class="champ w-full">
                         {{-- « Aucun » n'est pas un défaut paresseux : une séance hors
                              cours est ouverte à tout compte actif, y compris pour sa
                              rediffusion. C'est un choix éditorial. --}}
@@ -207,54 +207,54 @@
                             <option value="{{ $unCours->id }}">{{ $unCours->title }}</option>
                         @endforeach
                     </select>
-                    @error('coursId') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('coursId') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label for="lc-animateur" class="block text-sm font-medium text-[#0F172A] mb-1">Animateur</label>
-                    <select id="lc-animateur" wire:model="animateurId" class="st-input w-full">
+                    <label for="lc-animateur" class="block text-sm font-medium text-encre dark:text-white mb-1">Animateur</label>
+                    <select id="lc-animateur" wire:model="animateurId" class="champ w-full">
                         <option value="">L'équipe Vérif'All</option>
                         @foreach ($animateurs as $animateur)
                             <option value="{{ $animateur->id }}">{{ $animateur->name }}</option>
                         @endforeach
                     </select>
-                    @error('animateurId') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('animateurId') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
-                <div class="ffield mb-0">
-                    <input id="lc-debut" type="datetime-local" wire:model="debut" placeholder=" ">
-                    <label for="lc-debut">Date et heure</label>
-                    @error('debut') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="lc-debut" class="etiquette">Date et heure</label>
+<input id="lc-debut" type="datetime-local" wire:model="debut" class="champ">
+                    @error('debut') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="lc-duree" type="number" min="5" max="480" wire:model="duree" placeholder=" ">
-                    <label for="lc-duree">Durée prévue (minutes)</label>
-                    @error('duree') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="lc-duree" class="etiquette">Durée prévue (minutes)</label>
+<input id="lc-duree" type="number" min="5" max="480" wire:model="duree" class="champ">
+                    @error('duree') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
-            <div class="ffield">
-                <input id="lc-visio" type="url" wire:model="lienVisio" placeholder=" ">
-                <label for="lc-visio">Lien de visioconférence (https)</label>
+            <div>
+                <label for="lc-visio" class="etiquette">Lien de visioconférence (https)</label>
+<input id="lc-visio" type="url" wire:model="lienVisio" class="champ">
                 {{-- Le lien n'est servi aux citoyens que 15 minutes avant : un lien
                      publié trois semaines à l'avance est un lien qui circule. --}}
-                @error('lienVisio') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                @error('lienVisio') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
-            <div class="ffield">
-                <input id="lc-places" type="number" min="1" wire:model="places" placeholder=" ">
-                <label for="lc-places">Places (laisser vide si illimité)</label>
-                @error('places') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="lc-places" class="etiquette">Places (laisser vide si illimité)</label>
+<input id="lc-places" type="number" min="1" wire:model="places" class="champ">
+                @error('places') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <label class="flex items-start gap-2.5 cursor-pointer">
                 <input type="checkbox" wire:model="publiee" class="mt-0.5">
-                <span class="text-sm text-[#334155]">
+                <span class="text-sm text-encre-2 dark:text-nuit-2">
                     Publier au calendrier
-                    <span class="block text-xs text-[#64748B]">
+                    <span class="block text-xs text-encre-3 dark:text-nuit-3">
                         Une séance non publiée n'apparaît nulle part côté citoyen.
                     </span>
                 </span>
@@ -265,23 +265,23 @@
                  Les trois colonnes existent depuis le lot 1 et rien ne
                  permettait de les remplir : la carte citoyenne aurait dit
                  « Rediffusion à venir » indéfiniment.                       --}}
-            <fieldset class="border-t border-[#E2E8F0] pt-4">
-                <legend class="text-sm font-bold text-[#0F172A] mb-1">Rediffusion</legend>
-                <p class="text-xs text-[#64748B] mb-3">
+            <fieldset class="border-t border-trait dark:border-nuit-trait pt-4">
+                <legend class="text-sm font-bold text-encre dark:text-white mb-1">Rediffusion</legend>
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mb-3">
                     Facultative. Tant qu'aucun lien n'est déposé, la carte citoyenne
                     annonce « Rediffusion à venir » plutôt que d'offrir un bouton mort.
                     Une <strong>mise en ligne</strong> vide diffuse tout de suite ; une date
                     future garde l'enregistrement au chaud jusqu'à elle.
                 </p>
 
-                <div class="ffield">
-                    <input id="lc-replay" type="url" wire:model="lienReplay" placeholder=" ">
-                    <label for="lc-replay">Lien de l'enregistrement (https)</label>
-                    @error('lienReplay') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="lc-replay" class="etiquette">Lien de l'enregistrement (https)</label>
+<input id="lc-replay" type="url" wire:model="lienReplay" class="champ">
+                    @error('lienReplay') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-4">
-                    <div class="ffield mb-0">
+                    <div class="mb-0">
                         <input id="lc-replay-date" type="datetime-local" wire:model="replayPublieLe" placeholder=" ">
                         {{-- Libellé court : dans un champ de cette largeur, la
                              version longue se coupait à « Mise en ligne (vide = t… ».
@@ -290,22 +290,22 @@
                         <label for="lc-replay-date">Mise en ligne</label>
                         {{-- Une séance s'enregistre le mardi et se publie le jeudi,
                              une fois relue et coupée. --}}
-                        @error('replayPublieLe') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                        @error('replayPublieLe') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <input id="lc-replay-duree" type="number" min="1" max="480" wire:model="dureeEnregistrement" placeholder=" ">
-                        <label for="lc-replay-duree">Durée réelle (minutes)</label>
+                    <div class="mb-0">
+                        <label for="lc-replay-duree" class="etiquette">Durée réelle (minutes)</label>
+<input id="lc-replay-duree" type="number" min="1" max="480" wire:model="dureeEnregistrement" class="champ">
                         {{-- Distincte de la durée prévue : annoncer 60 min sur une
                              vidéo qui en fait 40 fait renoncer avant de lancer. --}}
-                        @error('dureeEnregistrement') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                        @error('dureeEnregistrement') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
             </fieldset>
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>

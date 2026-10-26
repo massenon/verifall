@@ -43,11 +43,11 @@
             return v === null || v === undefined || v === '' ? '<span class="vdt-sous-texte">—</span>' : e(v);
         }
 
-        var TONS = { ok: 'st-badge-pub', attente: 'st-badge-warn', alerte: 'st-badge-danger', neutre: 'st-badge-draft' };
+        var TONS = { ok: 'p-bon', attente: 'p-alerte', alerte: 'p-critique', neutre: 'p-neutre' };
 
         /** Un badge dont la couleur suit `ton`, fourni par le serveur. */
         function badge(v, l) {
-            return v ? '<span class="st-badge ' + (TONS[l.ton] || 'st-badge-info') + '">' + e(v) + '</span>' : tiret(v);
+            return v ? '<span class="pastille ' + (TONS[l.ton] || 'p-info') + '">' + e(v) + '</span>' : tiret(v);
         }
 
         function titre(cle, sousCle) {

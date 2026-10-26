@@ -1,3 +1,6 @@
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/pages/staff-tableau-de-bord.css') }}">
+@endpush
 {{--
   | Courbe(s) sur la période — SVG rendu par le serveur, sans bibliothèque.
   |

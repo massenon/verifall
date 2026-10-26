@@ -12,7 +12,7 @@
 <div>
 
 <x-premium.entete titre="Forum citoyen" :fil="['Forum citoyen']">
-        Les sujets du débat, les plus actifs en tête. Pour traiter ce que les citoyens ont signalé, passez par <a href="{{ route('staff.content-reports') }}" class="text-[#059669] underline">Signalements</a>.
+        Les sujets du débat, les plus actifs en tête. Pour traiter ce que les citoyens ont signalé, passez par <a href="{{ route('staff.content-reports') }}" class="text-brand-700 dark:text-brand underline">Signalements</a>.
     </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
@@ -30,19 +30,19 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="fc-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="fc-q">Rechercher un sujet</label>
+        <div class="flex-1 mb-0">
+            <label for="fc-q" class="etiquette">Rechercher un sujet</label>
+<input id="fc-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreCategorie" class="st-input w-auto" aria-label="Filtrer par rubrique">
+        <select wire:model.live="filtreCategorie" class="champ w-auto" aria-label="Filtrer par rubrique">
             <option value="">Rubrique : toutes</option>
             @foreach ($categories as $categorie)
                 <option value="{{ $categorie->uuid }}">{{ $categorie->name }}</option>
             @endforeach
         </select>
 
-        <select wire:model.live="filtreEtat" class="st-input w-auto" aria-label="Filtrer par état">
+        <select wire:model.live="filtreEtat" class="champ w-auto" aria-label="Filtrer par état">
             <option value="">État : tous</option>
             <option value="verrouilles">Verrouillés</option>
             <option value="epingles">Épinglés</option>
@@ -56,7 +56,7 @@
                        title="Aucun sujet"
                        description="Aucun sujet ne correspond à ces critères. Un forum vide est un état correct, pas une panne.">
             <x-slot:action>
-                <button type="button" wire:click="reinitialiser" class="st-btn st-btn-secondary">
+                <button type="button" wire:click="reinitialiser" class="btn-second">
                     Réinitialiser les filtres
                 </button>
             </x-slot:action>
@@ -74,60 +74,60 @@
             @foreach ($sujets as $sujet)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">
+                        <p class="font-semibold text-encre dark:text-white mb-0">
                             @if ($sujet->is_pinned)
-                                <span class="material-symbols-rounded !text-[16px] text-[#D97706]" aria-hidden="true">push_pin</span>
+                                <x-lucide name="pin" class="w-4 h-4 text-amber-700 dark:text-amber-300" />
                             @endif
                             {{ Str::limit($sujet->title, 70) }}
                         </p>
-                        <p class="text-xs text-[#64748B] mb-0">
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                             {{ $sujet->author?->name ?? 'Compte supprimé' }}
                         </p>
                     </td>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">
                         {{ $sujet->category?->name ?? 'Sans rubrique' }}
                     </td>
                     <td class="whitespace-nowrap text-sm">
-                        <span class="text-[#334155]">{{ $sujet->replies_count }} réponse(s)</span>
-                        <span class="block text-xs text-[#64748B]">
+                        <span class="text-encre-2 dark:text-nuit-2">{{ $sujet->replies_count }} réponse(s)</span>
+                        <span class="block text-xs text-encre-3 dark:text-nuit-3">
                             {{ $sujet->last_activity_at?->diffForHumans() ?? '—' }}
                         </span>
                     </td>
                     <td>
                         <div class="flex flex-wrap items-center gap-1.5">
                             @if ($sujet->official_verdict !== null)
-                                <span class="st-badge st-badge-pub">{{ $sujet->official_verdict->libelle() }}</span>
+                                <span class="pastille p-bon">{{ $sujet->official_verdict->libelle() }}</span>
                             @elseif ($sujet->escalated_at !== null)
                                 {{-- Escaladé sans verdict : c'est la file réelle du
                                      fact-checking côté forum. --}}
-                                <span class="st-badge st-badge-warn">Transmis</span>
+                                <span class="pastille p-alerte">Transmis</span>
                             @endif
                             @if ($sujet->is_locked)
-                                <span class="st-badge st-badge-arch">Verrouillé</span>
+                                <span class="pastille p-neutre">Verrouillé</span>
                             @endif
                         </div>
                     </td>
                     <td class="text-right whitespace-nowrap">
                         @if ($peutModerer)
                             <button type="button" wire:click="basculerLEpingle('{{ $sujet->uuid }}')"
-                                    class="st-icnbtn" title="{{ $sujet->is_pinned ? 'Désépingler' : 'Épingler' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">push_pin</span>
+                                    class="btn-icone" title="{{ $sujet->is_pinned ? 'Désépingler' : 'Épingler' }}">
+                                <x-lucide name="pin" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="basculerLeVerrou('{{ $sujet->uuid }}')"
-                                    class="st-icnbtn" title="{{ $sujet->is_locked ? 'Rouvrir aux réponses' : 'Verrouiller' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $sujet->is_locked ? 'lock_open' : 'lock' }}</span>
+                                    class="btn-icone" title="{{ $sujet->is_locked ? 'Rouvrir aux réponses' : 'Verrouiller' }}">
+                                <x-lucide :name="$sujet->is_locked ? 'lock_open' : 'lock'" class="w-4 h-4" />
                             </button>
                             @if ($sujet->official_verdict === null && $sujet->escalated_at === null)
                                 <button type="button" wire:click="escalader('{{ $sujet->uuid }}')"
-                                        class="st-icnbtn" title="Transmettre au fact-checking">
-                                    <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">fact_check</span>
+                                        class="btn-icone" title="Transmettre au fact-checking">
+                                    <x-lucide name="file-check" class="w-4 h-4" />
                                 </button>
                             @endif
                         @endif
                         @if ($peutSupprimer)
                             <button type="button" wire:click="demanderLaSuppression('{{ $sujet->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer le sujet">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer le sujet">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>

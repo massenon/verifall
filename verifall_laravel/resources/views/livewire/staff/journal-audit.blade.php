@@ -4,8 +4,8 @@
     <x-premium.entete titre="Logs d'Audit">
         Traçabilité des actions du back-office. Consultation seule : un journal modifiable ne prouverait rien.
         <x-slot:actions>
-            <button type="button" wire:click="exporterCsv" class="st-btn st-btn-secondary">
-            <span class="material-symbols-rounded !text-[18px]" aria-hidden="true">download</span>
+            <button type="button" wire:click="exporterCsv" class="btn-second">
+            <x-lucide name="download" class="w-4 h-4" />
             Exporter en CSV
         </button>
         </x-slot:actions>
@@ -22,19 +22,19 @@
 
     {{-- Recherche débouncée 350 ms + filtres + chips supprimables. --}}
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="audit-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="audit-q">Rechercher un acteur, une cible, un module</label>
+        <div class="flex-1 mb-0">
+            <label for="audit-q" class="etiquette">Rechercher un acteur, une cible, un module</label>
+<input id="audit-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreModule" class="st-input w-auto" aria-label="Filtrer par module">
+        <select wire:model.live="filtreModule" class="champ w-auto" aria-label="Filtrer par module">
             <option value="">Module : tous</option>
             @foreach ($modules as $module)
                 <option value="{{ $module }}">{{ $this->libelleModule($module) }}</option>
             @endforeach
         </select>
 
-        <select wire:model.live="filtreAction" class="st-input w-auto" aria-label="Filtrer par action">
+        <select wire:model.live="filtreAction" class="champ w-auto" aria-label="Filtrer par action">
             <option value="">Action : toutes</option>
             @foreach ($actions as $action)
                 <option value="{{ $action }}">{{ $this->libelleAction($action) }}</option>
@@ -46,7 +46,7 @@
         <div class="mb-4 flex flex-wrap items-center gap-2">
             @foreach ([['recherche', $recherche], ['filtreModule', $filtreModule], ['filtreAction', $filtreAction]] as [$champ, $valeur])
                 @if ($valeur !== '')
-                    <span class="st-chip">
+                    <span class="pastille p-bon">
                         {{ $valeur }}
                         <button type="button" wire:click="$set('{{ $champ }}', '')"
                                 aria-label="Retirer le filtre {{ $valeur }}">×</button>
@@ -54,7 +54,7 @@
                 @endif
             @endforeach
 
-            <button type="button" wire:click="reinitialiser" class="text-sm text-[#059669] font-semibold underline">
+            <button type="button" wire:click="reinitialiser" class="text-sm text-brand-700 dark:text-brand font-semibold underline">
                 Réinitialiser
             </button>
         </div>
@@ -65,7 +65,7 @@
                        title="Aucun événement"
                        description="Aucune action ne correspond à ces critères. Essayez d'élargir la recherche.">
             <x-slot:action>
-                <button type="button" wire:click="reinitialiser" class="st-btn st-btn-secondary">
+                <button type="button" wire:click="reinitialiser" class="btn-second">
                     Réinitialiser les filtres
                 </button>
             </x-slot:action>
@@ -98,17 +98,17 @@
 
         <x-card-list variant="staff">
             @foreach ($entrees as $entree)
-                <div class="st-card p-4" wire:key="audit-carte-{{ $entree->id }}">
+                <div class="carte p-4" wire:key="audit-carte-{{ $entree->id }}">
                     <div class="flex items-start justify-between gap-3">
-                        <p class="font-semibold text-[#0F172A]">{{ $entree->actor_label ?? '—' }}</p>
+                        <p class="font-semibold text-encre dark:text-white">{{ $entree->actor_label ?? '—' }}</p>
                         <x-badge-statut variant="staff"
                                         :statut="$this->estDestructive($entree->action) ? 'danger' : 'info'"
                                         :label="$this->libelleAction($entree->action)" />
                     </div>
-                    <p class="mt-1 text-sm text-[#475569]">
+                    <p class="mt-1 text-sm text-encre-2 dark:text-nuit-2">
                         {{ $this->libelleModule($entree->module) }}@if ($entree->target_label) · {{ $entree->target_label }} @endif
                     </p>
-                    <p class="mt-1 text-xs text-[#64748B]">
+                    <p class="mt-1 text-xs text-encre-3 dark:text-nuit-3">
                         {{ $entree->created_at?->translatedFormat('j M Y H:i') }}
                     </p>
                 </div>

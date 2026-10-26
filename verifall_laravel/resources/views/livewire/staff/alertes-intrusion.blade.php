@@ -14,14 +14,14 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <select wire:model.live="filtreEvenement" class="st-input w-auto" aria-label="Filtrer par type">
+        <select wire:model.live="filtreEvenement" class="champ w-auto" aria-label="Filtrer par type">
             <option value="">Type : tous</option>
             @foreach ($evenements as $evenement)
                 <option value="{{ $evenement }}">{{ $this->libelle($evenement) }}</option>
             @endforeach
         </select>
 
-        <select wire:model.live="filtreSeverite" class="st-input w-auto" aria-label="Filtrer par criticité">
+        <select wire:model.live="filtreSeverite" class="champ w-auto" aria-label="Filtrer par criticité">
             <option value="">Criticité : toutes</option>
             <option value="info">Info</option>
             <option value="warning">Sensible</option>
@@ -29,7 +29,7 @@
         </select>
 
         @if ($filtreEvenement !== '' || $filtreSeverite !== '')
-            <button type="button" wire:click="reinitialiser" class="text-sm text-[#059669] font-semibold underline">
+            <button type="button" wire:click="reinitialiser" class="text-sm text-brand-700 dark:text-brand font-semibold underline">
                 Réinitialiser
             </button>
         @endif
@@ -67,14 +67,14 @@
 
         <x-card-list variant="staff">
             @foreach ($alertes as $alerte)
-                <div class="st-card p-4" wire:key="alerte-carte-{{ $alerte->id }}">
+                <div class="carte p-4" wire:key="alerte-carte-{{ $alerte->id }}">
                     <div class="flex items-start justify-between gap-3">
-                        <p class="font-semibold text-[#0F172A]">{{ $this->libelle($alerte->event) }}</p>
+                        <p class="font-semibold text-encre dark:text-white">{{ $this->libelle($alerte->event) }}</p>
                         <x-badge-statut variant="staff"
                                         :statut="$this->statutBadge($alerte->severity)"
                                         :label="ucfirst($alerte->severity)" />
                     </div>
-                    <p class="mt-1 text-xs text-[#64748B]">
+                    <p class="mt-1 text-xs text-encre-3 dark:text-nuit-3">
                         <code>{{ Str::limit($alerte->ip_hash ?? '—', 12, '…') }}</code>
                         · {{ $alerte->created_at?->translatedFormat('j M Y H:i') }}
                     </p>

@@ -205,17 +205,15 @@
 .groupe-nav:not([open]) .chevron-groupe { transform: rotate(-90deg); }
 
 /* ═══════════════════════════════════════════════════════════════════
-   COUCHE DE COMPATIBILITÉ — les écrans pas encore réécrits (`st-*`, `ffield`,
-   plus de 50 vues) gardent leur HTML mais prennent les jetons premium, en clair
-   comme en sombre. Les anciennes feuilles sont pilotées par variables : on les
-   redéfinit ici, puis on corrige les quelques valeurs qu'elles écrivent en dur.
-   Chaque écran réécrit abandonne ses `st-*` ; quand il n'en reste plus, ce bloc
-   et les anciennes feuilles disparaissent (phase 8).
+   JETONS DES FEUILLES D'ÉCRAN — `pages/staff-*.css` et `datatables-staff.css`
+   lisent ces variables ; elles prennent les valeurs de la console premium, en
+   clair comme en sombre. Plus aucune classe `st-*` n'existe dans les vues.
    ═══════════════════════════════════════════════════════════════════ */
 :root {
   --st-brand: #067a36; --st-deep: #0E2A1E; --st-emerald: #09B850; --st-mint: #c9efd9;
   --st-ink: #142019; --st-text: #4A5A51; --st-slate: #4A5A51; --st-muted: #7A8981;
   --st-border: #E3E8E4; --st-surface: #FFFFFF; --st-canvas: #F6F8F5;
+  --st-success: #0ca30c; --st-warning: #fab219; --st-danger: #d03b3b; --st-info: #2563EB;
   --st-radius: 14px; --st-radius-sm: 8px;
   --c-line: #E3E8E4; --c-ink: #142019; --c-slate: #4A5A51; --c-primary: #09B850;
 }
@@ -225,39 +223,71 @@
   --st-border: #22352B; --st-surface: #13211A; --st-canvas: #0A1510;
   --c-line: #22352B; --c-ink: #FFFFFF; --c-slate: #B9C8BF;
 }
-.st-btn { font-family: "Public Sans", system-ui, sans-serif; border-radius: 8px; min-height: 36px; padding: 0 .9rem; font-weight: 500; }
-.st-btn-primary { color: #fff; }
-.st-btn-primary:hover { background: #079a43; }
-.st-input, .st-select, .st-textarea { border-radius: 8px; min-height: 40px; }
-.st-input:focus, .st-select:focus, .st-textarea:focus { border-color: #09B850; box-shadow: 0 0 0 3px rgba(9,184,80,.18); }
-.st-card { box-shadow: none; }
-.st-table th { text-transform: none; letter-spacing: 0; font-size: 13px; font-weight: 500; }
-.st-table td { height: 56px; }
-.ffield > input, .ffield > select, .ffield > textarea { border-radius: 8px; background: var(--st-surface); color: var(--st-ink); }
-.ffield > :is(input,select,textarea):focus { border-color: #09B850; box-shadow: 0 0 0 3px rgba(9,184,80,.18); }
-.ffield > label { color: var(--st-muted); }
-.dark .st-badge-draft { background: #0A1510; }
-.dark .st-badge-pub { color: #86efac; }
-.dark .st-badge-warn { color: #fcd34d; }
-.dark .st-badge-danger { color: #fca5a5; }
-.dark .st-badge-info { color: #93c5fd; }
-.dark .st-badge-premium { color: #c4b5fd; }
-.dark .st-chip { color: #86efac; }
-.dark .st-oc-backdrop, .dark .st-sheet-bg { background: rgba(0,0,0,.6); }
-.dark :is(.st-input, .st-select, .st-textarea) { color-scheme: dark; }
-.dark .ql-toolbar.ql-snow, .dark .ql-container.ql-snow { background: var(--st-surface); }
-.dark .rich-area { background: var(--st-surface); }
-.dark .rich-toolbar { background: var(--st-canvas); }
-/* Sombre : les titres et textes de l'ancien style écrivaient leur couleur en
-   dur (encre sur fond clair) ; on les rend lisibles sans réécrire les vues. */
+/* Sombre : le texte courant et les titres des vues qui ne posent pas leur couleur. */
 .dark .console-contenu { color: #B9C8BF; }
-.dark .console-contenu :is(h1, h2, h3, h4, .font-display, .text-heading, th, label, strong) { color: #fff; }
-.dark .console-contenu :is(a:not([class*="btn"]):not([class*="st-"]):not([class*="menu"])) { color: #86efac; }
-.dark .console-contenu :is(.text-body, .text-slate, .text-muted) { color: #B9C8BF; }
-.dark .console-contenu :is(.bg-white, .bg-light) { background: var(--st-surface); }
-.dark .console-contenu :is(.border, .border-line, .border-b, .border-t) { border-color: var(--st-border); }
-/* Tuiles de chiffres des écrans `st-*` : même rendu que <x-premium.chiffre>. */
-.st-kpi { background: var(--st-surface); border: 1px solid var(--st-border); border-radius: 14px; padding: 1rem; box-shadow: none; }
-.st-kpi-v { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 26px; line-height: 1; font-weight: 600; letter-spacing: -.01em; color: var(--st-ink); font-variant-numeric: tabular-nums; }
-.st-kpi-l { margin-top: .5rem; font-size: 13px; font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--st-slate); }
-.st-kpi-t { margin-top: .35rem; font-size: 12px; color: var(--st-muted); }
+.dark .console-contenu :is(h1, h2, h3, h4, th, label, strong) { color: #fff; }
+.dark .console-contenu :is(.bg-white) { background: var(--st-surface); }
+.dark .console-contenu :is(input, select, textarea) { color-scheme: dark; }
+.dark .ql-toolbar.ql-snow, .dark .ql-container.ql-snow { background: var(--st-surface); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   COMPOSANTS DE LA CONSOLE — tiroir, feuille mobile, menu flottant,
+   squelettes, réglages. Ce sont les composants de l'ancienne feuille staff,
+   réécrits avec les jetons premium ; plus aucun écran ne charge l'ancienne.
+   ═══════════════════════════════════════════════════════════════════ */
+.fond-tiroir { position: fixed; inset: 0; z-index: 79; background: rgba(14,42,30,.5); opacity: 0; pointer-events: none; transition: opacity .2s; }
+.fond-tiroir.is-open { opacity: 1; pointer-events: auto; }
+.tiroir { position: fixed; top: 0; right: 0; bottom: 0; z-index: 80; width: min(480px, 100vw); display: flex; flex-direction: column; transform: translateX(100%); transition: transform .22s ease; background: #fff; box-shadow: -1rem 0 3rem rgba(14,42,30,.22); }
+.dark .tiroir { background: #13211A; }
+.tiroir.is-open { transform: none; }
+.tiroir-tete { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid #E3E8E4; }
+.dark .tiroir-tete, .dark .tiroir-pied { border-color: #22352B; }
+.tiroir-corps { flex: 1; overflow-y: auto; padding: 1.25rem; }
+.tiroir-pied { display: flex; gap: .6rem; justify-content: flex-end; padding: .9rem 1.25rem; border-top: 1px solid #E3E8E4; background: #F6F8F5; }
+.dark .tiroir-pied { background: #0A1510; }
+.feuille { position: fixed; inset: 0; z-index: 85; display: none; }
+.feuille.is-open { display: block; }
+.feuille-fond { position: absolute; inset: 0; background: rgba(14,42,30,.5); }
+.feuille-panneau { position: absolute; inset-inline: 0; bottom: 0; background: #fff; border-radius: 16px 16px 0 0; padding: 1rem 1rem 1.4rem; max-height: 80vh; overflow-y: auto; }
+.dark .feuille-panneau { background: #13211A; }
+.feuille-poignee { width: 42px; height: 4px; border-radius: 999px; background: #E3E8E4; margin: 0 auto .8rem; }
+.feuille-panneau a, .feuille-panneau button.st-sheet-item { display: flex; align-items: center; gap: .8rem; width: 100%; font-size: .95rem; font-weight: 500; padding: .8rem .6rem; border-radius: 10px; min-height: 48px; }
+.feuille-panneau a:hover, .feuille-panneau button.st-sheet-item:hover { background: #F6F8F5; }
+.dark .feuille-panneau a:hover { background: #0A1510; }
+.menu-flottant { position: absolute; right: 0; top: calc(100% + 4px); min-width: 190px; z-index: 40; padding: .35rem; border-radius: 10px; background: #fff; border: 1px solid #E3E8E4; box-shadow: 0 12px 32px -8px rgba(14,42,30,.22); }
+.dark .menu-flottant { background: #13211A; border-color: #22352B; }
+.menu-flottant a, .menu-flottant button { display: flex; align-items: center; gap: .6rem; width: 100%; text-align: left; font-size: .85rem; padding: .5rem .65rem; border-radius: 8px; min-height: 38px; }
+.menu-flottant a:hover, .menu-flottant button:hover { background: #F6F8F5; }
+.dark .menu-flottant a:hover, .dark .menu-flottant button:hover { background: #0A1510; }
+.menu-flottant .menu-danger { color: #d03b3b; }
+.menu-flottant .menu-sep { height: 1px; background: #E3E8E4; margin: .35rem .2rem; }
+.dark .menu-flottant .menu-sep { background: #22352B; }
+@keyframes squelette-eclat { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
+.squelette { border-radius: 8px; background: linear-gradient(90deg, #E8EEE9 25%, #F6F8F5 50%, #E8EEE9 75%); background-size: 800px 100%; animation: squelette-eclat 1.2s linear infinite; }
+.dark .squelette { background: linear-gradient(90deg, #13211A 25%, #1b2d23 50%, #13211A 75%); background-size: 800px 100%; }
+@media (prefers-reduced-motion: reduce) { .squelette { animation: none; } .tiroir { transition: none; } }
+.tableau-conteneur { overflow-x: auto; }
+@media (max-width: 767px) { .tableau-conteneur { display: none; } }
+.onglet.is-active { color: #142019; font-weight: 500; }
+.dark .onglet.is-active { color: #fff; }
+.onglet.is-active::after { content: ''; position: absolute; inset-inline: .5rem; bottom: -1px; height: 2px; border-radius: 999px; background: #09B850; }
+.reglages { display: grid; gap: 1.5rem; }
+.reglages-nav { min-width: 0; }
+.reglages-onglets { display: flex; gap: .25rem; overflow-x: auto; padding-bottom: .5rem; scrollbar-width: none; }
+.reglages-onglets::-webkit-scrollbar { display: none; }
+@media (min-width: 1024px) {
+  .reglages { grid-template-columns: 240px minmax(0, 1fr); }
+  .reglages-nav { position: sticky; top: 1.5rem; align-self: start; }
+  .reglages-onglets { flex-direction: column; overflow-x: visible; padding-bottom: 0; }
+}
+.editeur-riche .ql-toolbar { border-radius: 8px 8px 0 0; overflow-x: auto; white-space: nowrap; }
+.editeur-riche .ql-container { border-radius: 0 0 8px 8px; min-height: 160px; }
+.editeur-riche .ql-editor { min-height: 160px; }
+/* Texte riche rendu depuis du HTML purifié (analyses, contenus de leçon). */
+.prose-lesson > * + * { margin-top: .75em; }
+.prose-lesson ul { list-style: disc; padding-left: 1.25rem; }
+.prose-lesson ol { list-style: decimal; padding-left: 1.25rem; }
+.prose-lesson a { color: #067a36; text-decoration: underline; }
+.dark .prose-lesson a { color: #86efac; }
+.prose-lesson h2, .prose-lesson h3 { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-weight: 600; }
+.prose-lesson blockquote { border-left: 3px solid #09B850; padding-left: 1rem; }

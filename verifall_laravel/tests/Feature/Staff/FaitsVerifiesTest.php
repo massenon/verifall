@@ -417,7 +417,7 @@ describe('indicateurs', function (): void {
         // prototype.
         Livewire::test(FaitsVerifies::class)
             ->assertSee('Fact checks publiés')
-            ->assertSeeHtml('<p class="st-kpi-v">2</p>')
+            ->assertSeeHtml('<p class="font-titre text-[26px] leading-none font-semibold tabular-nums text-encre dark:text-white">2</p>')
             ->assertDontSee('1 962');
     });
 });

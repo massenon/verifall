@@ -34,7 +34,7 @@
         }
 
         function boutonAction(methode, uuid, icone, titre) {
-            return '<button type="button" class="st-icnbtn" data-vdt-action="' + e(methode) + '" data-vdt-uuid="' + e(uuid) + '"'
+            return '<button type="button" class="btn-icone" data-vdt-action="' + e(methode) + '" data-vdt-uuid="' + e(uuid) + '"'
                 + ' title="' + e(titre) + '" aria-label="' + e(titre) + '">'
                 + '<span class="material-symbols-rounded" aria-hidden="true">' + e(icone) + '</span></button>';
         }
@@ -69,7 +69,7 @@
                     data: 'famille', name: 'famille', type: 'string', responsivePriority: 5,
                     render: rendu(
                         // Une fiche orpheline se dit, elle ne se cache pas.
-                        function (famille) { return famille ? '<span class="st-badge st-badge-info">' + e(famille) + '</span>' : sousTexte('Sans famille'); },
+                        function (famille) { return famille ? '<span class="pastille p-info">' + e(famille) + '</span>' : sousTexte('Sans famille'); },
                         function (famille) { return famille || 'Sans famille'; }
                     ),
                 },
@@ -82,8 +82,8 @@
                     render: rendu(
                         function (effet) {
                             return effet === 'reconnue'
-                                ? '<span class="st-badge st-badge-pub">Reconnue</span>' + sousTexte("Exemptée du soupçon d'usurpation")
-                                : '<span class="st-badge st-badge-draft">Ignorée</span>' + sousTexte('Le moteur la traite comme un domaine inconnu');
+                                ? '<span class="pastille p-bon">Reconnue</span>' + sousTexte("Exemptée du soupçon d'usurpation")
+                                : '<span class="pastille p-neutre">Ignorée</span>' + sousTexte('Le moteur la traite comme un domaine inconnu');
                         },
                         function (effet) { return effet === 'reconnue' ? 'Reconnue' : 'Ignorée'; }
                     ),

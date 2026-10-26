@@ -28,17 +28,17 @@
         }
 
         function badge(classe, texte) {
-            return '<span class="st-badge ' + classe + '">' + e(texte) + '</span>';
+            return '<span class="pastille ' + classe + '">' + e(texte) + '</span>';
         }
 
         function sousTexte(texte) {
             return texte ? '<span class="vdt-sous-texte">' + e(texte) + '</span>' : '';
         }
 
-        var BADGES_STATUT = { draft: 'st-badge-draft', published: 'st-badge-pub', archived: 'st-badge-arch' };
+        var BADGES_STATUT = { draft: 'p-neutre', published: 'p-bon', archived: 'p-neutre' };
 
         function boutonAction(methode, uuid, icone, titre) {
-            return '<button type="button" class="st-icnbtn" data-vdt-action="' + e(methode) + '" data-vdt-uuid="' + e(uuid) + '"'
+            return '<button type="button" class="btn-icone" data-vdt-action="' + e(methode) + '" data-vdt-uuid="' + e(uuid) + '"'
                 + ' title="' + e(titre) + '" aria-label="' + e(titre) + '">'
                 + '<span class="material-symbols-rounded" aria-hidden="true">' + e(icone) + '</span></button>';
         }
@@ -80,7 +80,7 @@
                 {
                     data: 'statut', name: 'statut', responsivePriority: 3,
                     render: rendu(
-                        function (v, l) { return badge(BADGES_STATUT[v] || 'st-badge-draft', l.statutLibelle) + (l.publieLeTexte ? sousTexte('le ' + l.publieLeTexte) : ''); },
+                        function (v, l) { return badge(BADGES_STATUT[v] || 'p-neutre', l.statutLibelle) + (l.publieLeTexte ? sousTexte('le ' + l.publieLeTexte) : ''); },
                         function (v, l) { return l.statutLibelle; }
                     ),
                 },

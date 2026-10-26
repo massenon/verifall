@@ -24,26 +24,26 @@
     </x-kpi-grid>
 
     <section class="my-5 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0" style="min-width: 220px;">
-            <input id="sig-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="sig-q">Rechercher dans l'affirmation ou le contexte</label>
+        <div class="flex-1 mb-0" style="min-width: 220px;">
+            <label for="sig-q" class="etiquette">Rechercher dans l'affirmation ou le contexte</label>
+<input id="sig-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreStatut" class="st-input w-auto" aria-label="Filtrer par statut">
+        <select wire:model.live="filtreStatut" class="champ w-auto" aria-label="Filtrer par statut">
             <option value="">Tous les statuts</option>
             @foreach ($statuts as $statut)
                 <option value="{{ $statut->value }}">{{ $statut->libelle() }}</option>
             @endforeach
         </select>
 
-        <select wire:model.live="filtreAssignation" class="st-input w-auto" aria-label="Filtrer par prise en charge">
+        <select wire:model.live="filtreAssignation" class="champ w-auto" aria-label="Filtrer par prise en charge">
             <option value="">Toutes</option>
             <option value="non-assignees">Non assignées</option>
             <option value="a-moi">Confiées à moi</option>
         </select>
 
         @if ($recherche !== '' || $filtreStatut !== '' || $filtreAssignation !== '')
-            <button type="button" wire:click="reinitialiser" class="text-sm text-[#059669] font-semibold underline">
+            <button type="button" wire:click="reinitialiser" class="text-sm text-brand-700 dark:text-brand font-semibold underline">
                 Réinitialiser
             </button>
         @endif
@@ -67,29 +67,29 @@
             @foreach ($lignes as $ligne)
                 <tr wire:key="sig-{{ $ligne->uuid }}">
                     <td style="max-width: 320px;">
-                        <p class="font-semibold text-[#0F172A] mb-0" style="word-break: break-word;">
+                        <p class="font-semibold text-encre dark:text-white mb-0" style="word-break: break-word;">
                             {{ Str::limit((string) $ligne->claim, 120) }}
                         </p>
-                        <p class="text-xs text-[#64748B] mb-0">
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                             {{ $ligne->created_at?->diffForHumans() }}
                             @if ($ligne->theme) · {{ $ligne->theme }} @endif
                         </p>
                     </td>
 
-                    <td class="text-sm text-[#334155] whitespace-nowrap">{{ $ligne->type }}</td>
+                    <td class="text-sm text-encre-2 dark:text-nuit-2 whitespace-nowrap">{{ $ligne->type }}</td>
 
                     <td>
-                        <p class="text-sm text-[#334155] mb-0">
+                        <p class="text-sm text-encre-2 dark:text-nuit-2 mb-0">
                             {{-- Une soumission d'invité n'a pas de compte : le dire
                                  plutôt que d'afficher un tiret, qui se lirait comme
                                  une donnée manquante. --}}
                             {{ $ligne->user?->name ?? 'Visiteur non connecté' }}
                         </p>
-                        <p class="text-xs text-[#64748B] mb-0">{{ $ligne->user?->email }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $ligne->user?->email }}</p>
                     </td>
 
                     <td class="whitespace-nowrap">
-                        <span class="st-badge">{{ $ligne->status }}</span>
+                        <span class="pastille">{{ $ligne->status }}</span>
                         {{--
                           | `verdict` est NULLABLE dès qu'un rapport est MIXTE
                           | (contrat V-8) : la garde sur `->verdict` seul ne
@@ -100,11 +100,11 @@
                           | se taire.
                         --}}
                         @if ($ligne->report?->estMixte())
-                            <span class="block text-xs text-[#64748B] mt-1">
+                            <span class="block text-xs text-encre-3 dark:text-nuit-3 mt-1">
                                 Verdict : {{ $ligne->report->composition_status->libelle() }}
                             </span>
                         @elseif ($ligne->report?->verdict)
-                            <span class="block text-xs text-[#64748B] mt-1">
+                            <span class="block text-xs text-encre-3 dark:text-nuit-3 mt-1">
                                 Verdict : {{ $ligne->report->verdict->libelle() }}
                             </span>
                         @endif
@@ -114,14 +114,14 @@
                         @if ($ligne->assignee)
                             {{ $ligne->assignee->name }}
                         @else
-                            <span class="text-[#64748B]">Personne</span>
+                            <span class="text-encre-3 dark:text-nuit-3">Personne</span>
                         @endif
                     </td>
 
                     <td class="text-right whitespace-nowrap">
                         @if ($peutAssigner)
                             <button type="button" wire:click="ouvrirLAssignation('{{ $ligne->uuid }}')"
-                                    class="text-xs font-bold text-primary">Assigner</button>
+                                    class="text-xs font-bold text-brand-700 dark:text-brand">Assigner</button>
                         @endif
 
                         {{--
@@ -134,16 +134,16 @@
                           | faire ici.
                         --}}
                         @if ($peutPublier && $ligne->report?->verdict)
-                            <span class="text-[#64748B]" aria-hidden="true">·</span>
+                            <span class="text-encre-3 dark:text-nuit-3" aria-hidden="true">·</span>
                             <button type="button" wire:click="publier('{{ $ligne->uuid }}')"
                                     wire:loading.attr="disabled"
-                                    class="text-xs font-bold text-primary">Verser à la base</button>
+                                    class="text-xs font-bold text-brand-700 dark:text-brand">Verser à la base</button>
                         @endif
 
                         @if ($peutRetirer)
-                            <span class="text-[#64748B]" aria-hidden="true">·</span>
+                            <span class="text-encre-3 dark:text-nuit-3" aria-hidden="true">·</span>
                             <button type="button" wire:click="ouvrirLeRetrait('{{ $ligne->uuid }}')"
-                                    class="text-xs font-bold text-[#DC2626]">Retirer</button>
+                                    class="text-xs font-bold text-critique">Retirer</button>
                         @endif
                     </td>
                 </tr>
@@ -155,7 +155,7 @@
         {{-- Dit une fois, en bas, plutôt que répété sur chaque bouton : « Verser »
              n'est pas « publier », et laisser croire l'inverse ferait d'un verdict
              automatique une référence opposable. --}}
-        <p class="text-xs text-[#64748B] mt-3 mb-0">
+        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-3 mb-0">
             « Verser à la base » ajoute la vérification au fonds de connaissances en
             <strong>brouillon</strong> : les analyses suivantes y trouveront le même contenu sans
             rappeler l'IA, une fois qu'un relecteur l'aura publiée. « Retirer » est réversible et
@@ -165,24 +165,24 @@
 
     {{-- ═══════════════════════════════════════════════════════ assigner --}}
     @if ($aAssigner)
-        <div class="st-oc-backdrop is-open" wire:click="fermerLesModales" aria-hidden="true"></div>
+        <div class="voile !z-[79]" wire:click="fermerLesModales" aria-hidden="true"></div>
 
         {{-- `z-index` EN LIGNE : le build Tailwind est figé et ne contient aucune
              valeur arbitraire ; `z-50` laisserait la modale sous le fond du
              tiroir staff (z-79). Même raison que dans `<x-delete-modal>`. --}}
-        <div class="st-card fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6"
+        <div class="carte fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6"
              style="z-index:90" role="dialog" aria-modal="true" aria-labelledby="assign-titre">
 
-            <h2 id="assign-titre" class="text-lg font-display font-bold text-[#0F172A] mb-2">
+            <h2 id="assign-titre" class="text-lg font-titre font-bold text-encre dark:text-white mb-2">
                 Confier cette vérification
             </h2>
 
-            <p class="text-sm text-[#64748B] mb-4">
+            <p class="text-sm text-encre-3 dark:text-nuit-3 mb-4">
                 Seuls les comptes qui peuvent rendre un verdict apparaissent ici : confier à
                 quelqu'un d'autre créerait une file qui n'avance jamais.
             </p>
 
-            <select wire:model="destinataireUuid" class="st-input w-full mb-4" aria-label="Destinataire">
+            <select wire:model="destinataireUuid" class="champ w-full mb-4" aria-label="Destinataire">
                 <option value="">Choisir une personne…</option>
                 @foreach ($destinataires as $personne)
                     <option value="{{ $personne->uuid }}">{{ $personne->name }}</option>
@@ -190,41 +190,41 @@
             </select>
 
             <div class="flex gap-2 justify-end">
-                <button type="button" wire:click="fermerLesModales" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="button" wire:click="fermerLesModales" class="btn-second">Annuler</button>
                 <button type="button" wire:click="assigner" wire:loading.attr="disabled"
-                        class="st-btn st-btn-primary" @disabled($destinataireUuid === '')>Confier</button>
+                        class="btn-primaire" @disabled($destinataireUuid === '')>Confier</button>
             </div>
         </div>
     @endif
 
     {{-- ════════════════════════════════════════════════════════ retirer --}}
     @if ($aRetirer)
-        <div class="st-oc-backdrop is-open" wire:click="fermerLesModales" aria-hidden="true"></div>
+        <div class="voile !z-[79]" wire:click="fermerLesModales" aria-hidden="true"></div>
 
-        <div class="st-card fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6"
+        <div class="carte fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6"
              style="z-index:90" role="alertdialog" aria-modal="true" aria-labelledby="retrait-titre">
 
-            <h2 id="retrait-titre" class="text-lg font-display font-bold text-[#0F172A] mb-2">
+            <h2 id="retrait-titre" class="text-lg font-titre font-bold text-encre dark:text-white mb-2">
                 Retirer cette vérification ?
             </h2>
 
-            <p class="text-sm text-[#334155] mb-4">
+            <p class="text-sm text-encre-2 dark:text-nuit-2 mb-4">
                 Elle disparaîtra de la file <em>et de l'historique de la personne qui l'a
                 demandée</em>. Le retrait est réversible, et le motif est enregistré au journal.
             </p>
 
             <form wire:submit="retirer">
-                <div class="ffield mb-1">
-                    <textarea id="retrait-motif" wire:model.blur="motifDeRetrait" rows="3" placeholder=" "></textarea>
-                    <label for="retrait-motif">Motif du retrait *</label>
+                <div class="mb-1">
+                    <label for="retrait-motif" class="etiquette">Motif du retrait *</label>
+<textarea id="retrait-motif" wire:model.blur="motifDeRetrait" rows="3" class="champ !h-auto py-2.5"></textarea>
                 </div>
                 @error('motifDeRetrait')
-                    <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p>
+                    <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p>
                 @enderror
 
                 <div class="flex gap-2 justify-end mt-5">
-                    <button type="button" wire:click="fermerLesModales" class="st-btn st-btn-secondary">Annuler</button>
-                    <button type="submit" wire:loading.attr="disabled" class="st-btn st-btn-primary">Retirer</button>
+                    <button type="button" wire:click="fermerLesModales" class="btn-second">Annuler</button>
+                    <button type="submit" wire:loading.attr="disabled" class="btn-primaire">Retirer</button>
                 </div>
             </form>
         </div>

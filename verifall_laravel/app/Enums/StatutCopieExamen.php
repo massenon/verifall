@@ -32,11 +32,11 @@ enum StatutCopieExamen: string
     public function badge(): string
     {
         return match ($this) {
-            self::EnComposition => 'st-badge st-badge-info',
-            self::EnAttente => 'st-badge st-badge-warn',
-            self::EnCorrection => 'st-badge st-badge-info',
-            self::Corrigee => 'st-badge st-badge-pub',
-            self::Abandonnee => 'st-badge st-badge-arch',
+            self::EnComposition => 'pastille p-info',
+            self::EnAttente => 'pastille p-alerte',
+            self::EnCorrection => 'pastille p-info',
+            self::Corrigee => 'pastille p-bon',
+            self::Abandonnee => 'pastille p-neutre',
         };
     }
 

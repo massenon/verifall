@@ -38,11 +38,13 @@ use Symfony\Component\Finder\Finder;
 /**
  * Les feuilles réellement chargées par les gabarits.
  */
-function feuillesChargees(): string
+function feuillesChargees(bool $console = false): string
 {
-    static $css = null;
+    static $memo = [];
 
-    if ($css === null) {
+    $cle = $console ? 'console' : 'citoyen';
+
+    if (! isset($memo[$cle])) {
         $css = '';
         /*
          | `verifall-app` a été ajouté le 25 septembre 2026 : le gabarit
@@ -50,15 +52,17 @@ function feuillesChargees(): string
          | que `citizen.css`, et l'omettre faisait ressortir « absentes » des
          | classes qui s'appliquent bel et bien.
          */
-        foreach (['tailwind', 'staff', 'staff-shell', 'citizen', 'verifall-app'] as $nom) {
+        foreach ($console ? ['staff-premium', 'verifall-app'] : ['tailwind', 'citizen', 'verifall-app'] as $nom) {
             $chemin = public_path('assets/css/'.$nom.'.css');
             if (is_file($chemin)) {
                 $css .= (string) file_get_contents($chemin)."\n";
             }
         }
+
+        $memo[$cle] = $css;
     }
 
-    return $css;
+    return $memo[$cle];
 }
 
 /**
@@ -249,19 +253,26 @@ function feuillesDeLaVue(string $chemin): string
  * échappée ne trouve jamais rien et déclarerait tout absent — c'est le premier
  * piège de ce contrôle, et il fait croire à une catastrophe inexistante.
  */
-function classePresente(string $classe, string $cssDeLaPage = ''): bool
+function classePresente(string $classe, string $cssDeLaPage = '', bool $console = false): bool
 {
     $motif = '';
 
     foreach (mb_str_split($classe) as $caractere) {
-        $motif .= str_contains('[]#().%!,/:', $caractere)
+        if ($caractere === ',') {
+            // Tailwind écrit la virgule d'une valeur arbitraire `\2c ` dans le sélecteur.
+            $motif .= '(?:\\\\?,|\\\\2c ?)';
+
+            continue;
+        }
+
+        $motif .= str_contains('[]#().%!/:', $caractere)
             // L'antislash d'échappement est OPTIONNEL : Tailwind n'échappe pas
             // tous les caractères dans tous les contextes.
             ? '\\\\?'.preg_quote($caractere, '/')
             : preg_quote($caractere, '/');
     }
 
-    return preg_match('/\.'.$motif.'(?![\w-])/', feuillesChargees()."\n".$cssDeLaPage) === 1;
+    return preg_match('/\.'.$motif.'(?![\w-])/', feuillesChargees($console)."\n".$cssDeLaPage) === 1;
 }
 
 /**
@@ -275,38 +286,9 @@ function classePresente(string $classe, string $cssDeLaPage = ''): bool
  */
 function detteConnue(): array
 {
-    return [
-        'faits-verifies.blade.php' => ['break-words', 'prose-lesson'],
-        'gabarit-certificat.blade.php' => ['list-disc'],
-        /*
-         | `infolettre.blade.php` est sortie le 14 septembre 2026 : ses bordures
-         | d'alerte colorées et son `!min-h-[36px]` étaient inertes. Les
-         | premières vivent dans `pages/staff-infolettre.css`, le second a
-         | disparu — le bouton garde les 44 px de `.st-btn`.
-         */
-        'messages-contact.blade.php' => ['bg-[#F8FAFC]'],
-        'mots-surveilles.blade.php' => ['tabular-nums'],
-        'opportunites.blade.php' => ['text-[#B45309]'],
-        'packs-unites.blade.php' => ['!min-h-[36px]'],
-        /*
-         | `parametres.blade.php` PORTAIT NEUF CLASSES INERTES — celles de la
-         | mise en page en onglets latéraux collants demandée par le porteur du
-         | projet. Aucune n'existait au build : le panneau ne collait pas, la
-         | grille à deux colonnes ne se formait pas. L'écran avait été écrit
-         | contre un Tailwind qui n'est pas là.
-         |
-         | Corrigé au lot 10, et la correction méritait d'être comprise : il n'y
-         | avait pas d'utilitaire équivalent au build, et il n'y en aurait jamais.
-         | La règle a été écrite dans `staff.css` — du CSS de projet, écrit à la
-         | main, qui PEUT grandir. C'est `tailwind.css` qui est gelé, pas la
-         | feuille du back-office.
-         |
-         | Sa ligne a donc quitté cette liste. Elle ne doit pas y revenir.
-         */
-        'parrainages.blade.php' => ['tabular-nums'],
-        'signalements-contenu.blade.php' => ['bg-[#F8FAFC]'],
-        'utilisateurs.blade.php' => ['text-[#8A5A0B]'],
-    ];
+    // Vide depuis le 26 octobre 2026 : `staff-premium.css` est construit À PARTIR des vues
+    // staff, une classe qu'elles écrivent y est donc toujours.
+    return [];
 }
 
 it('n\'introduit AUCUNE classe absente du build figé', function (): void {
@@ -325,7 +307,12 @@ it('n\'introduit AUCUNE classe absente du build figé', function (): void {
         $cssDeLaPage = feuillesDeLaVue($fichier->getPathname());
 
         foreach (classesDeLaVue($fichier->getPathname()) as $classe) {
-            if (in_array($classe, $tolerees, true) || classePresente($classe, $cssDeLaPage)) {
+            // Un nom de route (`route('staff.x')`) lu à tort comme une classe.
+            if (str_starts_with($classe, 'staff.')) {
+                continue;
+            }
+
+            if (in_array($classe, $tolerees, true) || classePresente($classe, $cssDeLaPage, true)) {
                 continue;
             }
 
@@ -365,7 +352,7 @@ it('ne laisse pas la dette connue devenir périmée', function (): void {
         foreach ($classes as $classe) {
             if (! in_array($classe, $utilisees, true)) {
                 $perimees[$nom][] = $classe.' — plus utilisée';
-            } elseif (classePresente($classe)) {
+            } elseif (classePresente($classe, '', true)) {
                 $perimees[$nom][] = $classe.' — existe désormais au CSS';
             }
         }
@@ -421,7 +408,7 @@ function detteConnueCitoyen(): array
             'disabled:opacity-50', 'first:border-0', 'first:pt-0',
         ],
         'forum.blade.php' => [
-            'disabled:opacity-50', 'lg:grid-cols-[minmax(0,1fr)_320px]',
+            'disabled:opacity-50',
         ],
         'lecon.blade.php' => [
             'p-0', 'prose-lesson',

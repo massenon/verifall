@@ -34,7 +34,7 @@
         }
 
         function badge(classe, texte) {
-            return '<span class="st-badge ' + classe + '">' + e(texte) + '</span>';
+            return '<span class="pastille ' + classe + '">' + e(texte) + '</span>';
         }
 
         function sousTexte(texte) {
@@ -42,11 +42,11 @@
         }
 
         // Mêmes teintes que <x-badge-statut variant="staff"> pour les verdicts.
-        var CLASSES_VERDICT = { 'true': 'st-badge-pub', 'false': 'st-badge-danger', misleading: 'st-badge-warn', unverifiable: '' };
+        var CLASSES_VERDICT = { 'true': 'p-bon', 'false': 'p-critique', misleading: 'p-alerte', unverifiable: '' };
         var STATUTS = { publie: 'Publié', brouillon: 'Brouillon' };
 
         function boutonAction(methode, uuid, icone, titre) {
-            return '<button type="button" class="st-icnbtn" data-vdt-action="' + e(methode) + '" data-vdt-uuid="' + e(uuid) + '"'
+            return '<button type="button" class="btn-icone" data-vdt-action="' + e(methode) + '" data-vdt-uuid="' + e(uuid) + '"'
                 + ' title="' + e(titre) + '" aria-label="' + e(titre) + '">'
                 + '<span class="material-symbols-rounded" aria-hidden="true">' + e(icone) + '</span></button>';
         }
@@ -95,7 +95,7 @@
                 {
                     data: 'statut', name: 'statut', responsivePriority: 4,
                     render: rendu(
-                        function (statut) { return badge(statut === 'publie' ? 'st-badge-pub' : 'st-badge-draft', STATUTS[statut] || statut); },
+                        function (statut) { return badge(statut === 'publie' ? 'p-bon' : 'p-neutre', STATUTS[statut] || statut); },
                         function (statut) { return STATUTS[statut] || statut; }
                     ),
                 },

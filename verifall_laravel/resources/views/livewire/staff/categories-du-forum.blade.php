@@ -15,8 +15,8 @@
         Les rubriques du débat citoyen. La couleur sert la pastille du forum : deux rubriques de la même teinte rendent le repérage inopérant.
         <x-slot:actions>
             @if ($peutGerer)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouvelle rubrique
             </button>
         @endif
@@ -38,9 +38,9 @@
     </x-kpi-grid>
 
     <section class="mb-4">
-        <div class="ffield mb-0">
-            <input id="cf-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="cf-q">Rechercher une rubrique</label>
+        <div class="mb-0">
+            <label for="cf-q" class="etiquette">Rechercher une rubrique</label>
+<input id="cf-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
     </section>
 
@@ -62,8 +62,8 @@
             @foreach ($categories as $categorie)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $categorie->name }}</p>
-                        <p class="text-xs text-[#64748B] mb-0 font-mono">{{ $categorie->slug }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $categorie->name }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0 font-mono">{{ $categorie->slug }}</p>
                     </td>
                     <td class="whitespace-nowrap">
                         {{-- La pastille est rendue par un attribut `style` et non une
@@ -73,11 +73,11 @@
                             <span class="inline-block w-4 h-4 rounded-full"
                                   style="background: {{ $categorie->color ?? '#059669' }}"
                                   aria-hidden="true"></span>
-                            <span class="text-xs text-[#64748B] font-mono">{{ $categorie->color }}</span>
+                            <span class="text-xs text-encre-3 dark:text-nuit-3 font-mono">{{ $categorie->color }}</span>
                         </span>
                     </td>
                     <td class="whitespace-nowrap">{{ $categorie->threads_count }}</td>
-                    <td class="whitespace-nowrap text-[#64748B]">{{ $categorie->position }}</td>
+                    <td class="whitespace-nowrap text-encre-3 dark:text-nuit-3">{{ $categorie->position }}</td>
                     <td>
                         <x-badge-statut variant="staff"
                                         :statut="$categorie->is_active ? 'publie' : 'brouillon'"
@@ -86,16 +86,16 @@
                     <td class="text-right whitespace-nowrap">
                         @if ($peutGerer)
                             <button type="button" wire:click="basculerLActivation('{{ $categorie->uuid }}')"
-                                    class="st-icnbtn" title="{{ $categorie->is_active ? 'Fermer la rubrique' : 'Rouvrir' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $categorie->is_active ? 'visibility_off' : 'visibility' }}</span>
+                                    class="btn-icone" title="{{ $categorie->is_active ? 'Fermer la rubrique' : 'Rouvrir' }}">
+                                <x-lucide :name="$categorie->is_active ? 'visibility_off' : 'visibility'" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="ouvrirEdition('{{ $categorie->uuid }}')"
-                                    class="st-icnbtn" title="Modifier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="demanderLaSuppression('{{ $categorie->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>
@@ -111,44 +111,44 @@
                           :title="$enEdition === null ? 'Nouvelle rubrique' : 'Modifier la rubrique'"
                           close="fermerLeTiroir">
             <form wire:submit="enregistrer" class="space-y-4">
-                <div class="ffield">
-                    <input id="cf-nom" type="text" wire:model="nom" placeholder=" ">
-                    <label for="cf-nom">Nom de la rubrique</label>
+                <div>
+                    <label for="cf-nom" class="etiquette">Nom de la rubrique</label>
+<input id="cf-nom" type="text" wire:model="nom" class="champ">
                     @if ($enEdition !== null)
-                        <p class="text-xs text-[#64748B] mt-1 mb-0">
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                             L'adresse (le slug) ne change pas : elle sert le filtre citoyen et l'API mobile.
                         </p>
                     @endif
-                    @error('nom') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('nom') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="cf-couleur" class="block text-sm font-medium text-[#0F172A] mb-1">Couleur</label>
-                        <input id="cf-couleur" type="color" wire:model="couleur" class="st-input w-full">
-                        @error('couleur') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                        <label for="cf-couleur" class="block text-sm font-medium text-encre dark:text-white mb-1">Couleur</label>
+                        <input id="cf-couleur" type="color" wire:model="couleur" class="champ w-full">
+                        @error('couleur') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <input id="cf-ordre" type="number" min="0" wire:model="ordre" placeholder=" ">
-                        <label for="cf-ordre">Ordre d'affichage</label>
-                        @error('ordre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="cf-ordre" class="etiquette">Ordre d'affichage</label>
+<input id="cf-ordre" type="number" min="0" wire:model="ordre" class="champ">
+                        @error('ordre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
                 <label class="flex items-start gap-2.5 cursor-pointer">
                     <input type="checkbox" wire:model="active" class="mt-0.5">
-                    <span class="text-sm text-[#334155]">
+                    <span class="text-sm text-encre-2 dark:text-nuit-2">
                         Rubrique ouverte
-                        <span class="block text-xs text-[#64748B]">
+                        <span class="block text-xs text-encre-3 dark:text-nuit-3">
                             Décochée, elle disparaît des choix du citoyen — les sujets existants restent lisibles.
                         </span>
                     </span>
                 </label>
 
                 <div class="flex gap-2 pt-2">
-                    <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                    <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                    <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                    <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
                 </div>
             </form>
         </x-offcanvas-form>

@@ -29,10 +29,10 @@ enum StatutQuestion: string
     public function badge(): string
     {
         return match ($this) {
-            self::Brouillon => 'st-badge st-badge-draft',
-            self::Publiee => 'st-badge st-badge-pub',
-            self::AReviser => 'st-badge st-badge-warn',
-            self::Archivee => 'st-badge st-badge-arch',
+            self::Brouillon => 'pastille p-neutre',
+            self::Publiee => 'pastille p-bon',
+            self::AReviser => 'pastille p-alerte',
+            self::Archivee => 'pastille p-neutre',
         };
     }
 

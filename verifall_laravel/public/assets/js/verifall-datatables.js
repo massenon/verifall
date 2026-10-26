@@ -419,7 +419,7 @@
                 if (vide && info.recordsTotal > 0 && info.recordsDisplay === 0 && !vide.querySelector('button')) {
                     var bouton = document.createElement('button');
                     bouton.type = 'button';
-                    bouton.className = 'st-btn st-btn-secondary';
+                    bouton.className = 'btn-second';
                     bouton.textContent = 'Réinitialiser les filtres';
                     bouton.setAttribute('data-vdt-reinitialiser', '');
                     vide.appendChild(document.createElement('br'));

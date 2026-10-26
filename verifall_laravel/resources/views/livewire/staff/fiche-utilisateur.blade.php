@@ -17,8 +17,8 @@
     <x-premium.entete titre="Fiche du compte">
         L'identité du compte et tout son historique sur la plateforme.
         <x-slot:actions>
-            <a href="{{ route('staff.users') }}" class="st-btn st-btn-secondary">
-            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">arrow_back</span>
+            <a href="{{ route('staff.users') }}" class="btn-second">
+            <x-lucide name="arrow-left" class="w-4 h-4" />
             Retour aux utilisateurs
         </a>
         </x-slot:actions>
@@ -27,29 +27,29 @@
     <div class="vfu-grille">
 
         {{-- ═══════════════════════════════════════════ carte d'identité --}}
-        <aside class="st-card p-5 vfu-carte" aria-label="Identité du compte">
+        <aside class="carte p-5 vfu-carte" aria-label="Identité du compte">
             <div class="vfu-entete">
                 <span class="vfu-avatar" aria-hidden="true">{{ $identite['initiales'] }}</span>
                 <div class="vfu-entete-texte">
-                    <p class="font-display font-bold text-[#0F172A] text-lg leading-tight mb-0">{{ $identite['nom'] }}</p>
-                    <p class="text-sm text-[#64748B] mb-0 vfu-coupure">{{ $identite['email'] }}</p>
+                    <p class="font-titre font-bold text-encre dark:text-white text-lg leading-tight mb-0">{{ $identite['nom'] }}</p>
+                    <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0 vfu-coupure">{{ $identite['email'] }}</p>
                     @if ($identite['profession'])
-                        <p class="text-xs text-[#64748B] mb-0">{{ $identite['profession'] }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $identite['profession'] }}</p>
                     @endif
                 </div>
             </div>
 
             <div class="flex flex-wrap gap-2 mb-4">
                 @foreach ($identite['roles'] as $role)
-                    <span class="st-badge st-badge-info">{{ $role }}</span>
+                    <span class="pastille p-info">{{ $role }}</span>
                 @endforeach
 
                 @if ($identite['statut'] === 'suspendu')
-                    <span class="st-badge st-badge-warn">Suspendu</span>
+                    <span class="pastille p-alerte">Suspendu</span>
                 @elseif ($identite['statut'] === 'actif')
-                    <span class="st-badge st-badge-pub">Actif</span>
+                    <span class="pastille p-bon">Actif</span>
                 @else
-                    <span class="st-badge st-badge-draft">Non activé</span>
+                    <span class="pastille p-neutre">Non activé</span>
                 @endif
             </div>
 
@@ -123,29 +123,29 @@
                     @if ($peutModifier)
                         {{-- Le tiroir EXISTANT de l'écran Utilisateurs : il porte les
                              garde-fous du lot 3 (propres rôles, dernier admin). --}}
-                        <a href="{{ route('staff.users', ['modifier' => $compte->uuid]) }}" class="st-btn st-btn-secondary">
-                            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                        <a href="{{ route('staff.users', ['modifier' => $compte->uuid]) }}" class="btn-second">
+                            <x-lucide name="pencil" class="w-4 h-4" />
                             Modifier
                         </a>
                     @endif
 
                     @if ($peutSuspendre)
                         @if ($identite['statut'] === 'suspendu')
-                            <button type="button" wire:click="ouvrirLeRetablissement" class="st-btn st-btn-secondary">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">lock_open</span>
+                            <button type="button" wire:click="ouvrirLeRetablissement" class="btn-second">
+                                <x-lucide name="lock-open" class="w-4 h-4" />
                                 Rétablir
                             </button>
                         @else
-                            <button type="button" wire:click="ouvrirLaSuspension" class="st-btn st-btn-danger">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">block</span>
+                            <button type="button" wire:click="ouvrirLaSuspension" class="btn-danger">
+                                <x-lucide name="ban" class="w-4 h-4" />
                                 Suspendre
                             </button>
                         @endif
                     @endif
 
                     @if ($peutVoirMentors && in_array('Mentor', $compte->getRoleNames()->all(), true))
-                        <a href="{{ route('staff.mentors', ['q' => $compte->email]) }}" class="st-btn st-btn-ghost">
-                            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">co_present</span>
+                        <a href="{{ route('staff.mentors', ['q' => $compte->email]) }}" class="btn-fantome">
+                            <x-lucide name="presentation" class="w-4 h-4" />
                             Voir dans Mentors
                         </a>
                     @endif
@@ -155,9 +155,9 @@
 
         {{-- ═══════════════════════════════════════════ historiques --}}
         <section class="vfu-historique" aria-label="Historique du compte" wire:ignore data-vfu-onglets>
-            <div class="st-tabs mb-4" role="tablist" aria-label="Historiques">
+            <div class="onglets mb-4" role="tablist" aria-label="Historiques">
                 @foreach ($onglets as $onglet)
-                    <button type="button" role="tab" class="st-tab {{ $loop->first ? 'is-active' : '' }}"
+                    <button type="button" role="tab" class="onglet {{ $loop->first ? 'is-active' : '' }}"
                             id="vfu-onglet-{{ $onglet['cle'] }}"
                             aria-controls="vfu-panneau-{{ $onglet['cle'] }}"
                             aria-selected="{{ $loop->first ? 'true' : 'false' }}"
@@ -179,13 +179,13 @@
                      @if ($onglet['cle'] === 'journal') data-vdt-evenement="{{ \App\Livewire\Staff\FicheUtilisateur::EVENEMENT_TABLE_A_RECHARGER }}" @endif>
 
                     <div class="mb-4 flex flex-wrap items-center gap-3">
-                        <div class="ffield flex-1 mb-0">
-                            <input id="vfu-q-{{ $onglet['cle'] }}" type="search" placeholder=" " autocomplete="off" data-vdt-recherche>
-                            <label for="vfu-q-{{ $onglet['cle'] }}">Rechercher dans « {{ $onglet['libelle'] }} »</label>
+                        <div class="flex-1 mb-0">
+                            <label for="vfu-q-{{ $onglet['cle'] }}" class="etiquette">Rechercher dans « {{ $onglet['libelle'] }} »</label>
+<input id="vfu-q-{{ $onglet['cle'] }}" type="search" autocomplete="off" data-vdt-recherche class="champ">
                         </div>
 
                         @foreach (\App\Core\Identity\Services\FicheDuCompte::optionsDesFiltres($onglet['cle']) as $cle => $filtre)
-                            <select class="st-input w-auto" aria-label="Filtrer par {{ mb_strtolower($filtre['libelle']) }}" data-vdt-filtre="{{ $cle }}">
+                            <select class="champ w-auto" aria-label="Filtrer par {{ mb_strtolower($filtre['libelle']) }}" data-vdt-filtre="{{ $cle }}">
                                 <option value="">{{ $filtre['libelle'] }} : tous</option>
                                 @foreach ($filtre['options'] as $valeur => $texte)
                                     <option value="{{ $valeur }}">{{ $texte }}</option>
@@ -194,15 +194,15 @@
                         @endforeach
                     </div>
 
-                    <div class="st-card p-4 mb-4" role="alert" hidden data-vdt-erreur>
-                        <p class="text-sm text-[#0F172A] mb-2" data-vdt-erreur-message>Impossible de charger cet historique.</p>
-                        <button type="button" class="st-btn st-btn-secondary" data-vdt-reessayer>Réessayer</button>
+                    <div class="carte p-4 mb-4" role="alert" hidden data-vdt-erreur>
+                        <p class="text-sm text-encre dark:text-white mb-2" data-vdt-erreur-message>Impossible de charger cet historique.</p>
+                        <button type="button" class="btn-second" data-vdt-reessayer>Réessayer</button>
                     </div>
 
-                    <div class="st-card p-4">
+                    <div class="carte p-4">
                         <table id="table-fiche-{{ $onglet['cle'] }}" style="width:100%" data-vdt-table></table>
                         <noscript>
-                            <p class="text-sm text-[#64748B] mb-0">Cet historique demande JavaScript.</p>
+                            <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">Cet historique demande JavaScript.</p>
                         </noscript>
                     </div>
                 </div>
@@ -212,33 +212,33 @@
 
 {{-- ══════════════════════════════════════════════ suspendre ce compte --}}
 @if ($suspensionOuverte)
-    <div class="st-oc-backdrop is-open" wire:click="annulerLaSuspension" aria-hidden="true"></div>
+    <div class="voile !z-[79]" wire:click="annulerLaSuspension" aria-hidden="true"></div>
 
     {{-- `z-index` EN LIGNE : même raison que sur l'écran Utilisateurs (build figé). --}}
-    <div class="st-card fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6"
+    <div class="carte fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6"
          style="z-index:90" role="alertdialog" aria-modal="true" aria-labelledby="vfu-susp-titre">
 
-        <h2 id="vfu-susp-titre" class="text-lg font-display font-bold text-[#0F172A] mb-2">
+        <h2 id="vfu-susp-titre" class="text-lg font-titre font-bold text-encre dark:text-white mb-2">
             Suspendre {{ $identite['nom'] }} ?
         </h2>
 
-        <p class="text-sm text-[#334155] mb-3">
+        <p class="text-sm text-encre-2 dark:text-nuit-2 mb-3">
             Le compte perdra l'accès immédiatement et ses sessions ouvertes seront fermées.
             La personne recevra ce motif par courriel.
         </p>
 
         <form wire:submit="suspendre">
-            <div class="ffield mb-1">
-                <textarea id="vfu-susp-motif" wire:model.blur="motifDeSuspension" rows="3" placeholder=" "></textarea>
-                <label for="vfu-susp-motif">Motif communiqué à la personne *</label>
+            <div class="mb-1">
+                <label for="vfu-susp-motif" class="etiquette">Motif communiqué à la personne *</label>
+<textarea id="vfu-susp-motif" wire:model.blur="motifDeSuspension" rows="3" class="champ !h-auto py-2.5"></textarea>
             </div>
             @error('motifDeSuspension')
-                <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p>
+                <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p>
             @enderror
 
             <div class="flex gap-2 justify-end mt-5">
-                <button type="button" wire:click="annulerLaSuspension" class="st-btn st-btn-secondary">Annuler</button>
-                <button type="submit" wire:loading.attr="disabled" class="st-btn st-btn-primary">Suspendre</button>
+                <button type="button" wire:click="annulerLaSuspension" class="btn-second">Annuler</button>
+                <button type="submit" wire:loading.attr="disabled" class="btn-primaire">Suspendre</button>
             </div>
         </form>
     </div>
@@ -246,24 +246,24 @@
 
 {{-- ══════════════════════════════════════════════ rétablir ce compte --}}
 @if ($retablissementOuvert)
-    <div class="st-oc-backdrop is-open" wire:click="annulerLaSuspension" aria-hidden="true"></div>
+    <div class="voile !z-[79]" wire:click="annulerLaSuspension" aria-hidden="true"></div>
 
-    <div class="st-card fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6"
+    <div class="carte fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6"
          style="z-index:90" role="alertdialog" aria-modal="true" aria-labelledby="vfu-reta-titre">
 
-        <h2 id="vfu-reta-titre" class="text-lg font-display font-bold text-[#0F172A] mb-2">
+        <h2 id="vfu-reta-titre" class="text-lg font-titre font-bold text-encre dark:text-white mb-2">
             Rétablir {{ $identite['nom'] }} ?
         </h2>
 
-        <p class="text-sm text-[#64748B] mb-5">
+        <p class="text-sm text-encre-3 dark:text-nuit-3 mb-5">
             La personne retrouve l'ensemble de ses accès et en est informée par courriel.
             Le motif de la suspension est effacé ; la décision reste au journal d'audit.
         </p>
 
         <div class="flex gap-2 justify-end">
-            <button type="button" wire:click="annulerLaSuspension" class="st-btn st-btn-secondary">Annuler</button>
+            <button type="button" wire:click="annulerLaSuspension" class="btn-second">Annuler</button>
             <button type="button" wire:click="retablir" wire:loading.attr="disabled"
-                    class="st-btn st-btn-primary">Rétablir</button>
+                    class="btn-primaire">Rétablir</button>
         </div>
     </div>
 @endif

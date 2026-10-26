@@ -36,7 +36,7 @@
         }
 
         function badge(classe, texte) {
-            return '<span class="st-badge ' + classe + '">' + e(texte) + '</span>';
+            return '<span class="pastille ' + classe + '">' + e(texte) + '</span>';
         }
 
         function sousTexte(texte) {
@@ -48,7 +48,7 @@
         var DEUX_FACTEURS = { active: '2FA active', a_venir: 'Enrôlement à venir' };
 
         function boutonAction(methode, uuid, icone, titre) {
-            return '<button type="button" class="st-icnbtn" data-vdt-action="' + e(methode) + '" data-vdt-uuid="' + e(uuid) + '"'
+            return '<button type="button" class="btn-icone" data-vdt-action="' + e(methode) + '" data-vdt-uuid="' + e(uuid) + '"'
                 + ' title="' + e(titre) + '" aria-label="' + e(titre) + '">'
                 + '<span class="material-symbols-rounded" aria-hidden="true">' + e(icone) + '</span></button>';
         }
@@ -92,7 +92,7 @@
                     render: rendu(
                         function (roles) {
                             return roles.length
-                                ? roles.map(function (r) { return badge('st-badge-info', r); }).join(' ')
+                                ? roles.map(function (r) { return badge('p-info', r); }).join(' ')
                                 : sousTexte('Citoyen');
                         },
                         function (roles) { return roles.length ? roles.join(', ') : 'Citoyen'; }
@@ -102,7 +102,7 @@
                     data: 'statut', name: 'statut', orderable: false, responsivePriority: 3,
                     render: rendu(
                         function (statut, l) {
-                            var classe = statut === 'suspendu' ? 'st-badge-warn' : (statut === 'actif' ? 'st-badge-pub' : 'st-badge-draft');
+                            var classe = statut === 'suspendu' ? 'p-alerte' : (statut === 'actif' ? 'p-bon' : 'p-neutre');
                             var html = badge(classe, STATUTS[statut] || statut);
 
                             // Le motif et l'auteur sur la ligne : c'est là qu'on
@@ -122,14 +122,14 @@
                 {
                     data: 'deuxFacteurs', name: 'deuxFacteurs', orderable: false, responsivePriority: 8,
                     render: rendu(
-                        function (v) { return v ? badge(v === 'active' ? 'st-badge-pub' : 'st-badge-info', DEUX_FACTEURS[v]) : sousTexte('—'); },
+                        function (v) { return v ? badge(v === 'active' ? 'p-bon' : 'p-info', DEUX_FACTEURS[v]) : sousTexte('—'); },
                         function (v) { return v ? DEUX_FACTEURS[v] : ''; }
                     ),
                 },
                 {
                     data: 'kyc', name: 'kyc', orderable: false, responsivePriority: 7,
                     render: rendu(
-                        function (v) { return v === 'non_verifiee' ? sousTexte(KYC[v]) : badge(v === 'verifiee' ? 'st-badge-pub' : 'st-badge-warn', KYC[v]); },
+                        function (v) { return v === 'non_verifiee' ? sousTexte(KYC[v]) : badge(v === 'verifiee' ? 'p-bon' : 'p-alerte', KYC[v]); },
                         function (v) { return KYC[v] || v; }
                     ),
                 },

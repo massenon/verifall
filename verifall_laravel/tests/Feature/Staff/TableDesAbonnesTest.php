@@ -264,7 +264,7 @@ it('garde le panneau des abonnés MASQUÉ sur « Diffuser », et l’éditeur Qu
     // Masqué, donc la couche JS ne monte rien (§9 bis du contrat).
     expect($html)->toMatch('/data-ifl-panneau="abonnes"\s+hidden\s*>/')
         // Le conteneur Quill et son `wire:ignore`, exactement comme avant.
-        ->and($html)->toMatch('/<div class="[^"]*st-quill[^"]*" wire:ignore>\s*<div data-quill-diffusion><\/div>/')
+        ->and($html)->toMatch('/<div class="[^"]*editeur-riche[^"]*" wire:ignore>\s*<div data-quill-diffusion><\/div>/')
         ->and($html)->toContain("Livewire.hook('morphed'")
         ->and($html)->not->toContain('Aucune édition envoyée');
 });

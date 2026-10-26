@@ -24,16 +24,16 @@
 
 @php $staff = $variant === 'staff'; @endphp
 
-<div class="{{ $staff ? 'st-oc-backdrop' : 'modal-backdrop' }} {{ $open ? 'is-open' : '' }}"
+<div class="{{ $staff ? 'fond-tiroir' : 'modal-backdrop' }} {{ $open ? 'is-open' : '' }}"
      data-delete-backdrop
      @if ($cancel) wire:click="{{ $cancel }}" @endif
      aria-hidden="true"></div>
 
 {{-- z-index en ligne : le build Tailwind du prototype est FIGÉ et ne contient
      aucune valeur arbitraire. `z-50` laissait la modale SOUS le fond du tiroir
-     staff (`.st-oc-backdrop`, z-79) — la confirmation était grisée et
+     staff (`.fond-tiroir`, z-79) — la confirmation était grisée et
      inutilisable. --}}
-<div class="{{ $staff ? 'st-card' : 'card' }} fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6 {{ $open ? '' : 'hidden' }}"
+<div class="{{ $staff ? 'carte' : 'card' }} fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6 {{ $open ? '' : 'hidden' }}"
      style="z-index:90"
      data-delete-modal
      id="{{ $id }}"
@@ -43,13 +43,13 @@
      aria-describedby="{{ $id }}-desc">
 
     <div class="flex items-start gap-3">
-        <span class="material-symbols-rounded !text-[28px] text-brandred shrink-0" aria-hidden="true">warning</span>
+        <x-lucide name="triangle-alert" class="w-4 h-4 text-critique shrink-0" />
         <div class="min-w-0">
-            <h2 id="{{ $id }}-title" class="text-lg font-display font-bold {{ $staff ? 'text-[#0F172A]' : 'text-ink' }}">
+            <h2 id="{{ $id }}-title" class="text-lg font-display font-bold {{ $staff ? 'text-encre dark:text-white' : 'text-ink' }}">
                 {{ __('composants.modale_supprimer_avant') }}&nbsp;<span data-delete-target>{{ $cible }}</span>&nbsp;{{ __('composants.modale_supprimer_apres') }}
             </h2>
 
-            <p id="{{ $id }}-desc" class="mt-1 text-sm {{ $staff ? 'text-[#475569]' : 'text-slate2' }}">
+            <p id="{{ $id }}-desc" class="mt-1 text-sm {{ $staff ? 'text-encre-2 dark:text-nuit-2' : 'text-slate2' }}">
                 {{ __('composants.modale_cette_action_est_definitive') }}
             </p>
 
@@ -57,11 +57,10 @@
                 {{-- On énonce ce qui disparaît AVEC l'élément, chiffré : une
                      suppression en cascade non annoncée est une perte de
                      données du point de vue de l'utilisateur. --}}
-                <ul class="mt-3 space-y-1 text-sm {{ $staff ? 'text-[#475569]' : 'text-slate2' }}">
+                <ul class="mt-3 space-y-1 text-sm {{ $staff ? 'text-encre-2 dark:text-nuit-2' : 'text-slate2' }}">
                     @foreach ($cascades as $cascade)
                         <li class="flex items-start gap-2">
-                            <span class="material-symbols-rounded !text-[16px] mt-0.5 text-brandred"
-                                  aria-hidden="true">subdirectory_arrow_right</span>
+                            <x-lucide name="corner-down-right" class="w-4 h-4 mt-0.5 text-critique" />
                             <span>{{ $cascade }}</span>
                         </li>
                     @endforeach
@@ -74,14 +73,14 @@
         {{-- Annuler en premier et non destructif : l'action sûre doit être la
              plus facile à atteindre, y compris au clavier. --}}
         <button type="button"
-                class="{{ $staff ? 'st-btn st-btn-ghost' : 'px-4 py-2 rounded-xl font-semibold' }}"
+                class="{{ $staff ? 'btn-fantome' : 'px-4 py-2 rounded-xl font-semibold' }}"
                 data-delete-cancel
                 @if ($cancel) wire:click="{{ $cancel }}" @endif>
             {{ __('composants.modale_annuler') }}
         </button>
 
         <button type="button"
-                class="{{ $staff ? 'st-btn st-btn-danger' : 'px-4 py-2 rounded-xl bg-brandred text-white font-semibold' }}"
+                class="{{ $staff ? 'btn-danger' : 'px-4 py-2 rounded-xl bg-brandred text-white font-semibold' }}"
                 data-delete-confirm
                 @if ($confirm) wire:click="{{ $confirm }}" @endif
                 @if ($action) data-delete-action="{{ $action }}" @endif>

@@ -16,31 +16,31 @@
   | une protection.
 --}}
 <div class="relative inline-block" x-data="{ ouvert: false }" x-on:click.outside="ouvert = false">
-    <button type="button" class="st-icnbtn"
+    <button type="button" class="btn-icone"
             x-on:click="ouvert = ! ouvert"
             x-bind:aria-expanded="ouvert ? 'true' : 'false'"
             aria-haspopup="true"
             aria-label="Actions sur « {{ $fait->title }} »">
-        <span class="material-symbols-rounded !text-[20px]" aria-hidden="true">more_vert</span>
+        <x-lucide name="ellipsis-vertical" class="w-4 h-4" />
     </button>
 
-    <div class="st-menu" x-show="ouvert" x-cloak style="display:none" role="menu">
+    <div class="menu-flottant" x-show="ouvert" x-cloak style="display:none" role="menu">
         <button type="button" role="menuitem"
                 wire:click="ouvrirApercu('{{ $fait->uuid }}')" x-on:click="ouvert = false">
-            <span class="material-symbols-rounded !text-[18px]" aria-hidden="true">visibility</span> Voir
+            <x-lucide name="eye" class="w-4 h-4" /> Voir
         </button>
 
         @can('update', $fait)
             <button type="button" role="menuitem"
                     wire:click="ouvrirEdition('{{ $fait->uuid }}')" x-on:click="ouvert = false">
-                <span class="material-symbols-rounded !text-[18px]" aria-hidden="true">edit</span> Modifier
+                <x-lucide name="pencil" class="w-4 h-4" /> Modifier
             </button>
         @endcan
 
         @can('create', \App\Models\VerifiedFact::class)
             <button type="button" role="menuitem"
                     wire:click="dupliquer('{{ $fait->uuid }}')" x-on:click="ouvert = false">
-                <span class="material-symbols-rounded !text-[18px]" aria-hidden="true">content_copy</span> Dupliquer
+                <x-lucide name="copy" class="w-4 h-4" /> Dupliquer
             </button>
         @endcan
 
@@ -48,19 +48,17 @@
             {{-- Le libellé annonce ce qui va se passer, pas l'état courant. --}}
             <button type="button" role="menuitem"
                     wire:click="basculerLaPublication('{{ $fait->uuid }}')" x-on:click="ouvert = false">
-                <span class="material-symbols-rounded !text-[18px]" aria-hidden="true">
-                    {{ $fait->is_published ? 'unpublished' : 'public' }}
-                </span>
+                <x-lucide :name="$fait->is_published ? 'unpublished' : 'public'" class="w-4 h-4" />
                 {{ $fait->is_published ? 'Dépublier' : 'Publier' }}
             </button>
         @endif
 
         @can('delete', $fait)
-            <div class="st-menu-sep" role="separator"></div>
+            <div class="menu-sep" role="separator"></div>
 
-            <button type="button" class="st-menu-danger" role="menuitem"
+            <button type="button" class="menu-danger" role="menuitem"
                     wire:click="confirmerSuppression('{{ $fait->uuid }}')" x-on:click="ouvert = false">
-                <span class="material-symbols-rounded !text-[18px]" aria-hidden="true">delete</span> Supprimer
+                <x-lucide name="trash-2" class="w-4 h-4" /> Supprimer
             </button>
         @endcan
     </div>

@@ -26,34 +26,34 @@
         @foreach ($gabarits as $ligne)
             <tr wire:key="gab-{{ $ligne['cle'] }}">
                 <td style="min-width: 260px;">
-                    <p class="font-semibold text-[#0F172A] mb-0">{{ $ligne['libelle'] }}</p>
-                    <p class="text-xs text-[#64748B] mb-1">{{ $ligne['declencheur'] }}</p>
+                    <p class="font-semibold text-encre dark:text-white mb-0">{{ $ligne['libelle'] }}</p>
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-1">{{ $ligne['declencheur'] }}</p>
 
                     @if (! $ligne['porte'])
                         {{-- Dit à l'écran, pas caché dans un fichier : un texte
                              qu'on peut soigner sans que rien ne l'envoie doit
                              s'annoncer comme tel. --}}
-                        <span class="st-badge st-badge-draft">Pas encore câblé</span>
+                        <span class="pastille p-neutre">Pas encore câblé</span>
                     @elseif ($ligne['verrouille'])
-                        <span class="st-badge st-badge-pub">Indispensable</span>
+                        <span class="pastille p-bon">Indispensable</span>
                     @elseif (! $ligne['actif'])
-                        <span class="st-badge st-badge-draft">Éteint</span>
+                        <span class="pastille p-neutre">Éteint</span>
                     @endif
                 </td>
 
-                <td class="text-sm text-[#334155]" style="min-width: 220px;">
+                <td class="text-sm text-encre-2 dark:text-nuit-2" style="min-width: 220px;">
                     {{ $ligne['sujet'] }}
                 </td>
 
                 <td style="min-width: 180px;">
-                    <p class="text-xs text-[#64748B] mb-0" style="word-break: break-word;">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0" style="word-break: break-word;">
                         @foreach ($ligne['variables'] as $variable)
                             <code>{{ $variable }}</code>@if (! $loop->last), @endif
                         @endforeach
                     </p>
                 </td>
 
-                <td class="text-sm text-[#64748B] whitespace-nowrap">
+                <td class="text-sm text-encre-3 dark:text-nuit-3 whitespace-nowrap">
                     @if ($ligne['modifieLe'])
                         {{ $ligne['modifieLe'] }}
                         {{-- Qui, et pas seulement quand : sur un texte qui part
@@ -69,23 +69,23 @@
                 <td class="text-right whitespace-nowrap">
                     @if ($peutGerer)
                         <button type="button" wire:click="ouvrirEdition('{{ $ligne['cle'] }}')"
-                                class="text-xs font-bold text-primary">Modifier</button>
+                                class="text-xs font-bold text-brand-700 dark:text-brand">Modifier</button>
 
                         @unless ($ligne['verrouille'])
-                            <span class="text-[#64748B]" aria-hidden="true">·</span>
+                            <span class="text-encre-3 dark:text-nuit-3" aria-hidden="true">·</span>
                             <button type="button" wire:click="basculer('{{ $ligne['cle'] }}')"
-                                    class="text-xs font-bold text-[#64748B]">
+                                    class="text-xs font-bold text-encre-3 dark:text-nuit-3">
                                 {{ $ligne['actif'] ? 'Éteindre' : 'Allumer' }}
                             </button>
                         @endunless
 
                         @if ($ligne['personnalise'])
-                            <span class="text-[#64748B]" aria-hidden="true">·</span>
+                            <span class="text-encre-3 dark:text-nuit-3" aria-hidden="true">·</span>
                             <button type="button" wire:click="reinitialiser('{{ $ligne['cle'] }}')"
-                                    class="text-xs font-bold text-[#64748B]">Réinitialiser</button>
+                                    class="text-xs font-bold text-encre-3 dark:text-nuit-3">Réinitialiser</button>
                         @endif
                     @else
-                        <span class="text-xs text-[#64748B]">Lecture seule</span>
+                        <span class="text-xs text-encre-3 dark:text-nuit-3">Lecture seule</span>
                     @endif
                 </td>
             </tr>
@@ -100,62 +100,62 @@
         <form wire:submit="enregistrer" class="space-y-1">
 
         @if ($evenementEnEdition)
-            <p class="text-sm text-[#64748B] mb-4">
-                <strong class="text-[#0F172A]">{{ $evenementEnEdition['libelle'] }}</strong><br>
+            <p class="text-sm text-encre-3 dark:text-nuit-3 mb-4">
+                <strong class="text-encre dark:text-white">{{ $evenementEnEdition['libelle'] }}</strong><br>
                 Déclenché par : {{ $evenementEnEdition['declencheur'] }}
             </p>
 
             @unless ($evenementEnEdition['porte'])
-                {{-- `st-badge-warn` plutôt qu'une couleur en dur : le build
-                     Tailwind est figé, et `text-[#92400E]` n'y existe pas — la
+                {{-- `p-alerte` plutôt qu'une couleur en dur : le build
+                     Tailwind est figé, et `text-amber-800 dark:text-amber-300` n'y existe pas — la
                      phrase serait partie en gris sans que rien ne le signale.
                      Le vocabulaire du design system dit déjà « attention ». --}}
-                <p class="text-sm text-[#64748B] mb-4">
-                    <span class="st-badge st-badge-warn">Pas encore câblé</span>
+                <p class="text-sm text-encre-3 dark:text-nuit-3 mb-4">
+                    <span class="pastille p-alerte">Pas encore câblé</span>
                     Le texte est enregistré et partira dès que l'envoi sera branché.
                 </p>
             @endunless
         @endif
 
         <div class="mb-4">
-            <div class="ffield mb-1">
-                <input id="gab-sujet" type="text" wire:model.blur="sujet" maxlength="200" placeholder=" ">
-                <label for="gab-sujet">Sujet de l'email (Objet) *</label>
+            <div class="mb-1">
+                <label for="gab-sujet" class="etiquette">Sujet de l'email (Objet) *</label>
+<input id="gab-sujet" type="text" wire:model.blur="sujet" maxlength="200" class="champ">
             </div>
-            @error('sujet') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            <p class="text-xs text-[#64748B] mt-1 mb-0">
+            @error('sujet') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
+            <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                 La ligne visible dans la boîte de réception. Elle doit se lire hors contexte.
             </p>
         </div>
 
         <div class="mb-4">
-            <div class="ffield mb-1">
-                <input id="gab-titre" type="text" wire:model.blur="titre" maxlength="200" placeholder=" ">
-                <label for="gab-titre">Titre affiché dans le message *</label>
+            <div class="mb-1">
+                <label for="gab-titre" class="etiquette">Titre affiché dans le message *</label>
+<input id="gab-titre" type="text" wire:model.blur="titre" maxlength="200" class="champ">
             </div>
-            @error('titre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            <p class="text-xs text-[#64748B] mt-1 mb-0">
+            @error('titre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
+            <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                 Distinct de l'objet : il s'adresse à quelqu'un qui a déjà ouvert le message.
             </p>
         </div>
 
         <div class="mb-4">
-            <div class="ffield mb-1">
+            <div class="mb-1">
                 {{-- `.ffield` porte déjà les textarea : tous les autres écrans
                      staff s'en servent ainsi. La chasse fixe est en style EN
                      LIGNE — c'est une propriété du contenu (du Markdown), pas
                      une classe du design system. --}}
-                <textarea id="gab-corps" wire:model.blur="corps" rows="12" placeholder=" "
-                          style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; line-height:1.6"></textarea>
-                <label for="gab-corps">Contenu du message *</label>
+                <label for="gab-corps" class="etiquette">Contenu du message *</label>
+<textarea id="gab-corps" wire:model.blur="corps" rows="12"
+                          style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; line-height:1.6" class="champ !h-auto py-2.5"></textarea>
             </div>
-            @error('corps') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            @error('corps') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
 
             {{-- Markdown et non un éditeur riche : un courriel part hors de
                  l'application, où aucun filtre ne rattrape une balise mal
                  fermée, et où les clients de messagerie retirent la moitié du
                  HTML sans prévenir. --}}
-            <p class="text-xs text-[#64748B] mt-1 mb-0">
+            <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                 Markdown : <code>**gras**</code>, <code>## titre</code>, <code>&gt; citation</code>,
                 ligne vide pour un paragraphe. L'habillage — en-tête, couleurs, pied — est
                 celui de la charte et ne se saisit pas ici.
@@ -185,12 +185,12 @@
         @endif
 
         <div class="mb-4">
-            <div class="ffield mb-1">
-                <input id="gab-cta" type="text" wire:model.blur="libelleDuBouton" maxlength="80" placeholder=" ">
-                <label for="gab-cta">Libellé du bouton</label>
+            <div class="mb-1">
+                <label for="gab-cta" class="etiquette">Libellé du bouton</label>
+<input id="gab-cta" type="text" wire:model.blur="libelleDuBouton" maxlength="80" class="champ">
             </div>
-            @error('libelleDuBouton') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            <p class="text-xs text-[#64748B] mt-1 mb-0">
+            @error('libelleDuBouton') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
+            <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                 Laissé vide, le message ne porte pas de bouton. L'adresse, elle, est
                 calculée par l'envoi — un lien saisi à la main vieillirait mal.
             </p>
@@ -199,23 +199,23 @@
         @if ($evenementEnEdition && ! $evenementEnEdition['verrouille'])
             <label class="flex items-start gap-2.5 cursor-pointer">
                 <input type="checkbox" wire:model="actif" class="mt-0.5">
-                <span class="text-sm text-[#334155]">
+                <span class="text-sm text-encre-2 dark:text-nuit-2">
                     Envoi actif
-                    <span class="block text-xs text-[#64748B]">
+                    <span class="block text-xs text-encre-3 dark:text-nuit-3">
                         Éteint, le gabarit reste enregistré mais aucun message ne part.
                     </span>
                 </span>
             </label>
         @elseif ($evenementEnEdition)
-            <p class="text-sm text-[#64748B] mb-0">
+            <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">
                 Cet envoi ne peut pas être éteint : sans lui, la personne concernée n'aurait
                 aucun moyen d'apprendre ce qui se passe sur son compte.
             </p>
         @endif
 
             <div class="flex gap-2 justify-end pt-4">
-                <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-ghost">Annuler</button>
-                <button type="submit" class="st-btn st-btn-primary" wire:loading.attr="disabled">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroir" class="btn-fantome">Annuler</button>
+                <button type="submit" class="btn-primaire" wire:loading.attr="disabled">Enregistrer</button>
             </div>
         </form>
     </x-offcanvas-form>

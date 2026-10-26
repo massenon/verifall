@@ -17,22 +17,22 @@
 <div>
 
 <x-premium.entete titre="Certificat Template" :fil="['Certificat Template']">
-        Le document tel qu'il sortira, sur un exemple. Les valeurs se règlent aux <a href="{{ route('staff.settings') }}?onglet=certificats" class="text-[#059669] underline">Paramètres, onglet Certificats</a>.
+        Le document tel qu'il sortira, sur un exemple. Les valeurs se règlent aux <a href="{{ route('staff.settings') }}?onglet=certificats" class="text-brand-700 dark:text-brand underline">Paramètres, onglet Certificats</a>.
         <x-slot:actions>
-            <a href="{{ route('staff.settings') }}?onglet=certificats" class="st-btn st-btn-primary">
-            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">tune</span>
+            <a href="{{ route('staff.settings') }}?onglet=certificats" class="btn-primaire">
+            <x-lucide name="sliders-horizontal" class="w-4 h-4" />
             Régler le certificat
         </a>
         </x-slot:actions>
     </x-premium.entete>
 
-    <div class="st-card p-4 mb-6 border-l-4" style="border-left-color:#8A5A0B">
-        <p class="text-sm text-[#334155] mb-2">
+    <div class="carte p-4 mb-6 border-l-4" style="border-left-color:#8A5A0B">
+        <p class="text-sm text-encre-2 dark:text-nuit-2 mb-2">
             <strong>Ceci est un exemple, il n'est pas enregistré.</strong>
             Son code <code>VERIF-EXEMPLE-0000</code> ne validera jamais rien sur la page
             publique de vérification, et aucune ligne n'est créée dans la table des diplômes.
         </p>
-        <p class="text-sm text-[#334155] mb-0">
+        <p class="text-sm text-encre-2 dark:text-nuit-2 mb-0">
             <strong>Avant de vous fier à l'écran, imprimez-le une fois.</strong> Les navigateurs
             retirent par défaut les fonds et les dégradés à l'impression&nbsp;; la feuille de style
             l'empêche, mais ce comportement varie d'un moteur à l'autre et ne se vérifie que sur papier.
@@ -49,15 +49,15 @@
     </div>
 
     <div class="flex flex-wrap gap-2 justify-center mt-6 no-print">
-        <button type="button" onclick="window.print()" class="st-btn st-btn-secondary">
-            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">print</span>
+        <button type="button" onclick="window.print()" class="btn-second">
+            <x-lucide name="printer" class="w-4 h-4" />
             Épreuve d'impression
         </button>
     </div>
 
-    <section class="mt-8 st-card p-5">
-        <h2 class="font-display font-bold text-[#0F172A] mb-3">Ce qui se règle, et ce qui ne se règle pas</h2>
-        <div class="grid sm:grid-cols-2 gap-5 text-sm text-[#334155]">
+    <section class="mt-8 carte p-5">
+        <h2 class="font-titre font-bold text-encre dark:text-white mb-3">Ce qui se règle, et ce qui ne se règle pas</h2>
+        <div class="grid sm:grid-cols-2 gap-5 text-sm text-encre-2 dark:text-nuit-2">
             <div>
                 <p class="font-bold mb-1">Réglable</p>
                 <ul class="list-disc pl-5 mb-0 space-y-1">

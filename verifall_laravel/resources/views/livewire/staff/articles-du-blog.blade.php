@@ -16,11 +16,11 @@
 
     <div @class(['hidden' => $formulaireOuvert])>
     <x-premium.entete titre="Articles du blog" :fil="['Articles du blog']">
-        Les textes de fond : méthode, coulisses, tribunes. Pour un démenti avec verdict, passez par <a href="{{ route('staff.hub-news') }}" class="text-[#059669] underline">les actualités du Hub</a>.
+        Les textes de fond : méthode, coulisses, tribunes. Pour un démenti avec verdict, passez par <a href="{{ route('staff.hub-news') }}" class="text-brand-700 dark:text-brand underline">les actualités du Hub</a>.
         <x-slot:actions>
             @if ($peutCreer)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouveau billet
             </button>
         @endif
@@ -42,19 +42,19 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="ab-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="ab-q">Rechercher un titre, un chapeau</label>
+        <div class="flex-1 mb-0">
+            <label for="ab-q" class="etiquette">Rechercher un titre, un chapeau</label>
+<input id="ab-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreCategorie" class="st-input w-auto" aria-label="Filtrer par rubrique">
+        <select wire:model.live="filtreCategorie" class="champ w-auto" aria-label="Filtrer par rubrique">
             <option value="">Rubrique : toutes</option>
             @foreach ($categories as $categorie)
                 <option value="{{ $categorie->uuid }}">{{ $categorie->name }}</option>
             @endforeach
         </select>
 
-        <select wire:model.live="filtreEtat" class="st-input w-auto" aria-label="Filtrer par état">
+        <select wire:model.live="filtreEtat" class="champ w-auto" aria-label="Filtrer par état">
             <option value="">État : tous</option>
             <option value="publies">Publiés</option>
             <option value="brouillons">Brouillons</option>
@@ -67,7 +67,7 @@
                        title="Aucun billet"
                        description="Aucun billet ne correspond à ces critères.">
             <x-slot:action>
-                <button type="button" wire:click="reinitialiser" class="st-btn st-btn-secondary">
+                <button type="button" wire:click="reinitialiser" class="btn-second">
                     Réinitialiser les filtres
                 </button>
             </x-slot:action>
@@ -85,18 +85,18 @@
             @foreach ($billets as $billet)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">
+                        <p class="font-semibold text-encre dark:text-white mb-0">
                             @if ($billet->is_featured)
-                                <span class="material-symbols-rounded !text-[16px] text-[#D97706]" aria-hidden="true">star</span>
+                                <x-lucide name="star" class="w-4 h-4 text-amber-700 dark:text-amber-300" />
                             @endif
                             {{ Str::limit($billet->title, 70) }}
                         </p>
-                        <p class="text-xs text-[#64748B] mb-0">{{ Str::limit($billet->excerpt, 80) }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ Str::limit($billet->excerpt, 80) }}</p>
                     </td>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">
                         {{ $billet->category?->name ?? 'Sans rubrique' }}
                     </td>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">
                         {{ $billet->author?->name ?? '—' }}
                     </td>
                     <td>
@@ -107,20 +107,20 @@
                     <td class="text-right whitespace-nowrap">
                         @if ($peutPublier)
                             <button type="button" wire:click="basculerLaPublication('{{ $billet->uuid }}')"
-                                    class="st-icnbtn" title="{{ $billet->is_published ? 'Dépublier' : 'Publier' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $billet->is_published ? 'visibility_off' : 'visibility' }}</span>
+                                    class="btn-icone" title="{{ $billet->is_published ? 'Dépublier' : 'Publier' }}">
+                                <x-lucide :name="$billet->is_published ? 'visibility_off' : 'visibility'" class="w-4 h-4" />
                             </button>
                         @endif
                         @if ($peutModifier)
                             <button type="button" wire:click="ouvrirEdition('{{ $billet->uuid }}')"
-                                    class="st-icnbtn" title="Modifier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                         @endif
                         @if ($peutSupprimer)
                             <button type="button" wire:click="demanderLaSuppression('{{ $billet->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>
@@ -166,7 +166,7 @@
 
                     <div>
                         <label class="etiquette">Corps du billet</label>
-                        <div class="st-quill" wire:ignore>
+                        <div class="editeur-riche" wire:ignore>
                             <div data-quill-billet></div>
                         </div>
                         @error('corps') <p class="aide-erreur">{{ $message }}</p> @enderror

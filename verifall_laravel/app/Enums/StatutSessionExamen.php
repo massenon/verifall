@@ -29,10 +29,10 @@ enum StatutSessionExamen: string
     public function badge(): string
     {
         return match ($this) {
-            self::Planifiee => 'st-badge st-badge-info',
-            self::Ouverte => 'st-badge st-badge-pub',
-            self::Fermee => 'st-badge st-badge-arch',
-            self::Annulee => 'st-badge st-badge-danger',
+            self::Planifiee => 'pastille p-info',
+            self::Ouverte => 'pastille p-bon',
+            self::Fermee => 'pastille p-neutre',
+            self::Annulee => 'pastille p-critique',
         };
     }
 

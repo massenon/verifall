@@ -150,7 +150,7 @@ describe('l’éditeur de « Diffuser une Newsletter » — régression du 14 se
 
         // L'hôte est DANS un conteneur `wire:ignore` : sans lui, le premier
         // rendu Livewire effacerait le DOM que Quill a construit.
-        expect($html)->toMatch('/<div class="[^"]*st-quill[^"]*" wire:ignore>\s*<div data-quill-diffusion><\/div>/');
+        expect($html)->toMatch('/<div class="[^"]*editeur-riche[^"]*" wire:ignore>\s*<div data-quill-diffusion><\/div>/');
     });
 
     it('n’affiche plus l’état vide de l’historique sur l’onglet Diffuser', function () {

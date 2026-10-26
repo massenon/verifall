@@ -32,10 +32,10 @@
 
     <div class="flex flex-wrap items-center gap-3 my-5">
         <input type="search" wire:model.live.debounce.350ms="recherche"
-               class="st-input" style="max-width: 320px;"
+               class="champ" style="max-width: 320px;"
                placeholder="Nom ou adresse e-mail…" aria-label="Rechercher une personne">
 
-        <select wire:model.live="filtreEtat" class="st-select" style="max-width: 220px;" aria-label="Filtrer par état">
+        <select wire:model.live="filtreEtat" class="champ" style="max-width: 220px;" aria-label="Filtrer par état">
             <option value="pending">En attente</option>
             <option value="approved">Approuvés</option>
             <option value="rejected">Refusés</option>
@@ -60,29 +60,29 @@
             @foreach ($dossiers as $dossier)
                 <tr wire:key="kyc-{{ $dossier->uuid }}">
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $dossier->citoyen?->name ?? 'Compte supprimé' }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">{{ $dossier->citoyen?->email }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $dossier->citoyen?->name ?? 'Compte supprimé' }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $dossier->citoyen?->email }}</p>
                     </td>
-                    <td class="text-sm text-[#64748B]">{{ $dossier->document_type->libelle() }}</td>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">
+                    <td class="text-sm text-encre-3 dark:text-nuit-3">{{ $dossier->document_type->libelle() }}</td>
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">
                         {{ $dossier->created_at?->translatedFormat('j M Y') }}
                     </td>
                     <td>
                         <span class="{{ $dossier->status->pastille() }}">{{ $dossier->status->libelle() }}</span>
                         @if ($dossier->purged_at !== null)
-                            <span class="block text-xs text-[#64748B] mt-1">Pièces détruites</span>
+                            <span class="block text-xs text-encre-3 dark:text-nuit-3 mt-1">Pièces détruites</span>
                         @endif
                     </td>
                     <td class="text-right whitespace-nowrap">
                         @if ($peutExaminer && $dossier->status->estOuvert())
                             <button type="button" wire:click="ouvrirLaDecision('{{ $dossier->uuid }}', 'approuver')"
-                                    class="st-icnbtn" title="Examiner ce dossier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">plagiarism</span>
+                                    class="btn-icone" title="Examiner ce dossier">
+                                <x-lucide name="file-search" class="w-4 h-4" />
                             </button>
                         @elseif ($peutExaminer && $dossier->citoyen?->kyc_verified_at !== null)
                             <button type="button" wire:click="ouvrirLaDecision('{{ $dossier->uuid }}', 'retirer')"
-                                    class="st-icnbtn text-[#DC2626]" title="Retirer la vérification">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">gpp_bad</span>
+                                    class="btn-icone text-critique" title="Retirer la vérification">
+                                <x-lucide name="shield-x" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>
@@ -99,10 +99,10 @@
                           close="fermerLaDecision">
             @if ($vise !== null)
                 <div class="space-y-4">
-                    <div class="st-card p-3">
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $vise->citoyen?->name ?? 'Compte supprimé' }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">{{ $vise->citoyen?->email }}</p>
-                        <p class="text-xs text-[#64748B] mb-0 mt-1">{{ $vise->document_type->libelle() }}</p>
+                    <div class="carte p-3">
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $vise->citoyen?->name ?? 'Compte supprimé' }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $vise->citoyen?->email }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0 mt-1">{{ $vise->document_type->libelle() }}</p>
                     </div>
 
                     {{-- ── LES PIÈCES ────────────────────────────────────────
@@ -110,24 +110,24 @@
                          intégrées avec un `src` sur un chemin de stockage. --}}
                     @if ($vise->piecesDisponibles())
                         <div>
-                            <p class="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-2">Pièces déposées</p>
+                            <p class="text-xs font-bold uppercase tracking-wider text-encre-3 dark:text-nuit-3 mb-2">Pièces déposées</p>
                             <div class="flex flex-wrap gap-2">
                                 @foreach ($vise->pieces() as $role => $chemin)
                                     <a href="{{ $this->lienDeLaPiece($vise, $role) }}"
                                        target="_blank" rel="noopener noreferrer"
-                                       class="st-btn st-btn-secondary">
-                                        <span class="material-symbols-rounded !text-[18px]" aria-hidden="true">image</span>
+                                       class="btn-second">
+                                        <x-lucide name="image" class="w-4 h-4" />
                                         {{ ucfirst($role) }}
                                     </a>
                                 @endforeach
                             </div>
-                            <p class="text-xs text-[#64748B] mt-2 mb-0">
+                            <p class="text-xs text-encre-3 dark:text-nuit-3 mt-2 mb-0">
                                 Ces liens expirent au bout de dix minutes et ne se partagent pas :
                                 ils exigent votre session et l'habilitation « kyc.review ».
                             </p>
                         </div>
                     @else
-                        <p class="text-sm text-[#64748B] mb-0">
+                        <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">
                             Les pièces de ce dossier ont été détruites {{ $retentionJours }} jours
                             après la décision. Il n'est plus examinable sur pièces.
                         </p>
@@ -142,12 +142,12 @@
                          soumission n'arrivait jamais, et RIEN ne se passait sans
                          la moindre erreur. Trouvé au navigateur. --}}
                     <div class="space-y-4">
-                        <div class="ffield">
-                            <textarea id="kyc-motif" wire:model="motif" rows="4" placeholder=" "></textarea>
-                            <label for="kyc-motif">
+                        <div>
+                            <label for="kyc-motif" class="etiquette">
                                 {{ $geste === 'approuver' ? 'Note interne (facultative)' : 'Motif — montré à la personne' }}
                             </label>
-                            <p class="text-xs text-[#64748B] mt-1 mb-0">
+<textarea id="kyc-motif" wire:model="motif" rows="4" class="champ !h-auto py-2.5"></textarea>
+                            <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                                 @if ($geste === 'approuver')
                                     Rien n'est transmis à la personne en cas d'approbation.
                                 @else
@@ -161,18 +161,18 @@
                             @if ($geste !== 'retirer')
                                 <button type="button" wire:click="statuer('approuver')"
                                         wire:loading.attr="disabled"
-                                        class="st-btn st-btn-primary flex-1"
+                                        class="btn-primaire flex-1"
                                         @disabled(! $vise->status->estOuvert())>Approuver</button>
                                 <button type="button" wire:click="statuer('refuser')"
                                         wire:loading.attr="disabled"
-                                        class="st-btn st-btn-danger flex-1"
+                                        class="btn-danger flex-1"
                                         @disabled(! $vise->status->estOuvert())>Refuser</button>
                             @else
                                 <button type="button" wire:click="statuer('retirer')"
                                         wire:loading.attr="disabled"
-                                        class="st-btn st-btn-danger flex-1">Retirer la vérification</button>
+                                        class="btn-danger flex-1">Retirer la vérification</button>
                             @endif
-                            <button type="button" wire:click="fermerLaDecision" class="st-btn st-btn-secondary">Annuler</button>
+                            <button type="button" wire:click="fermerLaDecision" class="btn-second">Annuler</button>
                         </div>
                     </div>
                 </div>

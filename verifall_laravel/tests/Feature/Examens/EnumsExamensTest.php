@@ -22,32 +22,32 @@ use App\Enums\TypeQuestion;
 
 it('donne un libellé et une pastille à chaque état d\'examen', function (StatutExamen $statut): void {
     expect($statut->libelle())->not->toBeEmpty()
-        ->and($statut->badge())->toStartWith('st-badge');
+        ->and($statut->badge())->toStartWith('pastille');
 })->with(StatutExamen::cases());
 
 it('donne un libellé et une pastille à chaque type de question', function (TypeQuestion $type): void {
     expect($type->libelle())->not->toBeEmpty()
-        ->and($type->badge())->toStartWith('st-badge');
+        ->and($type->badge())->toStartWith('pastille');
 })->with(TypeQuestion::cases());
 
 it('donne un libellé et une pastille à chaque état de question', function (StatutQuestion $statut): void {
     expect($statut->libelle())->not->toBeEmpty()
-        ->and($statut->badge())->toStartWith('st-badge');
+        ->and($statut->badge())->toStartWith('pastille');
 })->with(StatutQuestion::cases());
 
 it('donne un libellé et une pastille à chaque état de session', function (StatutSessionExamen $statut): void {
     expect($statut->libelle())->not->toBeEmpty()
-        ->and($statut->badge())->toStartWith('st-badge');
+        ->and($statut->badge())->toStartWith('pastille');
 })->with(StatutSessionExamen::cases());
 
 it('donne un libellé et une pastille à chaque état d\'inscription', function (StatutInscriptionExamen $statut): void {
     expect($statut->libelle())->not->toBeEmpty()
-        ->and($statut->badge())->toStartWith('st-badge');
+        ->and($statut->badge())->toStartWith('pastille');
 })->with(StatutInscriptionExamen::cases());
 
 it('donne un libellé et une pastille à chaque état de copie', function (StatutCopieExamen $statut): void {
     expect($statut->libelle())->not->toBeEmpty()
-        ->and($statut->badge())->toStartWith('st-badge');
+        ->and($statut->badge())->toStartWith('pastille');
 })->with(StatutCopieExamen::cases());
 
 it('ne confie à la machine que ce qu\'elle sait trancher', function (): void {

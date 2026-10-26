@@ -14,12 +14,12 @@
 
     // Clés sémantiques de `<x-badge-statut>` → classes staff (même table que le composant).
     var BADGES = {
-        'publie': 'st-badge-pub',
-        'brouillon': 'st-badge-draft',
-        'archive': 'st-badge-arch',
-        'danger': 'st-badge-danger',
-        'en-cours': 'st-badge-info',
-        'info': 'st-badge-info',
+        'publie': 'p-bon',
+        'brouillon': 'p-neutre',
+        'archive': 'p-neutre',
+        'danger': 'p-critique',
+        'en-cours': 'p-info',
+        'info': 'p-info',
     };
 
     function monter() {
@@ -42,7 +42,7 @@
         }
 
         function badge(cle, libelle) {
-            return '<span class="st-badge ' + (BADGES[cle] || 'st-badge-info') + '">' + e(libelle) + '</span>';
+            return '<span class="pastille ' + (BADGES[cle] || 'p-info') + '">' + e(libelle) + '</span>';
         }
 
         V.monter(racine, {
@@ -86,7 +86,7 @@
                     render: function (donnee, type, l) {
                         if (type !== 'display' || !l.actions.ouvrir) { return ''; }
 
-                        return '<button type="button" class="st-icnbtn" data-vdt-action="ouvrir" data-vdt-uuid="' + e(l.uuid) + '"'
+                        return '<button type="button" class="btn-icone" data-vdt-action="ouvrir" data-vdt-uuid="' + e(l.uuid) + '"'
                             + ' title="Lire ce message" aria-label="Lire ce message">'
                             + '<span class="material-symbols-rounded" aria-hidden="true">mark_email_read</span></button>';
                     },

@@ -22,12 +22,12 @@
 
 <section {{ $attributes->merge(['class' => 'mb-6']) }} data-kpi-accordion>
     <button type="button"
-            class="kpi-toggle w-full items-center justify-between {{ $staff ? 'st-card' : 'card' }} px-4 py-3 mb-3"
+            class="kpi-toggle w-full items-center justify-between {{ $staff ? 'carte' : 'card' }} px-4 py-3 mb-3"
             aria-expanded="false">
-        <span class="{{ $staff ? 'text-sm font-display font-bold text-[#0F172A]' : 'font-display font-bold text-ink' }}">
+        <span class="{{ $staff ? 'text-sm font-display font-bold text-encre dark:text-white' : 'font-display font-bold text-ink' }}">
             {{ $heading }}
         </span>
-        <span class="material-symbols-rounded transition-transform" aria-hidden="true">expand_more</span>
+        <x-lucide name="chevron-down" class="w-4 h-4 transition-transform" />
     </button>
 
     <div class="kpi-grid grid {{ $staff ? $grid : 'sm:'.str_replace('grid-cols-2', 'grid-cols-2', $grid) }} gap-4">

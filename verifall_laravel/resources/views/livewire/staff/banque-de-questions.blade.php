@@ -26,8 +26,8 @@
         Le fonds commun des examens. Une question reste en brouillon jusqu'à sa publication — publier, c'est l'exposer à tous les candidats d'une session certifiante.
         <x-slot:actions>
             @can('create', App\Models\QuestionBankItem::class)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouvelle question
             </button>
         @endcan
@@ -56,40 +56,40 @@
          data-vdt-evenement="{{ \App\Livewire\Staff\BanqueDeQuestions::EVENEMENT_TABLE_A_RECHARGER }}">
 
         <section class="mb-4 flex flex-wrap items-center gap-3">
-            <div class="ffield flex-1 mb-0">
-                <input id="bq-q" type="search" data-vdt-recherche data-vdt-url="q" data-vdt-livewire="recherche" value="{{ $recherche }}" placeholder=" ">
-                <label for="bq-q">Rechercher un énoncé</label>
+            <div class="flex-1 mb-0">
+                <label for="bq-q" class="etiquette">Rechercher un énoncé</label>
+<input id="bq-q" type="search" data-vdt-recherche data-vdt-url="q" data-vdt-livewire="recherche" value="{{ $recherche }}" class="champ">
             </div>
 
-            <select data-vdt-filtre="type" data-vdt-url="type" data-vdt-livewire="filtreType" class="st-input w-auto" aria-label="Filtrer par type">
+            <select data-vdt-filtre="type" data-vdt-url="type" data-vdt-livewire="filtreType" class="champ w-auto" aria-label="Filtrer par type">
                 <option value="">Type : tous</option>
                 @foreach ($types as $unType)
                     <option value="{{ $unType->value }}" @selected($filtreType === $unType->value)>{{ $unType->libelle() }}</option>
                 @endforeach
             </select>
 
-            <select data-vdt-filtre="statut" data-vdt-url="statut" data-vdt-livewire="filtreStatut" class="st-input w-auto" aria-label="Filtrer par statut">
+            <select data-vdt-filtre="statut" data-vdt-url="statut" data-vdt-livewire="filtreStatut" class="champ w-auto" aria-label="Filtrer par statut">
                 <option value="">Statut : tous</option>
                 @foreach ($statuts as $unStatut)
                     <option value="{{ $unStatut->value }}" @selected($filtreStatut === $unStatut->value)>{{ $unStatut->libelle() }}</option>
                 @endforeach
             </select>
 
-            <select data-vdt-filtre="cours" data-vdt-url="cours" data-vdt-livewire="filtreCours" class="st-input w-auto" aria-label="Filtrer par cours">
+            <select data-vdt-filtre="cours" data-vdt-url="cours" data-vdt-livewire="filtreCours" class="champ w-auto" aria-label="Filtrer par cours">
                 <option value="">Cours : tous</option>
                 @foreach ($cours as $unCours)
                     <option value="{{ $unCours->uuid }}" @selected($filtreCours === $unCours->uuid)>{{ Str::limit($unCours->title, 40) }}</option>
                 @endforeach
             </select>
 
-            <button type="button" data-vdt-reinitialiser class="st-btn st-btn-secondary">
+            <button type="button" data-vdt-reinitialiser class="btn-second">
                 Réinitialiser
             </button>
         </section>
 
-        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-[#FCA5A5] bg-[#FEF2F2] text-[#991B1B] text-sm px-4 py-3 mb-4">
+        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 text-sm px-4 py-3 mb-4">
             <p data-vdt-erreur-message class="mb-2">Impossible de charger les questions.</p>
-            <button type="button" data-vdt-reessayer class="st-btn st-btn-secondary">Réessayer</button>
+            <button type="button" data-vdt-reessayer class="btn-second">Réessayer</button>
         </div>
 
         <table id="table-banque-de-questions" style="width:100%" data-vdt-table>
@@ -113,47 +113,47 @@
                       :title="$enEdition === null ? 'Nouvelle question' : 'Modifier la question'"
                       close="fermerLeTiroir">
         <form wire:submit="enregistrer" class="space-y-4">
-            <div class="ffield">
-                <textarea id="bq-enonce" wire:model="enonce" rows="3" placeholder=" "></textarea>
-                <label for="bq-enonce">Énoncé</label>
-                @error('enonce') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="bq-enonce" class="etiquette">Énoncé</label>
+<textarea id="bq-enonce" wire:model="enonce" rows="3" class="champ !h-auto py-2.5"></textarea>
+                @error('enonce') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="bq-type" class="block text-sm font-medium text-[#0F172A] mb-1">Type</label>
-                    <select id="bq-type" wire:model="type" class="st-input w-full">
+                    <label for="bq-type" class="block text-sm font-medium text-encre dark:text-white mb-1">Type</label>
+                    <select id="bq-type" wire:model="type" class="champ w-full">
                         @foreach ($types as $unType)
                             <option value="{{ $unType->value }}">{{ $unType->libelle() }}</option>
                         @endforeach
                     </select>
-                    @error('type') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('type') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="bq-points" type="number" min="1" max="100" wire:model="points" placeholder=" ">
-                    <label for="bq-points">Points</label>
-                    @error('points') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="bq-points" class="etiquette">Points</label>
+<input id="bq-points" type="number" min="1" max="100" wire:model="points" class="champ">
+                    @error('points') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
             <div>
-                <label for="bq-cours" class="block text-sm font-medium text-[#0F172A] mb-1">Cours rattaché</label>
-                <select id="bq-cours" wire:model="coursUuid" class="st-input w-full">
+                <label for="bq-cours" class="block text-sm font-medium text-encre dark:text-white mb-1">Cours rattaché</label>
+                <select id="bq-cours" wire:model="coursUuid" class="champ w-full">
                     <option value="">— Transverse —</option>
                     @foreach ($cours as $unCours)
                         <option value="{{ $unCours->uuid }}">{{ $unCours->title }}</option>
                     @endforeach
                 </select>
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                     Sert au tirage : un examen adossé à un cours pioche d'abord dans ses questions.
                 </p>
-                @error('coursUuid') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                @error('coursUuid') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <p class="block text-sm font-medium text-[#0F172A] mb-2">Propositions</p>
-                @error('propositions') <p class="text-sm text-[#DC2626] mb-2">{{ $message }}</p> @enderror
+                <p class="block text-sm font-medium text-encre dark:text-white mb-2">Propositions</p>
+                @error('propositions') <p class="text-sm text-critique mb-2">{{ $message }}</p> @enderror
 
                 <div class="space-y-2">
                     @foreach ($propositions as $rang => $proposition)
@@ -161,19 +161,19 @@
                             <input type="checkbox" wire:model="propositions.{{ $rang }}.correcte"
                                    class="mt-3" aria-label="Proposition correcte">
 
-                            <div class="ffield flex-1 mb-0">
-                                <input id="bq-prop-{{ $rang }}" type="text"
-                                       wire:model="propositions.{{ $rang }}.label" placeholder=" ">
-                                <label for="bq-prop-{{ $rang }}">Proposition {{ $rang + 1 }}</label>
+                            <div class="flex-1 mb-0">
+                                <label for="bq-prop-{{ $rang }}" class="etiquette">Proposition {{ $rang + 1 }}</label>
+<input id="bq-prop-{{ $rang }}" type="text"
+                                       wire:model="propositions.{{ $rang }}.label" class="champ">
                                 @error('propositions.'.$rang.'.label')
-                                    <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p>
+                                    <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             @if (count($propositions) > 2)
                                 <button type="button" wire:click="retirerUneProposition({{ $rang }})"
-                                        class="st-icnbtn text-[#DC2626] mt-1" title="Retirer">
-                                    <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">close</span>
+                                        class="btn-icone text-critique mt-1" title="Retirer">
+                                    <x-lucide name="x" class="w-4 h-4" />
                                 </button>
                             @endif
                         </div>
@@ -182,24 +182,24 @@
 
                 @if (count($propositions) < 6)
                     <button type="button" wire:click="ajouterUneProposition"
-                            class="text-sm text-[#059669] font-semibold underline mt-2">
+                            class="text-sm text-brand-700 dark:text-brand font-semibold underline mt-2">
                         + Ajouter une proposition
                     </button>
                 @endif
             </div>
 
-            <div class="ffield">
-                <textarea id="bq-expl" wire:model="explication" rows="3" placeholder=" "></textarea>
-                <label for="bq-expl">Explication</label>
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
+            <div>
+                <label for="bq-expl" class="etiquette">Explication</label>
+<textarea id="bq-expl" wire:model="explication" rows="3" class="champ !h-auto py-2.5"></textarea>
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                     Sans elle, le candidat apprend seulement qu'il a eu tort.
                 </p>
-                @error('explication') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                @error('explication') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>

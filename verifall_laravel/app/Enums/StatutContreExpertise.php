@@ -68,10 +68,10 @@ enum StatutContreExpertise: string
     public function pastille(): string
     {
         return match ($this) {
-            self::EnAttente => 'st-badge st-badge-warn',
-            self::VerdictMaintenu => 'st-badge st-badge-info',
-            self::VerdictCorrige => 'st-badge st-badge-danger',
-            self::Ecartee => 'st-badge st-badge-arch',
+            self::EnAttente => 'pastille p-alerte',
+            self::VerdictMaintenu => 'pastille p-info',
+            self::VerdictCorrige => 'pastille p-critique',
+            self::Ecartee => 'pastille p-neutre',
         };
     }
 }

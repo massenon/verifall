@@ -22,8 +22,8 @@
         Le moteur d'analyse consulte ce référentiel à chaque lien examiné. Une source active n'est plus soupçonnée d'usurper une institution, et son nom apparaît dans le raisonnement rendu au citoyen.
         <x-slot:actions>
             @can('create', App\Models\TrustedSource::class)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Référencer une source
             </button>
         @endcan
@@ -56,12 +56,12 @@
          data-vdt-evenement="{{ \App\Livewire\Staff\SourcesVerifiees::EVENEMENT_TABLE_A_RECHARGER }}">
 
         <section class="mb-4 flex flex-wrap items-center gap-3">
-            <div class="ffield flex-1 mb-0">
-                <input id="src-q" type="search" data-vdt-recherche data-vdt-url="q" data-vdt-livewire="recherche" placeholder=" ">
-                <label for="src-q">Rechercher un nom, un domaine, une note</label>
+            <div class="flex-1 mb-0">
+                <label for="src-q" class="etiquette">Rechercher un nom, un domaine, une note</label>
+<input id="src-q" type="search" data-vdt-recherche data-vdt-url="q" data-vdt-livewire="recherche" class="champ">
             </div>
 
-            <select data-vdt-filtre="famille" data-vdt-url="famille" data-vdt-livewire="filtreCategorie" class="st-input w-auto" aria-label="Filtrer par famille">
+            <select data-vdt-filtre="famille" data-vdt-url="famille" data-vdt-livewire="filtreCategorie" class="champ w-auto" aria-label="Filtrer par famille">
                 <option value="">Famille : toutes</option>
                 @foreach ($famillesEnUsage as $famille)
                     <option value="{{ $famille->uuid }}">{{ $famille->name }}</option>
@@ -69,27 +69,27 @@
                 <option value="{{ \App\Core\Application\Contracts\DepotSourcesFiables::SANS_FAMILLE }}">Sans famille</option>
             </select>
 
-            <select data-vdt-filtre="etat" data-vdt-url="etat" data-vdt-livewire="filtreEtat" class="st-input w-auto" aria-label="Filtrer par état">
+            <select data-vdt-filtre="etat" data-vdt-url="etat" data-vdt-livewire="filtreEtat" class="champ w-auto" aria-label="Filtrer par état">
                 <option value="">État : tous</option>
                 <option value="actives">Actives</option>
                 <option value="inactives">Inactives</option>
             </select>
 
-            <select data-vdt-filtre="confiance" data-vdt-url="confiance" class="st-input w-auto" aria-label="Filtrer par crédibilité">
+            <select data-vdt-filtre="confiance" data-vdt-url="confiance" class="champ w-auto" aria-label="Filtrer par crédibilité">
                 <option value="">Crédibilité : toutes</option>
                 <option value="elevee">Élevée (80-100)</option>
                 <option value="moyenne">Moyenne (50-79)</option>
                 <option value="faible">Faible (0-49)</option>
             </select>
 
-            <button type="button" data-vdt-reinitialiser class="st-btn st-btn-secondary">
+            <button type="button" data-vdt-reinitialiser class="btn-second">
                 Réinitialiser
             </button>
         </section>
 
-        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-[#FCA5A5] bg-[#FEF2F2] text-[#991B1B] text-sm px-4 py-3 mb-4">
+        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 text-sm px-4 py-3 mb-4">
             <p data-vdt-erreur-message class="mb-2">Impossible de charger le référentiel.</p>
-            <button type="button" data-vdt-reessayer class="st-btn st-btn-secondary">Réessayer</button>
+            <button type="button" data-vdt-reessayer class="btn-second">Réessayer</button>
         </div>
 
         <table id="table-sources-verifiees" style="width:100%" data-vdt-table>
@@ -111,72 +111,72 @@
                       :title="$enEdition === null ? 'Référencer une source' : 'Modifier la fiche'"
                       close="fermerLeTiroir">
         <form wire:submit="enregistrer" class="space-y-4">
-            <div class="ffield">
-                <input id="src-nom" type="text" wire:model="nom" placeholder=" ">
-                <label for="src-nom">Nom de la source</label>
-                @error('nom') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="src-nom" class="etiquette">Nom de la source</label>
+<input id="src-nom" type="text" wire:model="nom" class="champ">
+                @error('nom') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
-            <div class="ffield">
-                <input id="src-domaine" type="text" wire:model="domaine" placeholder=" ">
-                <label for="src-domaine">Domaine</label>
+            <div>
+                <label for="src-domaine" class="etiquette">Domaine</label>
+<input id="src-domaine" type="text" wire:model="domaine" class="champ">
                 {{-- L'aide dit ce que la normalisation fait, pour qu'un « https://www. »
                      collé depuis le navigateur ne ressemble pas à une erreur. --}}
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                     Collez l'adresse si c'est plus simple : elle sera ramenée au domaine (<span class="font-mono">lemonde.fr</span>).
                     Les sous-domaines en héritent — <span class="font-mono">edition.cnn.com</span> trouve <span class="font-mono">cnn.com</span>.
                 </p>
-                @error('domaine') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                @error('domaine') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="src-fam" class="block text-sm font-medium text-[#0F172A] mb-1">Famille</label>
-                    <select id="src-fam" wire:model.live="categorieUuid" class="st-input w-full">
+                    <label for="src-fam" class="block text-sm font-medium text-encre dark:text-white mb-1">Famille</label>
+                    <select id="src-fam" wire:model.live="categorieUuid" class="champ w-full">
                         <option value="">— Sans famille —</option>
                         @foreach ($familles as $famille)
                             <option value="{{ $famille->uuid }}">{{ $famille->name }}</option>
                         @endforeach
                     </select>
-                    @error('categorieUuid') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('categorieUuid') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="src-cred" type="number" min="0" max="100" wire:model="credibilite" placeholder=" ">
-                    <label for="src-cred">Crédibilité (0-100)</label>
-                    @error('credibilite') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="src-cred" class="etiquette">Crédibilité (0-100)</label>
+<input id="src-cred" type="number" min="0" max="100" wire:model="credibilite" class="champ">
+                    @error('credibilite') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
-            <div class="ffield">
-                <input id="src-url" type="url" wire:model="lien" placeholder=" ">
-                <label for="src-url">Adresse du site (facultatif)</label>
-                @error('lien') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="src-url" class="etiquette">Adresse du site (facultatif)</label>
+<input id="src-url" type="url" wire:model="lien" class="champ">
+                @error('lien') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
-            <div class="ffield">
-                <textarea id="src-note" wire:model="note" rows="4" placeholder=" "></textarea>
-                <label for="src-note">Note éditoriale</label>
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
+            <div>
+                <label for="src-note" class="etiquette">Note éditoriale</label>
+<textarea id="src-note" wire:model="note" rows="4" class="champ !h-auto py-2.5"></textarea>
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                     Pourquoi cette source est ici, ce qu'elle vaut, ce qu'on lui reproche.
                     Interne à la rédaction — jamais montrée au citoyen.
                 </p>
-                @error('note') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                @error('note') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <label class="flex items-start gap-2.5 cursor-pointer">
                 <input type="checkbox" wire:model="active" class="mt-0.5">
-                <span class="text-sm text-[#334155]">
+                <span class="text-sm text-encre-2 dark:text-nuit-2">
                     Source active
-                    <span class="block text-xs text-[#64748B]">
+                    <span class="block text-xs text-encre-3 dark:text-nuit-3">
                         Décochée, la fiche reste ici mais le moteur cesse de la reconnaître.
                     </span>
                 </span>
             </label>
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>

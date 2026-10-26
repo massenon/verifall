@@ -20,9 +20,9 @@
         {{-- LE DIAGNOSTIC QUE PERSONNE NE POUVAIT POSER. Si AUCUNE tâche ne
              s'est jamais exécutée, il n'y a pas six pannes : il n'y a pas de
              cron. On le dit, plutôt que de laisser compter les lignes rouges. --}}
-        <div class="rounded-lg border border-[#E2E8F0] bg-[#FEE2E2] p-4 mb-6">
-            <p class="font-semibold text-[#DC2626] mb-1">Aucune tâche ne s'est jamais exécutée.</p>
-            <p class="text-sm text-[#334155] mb-0">
+        <div class="rounded-lg border border-trait dark:border-nuit-trait bg-red-100 dark:bg-red-950 p-4 mb-6">
+            <p class="font-semibold text-critique mb-1">Aucune tâche ne s'est jamais exécutée.</p>
+            <p class="text-sm text-encre-2 dark:text-nuit-2 mb-0">
                 Ce n'est pas {{ $indicateurs['declarees'] }} pannes : c'est l'entrée cron qui manque.
                 Le planificateur exige une ligne appelant
                 <span class="font-mono">php artisan schedule:run</span> chaque minute.
@@ -66,23 +66,23 @@
             @foreach ($taches as $tache)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">
+                        <p class="font-semibold text-encre dark:text-white mb-0">
                             {{ $tache['description'] !== '' ? $tache['description'] : class_basename($tache['nom']) }}
                         </p>
-                        <p class="text-xs text-[#64748B] mb-0 font-mono">{{ Str::limit($tache['nom'], 70) }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0 font-mono">{{ Str::limit($tache['nom'], 70) }}</p>
                     </td>
                     <td class="whitespace-nowrap">
-                        <span class="font-mono text-xs text-[#334155]">{{ $tache['expression'] }}</span>
+                        <span class="font-mono text-xs text-encre-2 dark:text-nuit-2">{{ $tache['expression'] }}</span>
                     </td>
                     <td class="whitespace-nowrap text-sm">
                         @if ($tache['derniere'] === null)
-                            <span class="text-[#DC2626] font-semibold">Jamais</span>
+                            <span class="text-critique font-semibold">Jamais</span>
                         @else
-                            <span class="text-[#334155]">{{ $tache['derniere']->ran_at?->translatedFormat('j M · H:i') }}</span>
-                            <span class="block text-xs text-[#64748B]">{{ $tache['derniere']->ran_at?->diffForHumans() }}</span>
+                            <span class="text-encre-2 dark:text-nuit-2">{{ $tache['derniere']->ran_at?->translatedFormat('j M · H:i') }}</span>
+                            <span class="block text-xs text-encre-3 dark:text-nuit-3">{{ $tache['derniere']->ran_at?->diffForHumans() }}</span>
                         @endif
                     </td>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">
                         @if ($tache['derniere']?->duration_ms !== null)
                             {{ number_format($tache['derniere']->duration_ms / 1000, 1, ',', ' ') }} s
                         @else
@@ -91,9 +91,9 @@
                     </td>
                     <td>
                         @if ($tache['derniere'] === null)
-                            <span class="st-badge st-badge-danger">Sans trace</span>
+                            <span class="pastille p-critique">Sans trace</span>
                         @elseif ($tache['echecs'] > 0)
-                            <span class="st-badge st-badge-warn">{{ $tache['echecs'] }} échec(s) sur 7 j</span>
+                            <span class="pastille p-alerte">{{ $tache['echecs'] }} échec(s) sur 7 j</span>
                         @else
                             <x-badge-statut variant="staff" statut="publie" label="Régulière" />
                         @endif
@@ -103,7 +103,7 @@
         </x-data-table>
     @endif
 
-    <p class="text-xs text-[#64748B] mt-4 mb-0">
+    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-4 mb-0">
         Pas de bouton « exécuter » : la purge RGPD et la dotation mensuelle ne sont pas
         idempotentes, et un double-clic doublerait la dotation de tous les comptes.
         Ces commandes se lancent en console.

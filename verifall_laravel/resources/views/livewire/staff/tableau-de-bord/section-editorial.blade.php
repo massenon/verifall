@@ -1,3 +1,6 @@
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/pages/staff-tableau-de-bord.css') }}">
+@endpush
 {{--
   | 07 — Blog & Actualités : la performance éditoriale (§14-19, §56-57).
   |
@@ -33,7 +36,7 @@
         <div class="tdb-grid tdb-grid-2">
             @foreach ($d['cartes'] as $cle => $carte)
                 @php $e = $carte['donnees']; @endphp
-                <article class="st-card tdb-card" wire:key="edito-{{ $cle }}">
+                <article class="carte tdb-card" wire:key="edito-{{ $cle }}">
                     <div class="tdb-card-h">
                         <div>
                             <h3 class="tdb-h3">{{ $carte['titre'] }}</h3>
@@ -43,7 +46,7 @@
                             </p>
                         </div>
                         <a class="tdb-lien" href="{{ route($cle === 'blog' ? 'staff.posts' : 'staff.hub-news') }}">
-                            Gérer <span class="material-symbols-rounded" aria-hidden="true">arrow_forward</span>
+                            Gérer <x-lucide name="arrow-right" class="w-4 h-4" />
                         </a>
                     </div>
 
@@ -131,7 +134,7 @@
             $totalVues = array_sum(array_map(static fn (array $s): int => array_sum($s['valeurs']), $series));
         @endphp
 
-        <article class="st-card tdb-card tdb-mt">
+        <article class="carte tdb-card tdb-mt">
             <div class="tdb-card-h">
                 <div>
                     <h3 class="tdb-h3">Vues sur la période</h3>
@@ -155,7 +158,7 @@
         </article>
 
         {{-- ── CONTENUS TOP ── --}}
-        <article class="st-card tdb-card tdb-mt">
+        <article class="carte tdb-card tdb-mt">
             <div class="tdb-card-h">
                 <div>
                     <h3 class="tdb-h3">Contenus les plus performants</h3>
@@ -175,7 +178,7 @@
                 </div>
             @else
                 <div class="tdb-table-wrap">
-                    <table class="st-table tdb-table">
+                    <table class="tableau tdb-table">
                         <thead>
                             <tr>
                                 <th scope="col">Contenu</th>
@@ -199,7 +202,7 @@
                                     </td>
                                     <td class="is-secondaire">{{ $ligne['type'] === 'blog' ? 'Blog' : 'Actualité' }}</td>
                                     <td class="is-secondaire">
-                                        <span class="st-badge {{ $ligne['publie'] ? 'st-badge-pub' : 'st-badge-draft' }}">{{ $ligne['publie'] ? 'Publié' : 'Brouillon' }}</span>
+                                        <span class="pastille {{ $ligne['publie'] ? 'p-bon' : 'p-neutre' }}">{{ $ligne['publie'] ? 'Publié' : 'Brouillon' }}</span>
                                     </td>
                                     <td class="is-num">
                                         @if ($d['classement'] === 'vues')
@@ -230,12 +233,12 @@
                                         @if ($ligne['publie'])
                                             <a class="tdb-icnlien" href="{{ route($ligne['route_publique'], $ligne['slug']) }}" target="_blank" rel="noopener"
                                                title="Voir en ligne" aria-label="Voir « {{ $ligne['titre'] }} » en ligne">
-                                                <span class="material-symbols-rounded" aria-hidden="true">open_in_new</span>
+                                                <x-lucide name="external-link" class="w-4 h-4" />
                                             </a>
                                         @endif
                                         <a class="tdb-icnlien" href="{{ route($ligne['route_gestion']) }}"
                                            title="Gérer" aria-label="Gérer les contenus de ce type">
-                                            <span class="material-symbols-rounded" aria-hidden="true">edit</span>
+                                            <x-lucide name="pencil" class="w-4 h-4" />
                                         </a>
                                     </td>
                                 </tr>

@@ -20,11 +20,11 @@
     @if ($indicateurs['echecs_24h'] > 0)
         {{-- L'alerte ne s'affiche que s'il y a matière : un bandeau permanent
              désapprend à le regarder — c'est le défaut de la cloche du lot 2. --}}
-        <div class="rounded-lg border border-[#E2E8F0] bg-[#FEE2E2] p-4 mb-6">
-            <p class="font-semibold text-[#DC2626] mb-1">
+        <div class="rounded-lg border border-trait dark:border-nuit-trait bg-red-100 dark:bg-red-950 p-4 mb-6">
+            <p class="font-semibold text-critique mb-1">
                 {{ $indicateurs['echecs_24h'] }} envoi(s) en échec dans les dernières 24 heures.
             </p>
-            <p class="text-sm text-[#334155] mb-0">
+            <p class="text-sm text-encre-2 dark:text-nuit-2 mb-0">
                 Si tous les envois échouent, vérifiez d'abord que <span class="font-mono">queue:work</span>
                 tourne : sans worker, les courriels attendent en file sans qu'aucune erreur ne le signale.
                 <span class="font-mono">php artisan verifall:diagnostic</span> le dit en une commande.
@@ -47,18 +47,18 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="je-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="je-q">Rechercher un destinataire, un objet</label>
+        <div class="flex-1 mb-0">
+            <label for="je-q" class="etiquette">Rechercher un destinataire, un objet</label>
+<input id="je-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreEtat" class="st-input w-auto" aria-label="Filtrer par état">
+        <select wire:model.live="filtreEtat" class="champ w-auto" aria-label="Filtrer par état">
             <option value="">État : tous</option>
             <option value="sent">Partis</option>
             <option value="failed">En échec</option>
         </select>
 
-        <select wire:model.live="filtreMailable" class="st-input w-auto" aria-label="Filtrer par type">
+        <select wire:model.live="filtreMailable" class="champ w-auto" aria-label="Filtrer par type">
             <option value="">Type : tous</option>
             @foreach ($types as $type)
                 <option value="{{ $type }}">{{ class_basename($type) }}</option>
@@ -71,7 +71,7 @@
                        title="Aucun envoi journalisé"
                        description="Le journal est vide. Si la plateforme est en service et qu'aucun envoi n'apparaît, c'est que rien ne part : vérifiez le worker de file d'attente.">
             <x-slot:action>
-                <button type="button" wire:click="reinitialiser" class="st-btn st-btn-secondary">
+                <button type="button" wire:click="reinitialiser" class="btn-second">
                     Réinitialiser les filtres
                 </button>
             </x-slot:action>
@@ -88,19 +88,19 @@
 
             @foreach ($courriels as $courriel)
                 <tr>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">
                         {{ $courriel->created_at?->translatedFormat('j M Y · H:i') }}
                     </td>
-                    <td class="text-sm text-[#334155]">{{ $courriel->recipient }}</td>
-                    <td class="text-sm text-[#334155]">{{ Str::limit($courriel->subject, 60) }}</td>
-                    <td class="whitespace-nowrap text-xs text-[#64748B]">
+                    <td class="text-sm text-encre-2 dark:text-nuit-2">{{ $courriel->recipient }}</td>
+                    <td class="text-sm text-encre-2 dark:text-nuit-2">{{ Str::limit($courriel->subject, 60) }}</td>
+                    <td class="whitespace-nowrap text-xs text-encre-3 dark:text-nuit-3">
                         {{ $courriel->mailable !== null ? class_basename($courriel->mailable) : '—' }}
                     </td>
                     <td>
                         @if ($courriel->aEchoue())
-                            <span class="st-badge st-badge-danger">Échec</span>
+                            <span class="pastille p-critique">Échec</span>
                             @if ($courriel->error !== null)
-                                <span class="block text-xs text-[#64748B] mt-1">{{ Str::limit($courriel->error, 70) }}</span>
+                                <span class="block text-xs text-encre-3 dark:text-nuit-3 mt-1">{{ Str::limit($courriel->error, 70) }}</span>
                             @endif
                         @else
                             <x-badge-statut variant="staff" statut="publie" label="Parti" />
@@ -113,7 +113,7 @@
         <div class="mt-4">{{ $courriels->links() }}</div>
     @endif
 
-    <p class="text-xs text-[#64748B] mt-4 mb-0">
+    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-4 mb-0">
         Journal en lecture seule. Les lignes sont effacées par la purge automatique des données
         expirées, jamais depuis cet écran : une trace qu'on peut supprimer n'en est plus une.
     </p>

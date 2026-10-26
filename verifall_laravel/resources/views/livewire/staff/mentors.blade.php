@@ -12,7 +12,7 @@
 <div>
 
 <x-premium.entete titre="Mentors" :fil="['Mentors']">
-        L'équipe pédagogique et sa charge réelle. Pour créer un compte ou donner le rôle, passez par <a href="{{ route('staff.users') }}" class="text-[#059669] underline">Utilisateurs</a>.
+        L'équipe pédagogique et sa charge réelle. Pour créer un compte ou donner le rôle, passez par <a href="{{ route('staff.users') }}" class="text-brand-700 dark:text-brand underline">Utilisateurs</a>.
     </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
@@ -32,12 +32,12 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="mt-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="mt-q">Rechercher un mentor</label>
+        <div class="flex-1 mb-0">
+            <label for="mt-q" class="etiquette">Rechercher un mentor</label>
+<input id="mt-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreEtat" class="st-input w-auto" aria-label="Filtrer">
+        <select wire:model.live="filtreEtat" class="champ w-auto" aria-label="Filtrer">
             <option value="">Tous</option>
             <option value="actifs">Avec cours</option>
             <option value="sans-cours">Sans cours</option>
@@ -49,7 +49,7 @@
                        title="Aucun mentor"
                        description="Personne ne porte le rôle Mentor. Tant qu'il n'y en a pas, les cours restent sans formateur et les copies sans correcteur.">
             <x-slot:action>
-                <a href="{{ route('staff.users') }}" class="st-btn st-btn-primary">Aller aux utilisateurs</a>
+                <a href="{{ route('staff.users') }}" class="btn-primaire">Aller aux utilisateurs</a>
             </x-slot:action>
         </x-empty-state>
     @else
@@ -65,17 +65,17 @@
             @foreach ($mentors as $mentor)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0"><a href="{{ route('staff.users.show', $mentor) }}" class="hover:underline">{{ $mentor->name }}</a></p>
-                        <p class="text-xs text-[#64748B] mb-0">{{ $mentor->email }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0"><a href="{{ route('staff.users.show', $mentor) }}" class="hover:underline">{{ $mentor->name }}</a></p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $mentor->email }}</p>
                     </td>
                     <td class="whitespace-nowrap">
                         @if ($mentor->cours_enseignes_count === 0)
-                            <span class="text-[#DC2626] text-sm">Aucun</span>
+                            <span class="text-critique text-sm">Aucun</span>
                         @else
-                            <span class="text-sm text-[#334155]">{{ $mentor->cours_enseignes_count }}</span>
+                            <span class="text-sm text-encre-2 dark:text-nuit-2">{{ $mentor->cours_enseignes_count }}</span>
                         @endif
                     </td>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">{{ $mentor->cours_publies_count }}</td>
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">{{ $mentor->cours_publies_count }}</td>
                     <td>
                         @if ($mentor->estActive())
                             <x-badge-statut variant="staff" statut="publie" label="Actif" />
@@ -83,14 +83,14 @@
                             {{-- Un compte dont l'adresse n'a jamais été validée ne peut
                                  rien faire : le signaler évite de chercher pourquoi ce
                                  mentor « ne voit pas » ses cours. --}}
-                            <span class="st-badge st-badge-warn">Adresse non validée</span>
+                            <span class="pastille p-alerte">Adresse non validée</span>
                         @endif
                     </td>
                     <td class="text-right whitespace-nowrap">
                         @if ($peutRetrograder)
                             <button type="button" wire:click="demanderLaRetrogradation('{{ $mentor->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Retirer le rôle Mentor">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">person_remove</span>
+                                    class="btn-icone text-critique" title="Retirer le rôle Mentor">
+                                <x-lucide name="user-minus" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>

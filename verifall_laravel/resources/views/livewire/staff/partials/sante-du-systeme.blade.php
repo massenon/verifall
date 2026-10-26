@@ -15,13 +15,13 @@
   | de `staff.css`. Une classe absente du build n'a AUCUN effet, et rien ne le
   | signale avant la mise en ligne.
 --}}
-<div class="st-card">
-    <div class="st-card-h flex items-center justify-between gap-3">
-        <h2 class="font-display font-bold text-[#0F172A] mb-0">Santé du système</h2>
+<div class="carte">
+    <div class="carte-tete flex items-center justify-between gap-3">
+        <h2 class="font-titre font-bold text-encre dark:text-white mb-0">Santé du système</h2>
 
         {{-- L'ÂGE DE LA MESURE, à côté de la mesure. Une pastille verte sans
              date ne veut rien dire : elle peut dater d'une semaine. --}}
-        <span class="text-xs text-[#64748B]">
+        <span class="text-xs text-encre-3 dark:text-nuit-3">
             @if ($sante['moteurs']['mesure_le'] === null)
                 Moteurs jamais sondés
             @else
@@ -30,25 +30,25 @@
         </span>
     </div>
 
-    <div class="st-card-b">
+    <div class="carte-corps">
 
         {{-- ── INFRASTRUCTURE ────────────────────────────────────────────────
              En mutualisé, aucun démon ne tourne. Ces quatre lignes sont
              exactement ce qui s'arrête en silence quand l'entrée cron manque. --}}
-        <h3 class="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-2">Infrastructure</h3>
+        <h3 class="text-xs font-bold uppercase tracking-wider text-encre-3 dark:text-nuit-3 mb-2">Infrastructure</h3>
 
         <dl class="mb-4">
             @foreach ($sante['infrastructure'] as $ligne)
-                <div class="py-2 border-b border-line last:border-0">
+                <div class="py-2 border-b border-trait dark:border-nuit-trait last:border-0">
                     <div class="flex items-baseline justify-between gap-3">
-                        <dt class="text-sm text-[#64748B]">{{ $ligne['libelle'] }}</dt>
-                        <dd class="font-display font-bold mb-0 {{ $ligne['alerte'] ? 'text-vfalse' : 'text-[#0F172A]' }}">
+                        <dt class="text-sm text-encre-3 dark:text-nuit-3">{{ $ligne['libelle'] }}</dt>
+                        <dd class="font-titre font-bold mb-0 {{ $ligne['alerte'] ? 'text-critique' : 'text-encre dark:text-white' }}">
                             {{ $ligne['valeur'] }}
                         </dd>
                     </div>
 
                     @if ($ligne['detail'] !== null)
-                        <p class="text-xs mb-0 mt-1 {{ $ligne['alerte'] ? 'text-vfalse' : 'text-[#64748B]' }}">
+                        <p class="text-xs mb-0 mt-1 {{ $ligne['alerte'] ? 'text-critique' : 'text-encre-3 dark:text-nuit-3' }}">
                             {{ $ligne['detail'] }}
                         </p>
                     @endif
@@ -62,9 +62,9 @@
              opérationnel avec une clé vide, et Google Fact Check opérationnel
              avec une clé que Google refuse. --}}
         <div class="flex items-center justify-between gap-3 mb-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-[#64748B] mb-0">Moteurs d'analyse</h3>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-encre-3 dark:text-nuit-3 mb-0">Moteurs d'analyse</h3>
             <button type="button" wire:click="sonderLesMoteurs" wire:loading.attr="disabled"
-                    class="text-xs font-bold text-primary">
+                    class="text-xs font-bold text-brand-700 dark:text-brand">
                 <span wire:loading.remove wire:target="sonderLesMoteurs">Sonder maintenant</span>
                 <span wire:loading wire:target="sonderLesMoteurs">Sonde en cours…</span>
             </button>
@@ -73,7 +73,7 @@
         @if ($sante['moteurs']['simule'])
             {{-- Le dire en premier : sous FAKE_ADAPTERS, aucun état affiché
                  en dessous ne décrit un service réel. --}}
-            <p class="text-xs text-vfalse mb-3">
+            <p class="text-xs text-critique mb-3">
                 <strong>FAKE_ADAPTERS=true</strong> — les verdicts sont inventés.
                 Aucun moteur réel n'est interrogé.
             </p>
@@ -81,11 +81,11 @@
 
         <dl class="mb-0">
             @foreach ($sante['moteurs']['moteurs'] as $moteur)
-                <div class="flex items-center justify-between gap-3 py-1.5 border-b border-line last:border-0">
-                    <dt class="text-sm text-[#0F172A] min-w-0 truncate" title="{{ $moteur['etat']->explication() }}">
+                <div class="flex items-center justify-between gap-3 py-1.5 border-b border-trait dark:border-nuit-trait last:border-0">
+                    <dt class="text-sm text-encre dark:text-white min-w-0 truncate" title="{{ $moteur['etat']->explication() }}">
                         {{ $moteur['libelle'] }}
                         @if ($moteur['precision'] !== null)
-                            <span class="text-xs text-[#64748B]">· {{ $moteur['precision'] }}</span>
+                            <span class="text-xs text-encre-3 dark:text-nuit-3">· {{ $moteur['precision'] }}</span>
                         @endif
                     </dt>
                     <dd class="mb-0 shrink-0">

@@ -49,9 +49,9 @@
     </x-kpi-grid>
 
     <section class="mb-4">
-        <div class="ffield mb-0">
-            <input id="st-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="st-q">Rechercher une épreuve</label>
+        <div class="mb-0">
+            <label for="st-q" class="etiquette">Rechercher une épreuve</label>
+<input id="st-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
     </section>
 
@@ -74,13 +74,13 @@
             @foreach ($lignes as $examen)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $examen->title }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $examen->title }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                             {{ $examen->course?->title ?? 'Transverse' }}
                         </p>
                     </td>
                     <td>
-                        <span class="st-badge {{ $examen->status?->value === 'published' ? 'st-badge-pub' : 'st-badge-draft' }}">
+                        <span class="pastille {{ $examen->status?->value === 'published' ? 'p-bon' : 'p-neutre' }}">
                             {{ $examen->status?->libelle() ?? $examen->status }}
                         </span>
                     </td>
@@ -91,13 +91,13 @@
                          sur trois cents ne se lisent pas de la même façon. --}}
                     <td class="whitespace-nowrap">{{ $examen->corrigees_count ?? 0 }}</td>
 
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">{{ $examen->pass_score }} %</td>
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">{{ $examen->pass_score }} %</td>
                     <td class="whitespace-nowrap">
                         @if ($examen->average_score === null)
                             {{-- Aucune copie corrigée : le tiret est l'information. --}}
-                            <span class="text-[#64748B]">—</span>
+                            <span class="text-encre-3 dark:text-nuit-3">—</span>
                         @else
-                            <span class="{{ $examen->average_score >= $examen->pass_score ? 'text-[#059669]' : 'text-[#DC2626]' }} font-semibold">
+                            <span class="{{ $examen->average_score >= $examen->pass_score ? 'text-brand-700 dark:text-brand' : 'text-critique' }} font-semibold">
                                 {{ round((float) $examen->average_score) }} %
                             </span>
                         @endif
@@ -108,11 +108,11 @@
                             {{-- Pas de copie corrigée, donc pas de taux. « 0 % »
                                  se lirait comme un échec de l'épreuve, et ce n'en
                                  est pas un. Le tiret est l'information. --}}
-                            <span class="text-[#64748B]">—</span>
+                            <span class="text-encre-3 dark:text-nuit-3">—</span>
                         @else
                             @php($taux = (int) round(($examen->reussies_count ?? 0) / $examen->corrigees_count * 100))
-                            <span class="{{ $taux >= 50 ? 'text-[#059669]' : 'text-[#DC2626]' }} font-semibold">{{ $taux }} %</span>
-                            <span class="block text-xs text-[#64748B]">
+                            <span class="{{ $taux >= 50 ? 'text-brand-700 dark:text-brand' : 'text-critique' }} font-semibold">{{ $taux }} %</span>
+                            <span class="block text-xs text-encre-3 dark:text-nuit-3">
                                 {{ $examen->reussies_count ?? 0 }} sur {{ $examen->corrigees_count }}
                             </span>
                         @endif
@@ -124,7 +124,7 @@
         <div class="mt-4">{{ $lignes->links() }}</div>
     @endif
 
-    <p class="text-xs text-[#64748B] mt-4 mb-0">
+    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-4 mb-0">
         Un tiret signifie « pas encore mesurable », jamais « zéro ». Les deux se lisent différemment
         et ne se décident pas de la même façon.
     </p>

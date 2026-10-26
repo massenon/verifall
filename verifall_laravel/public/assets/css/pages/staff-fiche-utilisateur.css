@@ -7,7 +7,7 @@
 
    Desktop : carte d'identité à gauche (20 rem), onglets à droite.
    Sous 1024 px : la carte passe au-dessus, les onglets défilent
-   horizontalement (`.st-tabs` le fait déjà), rien ne sort de l'écran.
+   horizontalement (`.onglets` le fait déjà), rien ne sort de l'écran.
    ------------------------------------------------------------------------ */
 
 .vfu-grille {
@@ -143,7 +143,7 @@
   text-align: center;
 }
 
-.st-tab.is-active .vfu-pastille {
+.onglet.is-active .vfu-pastille {
   background: #D1FAE5;
   color: #065F46;
 }
@@ -154,7 +154,7 @@
 
 /* Sous 640 px, recherche et filtres de l'onglet prennent toute la largeur. */
 @media (max-width: 639px) {
-  .vfu-historique [data-vdt] select.st-input {
+  .vfu-historique [data-vdt] select.champ {
     width: 100%;
   }
 }

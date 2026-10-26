@@ -25,8 +25,8 @@
         Tous les mouvements d'unités, tous comptes confondus. Le journal ne se réécrit pas : une erreur se corrige par un mouvement inverse, qui laisse les deux lignes visibles.
         <x-slot:actions>
             @if ($peutAjuster)
-            <button type="button" wire:click="ouvrirAjustement" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">tune</span>
+            <button type="button" wire:click="ouvrirAjustement" class="btn-primaire">
+                <x-lucide name="sliders-horizontal" class="w-4 h-4" />
                 Ajuster un compte
             </button>
         @endif
@@ -59,32 +59,32 @@
          data-vdt-evenement="{{ \App\Livewire\Staff\JournalDesUnites::EVENEMENT_TABLE_A_RECHARGER }}">
 
         <section class="mb-4 flex flex-wrap items-center gap-3">
-            <div class="ffield flex-1 mb-0">
-                <input id="ju-q" type="search" data-vdt-recherche data-vdt-url="q" data-vdt-livewire="recherche" placeholder=" ">
-                <label for="ju-q">Rechercher un compte, un libellé, une référence</label>
+            <div class="flex-1 mb-0">
+                <label for="ju-q" class="etiquette">Rechercher un compte, un libellé, une référence</label>
+<input id="ju-q" type="search" data-vdt-recherche data-vdt-url="q" data-vdt-livewire="recherche" class="champ">
             </div>
 
-            <select data-vdt-filtre="sens" data-vdt-url="sens" data-vdt-livewire="filtreSens" class="st-input w-auto" aria-label="Filtrer par sens">
+            <select data-vdt-filtre="sens" data-vdt-url="sens" data-vdt-livewire="filtreSens" class="champ w-auto" aria-label="Filtrer par sens">
                 <option value="">Sens : tous</option>
                 <option value="credit">Crédits</option>
                 <option value="debit">Débits</option>
             </select>
 
-            <select data-vdt-filtre="motif" data-vdt-url="motif" data-vdt-livewire="filtreMotif" class="st-input w-auto" aria-label="Filtrer par motif">
+            <select data-vdt-filtre="motif" data-vdt-url="motif" data-vdt-livewire="filtreMotif" class="champ w-auto" aria-label="Filtrer par motif">
                 <option value="">Motif : tous</option>
                 @foreach ($motifs as $motif)
                     <option value="{{ $motif->value }}">{{ $motif->libelle() }}</option>
                 @endforeach
             </select>
 
-            <button type="button" data-vdt-reinitialiser class="st-btn st-btn-secondary">
+            <button type="button" data-vdt-reinitialiser class="btn-second">
                 Réinitialiser
             </button>
         </section>
 
-        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-[#FCA5A5] bg-[#FEF2F2] text-[#991B1B] text-sm px-4 py-3 mb-4">
+        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 text-sm px-4 py-3 mb-4">
             <p data-vdt-erreur-message class="mb-2">Impossible de charger le journal.</p>
-            <button type="button" data-vdt-reessayer class="st-btn st-btn-secondary">Réessayer</button>
+            <button type="button" data-vdt-reessayer class="btn-second">Réessayer</button>
         </div>
 
         <table id="table-journal-des-unites" style="width:100%" data-vdt-table>
@@ -108,15 +108,15 @@
                           close="fermerLeTiroir">
             <form wire:submit="ajuster" class="space-y-4">
 
-                <p class="text-sm text-[#334155] mb-0">
+                <p class="text-sm text-encre-2 dark:text-nuit-2 mb-0">
                     L'ajustement pose un mouvement de plus au journal, au motif
                     « Ajustement administrateur ». Il ne réécrit rien.
                 </p>
 
-                <div class="ffield">
-                    <input id="ju-compte" type="text" wire:model.live.debounce.500ms="compte" placeholder=" ">
-                    <label for="ju-compte">Adresse e-mail ou identifiant du compte</label>
-                    @error('compte') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="ju-compte" class="etiquette">Adresse e-mail ou identifiant du compte</label>
+<input id="ju-compte" type="text" wire:model.live.debounce.500ms="compte" class="champ">
+                    @error('compte') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 {{-- Le compte est nommé AVANT le geste : « paul@ » et « paule@ »
@@ -125,50 +125,50 @@
                     @if ($compteTrouve !== null)
                         @php($cible = App\Models\User::query()->where('uuid', $compteTrouve)->first())
                         @if ($cible !== null)
-                            <div class="rounded-lg border border-[#E2E8F0] bg-[#D1FAE5] p-3">
-                                <p class="text-sm font-semibold text-[#065F46] mb-0">{{ $cible->name }}</p>
-                                <p class="text-xs text-[#065F46] mb-0">
+                            <div class="rounded-lg border border-trait dark:border-nuit-trait bg-green-100 dark:bg-green-950 p-3">
+                                <p class="text-sm font-semibold text-brand-700 dark:text-brand mb-0">{{ $cible->name }}</p>
+                                <p class="text-xs text-brand-700 dark:text-brand mb-0">
                                     {{ $cible->email }} · solde actuel {{ number_format($cible->units, 0, ',', ' ') }} unité(s)
                                 </p>
                             </div>
                         @endif
                     @else
-                        <div class="rounded-lg border border-[#E2E8F0] bg-[#FEE2E2] p-3">
-                            <p class="text-sm text-[#DC2626] mb-0">Aucun compte ne correspond à cette saisie.</p>
+                        <div class="rounded-lg border border-trait dark:border-nuit-trait bg-red-100 dark:bg-red-950 p-3">
+                            <p class="text-sm text-critique mb-0">Aucun compte ne correspond à cette saisie.</p>
                         </div>
                     @endif
                 @endif
 
                 <div class="grid sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="ju-sens" class="block text-sm font-medium text-[#0F172A] mb-1">Sens</label>
-                        <select id="ju-sens" wire:model="sensAjustement" class="st-input w-full">
+                        <label for="ju-sens" class="block text-sm font-medium text-encre dark:text-white mb-1">Sens</label>
+                        <select id="ju-sens" wire:model="sensAjustement" class="champ w-full">
                             <option value="credit">Créditer</option>
                             <option value="debit">Débiter</option>
                         </select>
-                        @error('sensAjustement') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                        @error('sensAjustement') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <input id="ju-unites" type="number" min="1" max="10000" wire:model="unites" placeholder=" ">
-                        <label for="ju-unites">Nombre d'unités</label>
-                        @error('unites') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="ju-unites" class="etiquette">Nombre d'unités</label>
+<input id="ju-unites" type="number" min="1" max="10000" wire:model="unites" class="champ">
+                        @error('unites') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
-                <div class="ffield">
-                    <textarea id="ju-just" wire:model="justification" rows="3" placeholder=" "></textarea>
-                    <label for="ju-just">Justification</label>
-                    <p class="text-xs text-[#64748B] mt-1 mb-0">
+                <div>
+                    <label for="ju-just" class="etiquette">Justification</label>
+<textarea id="ju-just" wire:model="justification" rows="3" class="champ !h-auto py-2.5"></textarea>
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                         Obligatoire. C'est la seule pièce qui expliquera, dans six mois, pourquoi ce compte a été ajusté —
                         et la première qu'on cherchera si le geste est contesté.
                     </p>
-                    @error('justification') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('justification') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="flex gap-2 pt-2">
-                    <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer l'ajustement</button>
-                    <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                    <button type="submit" class="btn-primaire flex-1">Enregistrer l'ajustement</button>
+                    <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
                 </div>
             </form>
         </x-offcanvas-form>

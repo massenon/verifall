@@ -15,8 +15,8 @@
         Un témoignage se relit avant de paraître : c'est la parole de quelqu'un, publiée sous le nom de la plateforme.
         <x-slot:actions>
             @if ($peutGerer)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouveau témoignage
             </button>
         @endif
@@ -40,12 +40,12 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="tm-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="tm-q">Rechercher un nom, un texte</label>
+        <div class="flex-1 mb-0">
+            <label for="tm-q" class="etiquette">Rechercher un nom, un texte</label>
+<input id="tm-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreEtat" class="st-input w-auto" aria-label="Filtrer par état">
+        <select wire:model.live="filtreEtat" class="champ w-auto" aria-label="Filtrer par état">
             <option value="">État : tous</option>
             <option value="publies">Publiés</option>
             <option value="en-attente">À relire</option>
@@ -69,19 +69,19 @@
             @foreach ($temoignages as $temoignage)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $temoignage->author }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $temoignage->author }}</p>
                         @if ($temoignage->role !== null)
-                            <p class="text-xs text-[#64748B] mb-0">{{ $temoignage->role }}</p>
+                            <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $temoignage->role }}</p>
                         @endif
                     </td>
-                    <td class="text-sm text-[#334155]">« {{ Str::limit($temoignage->quote, 90) }} »</td>
+                    <td class="text-sm text-encre-2 dark:text-nuit-2">« {{ Str::limit($temoignage->quote, 90) }} »</td>
                     <td class="whitespace-nowrap">
                         @if ($temoignage->rating !== null)
-                            <span class="text-sm text-[#334155]">{{ $temoignage->rating }} / 5</span>
+                            <span class="text-sm text-encre-2 dark:text-nuit-2">{{ $temoignage->rating }} / 5</span>
                         @else
                             {{-- Pas de note : pas cinq étoiles. Le tiret est
                                  l'information. --}}
-                            <span class="text-xs text-[#64748B]">—</span>
+                            <span class="text-xs text-encre-3 dark:text-nuit-3">—</span>
                         @endif
                     </td>
                     <td>
@@ -92,16 +92,16 @@
                     <td class="text-right whitespace-nowrap">
                         @if ($peutGerer)
                             <button type="button" wire:click="basculerLaPublication('{{ $temoignage->uuid }}')"
-                                    class="st-icnbtn" title="{{ $temoignage->is_published ? 'Retirer du site' : 'Publier' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $temoignage->is_published ? 'visibility_off' : 'visibility' }}</span>
+                                    class="btn-icone" title="{{ $temoignage->is_published ? 'Retirer du site' : 'Publier' }}">
+                                <x-lucide :name="$temoignage->is_published ? 'visibility_off' : 'visibility'" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="ouvrirEdition('{{ $temoignage->uuid }}')"
-                                    class="st-icnbtn" title="Modifier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="demanderLaSuppression('{{ $temoignage->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>
@@ -118,47 +118,47 @@
                           close="fermerLeTiroir">
             <form wire:submit="enregistrer" class="space-y-4">
                 <div class="grid sm:grid-cols-2 gap-4">
-                    <div class="ffield mb-0">
-                        <input id="tm-auteur" type="text" wire:model="auteur" placeholder=" ">
-                        <label for="tm-auteur">Nom de la personne</label>
-                        @error('auteur') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="tm-auteur" class="etiquette">Nom de la personne</label>
+<input id="tm-auteur" type="text" wire:model="auteur" class="champ">
+                        @error('auteur') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <input id="tm-role" type="text" wire:model="qualite" placeholder=" ">
-                        <label for="tm-role">Qualité (ex. étudiante)</label>
-                        @error('qualite') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="tm-role" class="etiquette">Qualité (ex. étudiante)</label>
+<input id="tm-role" type="text" wire:model="qualite" class="champ">
+                        @error('qualite') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
-                <div class="ffield">
-                    <textarea id="tm-quote" wire:model="citation" rows="4" placeholder=" "></textarea>
-                    <label for="tm-quote">Témoignage</label>
-                    @error('citation') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="tm-quote" class="etiquette">Témoignage</label>
+<textarea id="tm-quote" wire:model="citation" rows="4" class="champ !h-auto py-2.5"></textarea>
+                    @error('citation') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-4">
-                    <div class="ffield mb-0">
-                        <input id="tm-note" type="number" min="1" max="5" wire:model="note" placeholder=" ">
-                        <label for="tm-note">Note sur 5 (facultatif)</label>
-                        <p class="text-xs text-[#64748B] mt-1 mb-0">Vide = pas de note, jamais cinq étoiles.</p>
-                        @error('note') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="tm-note" class="etiquette">Note sur 5 (facultatif)</label>
+<input id="tm-note" type="number" min="1" max="5" wire:model="note" class="champ">
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">Vide = pas de note, jamais cinq étoiles.</p>
+                        @error('note') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <input id="tm-ordre" type="number" min="0" wire:model="ordre" placeholder=" ">
-                        <label for="tm-ordre">Ordre d'affichage</label>
-                        @error('ordre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="tm-ordre" class="etiquette">Ordre d'affichage</label>
+<input id="tm-ordre" type="number" min="0" wire:model="ordre" class="champ">
+                        @error('ordre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
-                <p class="text-xs text-[#64748B] mb-0">
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                     La publication est un geste à part, depuis la liste — un témoignage se relit d'abord.
                 </p>
 
                 <div class="flex gap-2 pt-2">
-                    <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                    <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                    <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                    <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
                 </div>
             </form>
         </x-offcanvas-form>

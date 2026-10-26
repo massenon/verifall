@@ -43,22 +43,22 @@
          Le message est rendu avec {{ }}, jamais {!! !!} : c'est du texte libre
          écrit par un inconnu, donc le cas type d'injection. --}}
     @if ($messageOuvert !== null)
-        <section id="message-ouvert" tabindex="-1" class="st-card mb-6" aria-label="Message ouvert">
+        <section id="message-ouvert" tabindex="-1" class="carte mb-6" aria-label="Message ouvert">
             <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
                 <div>
-                    <p class="font-semibold text-[#0F172A] mb-0">{{ $messageOuvert->name }}</p>
-                    <p class="text-sm text-[#64748B] mb-0">
-                        <a href="mailto:{{ $messageOuvert->email }}" class="hover:text-[#065F46]">{{ $messageOuvert->email }}</a>
+                    <p class="font-semibold text-encre dark:text-white mb-0">{{ $messageOuvert->name }}</p>
+                    <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">
+                        <a href="mailto:{{ $messageOuvert->email }}" class="hover:text-brand-700">{{ $messageOuvert->email }}</a>
                         @if ($messageOuvert->organisation) · {{ $messageOuvert->organisation }} @endif
                         @if ($messageOuvert->phone) · {{ $messageOuvert->phone }} @endif
                     </p>
-                    <p class="text-xs text-[#64748B] mb-0">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                         Reçu le {{ $messageOuvert->created_at?->translatedFormat('j F Y à H:i') }}
                     </p>
                 </div>
                 <div class="flex items-center gap-2">
                     <x-badge-statut variant="staff" :statut="$messageOuvert->status->cleBadge()" :label="$messageOuvert->status->libelle()" />
-                    <button type="button" wire:click="fermer" class="st-btn st-btn-secondary">Fermer</button>
+                    <button type="button" wire:click="fermer" class="btn-second">Fermer</button>
                 </div>
             </div>
 
@@ -66,9 +66,9 @@
                 {{-- Le soutien proposé, mis en évidence : c'est l'information
                      pour laquelle on ouvre ce message. Le montant est
                      DÉCLARATIF, rien n'a été encaissé. --}}
-                <div class="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4 mb-4">
-                    <p class="text-xs text-[#64748B] mb-1">Soutien proposé (déclaratif, aucun paiement reçu)</p>
-                    <p class="text-sm font-semibold text-[#0F172A] mb-0">
+                <div class="rounded-lg border border-trait dark:border-nuit-trait bg-papier dark:bg-nuit p-4 mb-4">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-1">Soutien proposé (déclaratif, aucun paiement reçu)</p>
+                    <p class="text-sm font-semibold text-encre dark:text-white mb-0">
                         {{ $messageOuvert->donation_amount ?: 'Montant non précisé' }}
                         @if ($messageOuvert->donation_recurrence)
                             · {{ $messageOuvert->donation_recurrence }}
@@ -77,21 +77,21 @@
                 </div>
             @endif
 
-            <p class="text-[#0F172A] mb-6" style="white-space: pre-line;">{{ $messageOuvert->message }}</p>
+            <p class="text-encre dark:text-white mb-6" style="white-space: pre-line;">{{ $messageOuvert->message }}</p>
 
             @can('update', \App\Models\ContactMessage::class)
-                <div class="ffield mb-3">
-                    <textarea id="contact-note" wire:model="note" rows="2" placeholder=" "></textarea>
-                    <label for="contact-note">Note de traitement (facultative)</label>
+                <div class="mb-3">
+                    <label for="contact-note" class="etiquette">Note de traitement (facultative)</label>
+<textarea id="contact-note" wire:model="note" rows="2" class="champ !h-auto py-2.5"></textarea>
                 </div>
-                @error('note')<p class="text-sm text-[#DC2626] mb-3">{{ $message }}</p>@enderror
+                @error('note')<p class="text-sm text-critique mb-3">{{ $message }}</p>@enderror
 
                 <div class="flex flex-wrap gap-2">
-                    <button type="button" wire:click="marquer('in_progress')" class="st-btn st-btn-secondary">Prendre en charge</button>
-                    <button type="button" wire:click="marquer('handled')" class="st-btn st-btn-primary">Marquer traité</button>
+                    <button type="button" wire:click="marquer('in_progress')" class="btn-second">Prendre en charge</button>
+                    <button type="button" wire:click="marquer('handled')" class="btn-primaire">Marquer traité</button>
                     {{-- « Indésirable » sort le message de la file SANS l'effacer :
                          un faux positif se rattrape, une suppression non. --}}
-                    <button type="button" wire:click="marquer('spam')" class="st-btn st-btn-secondary">Indésirable</button>
+                    <button type="button" wire:click="marquer('spam')" class="btn-second">Indésirable</button>
                 </div>
             @endcan
         </section>
@@ -105,42 +105,42 @@
          data-vdt-evenement="{{ \App\Livewire\Staff\MessagesContact::EVENEMENT_TABLE_A_RECHARGER }}">
 
         <section class="mb-4 flex flex-wrap items-center gap-3">
-            <div class="ffield flex-1 mb-0">
-                <input id="contact-q" type="search" data-vdt-recherche data-vdt-url="q" value="{{ $recherche }}" placeholder=" ">
-                <label for="contact-q">Rechercher un nom, une adresse ou un mot du message</label>
+            <div class="flex-1 mb-0">
+                <label for="contact-q" class="etiquette">Rechercher un nom, une adresse ou un mot du message</label>
+<input id="contact-q" type="search" data-vdt-recherche data-vdt-url="q" value="{{ $recherche }}" class="champ">
             </div>
 
-            <select data-vdt-filtre="statut" data-vdt-url="statut" class="st-input w-auto" aria-label="Filtrer par statut">
+            <select data-vdt-filtre="statut" data-vdt-url="statut" class="champ w-auto" aria-label="Filtrer par statut">
                 <option value="">Statut : tous</option>
                 @foreach ($statuts as $statut)
                     <option value="{{ $statut->value }}" @selected($filtreStatut === $statut->value)>{{ $statut->libelle() }}</option>
                 @endforeach
             </select>
 
-            <select data-vdt-filtre="nature" data-vdt-url="nature" class="st-input w-auto" aria-label="Filtrer par nature">
+            <select data-vdt-filtre="nature" data-vdt-url="nature" class="champ w-auto" aria-label="Filtrer par nature">
                 <option value="">Nature : toutes</option>
                 @foreach ($natures as $nature)
                     <option value="{{ $nature->value }}" @selected($filtreNature === $nature->value)>{{ $nature->libelle() }}</option>
                 @endforeach
             </select>
 
-            <div class="ffield mb-0">
-                <input type="text" data-vdt-filtre="recu_du" data-vdt-url="du" data-vdt-date placeholder=" ">
-                <label>Reçu depuis le</label>
+            <div class="mb-0">
+                <label class="etiquette">Reçu depuis le</label>
+<input type="text" data-vdt-filtre="recu_du" data-vdt-url="du" data-vdt-date class="champ">
             </div>
-            <div class="ffield mb-0">
-                <input type="text" data-vdt-filtre="recu_au" data-vdt-url="au" data-vdt-date placeholder=" ">
-                <label>jusqu'au</label>
+            <div class="mb-0">
+                <label class="etiquette">jusqu'au</label>
+<input type="text" data-vdt-filtre="recu_au" data-vdt-url="au" data-vdt-date class="champ">
             </div>
 
-            <button type="button" data-vdt-reinitialiser class="st-btn st-btn-secondary">
+            <button type="button" data-vdt-reinitialiser class="btn-second">
                 Réinitialiser
             </button>
         </section>
 
-        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-[#FCA5A5] bg-[#FEF2F2] text-[#991B1B] text-sm px-4 py-3 mb-4">
+        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 text-sm px-4 py-3 mb-4">
             <p data-vdt-erreur-message class="mb-2">Impossible de charger les messages.</p>
-            <button type="button" data-vdt-reessayer class="st-btn st-btn-secondary">Réessayer</button>
+            <button type="button" data-vdt-reessayer class="btn-second">Réessayer</button>
         </div>
 
         <table id="table-messages-contact" style="width:100%" data-vdt-table>

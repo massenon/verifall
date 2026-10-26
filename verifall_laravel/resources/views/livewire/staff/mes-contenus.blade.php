@@ -13,14 +13,14 @@
     </x-premium.entete>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <select wire:model.live="filtreFormat" class="st-input w-auto" aria-label="Filtrer par format">
+        <select wire:model.live="filtreFormat" class="champ w-auto" aria-label="Filtrer par format">
             <option value="">Tous les formats</option>
             <option value="lecon">Leçons</option>
             <option value="quiz">Quiz</option>
             <option value="direct">Classes en direct</option>
         </select>
 
-        <span class="text-sm text-[#64748B]">
+        <span class="text-sm text-encre-3 dark:text-nuit-3">
             {{ count($contenus) }} élément(s) · {{ number_format($minutes, 0, ',', ' ') }} minutes au total
         </span>
     </section>
@@ -41,17 +41,17 @@
 
             @foreach ($contenus as $index => $contenu)
                 <tr wire:key="cont-{{ $index }}">
-                    <td class="font-semibold text-[#0F172A]">{{ $contenu['titre'] }}</td>
-                    <td class="text-sm text-[#334155] whitespace-nowrap">{{ $contenu['format'] }}</td>
-                    <td class="text-sm text-[#64748B]">{{ $contenu['cours'] }}</td>
-                    <td class="text-sm text-[#64748B] whitespace-nowrap">
+                    <td class="font-semibold text-encre dark:text-white">{{ $contenu['titre'] }}</td>
+                    <td class="text-sm text-encre-2 dark:text-nuit-2 whitespace-nowrap">{{ $contenu['format'] }}</td>
+                    <td class="text-sm text-encre-3 dark:text-nuit-3">{{ $contenu['cours'] }}</td>
+                    <td class="text-sm text-encre-3 dark:text-nuit-3 whitespace-nowrap">
                         {{ $contenu['duree'] > 0 ? $contenu['duree'].' min' : '—' }}
                     </td>
                     <td class="whitespace-nowrap">
                         @if ($contenu['publie'])
-                            <span class="st-badge st-badge-pub">En ligne</span>
+                            <span class="pastille p-bon">En ligne</span>
                         @else
-                            <span class="st-badge st-badge-draft">Brouillon</span>
+                            <span class="pastille p-neutre">Brouillon</span>
                         @endif
                     </td>
                 </tr>
@@ -60,7 +60,7 @@
 
         {{-- Dit plutôt que laissé deviner : afficher « En ligne » sur chaque
              leçon donnerait l'illusion d'une information qui n'en est pas une. --}}
-        <p class="text-xs text-[#64748B] mt-3 mb-0">
+        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-3 mb-0">
             Une leçon et un quiz suivent la publication de leur cours : ils n'ont pas d'état
             propre. Le statut ne distingue vraiment que les classes en direct.
         </p>

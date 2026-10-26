@@ -30,15 +30,15 @@
         {{-- ─────────────────────────────────────────── la copie ouverte --}}
         <section id="correction-copie-ouverte">
             <button type="button" wire:click="refermerLaCopie"
-                    class="text-sm text-[#059669] font-semibold underline mb-2">
+                    class="text-sm text-brand-700 dark:text-brand font-semibold underline mb-2">
                 ← Revenir à la file
             </button>
 
             <header class="mb-4">
-                <h1 class="text-2xl font-display font-bold text-[#0F172A] leading-tight mb-1">
+                <h1 class="text-2xl font-titre font-bold text-encre dark:text-white leading-tight mb-1">
                     Copie {{ $copie->reference }}
                 </h1>
-                <p class="text-[#64748B] text-sm mb-0">
+                <p class="text-encre-3 dark:text-nuit-3 text-sm mb-0">
                     {{ $copie->user?->name ?? 'Candidat supprimé' }} ·
                     {{ $copie->exam?->title ?? 'Épreuve archivée' }} ·
                     barème {{ $copie->max_points }} points · seuil {{ $copie->pass_score }} %
@@ -47,41 +47,41 @@
 
             <form wire:submit="rendreLaCopie" class="space-y-4">
                 @foreach ($reponses as $reponse)
-                    <article class="st-card p-4">
-                        <p class="text-xs text-[#64748B] mb-1">
+                    <article class="carte p-4">
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-1">
                             Question {{ $reponse->position }} · {{ $reponse->points_max }} point(s)
                         </p>
-                        <p class="font-semibold text-[#0F172A] mb-2">{{ $reponse->prompt }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-2">{{ $reponse->prompt }}</p>
 
-                        <div class="rounded-lg bg-[#F1F5F9] p-3 mb-3">
+                        <div class="rounded-lg bg-papier dark:bg-nuit p-3 mb-3">
                             @if ($reponse->given_text !== null && $reponse->given_text !== '')
-                                <p class="text-sm text-[#334155] mb-0">{{ $reponse->given_text }}</p>
+                                <p class="text-sm text-encre-2 dark:text-nuit-2 mb-0">{{ $reponse->given_text }}</p>
                             @elseif (! empty($reponse->given_options))
                                 <ul class="list-none pl-0 mb-0 space-y-1">
                                     @foreach ((array) $reponse->given_options as $choix)
-                                        <li class="text-sm text-[#334155]">{{ $choix }}</li>
+                                        <li class="text-sm text-encre-2 dark:text-nuit-2">{{ $choix }}</li>
                                     @endforeach
                                 </ul>
                             @else
                                 {{-- Une non-réponse se dit : elle vaut zéro, mais le
                                      correcteur doit voir que rien n'a été rendu plutôt
                                      que de chercher un texte absent. --}}
-                                <p class="text-sm text-[#DC2626] mb-0">Aucune réponse rendue.</p>
+                                <p class="text-sm text-critique mb-0">Aucune réponse rendue.</p>
                             @endif
                         </div>
 
                         <div class="grid sm:grid-cols-3 gap-3">
-                            <div class="ffield mb-0">
+                            <div class="mb-0">
                                 <input id="cx-pts-{{ $reponse->position }}" type="number" min="0"
                                        max="{{ $reponse->points_max }}"
                                        wire:model="points.{{ $reponse->position }}" placeholder=" ">
                                 <label for="cx-pts-{{ $reponse->position }}">Points / {{ $reponse->points_max }}</label>
                                 @error('points.'.$reponse->position)
-                                    <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p>
+                                    <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p>
                                 @enderror
                             </div>
 
-                            <div class="ffield col-span-2 mb-0">
+                            <div class="col-span-2 mb-0">
                                 <input id="cx-com-{{ $reponse->position }}" type="text"
                                        wire:model="commentaires.{{ $reponse->position }}" placeholder=" ">
                                 <label for="cx-com-{{ $reponse->position }}">Commentaire (facultatif)</label>
@@ -90,23 +90,23 @@
                     </article>
                 @endforeach
 
-                <div class="ffield">
-                    <textarea id="cx-appr" wire:model="appreciation" rows="3" placeholder=" "></textarea>
-                    <label for="cx-appr">Appréciation générale</label>
+                <div>
+                    <label for="cx-appr" class="etiquette">Appréciation générale</label>
+<textarea id="cx-appr" wire:model="appreciation" rows="3" class="champ !h-auto py-2.5"></textarea>
                 </div>
 
-                <p class="text-xs text-[#64748B] mb-0">
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                     Un champ de points laissé vide n'est pas un zéro : c'est « pas encore noté ».
                     La copie ne peut pas être rendue tant qu'une réponse attend sa note.
                 </p>
 
                 <div class="flex flex-wrap gap-2 pt-2">
-                    <button type="submit" class="st-btn st-btn-primary">Rendre la copie</button>
-                    <button type="button" wire:click="enregistrerLesNotes" class="st-btn st-btn-secondary">
+                    <button type="submit" class="btn-primaire">Rendre la copie</button>
+                    <button type="button" wire:click="enregistrerLesNotes" class="btn-second">
                         Enregistrer sans rendre
                     </button>
                     <button type="button" wire:click="demanderLAbandon('{{ $copie->uuid }}')"
-                            class="st-btn st-btn-ghost">
+                            class="btn-fantome">
                         Sortir de la file
                     </button>
                 </div>
@@ -148,19 +148,19 @@
              data-vdt-evenement="{{ \App\Livewire\Staff\CorrectionExamens::EVENEMENT_TABLE_A_RECHARGER }}">
 
             <section class="mb-4 flex flex-wrap items-center gap-3">
-                <div class="ffield flex-1 mb-0">
-                    <input id="cx-q" type="search" data-vdt-recherche data-vdt-url="q" data-vdt-livewire="recherche" value="{{ $recherche }}" placeholder=" ">
-                    <label for="cx-q">Rechercher un candidat, une référence</label>
+                <div class="flex-1 mb-0">
+                    <label for="cx-q" class="etiquette">Rechercher un candidat, une référence</label>
+<input id="cx-q" type="search" data-vdt-recherche data-vdt-url="q" data-vdt-livewire="recherche" value="{{ $recherche }}" class="champ">
                 </div>
 
-                <select data-vdt-filtre="statut" data-vdt-url="statut" data-vdt-livewire="filtreStatut" class="st-input w-auto" aria-label="Filtrer par statut">
+                <select data-vdt-filtre="statut" data-vdt-url="statut" data-vdt-livewire="filtreStatut" class="champ w-auto" aria-label="Filtrer par statut">
                     <option value="">Statut : tous</option>
                     @foreach ($statuts as $unStatut)
                         <option value="{{ $unStatut->value }}" @selected($filtreStatut === $unStatut->value)>{{ $unStatut->libelle() }}</option>
                     @endforeach
                 </select>
 
-                <select data-vdt-filtre="correcteur" data-vdt-url="correcteur" data-vdt-livewire="filtreCorrecteur" class="st-input w-auto" aria-label="Filtrer par correcteur">
+                <select data-vdt-filtre="correcteur" data-vdt-url="correcteur" data-vdt-livewire="filtreCorrecteur" class="champ w-auto" aria-label="Filtrer par correcteur">
                     <option value="">Correcteur : tous</option>
                     <option value="moi" @selected($filtreCorrecteur === 'moi')>Les miennes</option>
                     @foreach ($correcteurs as $correcteur)
@@ -168,30 +168,30 @@
                     @endforeach
                 </select>
 
-                <select data-vdt-filtre="examen" data-vdt-url="examen" class="st-input w-auto" aria-label="Filtrer par épreuve">
+                <select data-vdt-filtre="examen" data-vdt-url="examen" class="champ w-auto" aria-label="Filtrer par épreuve">
                     <option value="">Épreuve : toutes</option>
                     @foreach ($examens as $uuid => $titre)
                         <option value="{{ $uuid }}">{{ Str::limit($titre, 40) }}</option>
                     @endforeach
                 </select>
 
-                <div class="ffield mb-0">
-                    <input type="text" data-vdt-filtre="soumise_du" data-vdt-url="du" data-vdt-date placeholder=" ">
-                    <label>Rendue depuis le</label>
+                <div class="mb-0">
+                    <label class="etiquette">Rendue depuis le</label>
+<input type="text" data-vdt-filtre="soumise_du" data-vdt-url="du" data-vdt-date class="champ">
                 </div>
-                <div class="ffield mb-0">
-                    <input type="text" data-vdt-filtre="soumise_au" data-vdt-url="au" data-vdt-date placeholder=" ">
-                    <label>jusqu'au</label>
+                <div class="mb-0">
+                    <label class="etiquette">jusqu'au</label>
+<input type="text" data-vdt-filtre="soumise_au" data-vdt-url="au" data-vdt-date class="champ">
                 </div>
 
-                <button type="button" data-vdt-reinitialiser class="st-btn st-btn-secondary">
+                <button type="button" data-vdt-reinitialiser class="btn-second">
                     Réinitialiser
                 </button>
             </section>
 
-            <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-[#FCA5A5] bg-[#FEF2F2] text-[#991B1B] text-sm px-4 py-3 mb-4">
+            <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 text-sm px-4 py-3 mb-4">
                 <p data-vdt-erreur-message class="mb-2">Impossible de charger la file.</p>
-                <button type="button" data-vdt-reessayer class="st-btn st-btn-secondary">Réessayer</button>
+                <button type="button" data-vdt-reessayer class="btn-second">Réessayer</button>
             </div>
 
             <table id="table-correction-examens" style="width:100%" data-vdt-table>
