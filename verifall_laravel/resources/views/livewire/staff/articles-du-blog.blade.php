@@ -14,7 +14,8 @@
 --}}
 <div>
 
-<x-premium.entete titre="Articles du blog" :fil="['Articles du blog']">
+    <div @class(['hidden' => $formulaireOuvert])>
+    <x-premium.entete titre="Articles du blog" :fil="['Articles du blog']">
         Les textes de fond : méthode, coulisses, tribunes. Pour un démenti avec verdict, passez par <a href="{{ route('staff.hub-news') }}" class="text-[#059669] underline">les actualités du Hub</a>.
         <x-slot:actions>
             @if ($peutCreer)
@@ -129,108 +130,109 @@
 
         <div class="mt-4">{{ $billets->links() }}</div>
     @endif
+    </div>
 
-    <x-offcanvas-form :open="$formulaireOuvert"
-                      :title="$enEdition === null ? 'Nouveau billet' : 'Modifier le billet'"
-                      close="fermerLeTiroir">
-        <form wire:submit="enregistrer" class="space-y-4">
-            <div class="ffield">
-                <input id="ab-titre" type="text" wire:model="titre" placeholder=" ">
-                <label for="ab-titre">Titre du billet</label>
-                @error('titre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            </div>
-
-            <div class="ffield">
-                <textarea id="ab-chapeau" wire:model="chapeau" rows="3" placeholder=" "></textarea>
-                <label for="ab-chapeau">Chapeau</label>
-                @error('chapeau') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            </div>
-
-            <div>
-                <label for="ab-cat" class="block text-sm font-medium text-[#0F172A] mb-1">Rubrique</label>
-                <select id="ab-cat" wire:model="categorieUuid" class="st-input w-full">
-                    <option value="">— Sans rubrique —</option>
-                    @foreach ($categories as $categorie)
-                        <option value="{{ $categorie->uuid }}">{{ $categorie->name }}</option>
-                    @endforeach
-                </select>
-                @error('categorieUuid') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-[#0F172A] mb-1">Corps du billet</label>
-                <div class="st-quill" wire:ignore>
-                    <div data-quill-billet></div>
+    {{-- ═════════════ L'ÉDITEUR PLEINE PAGE ═════════════
+         Toujours dans le DOM (masqué quand fermé) : Quill s'attache à son hôte
+         une seule fois, au chargement. La liste se masque à l'ouverture. --}}
+    <section @class(['hidden' => ! $formulaireOuvert]) aria-label="Éditeur de billet">
+        <form wire:submit="enregistrer" @if ($formulaireOuvert) wire:poll.30s="autoEnregistrer" @endif>
+            <div class="sticky top-16 z-20 -mx-4 sm:-mx-6 px-4 sm:px-6 py-3 mb-6 bg-papier/95 dark:bg-nuit/95 backdrop-blur border-b filet flex flex-wrap items-center gap-3">
+                <button type="button" wire:click="fermerLeTiroir" class="btn-fantome btn-sm"><x-lucide name="arrow-left" />Retour aux billets</button>
+                <div class="min-w-0 flex-1">
+                    <p class="font-titre font-semibold truncate text-encre dark:text-white">{{ $titre !== '' ? $titre : ($enEdition === null ? 'Nouveau billet' : 'Billet sans titre') }}</p>
+                    <p class="text-xs texte-3" role="status">
+                        @if ($dernierEnregistrement) Brouillon enregistré à {{ $dernierEnregistrement }}.
+                        @elseif ($estPublie) Billet publié : l'enregistrement automatique est coupé, enregistrez à la main.
+                        @else Enregistrement automatique toutes les 30 secondes, en brouillon. @endif
+                    </p>
                 </div>
-                @error('corps') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
-                    Le HTML est purifié avant enregistrement : ce texte est rendu au public.
-                </p>
+                <button type="submit" class="btn-primaire"><x-lucide name="check" />Enregistrer</button>
             </div>
 
-            <label class="flex items-start gap-2.5 cursor-pointer">
-                <input type="checkbox" wire:model="aLaUne" class="mt-0.5">
-                <span class="text-sm text-[#334155]">
-                    Mettre à la une
-                    <span class="block text-xs text-[#64748B]">
-                        Le billet est mis en avant sur la page du blog, une fois publié.
-                    </span>
-                </span>
-            </label>
+            <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px] items-start">
+                <div class="space-y-5 min-w-0">
+                    <div>
+                        <label for="ab-titre" class="etiquette">Titre du billet</label>
+                        <input id="ab-titre" type="text" wire:model.live.debounce.500ms="titre" class="champ !h-12 text-lg font-titre @error('titre') champ-erreur @enderror" autocomplete="off">
+                        @error('titre') <p class="aide-erreur">{{ $message }}</p> @enderror
+                    </div>
 
-            <div class="ffield">
-                <input id="ab-metat" type="text" wire:model="metaTitre" placeholder=" ">
-                <label for="ab-metat">Titre de recherche (facultatif)</label>
-                {{-- Facultatif et replié sur le contenu : `Referencement` se rabat
-                     sur le titre et le chapeau. Les champs servent aux cas où l'on
-                     veut s'en écarter. --}}
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
-                    Laissé vide, le titre du billet est employé. 70 caractères au plus :
-                    au-delà, les moteurs tronquent.
-                </p>
-                @error('metaTitre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            </div>
+                    <div>
+                        <label for="ab-chapeau" class="etiquette">Chapeau</label>
+                        <textarea id="ab-chapeau" wire:model.live.debounce.500ms="chapeau" rows="3" class="champ !h-auto py-2.5 @error('chapeau') champ-erreur @enderror"></textarea>
+                        @error('chapeau') <p class="aide-erreur">{{ $message }}</p> @enderror
+                    </div>
 
-            <div class="ffield">
-                <textarea id="ab-metad" wire:model="metaDescription" rows="2" placeholder=" "></textarea>
-                <label for="ab-metad">Description de recherche (facultatif)</label>
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
-                    Laissée vide, le chapeau est employé. 160 caractères au plus.
-                </p>
-                @error('metaDescription') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            </div>
+                    <div>
+                        <label class="etiquette">Corps du billet</label>
+                        <div class="st-quill" wire:ignore>
+                            <div data-quill-billet></div>
+                        </div>
+                        @error('corps') <p class="aide-erreur">{{ $message }}</p> @enderror
+                        <p class="aide">Le HTML est purifié avant enregistrement : ce texte est rendu au public. <span data-quill-compte></span></p>
+                    </div>
+                </div>
 
-            <p class="text-xs text-[#64748B] mb-0">
-                La publication est un geste à part, depuis la liste.
-            </p>
+                <aside class="space-y-5 lg:sticky lg:top-40">
+                    <x-premium.carte titre="Publication">
+                        <p class="text-sm texte-2">{{ $estPublie ? 'Ce billet est en ligne.' : 'Ce billet est un brouillon.' }} La publication est un geste à part, depuis la liste.</p>
+                        <label class="flex items-start gap-2.5 cursor-pointer mt-4">
+                            <input type="checkbox" wire:model="aLaUne" class="case mt-0.5">
+                            <span class="text-sm">Mettre à la une<span class="block text-xs texte-3">Mis en avant sur la page du blog, une fois publié.</span></span>
+                        </label>
+                    </x-premium.carte>
 
-            {{-- ── COUVERTURE ────────────────────────────────────────────────
-                 Disque PUBLIC : elle s'affiche dans les listes et dans les
-                 aperçus de partage. La cacher derrière une route signée la
-                 rendrait invisible là où elle sert. --}}
-            <div>
-                <label for="ab-couv" class="block text-sm font-medium text-[#0F172A] mb-1">Image de couverture</label>
-                <input id="ab-couv" type="file" wire:model="couverture"
-                       accept="image/jpeg,image/png,image/webp" class="st-input w-full">
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
-                    JPG, PNG ou WEBP, 4 Mo maximum. Laissée vide, l'image actuelle est conservée.
-                </p>
-                <div wire:loading wire:target="couverture" class="text-xs text-[#64748B]">Envoi en cours…</div>
-                @error('couverture') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            </div>
+                    <x-premium.carte titre="Rubrique et couverture">
+                        <label for="ab-cat" class="etiquette">Rubrique</label>
+                        <select id="ab-cat" wire:model="categorieUuid" class="champ">
+                            <option value="">— Sans rubrique —</option>
+                            @foreach ($categories as $categorie)
+                                <option value="{{ $categorie->uuid }}">{{ $categorie->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('categorieUuid') <p class="aide-erreur">{{ $message }}</p> @enderror
 
-            <div class="ffield">
-                <input id="ab-metak" type="text" wire:model="metaMotsCles" placeholder=" ">
-                <label for="ab-metak">Mots-clés, séparés par des virgules</label>
-                @error('metaMotsCles') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            </div>
+                        {{-- Disque PUBLIC : elle s'affiche dans les listes et les aperçus de partage. --}}
+                        <label for="ab-couv" class="etiquette mt-4">Image de couverture</label>
+                        @if ($couverture)
+                            <img src="{{ $couverture->temporaryUrl() }}" alt="Aperçu de la couverture" class="w-full rounded-ctrl border filet mb-2">
+                        @endif
+                        <input id="ab-couv" type="file" wire:model="couverture" accept="image/jpeg,image/png,image/webp" class="champ !h-auto py-2">
+                        <p class="aide">JPG, PNG ou WEBP, 4 Mo. Laissée vide, l'image actuelle est conservée.</p>
+                        <div wire:loading wire:target="couverture" class="aide">Envoi en cours…</div>
+                        @error('couverture') <p class="aide-erreur">{{ $message }}</p> @enderror
+                    </x-premium.carte>
 
-            <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                    <x-premium.carte titre="Référencement">
+                        {{-- L'aperçu montre ce que Google affichera : le titre de recherche,
+                             sinon le titre ; la description, sinon le chapeau. --}}
+                        @php
+                            $apercuTitre = $metaTitre !== '' ? $metaTitre : $titre;
+                            $apercuDescription = $metaDescription !== '' ? $metaDescription : $chapeau;
+                        @endphp
+                        <div class="rounded-ctrl border filet bg-white dark:bg-nuit p-3 mb-4" aria-label="Aperçu dans les résultats de recherche">
+                            <p class="text-xs texte-3 truncate">{{ parse_url(config('app.url'), PHP_URL_HOST) }} › blog</p>
+                            <p class="text-[16px] leading-snug text-blue-700 dark:text-blue-300 truncate">{{ \Illuminate\Support\Str::limit($apercuTitre !== '' ? $apercuTitre : 'Titre du billet', 70, '…') }}</p>
+                            <p class="text-[13px] texte-2 line-clamp-2">{{ \Illuminate\Support\Str::limit($apercuDescription !== '' ? $apercuDescription : 'La description apparaîtra ici.', 160, '…') }}</p>
+                        </div>
+
+                        <label for="ab-metat" class="etiquette">Titre de recherche <span class="texte-3 font-normal">({{ mb_strlen($metaTitre) }}/70)</span></label>
+                        <input id="ab-metat" type="text" wire:model.live.debounce.500ms="metaTitre" class="champ @error('metaTitre') champ-erreur @enderror" placeholder="Laissé vide : le titre">
+                        @error('metaTitre') <p class="aide-erreur">{{ $message }}</p> @enderror
+
+                        <label for="ab-metad" class="etiquette mt-3">Description <span class="texte-3 font-normal">({{ mb_strlen($metaDescription) }}/160)</span></label>
+                        <textarea id="ab-metad" wire:model.live.debounce.500ms="metaDescription" rows="3" class="champ !h-auto py-2 @error('metaDescription') champ-erreur @enderror" placeholder="Laissée vide : le chapeau"></textarea>
+                        @error('metaDescription') <p class="aide-erreur">{{ $message }}</p> @enderror
+
+                        <label for="ab-metak" class="etiquette mt-3">Mots-clés</label>
+                        <input id="ab-metak" type="text" wire:model="metaMotsCles" class="champ @error('metaMotsCles') champ-erreur @enderror" placeholder="séparés par des virgules">
+                        @error('metaMotsCles') <p class="aide-erreur">{{ $message }}</p> @enderror
+                    </x-premium.carte>
+                </aside>
             </div>
         </form>
-    </x-offcanvas-form>
+    </section>
 
     <x-delete-modal :open="$aSupprimer !== null"
                     title="Supprimer ce billet ?"
@@ -271,6 +273,11 @@
                 var html = editeur.root.innerHTML;
 
                 composant.set('corps', html === '<p><br></p>' ? '' : html, false);
+
+                // Compte de mots, pour savoir où l'on en est sans quitter la page.
+                var texte = editeur.getText().trim();
+                var compte = document.querySelector('[data-quill-compte]');
+                if (compte) { compte.textContent = texte === '' ? '' : (texte.split(/\s+/).length + ' mots'); }
             });
 
             composant.on('corps-billet-charge', function (charge) {

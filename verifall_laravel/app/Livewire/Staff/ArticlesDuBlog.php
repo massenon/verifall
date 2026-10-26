@@ -14,6 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
@@ -100,6 +101,9 @@ final class ArticlesDuBlog extends Component
      */
     public ?TemporaryUploadedFile $couverture = null;
 
+    /** Heure du dernier enregistrement automatique (HH:MM), pour le dire à l'écran. */
+    public string $dernierEnregistrement = '';
+
     public function updatingRecherche(): void
     {
         $this->resetPage();
@@ -129,6 +133,7 @@ final class ArticlesDuBlog extends Component
     public function render(): View
     {
         return view('livewire.staff.articles-du-blog', [
+            'estPublie' => $this->enEdition !== null && (bool) BlogPost::query()->where('uuid', $this->enEdition)->value('is_published'),
             'billets' => $this->lignes(),
             'indicateurs' => $this->indicateurs(),
             'categories' => $this->categories(),
@@ -148,6 +153,7 @@ final class ArticlesDuBlog extends Component
         $this->reset('enEdition', 'titre', 'chapeau', 'corps', 'categorieUuid',
             'metaTitre', 'metaDescription');
         $this->aLaUne = false;
+        $this->dernierEnregistrement = '';
         $this->resetValidation();
         $this->formulaireOuvert = true;
 
@@ -184,7 +190,37 @@ final class ArticlesDuBlog extends Component
         $this->resetValidation();
     }
 
-    public function enregistrer(AuditLogService $audit): void
+    /**
+     * Enregistrement automatique, en brouillon.
+     *
+     * Jamais sur un billet PUBLIÉ : il écrirait dans le texte en ligne sans que
+     * personne n'ait cliqué « Enregistrer » — et sans la trace d'audit que ce
+     * geste laisse. Sur un brouillon, rien n'est visible du public : le risque
+     * est nul. Silencieux si le brouillon n'est pas encore valide (titre ou
+     * corps vide, champ trop long) : on n'affiche pas d'erreur pendant la frappe.
+     */
+    public function autoEnregistrer(AuditLogService $audit): void
+    {
+        if (! $this->formulaireOuvert || trim($this->titre) === '' || trim(strip_tags($this->corps)) === '') {
+            return;
+        }
+
+        if ($this->enEdition !== null && $this->billet($this->enEdition)->is_published) {
+            return;
+        }
+
+        try {
+            $this->enregistrer($audit, fermer: false);
+        } catch (ValidationException) {
+            $this->resetValidation();
+
+            return;
+        }
+
+        $this->dernierEnregistrement = now()->format('H:i');
+    }
+
+    public function enregistrer(AuditLogService $audit, bool $fermer = true): void
     {
         $donnees = $this->validate();
 
@@ -244,6 +280,16 @@ final class ArticlesDuBlog extends Component
             cibleLibelle: $billet->title,
         );
 
+        if (! $fermer) {
+            // Le billet existe désormais : l'enregistrement suivant le met à jour
+            // au lieu d'en créer un second.
+            $this->enEdition = $billet->uuid;
+            $this->couverture = null;
+
+            return;
+        }
+
+        $this->dernierEnregistrement = '';
         $this->fermerLeTiroir();
         $this->toastSuccess($avant === null ? 'Billet créé, en brouillon.' : 'Billet mis à jour.');
     }
