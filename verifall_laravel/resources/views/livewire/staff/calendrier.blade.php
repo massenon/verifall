@@ -1,6 +1,6 @@
 @push('styles')
   <style>
-    .fc { --fc-border-color: #E3E8E4; --fc-today-bg-color: #e8f8ef; --fc-page-bg-color: transparent; --fc-neutral-bg-color: #F6F8F5; font-size: 13px; }
+    .fc { font-family: "Public Sans", system-ui, sans-serif; --fc-border-color: #E3E8E4; --fc-today-bg-color: #e8f8ef; --fc-page-bg-color: transparent; --fc-neutral-bg-color: #F6F8F5; font-size: 13px; }
     .dark .fc { --fc-border-color: #22352B; --fc-today-bg-color: rgba(9,184,80,.12); --fc-neutral-bg-color: #0A1510; --fc-list-event-hover-bg-color: #0A1510; }
     .fc .fc-toolbar-title { font-family: "Bricolage Grotesque", system-ui, sans-serif; font-size: 18px; font-weight: 600; }
     .fc .fc-button { background: transparent; border: 1px solid var(--fc-border-color); color: inherit; border-radius: 8px; padding: .35rem .7rem; font-size: 13px; text-transform: none; box-shadow: none !important; }
