@@ -1,3 +1,6 @@
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/pages/staff-tableau-de-bord.css') }}">
+@endpush
 {{--
   | 02 — La bande des indicateurs clés (§8-9).
   |
@@ -30,7 +33,7 @@
                     <div class="tdb-kpi-top">
                         <h3 class="tdb-kpi-l" title="{{ $kpi['libelle'] }}">{{ $kpi['libelle'] }}</h3>
                         <span class="tdb-kpi-ico" aria-hidden="true">
-                            <span class="material-symbols-rounded">{{ $kpi['icone'] }}</span>
+                            <x-lucide :name="$kpi['icone']" class="w-4 h-4" />
                         </span>
                     </div>
 

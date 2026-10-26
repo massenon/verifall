@@ -10,21 +10,11 @@
   | le prix actuel par le nombre d'inscrits appliquerait le tarif d'aujourd'hui
   | à des achats d'hier, et donnerait un chiffre faux qui a l'air juste.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Unités des cours premium</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Unités des cours premium</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            La grille tarifaire de l'Académie, vue d'un bloc. Modifier un tarif n'affecte
-            aucune inscription déjà payée : les inscrits gardent leur accès au prix consenti.
-        </p>
-    </header>
+<x-premium.entete titre="Unités des cours premium" :fil="['Unités des cours premium']">
+        La grille tarifaire de l'Académie, vue d'un bloc. Modifier un tarif n'affecte aucune inscription déjà payée : les inscrits gardent leur accès au prix consenti.
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['payants'], 0, ',', ' ')"
@@ -41,12 +31,12 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="up-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="up-q">Rechercher un cours</label>
+        <div class="flex-1 mb-0">
+            <label for="up-q" class="etiquette">Rechercher un cours</label>
+<input id="up-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreTarif" class="st-input w-auto" aria-label="Filtrer par tarif">
+        <select wire:model.live="filtreTarif" class="champ w-auto" aria-label="Filtrer par tarif">
             <option value="payants">Payants</option>
             <option value="gratuits">Gratuits</option>
             <option value="">Tous</option>
@@ -70,12 +60,12 @@
             @foreach ($cours as $unCours)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $unCours->title }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $unCours->title }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                             {{ $unCours->is_published ? 'Publié' : 'Brouillon' }} · {{ $unCours->level?->libelle() }}
                         </p>
                     </td>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">
                         {{ $unCours->categorie?->name ?? 'Sans rayon' }}
                     </td>
                     <td class="whitespace-nowrap">{{ $unCours->enrollments_count }}</td>
@@ -89,19 +79,19 @@
                             <div class="flex items-center gap-2">
                                 <input type="number" min="0" max="500"
                                        wire:model="couts.{{ $unCours->uuid }}"
-                                       class="st-input w-20"
+                                       class="champ w-20"
                                        aria-label="Tarif de {{ $unCours->title }}">
                                 <button type="button"
                                         wire:click="enregistrerLeTarif('{{ $unCours->uuid }}')"
-                                        class="st-icnbtn" title="Enregistrer ce tarif">
-                                    <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">check</span>
+                                        class="btn-icone" title="Enregistrer ce tarif">
+                                    <x-lucide name="check" class="w-4 h-4" />
                                 </button>
                             </div>
                             @error('couts.'.$unCours->uuid)
-                                <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p>
+                                <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p>
                             @enderror
                         @else
-                            <span class="text-sm text-[#334155]">{{ $unCours->cost_units }} u.</span>
+                            <span class="text-sm text-encre-2 dark:text-nuit-2">{{ $unCours->cost_units }} u.</span>
                         @endcan
                     </td>
                 </tr>
@@ -111,7 +101,7 @@
         <div class="mt-4">{{ $cours->links() }}</div>
     @endif
 
-    <p class="text-xs text-[#64748B] mt-4 mb-0">
+    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-4 mb-0">
         Le tarif est en unités, jamais en francs : les unités sont une mesure d'usage interne,
         ni monnaie ni moyen de paiement — les CGU §5 le posent expressément.
     </p>

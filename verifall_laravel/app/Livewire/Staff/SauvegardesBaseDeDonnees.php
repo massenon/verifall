@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Staff;
 
+use App\Support\Trait\ListeDeLaConsole;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -55,6 +56,8 @@ use Livewire\Component;
 #[Layout('components.layouts.staff', ['title' => "Sauvegardes · Vérif'All"])]
 final class SauvegardesBaseDeDonnees extends Component
 {
+    use ListeDeLaConsole;
+
     /**
      * Le dossier scruté, sous le disque `local`.
      *
@@ -74,6 +77,7 @@ final class SauvegardesBaseDeDonnees extends Component
 
         return view('livewire.staff.sauvegardes', [
             'fichiers' => $fichiers,
+            'page' => $this->paginerLaListe($fichiers, fn (array $f): string => $f['nom']),
             'indicateurs' => $this->indicateurs($fichiers),
             'dossier' => self::DOSSIER,
         ]);

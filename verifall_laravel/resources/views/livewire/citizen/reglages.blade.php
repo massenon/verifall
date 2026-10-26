@@ -121,6 +121,20 @@
           <span class="vf-switch-dot"></span>
         </button>
       </div>
+      {{-- Consentement séparé, jamais pré-coché, retirable (arbitrage n° 178). --}}
+      <div class="flex items-start justify-between gap-4 pt-4">
+        <div>
+          <p class="text-base font-bold text-ink mb-0.5">{{ __('cit_reglages.historique_du_hub') }}</p>
+          <p class="text-sm text-slate2 mb-0">{{ __('cit_reglages.historique_du_hub_aide') }}</p>
+        </div>
+        <button type="button" role="switch" id="tg-historique-hub"
+                aria-checked="{{ $historiqueHub ? 'true' : 'false' }}"
+                wire:click="basculerHistoriqueHub"
+                class="vf-switch {{ $historiqueHub ? 'is-on' : '' }}"
+                aria-label="{{ __('cit_reglages.activer_desactiver') }}">
+          <span class="vf-switch-dot"></span>
+        </button>
+      </div>
       <p class="text-xs text-slate2 mt-3 mb-0">{{ __('cit_reglages.votre_accord_et_son_retrait_sont_horodates') }}</p>
     </div>
 

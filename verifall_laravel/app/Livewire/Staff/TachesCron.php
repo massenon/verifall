@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Staff;
 
 use App\Models\ScheduledTaskRun;
+use App\Support\Trait\ListeDeLaConsole;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Console\Kernel;
@@ -49,6 +50,8 @@ use Livewire\Component;
 #[Layout('components.layouts.staff', ['title' => "Tâches planifiées · Vérif'All"])]
 final class TachesCron extends Component
 {
+    use ListeDeLaConsole;
+
     public function mount(): void
     {
         abort_unless(Auth::guard('staff')->user()?->can('maintenance.cron') ?? false, 403);
@@ -60,6 +63,7 @@ final class TachesCron extends Component
 
         return view('livewire.staff.taches-cron', [
             'taches' => $taches,
+            'page' => $this->paginerLaListe($taches, fn (array $t): string => ($t['description'] ?? '').' '.$t['nom'].' '.($t['expression'] ?? '')),
             'indicateurs' => $this->indicateurs($taches),
             'dernieresExecutions' => $this->dernieresExecutions(),
         ]);

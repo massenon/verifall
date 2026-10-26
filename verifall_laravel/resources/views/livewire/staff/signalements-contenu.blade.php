@@ -21,23 +21,11 @@
   <link rel="stylesheet" href="{{ asset('assets/css/pages/datatables-staff.css') }}">
 @endpush
 
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Signalements</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Signalements</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            Ce que les citoyens portent à la modération. La file est triée par
-            PROPAGATION et non par ordre d'arrivée : une rumeur signalée par quinze
-            personnes en deux heures passe devant un hors-sujet signalé hier par une
-            seule. Un signalement se tranche, retenu ou rejeté, et la trace demeure.
-        </p>
-    </header>
+<x-premium.entete titre="Signalements" :fil="['Signalements']">
+        Ce que les citoyens portent à la modération. La file est triée par PROPAGATION et non par ordre d'arrivée : une rumeur signalée par quinze personnes en deux heures passe devant un hors-sujet signalé hier par une seule. Un signalement se tranche, retenu ou rejeté, et la trace demeure.
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($compteurs['total'], 0, ',', ' ')"
@@ -54,14 +42,14 @@
     </x-kpi-grid>
 
     @if ($signalementOuvert !== null)
-        <section class="st-card mb-6" id="signalement-ouvert" tabindex="-1" aria-label="Signalement ouvert">
+        <section class="carte mb-6" id="signalement-ouvert" tabindex="-1" aria-label="Signalement ouvert">
             <div class="flex flex-wrap items-start justify-between gap-3 mb-4">
                 <div>
-                    <p class="font-semibold text-[#0F172A] mb-0">
+                    <p class="font-semibold text-encre dark:text-white mb-0">
                         {{ class_basename((string) $signalementOuvert->reportable_type) }}
                         · motif : {{ $signalementOuvert->reason }}
                     </p>
-                    <p class="text-sm text-[#64748B] mb-0">
+                    <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">
                         {{-- Un compte supprimé garde son signalement : la trace vaut
                              indépendamment de qui l'a laissée. --}}
                         Signalé par {{ $signalementOuvert->reporter?->name ?? 'Compte supprimé' }}
@@ -70,23 +58,23 @@
                 </div>
                 <div class="flex items-center gap-2">
                     <x-badge-statut variant="staff" :statut="$signalementOuvert->status->cleBadge()" :label="$signalementOuvert->status->libelle()" />
-                    <button type="button" wire:click="fermer" class="st-btn st-btn-secondary">Fermer</button>
+                    <button type="button" wire:click="fermer" class="btn-second">Fermer</button>
                 </div>
             </div>
 
             @if ($signalementOuvert->detail)
-                <p class="text-[#0F172A] mb-4" style="white-space: pre-line;">{{ $signalementOuvert->detail }}</p>
+                <p class="text-encre dark:text-white mb-4" style="white-space: pre-line;">{{ $signalementOuvert->detail }}</p>
             @endif
 
             {{-- Le contenu VISÉ, quand il existe encore. Supprimé entre-temps, on
                  le dit — plutôt que d'afficher un cadre vide qui ressemble à une
                  panne. --}}
-            <div class="rounded-lg border border-[#E2E8F0] bg-[#F8FAFC] p-4 mb-6">
+            <div class="rounded-lg border border-trait dark:border-nuit-trait bg-papier dark:bg-nuit p-4 mb-6">
                 @if ($signalementOuvert->reportable === null)
-                    <p class="text-sm text-[#64748B] mb-0">Le contenu signalé n'existe plus.</p>
+                    <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">Le contenu signalé n'existe plus.</p>
                 @else
-                    <p class="text-xs text-[#64748B] mb-1">Contenu signalé</p>
-                    <p class="text-sm text-[#0F172A] mb-0">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-1">Contenu signalé</p>
+                    <p class="text-sm text-encre dark:text-white mb-0">
                         {{ Str::limit(strip_tags((string) ($signalementOuvert->reportable->body
                             ?? $signalementOuvert->reportable->title
                             ?? $signalementOuvert->reportable->content
@@ -96,15 +84,15 @@
             </div>
 
             @can('update', \App\Models\ContentReport::class)
-                <div class="ffield mb-3">
-                    <textarea id="signalement-note" wire:model="note" rows="2" placeholder=" "></textarea>
-                    <label for="signalement-note">Note de décision (facultative)</label>
+                <div class="mb-3">
+                    <label for="signalement-note" class="etiquette">Note de décision (facultative)</label>
+<textarea id="signalement-note" wire:model="note" rows="2" class="champ !h-auto py-2.5"></textarea>
                 </div>
-                @error('note')<p class="text-sm text-[#DC2626] mb-3">{{ $message }}</p>@enderror
+                @error('note')<p class="text-sm text-critique mb-3">{{ $message }}</p>@enderror
 
                 <div class="flex flex-wrap gap-2">
-                    <button type="button" wire:click="trancher('upheld')" class="st-btn st-btn-primary">Retenir</button>
-                    <button type="button" wire:click="trancher('dismissed')" class="st-btn st-btn-secondary">Rejeter</button>
+                    <button type="button" wire:click="trancher('upheld')" class="btn-primaire">Retenir</button>
+                    <button type="button" wire:click="trancher('dismissed')" class="btn-second">Rejeter</button>
                 </div>
             @endcan
         </section>
@@ -118,7 +106,12 @@
          data-vdt-evenement="{{ \App\Livewire\Staff\SignalementsContenu::EVENEMENT_TABLE_A_RECHARGER }}">
 
         <section class="mb-4 flex flex-wrap items-center gap-3">
-            <select data-vdt-filtre="statut" data-vdt-url="statut" data-vdt-livewire="filtreStatut" class="st-input w-auto" aria-label="Filtrer par statut">
+            <div class="flex-1 min-w-[220px]">
+                <label for="sc-q" class="sr-only">Rechercher un signalement</label>
+                <input id="sc-q" type="search" data-vdt-recherche data-vdt-url="q" class="champ" placeholder="Rechercher un motif, un signaleur…">
+            </div>
+
+            <select data-vdt-filtre="statut" data-vdt-url="statut" data-vdt-livewire="filtreStatut" class="champ w-auto" aria-label="Filtrer par statut">
                 <option value="">Statut : tous</option>
                 @foreach ($statuts as $statut)
                     <option value="{{ $statut->value }}" @selected($filtreStatut === $statut->value)>{{ $statut->libelle() }}</option>
@@ -128,7 +121,7 @@
             {{-- Les types proposés sont ceux RÉELLEMENT présents en base : offrir un
                  filtre qui ne ramène jamais rien fait douter de l'écran. --}}
             @if (count($types) > 1)
-                <select data-vdt-filtre="type" data-vdt-url="type" data-vdt-livewire="filtreType" class="st-input w-auto" aria-label="Filtrer par type de contenu">
+                <select data-vdt-filtre="type" data-vdt-url="type" data-vdt-livewire="filtreType" class="champ w-auto" aria-label="Filtrer par type de contenu">
                     <option value="">Type : tous</option>
                     @foreach ($types as $type)
                         <option value="{{ $type }}" @selected($filtreType === $type)>{{ class_basename($type) }}</option>
@@ -136,23 +129,23 @@
                 </select>
             @endif
 
-            <div class="ffield mb-0">
-                <input type="text" data-vdt-filtre="recu_du" data-vdt-url="du" data-vdt-date placeholder=" ">
-                <label>Reçu depuis le</label>
+            <div class="mb-0">
+                <label class="etiquette">Reçu depuis le</label>
+<input type="text" data-vdt-filtre="recu_du" data-vdt-url="du" data-vdt-date class="champ">
             </div>
-            <div class="ffield mb-0">
-                <input type="text" data-vdt-filtre="recu_au" data-vdt-url="au" data-vdt-date placeholder=" ">
-                <label>jusqu'au</label>
+            <div class="mb-0">
+                <label class="etiquette">jusqu'au</label>
+<input type="text" data-vdt-filtre="recu_au" data-vdt-url="au" data-vdt-date class="champ">
             </div>
 
-            <button type="button" data-vdt-reinitialiser class="st-btn st-btn-secondary">
+            <button type="button" data-vdt-reinitialiser class="btn-second">
                 Réinitialiser
             </button>
         </section>
 
-        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-[#FCA5A5] bg-[#FEF2F2] text-[#991B1B] text-sm px-4 py-3 mb-4">
+        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 text-sm px-4 py-3 mb-4">
             <p data-vdt-erreur-message class="mb-2">Impossible de charger les signalements.</p>
-            <button type="button" data-vdt-reessayer class="st-btn st-btn-secondary">Réessayer</button>
+            <button type="button" data-vdt-reessayer class="btn-second">Réessayer</button>
         </div>
 
         <table id="table-signalements-contenu" style="width:100%" data-vdt-table>

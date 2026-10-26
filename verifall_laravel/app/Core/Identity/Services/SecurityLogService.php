@@ -37,7 +37,10 @@ final class SecurityLogService
 
     public const DECONNEXION = 'logout';
 
-    public function __construct(private readonly IdentityHasher $hasher) {}
+    public function __construct(
+        private readonly IdentityHasher $hasher,
+        private readonly JournalDesConnexions $connexions,
+    ) {}
 
     /**
      * @param  array<string, mixed>  $contexte
@@ -74,6 +77,10 @@ final class SecurityLogService
             default => 'info',
         };
 
+        // L'historique du COMPTE visé (s'il existe), pour que sa fiche montre
+        // la série d'échecs qui précède une connexion réussie.
+        $this->connexions->echec($identity, 'echouee', JournalDesConnexions::espaceDe(request()));
+
         return $this->record(self::LOGIN_ECHOUE, $severite, $identity, contexte: [
             'echecs_cumules' => $echecs,
         ]);
@@ -81,6 +88,8 @@ final class SecurityLogService
 
     public function loginVerrouille(string $identity, int $secondes): SecurityLog
     {
+        $this->connexions->echec($identity, 'bloquee', JournalDesConnexions::espaceDe(request()));
+
         return $this->record(self::LOGIN_VERROUILLE, 'warning', $identity, contexte: [
             'reouverture_dans_secondes' => $secondes,
         ]);

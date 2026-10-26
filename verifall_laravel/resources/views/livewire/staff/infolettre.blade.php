@@ -23,40 +23,28 @@
   <link rel="stylesheet" href="{{ asset('assets/css/pages/datatables-staff.css') }}">
 @endpush
 
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Infolettre</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Infolettre</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Le récapitulatif du lundi part tout seul, par tâche planifiée.
-                Édition en cours : <span class="font-mono text-[#0F172A]">{{ $editionEnCours }}</span>.
-            </p>
-        </div>
-    </header>
+<x-premium.entete titre="Infolettre" :fil="['Infolettre']">
+        Le récapitulatif du lundi part tout seul, par tâche planifiée. Édition en cours : <span class="font-mono text-encre dark:text-white">{{ $editionEnCours }}</span>.
+    </x-premium.entete>
 
     {{-- ══════════════════════════════════════ le rendez-vous est-il tenu ? --}}
     @if ($derniereEdition === null)
-        <div class="st-card p-4 mb-4 !border-[#D97706]/40">
-            <p class="text-sm font-bold text-[#0F172A] mb-1">Aucune édition n'est encore partie.</p>
-            <p class="text-sm text-[#475569] mb-0">
+        <div class="carte p-4 mb-4 !border-amber-500/40">
+            <p class="text-sm font-bold text-encre dark:text-white mb-1">Aucune édition n'est encore partie.</p>
+            <p class="text-sm text-encre-2 dark:text-nuit-2 mb-0">
                 C'est normal avant le premier lundi. Passé ce délai, vérifiez que
                 <code class="font-mono text-xs">php artisan schedule:run</code> tourne bien toutes les minutes
                 sur le serveur : sans lui, la commande ne produit aucune erreur — elle ne se produit pas.
             </p>
         </div>
     @elseif ($joursDepuisEnvoi !== null && $joursDepuisEnvoi > \App\Livewire\Staff\Infolettre::JOURS_AVANT_ALERTE)
-        <div class="st-card p-4 mb-4 !border-[#DC2626]/40">
-            <p class="text-sm font-bold text-[#0F172A] mb-1">
+        <div class="carte p-4 mb-4 !border-critique/40">
+            <p class="text-sm font-bold text-encre dark:text-white mb-1">
                 Dernier envoi il y a {{ $joursDepuisEnvoi }} jours — le rendez-vous est manqué.
             </p>
-            <p class="text-sm text-[#475569] mb-0">
+            <p class="text-sm text-encre-2 dark:text-nuit-2 mb-0">
                 Deux lundis sans infolettre suffisent à perdre l'habitude des lecteurs.
                 Vérifiez le planificateur, puis la file d'attente.
             </p>
@@ -83,14 +71,14 @@
     </x-kpi-grid>
 
     {{-- ═════════════════════════════════════════════════════════ onglets --}}
-    <div class="st-tabs mb-4" role="tablist">
+    <div class="onglets mb-4" role="tablist">
         <button type="button" role="tab" wire:click="changerOnglet('abonnes')"
-                class="st-tab {{ $onglet === 'abonnes' ? 'is-active' : '' }}"
+                class="onglet {{ $onglet === 'abonnes' ? 'is-active' : '' }}"
                 aria-selected="{{ $onglet === 'abonnes' ? 'true' : 'false' }}">
             Abonnés
         </button>
         <button type="button" role="tab" wire:click="changerOnglet('historique')"
-                class="st-tab {{ $onglet === 'historique' ? 'is-active' : '' }}"
+                class="onglet {{ $onglet === 'historique' ? 'is-active' : '' }}"
                 aria-selected="{{ $onglet === 'historique' ? 'true' : 'false' }}">
             Historique des envois
         </button>
@@ -99,7 +87,7 @@
                  la liste et écrire à trois mille personnes ne sont pas le même
                  geste ; la matrice les séparait déjà, l'écran le reflète. --}}
             <button type="button" role="tab" wire:click="changerOnglet('diffuser')"
-                    class="st-tab {{ $onglet === 'diffuser' ? 'is-active' : '' }}"
+                    class="onglet {{ $onglet === 'diffuser' ? 'is-active' : '' }}"
                     aria-selected="{{ $onglet === 'diffuser' ? 'true' : 'false' }}">
                 Diffuser
             </button>
@@ -125,35 +113,35 @@
              data-vdt-evenement="{{ \App\Livewire\Staff\Infolettre::EVENEMENT_TABLE_A_RECHARGER }}">
 
         <section class="mb-4 flex flex-wrap items-center gap-3">
-            <div class="ffield flex-1 mb-0">
-                <input id="abonnes-q" type="search" data-vdt-recherche data-vdt-url="q" value="{{ $recherche }}" placeholder=" ">
-                <label for="abonnes-q">Rechercher une adresse, un nom</label>
+            <div class="flex-1 mb-0">
+                <label for="abonnes-q" class="etiquette">Rechercher une adresse, un nom</label>
+<input id="abonnes-q" type="search" data-vdt-recherche data-vdt-url="q" value="{{ $recherche }}" class="champ">
             </div>
 
-            <select data-vdt-filtre="etat" data-vdt-url="etat" class="st-input w-auto" aria-label="Filtrer par état">
+            <select data-vdt-filtre="etat" data-vdt-url="etat" class="champ w-auto" aria-label="Filtrer par état">
                 <option value="">État : tous</option>
                 <option value="confirmes" @selected($filtreEtat === 'confirmes')>Confirmés</option>
                 <option value="en-attente" @selected($filtreEtat === 'en-attente')>En attente</option>
                 <option value="desabonnes" @selected($filtreEtat === 'desabonnes')>Désabonnés</option>
             </select>
 
-            <div class="ffield mb-0">
-                <input type="text" data-vdt-filtre="inscrit_du" data-vdt-url="du" data-vdt-date placeholder=" ">
-                <label>Inscrit depuis le</label>
+            <div class="mb-0">
+                <label class="etiquette">Inscrit depuis le</label>
+<input type="text" data-vdt-filtre="inscrit_du" data-vdt-url="du" data-vdt-date class="champ">
             </div>
-            <div class="ffield mb-0">
-                <input type="text" data-vdt-filtre="inscrit_au" data-vdt-url="au" data-vdt-date placeholder=" ">
-                <label>jusqu'au</label>
+            <div class="mb-0">
+                <label class="etiquette">jusqu'au</label>
+<input type="text" data-vdt-filtre="inscrit_au" data-vdt-url="au" data-vdt-date class="champ">
             </div>
 
-            <button type="button" data-vdt-reinitialiser class="st-btn st-btn-secondary">
+            <button type="button" data-vdt-reinitialiser class="btn-second">
                 Réinitialiser
             </button>
         </section>
 
-            <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-[#FCA5A5] bg-[#FEF2F2] text-[#991B1B] text-sm px-4 py-3 mb-4">
+            <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 text-sm px-4 py-3 mb-4">
                 <p data-vdt-erreur-message class="mb-2">Impossible de charger les abonnés.</p>
-                <button type="button" data-vdt-reessayer class="st-btn st-btn-secondary">Réessayer</button>
+                <button type="button" data-vdt-reessayer class="btn-second">Réessayer</button>
             </div>
 
             <table id="table-abonnes" style="width:100%" data-vdt-table>
@@ -194,17 +182,17 @@
                     @php $statut = \App\Core\Marketing\Enums\StatutCampagne::depuis($envoi->status); @endphp
                     <tr data-row-el wire:key="envoi-{{ $envoi->id }}">
                         <td>
-                            <span class="font-bold text-[#0F172A]">{{ $envoi->subject }}</span>
-                            <span class="block text-xs text-[#64748B] font-mono">{{ $envoi->edition_key }}</span>
+                            <span class="font-bold text-encre dark:text-white">{{ $envoi->subject }}</span>
+                            <span class="block text-xs text-encre-3 dark:text-nuit-3 font-mono">{{ $envoi->edition_key }}</span>
                         </td>
-                        <td class="text-[#64748B]">{{ $envoi->sent_at?->format('d/m/Y H:i') ?? '—' }}</td>
+                        <td class="text-encre-3 dark:text-nuit-3">{{ $envoi->sent_at?->format('d/m/Y H:i') ?? '—' }}</td>
                         <td>{{ number_format((int) $envoi->recipients_count, 0, ',', ' ') }}</td>
-                        <td class="font-bold text-[#0F172A]">{{ number_format((int) $envoi->sent_count, 0, ',', ' ') }}</td>
+                        <td class="font-bold text-encre dark:text-white">{{ number_format((int) $envoi->sent_count, 0, ',', ' ') }}</td>
                         {{-- Les échecs ne sont jamais masqués, même à zéro : une
                              colonne qui disparaît quand tout va bien ne
                              s'apprend pas, et on ne la cherche pas le jour où
                              elle compterait. --}}
-                        <td class="{{ (int) $envoi->failed_count > 0 ? 'font-bold text-[#DC2626]' : 'text-[#64748B]' }}">
+                        <td class="{{ (int) $envoi->failed_count > 0 ? 'font-bold text-critique' : 'text-encre-3 dark:text-nuit-3' }}">
                             {{ number_format((int) $envoi->failed_count, 0, ',', ' ') }}
                         </td>
                         <td><x-badge-statut variant="staff" :statut="$statut->pastille()" :label="$statut->libelle()" /></td>
@@ -215,17 +203,17 @@
             <x-card-list variant="staff">
                 @foreach ($envois as $envoi)
                     @php $statut = \App\Core\Marketing\Enums\StatutCampagne::depuis($envoi->status); @endphp
-                    <div class="st-card p-4" wire:key="envoi-carte-{{ $envoi->id }}">
+                    <div class="carte p-4" wire:key="envoi-carte-{{ $envoi->id }}">
                         <div class="flex items-start justify-between gap-3">
-                            <p class="font-semibold text-[#0F172A] mb-0 flex-1">{{ $envoi->subject }}</p>
+                            <p class="font-semibold text-encre dark:text-white mb-0 flex-1">{{ $envoi->subject }}</p>
                             <x-badge-statut variant="staff" :statut="$statut->pastille()" :label="$statut->libelle()" />
                         </div>
-                        <p class="mt-2 text-sm text-[#475569] mb-0">
+                        <p class="mt-2 text-sm text-encre-2 dark:text-nuit-2 mb-0">
                             {{ number_format((int) $envoi->recipients_count, 0, ',', ' ') }} destinataire(s) ·
                             {{ number_format((int) $envoi->sent_count, 0, ',', ' ') }} envoyé(s) ·
-                            <span class="{{ (int) $envoi->failed_count > 0 ? 'font-bold text-[#DC2626]' : '' }}">{{ number_format((int) $envoi->failed_count, 0, ',', ' ') }} échec(s)</span>
+                            <span class="{{ (int) $envoi->failed_count > 0 ? 'font-bold text-critique' : '' }}">{{ number_format((int) $envoi->failed_count, 0, ',', ' ') }} échec(s)</span>
                         </p>
-                        <p class="mt-1 text-xs text-[#64748B] mb-0">{{ $envoi->sent_at?->format('d/m/Y H:i') ?? 'Pas encore partie' }}</p>
+                        <p class="mt-1 text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $envoi->sent_at?->format('d/m/Y H:i') ?? 'Pas encore partie' }}</p>
                     </div>
                 @endforeach
             </x-card-list>
@@ -238,44 +226,44 @@
     {{-- ═══════════════════════════════════════════ diffuser une infolettre --}}
     @if ($onglet === 'diffuser' && $peutDiffuser)
 
-        <form wire:submit="confirmerLaDiffusion" class="st-card p-5 max-w-3xl">
-            <h2 class="text-lg font-bold text-[#0F172A] mb-1">Diffuser une Newsletter</h2>
+        <form wire:submit="confirmerLaDiffusion" class="carte p-5 max-w-3xl">
+            <h2 class="text-lg font-bold text-encre dark:text-white mb-1">Diffuser une Newsletter</h2>
 
             {{-- Le nombre, AVANT le formulaire et de nouveau dans la modale.
                  C'est lui qui fait hésiter au bon moment, pas un avertissement. --}}
-            <p class="text-sm text-[#64748B] mb-5">
+            <p class="text-sm text-encre-3 dark:text-nuit-3 mb-5">
                 Votre message sera envoyé à
-                <strong class="text-[#0F172A]">{{ number_format($destinataires, 0, ',', ' ') }}</strong>
+                <strong class="text-encre dark:text-white">{{ number_format($destinataires, 0, ',', ' ') }}</strong>
                 abonné{{ $destinataires > 1 ? 's' : '' }}.
             </p>
 
             <div class="mb-4">
-                <div class="ffield mb-1">
-                    <input id="diff-objet" type="text" wire:model.blur="objet"
-                           maxlength="{{ $objetMaximum }}" placeholder=" ">
-                    <label for="diff-objet">Sujet de l'email (Objet) *</label>
+                <div class="mb-1">
+                    <label for="diff-objet" class="etiquette">Sujet de l'email (Objet) *</label>
+<input id="diff-objet" type="text" wire:model.blur="objet"
+                           maxlength="{{ $objetMaximum }}" class="champ">
                 </div>
-                @error('objet') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                @error('objet') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="mb-5">
-                <label class="block text-sm font-medium text-[#0F172A] mb-1">Contenu du message *</label>
-                <div class="st-quill" wire:ignore>
+                <label class="block text-sm font-medium text-encre dark:text-white mb-1">Contenu du message *</label>
+                <div class="editeur-riche" wire:ignore>
                     <div data-quill-diffusion></div>
                 </div>
-                @error('corps') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
+                @error('corps') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                     Le HTML est purifié avant enregistrement. Un lien de désabonnement est
                     ajouté automatiquement : un envoi de masse qui n'en porte pas est une infraction.
                 </p>
             </div>
 
-            <button type="submit" class="st-btn st-btn-primary" @disabled($destinataires === 0)>
+            <button type="submit" class="btn-primaire" @disabled($destinataires === 0)>
                 Envoyer
             </button>
 
             @if ($destinataires === 0)
-                <p class="text-sm text-[#64748B] mt-2 mb-0">
+                <p class="text-sm text-encre-3 dark:text-nuit-3 mt-2 mb-0">
                     Aucun abonné confirmé pour l'instant : il n'y a personne à qui écrire.
                 </p>
             @endif
@@ -297,35 +285,35 @@
           | détruire — c'est irréversible autrement.
         --}}
         @if ($confirmation)
-            <div class="st-oc-backdrop is-open" wire:click="annulerLaDiffusion" aria-hidden="true"></div>
+            <div class="voile !z-[79]" wire:click="annulerLaDiffusion" aria-hidden="true"></div>
 
-            <div class="st-card fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6"
+            <div class="carte fixed left-4 right-4 top-1/2 -translate-y-1/2 mx-auto max-w-md p-6"
                  style="z-index:90"
                  role="alertdialog" aria-modal="true"
                  aria-labelledby="diff-titre" aria-describedby="diff-desc">
 
-                <h2 id="diff-titre" class="text-lg font-display font-bold text-[#0F172A] mb-2">
+                <h2 id="diff-titre" class="text-lg font-titre font-bold text-encre dark:text-white mb-2">
                     Diffuser maintenant ?
                 </h2>
 
-                <p class="text-sm text-[#334155] mb-2">
+                <p class="text-sm text-encre-2 dark:text-nuit-2 mb-2">
                     <strong>{{ number_format($destinataires, 0, ',', ' ') }}</strong>
                     abonné{{ $destinataires > 1 ? 's' : '' }} recevront
                     «&nbsp;{{ $objet }}&nbsp;».
                 </p>
 
                 {{-- L'irréversibilité ne se corrige pas : elle s'annonce. --}}
-                <p id="diff-desc" class="text-sm text-[#64748B] mb-5">
+                <p id="diff-desc" class="text-sm text-encre-3 dark:text-nuit-3 mb-5">
                     Un courriel parti ne se rappelle pas. Relisez l'objet et le contenu :
                     c'est le dernier moment où c'est possible.
                 </p>
 
                 <div class="flex gap-2 justify-end">
-                    <button type="button" wire:click="annulerLaDiffusion" class="st-btn st-btn-ghost">
+                    <button type="button" wire:click="annulerLaDiffusion" class="btn-fantome">
                         Annuler
                     </button>
                     <button type="button" wire:click="diffuser" wire:loading.attr="disabled"
-                            class="st-btn st-btn-primary">
+                            class="btn-primaire">
                         Oui, diffuser
                     </button>
                 </div>

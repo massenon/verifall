@@ -31,9 +31,9 @@ enum StatutExamen: string
     public function badge(): string
     {
         return match ($this) {
-            self::Brouillon => 'st-badge st-badge-draft',
-            self::Publie => 'st-badge st-badge-pub',
-            self::Archive => 'st-badge st-badge-arch',
+            self::Brouillon => 'pastille p-neutre',
+            self::Publie => 'pastille p-bon',
+            self::Archive => 'pastille p-neutre',
         };
     }
 

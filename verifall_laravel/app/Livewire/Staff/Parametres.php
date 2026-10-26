@@ -8,6 +8,7 @@ use App\Core\Application\Reglages\CatalogueDesReglages;
 use App\Core\Application\Reglages\ReglageDefini;
 use App\Core\Application\Reglages\Reglages;
 use App\Core\Identity\Services\AuditLogService;
+use App\Core\Marketing\Seo\DonneesGoogle;
 use App\Models\Setting;
 use App\Support\Trait\InteractsWithToasts;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +93,17 @@ final class Parametres extends Component
         ]);
     }
 
+    /** @var array<string, array{ok: bool, message: string}> */
+    public array $essaiGoogle = [];
+
+    /** Essaie les accès ENREGISTRÉS (pas ceux en cours de saisie) : on enregistre d'abord, puis on teste. */
+    public function testerGoogle(DonneesGoogle $google): void
+    {
+        abort_unless(Auth::guard('staff')->user()?->can('system.settings') ?? false, 403);
+
+        $this->essaiGoogle = $google->tester();
+    }
+
     public function changerDOnglet(string $groupe): void
     {
         if (! array_key_exists($groupe, CatalogueDesReglages::groupes())) {
@@ -99,6 +111,7 @@ final class Parametres extends Component
         }
 
         $this->onglet = $groupe;
+        $this->essaiGoogle = [];
         $this->resetValidation();
     }
 

@@ -130,6 +130,10 @@ final class MatricePermissions
             // ------------------------------------------- RESSOURCES & COM
             'partner' => ['view', 'manage'],
             'faq' => ['view', 'manage'],
+            // Médiathèque : voir et déposer ; supprimer le sien (le droit `delete` couvre celui des autres).
+            'media' => ['view', 'upload', 'delete'],
+            // Analytique : agrégats globaux (revenus, usage des moteurs) — administrateur seulement.
+            'analytics' => ['view'],
             'testimonial' => ['view', 'manage'],
             'newsletter' => ['view', 'send'],
             /*
@@ -217,6 +221,34 @@ final class MatricePermissions
                 'enrolment.view',
                 'student.view', 'student.progress',
                 'lms_category.view',
+
+                /*
+                 | HUB D'INFOS ET COMMUNAUTÉ — le CRUD, sans la publication
+                 | (arbitrage n° 177, décision D5 du 18 octobre 2026).
+                 |
+                 | Le mentor anime l'espace où ses apprenants se retrouvent :
+                 | il crée, lit, modifie et supprime actualités, offres,
+                 | portails, articles, FAQ, partenaires, témoignages, et il
+                 | modère le forum. Comme pour un cours, il ne PUBLIE pas un
+                 | article ni une actualité : la mise en ligne engage la
+                 | plateforme et reste à l'administrateur.
+                 |
+                 | Les infolettres restent hors de son périmètre : `newsletter.view`
+                 | ouvre la liste des ABONNÉS, des milliers d'adresses dont il n'a
+                 | pas besoin (minimisation, RGPD art. 5.1.c), et `newsletter.send`
+                 | est un envoi de masse qui ne se corrige pas.
+                 */
+                'hub_article.view', 'hub_article.create', 'hub_article.update', 'hub_article.delete',
+                'hub_portal.view', 'hub_portal.manage',
+                'hub_job.view', 'hub_job.manage',
+                'forum.view', 'forum.moderate', 'forum.delete',
+                'forum_category.view', 'forum_category.manage',
+                'post.view', 'post.create', 'post.update', 'post.delete',
+                'blog_category.view', 'blog_category.manage',
+                'faq.view', 'faq.manage',
+                'media.view', 'media.upload',
+                'partner.view', 'partner.manage',
+                'testimonial.view', 'testimonial.manage',
             ],
 
             /*

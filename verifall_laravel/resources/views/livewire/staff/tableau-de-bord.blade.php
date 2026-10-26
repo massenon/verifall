@@ -11,7 +11,7 @@
   | ## Les classes employées
   |
   | Uniquement celles du build Tailwind figé et de `staff.css` : `st-kpi`,
-  | `st-card`, `st-badge`. Une classe absente du build ne produit AUCUNE erreur
+  | `st-card`, `pastille`. Une classe absente du build ne produit AUCUNE erreur
   | — elle est écrite, lisible, et ne fait rien. C'est le piège de ce projet.
 --}}
 <div class="p-6 lg:p-8">
@@ -21,19 +21,19 @@
          laisse découvrir les pannes par les visiteurs. Les deux cas surveillés
          se sont réellement produits lors de la mise en ligne. --}}
     @foreach ($avertissements as $avertissement)
-        <div class="mb-4 rounded-xl border p-4 {{ $avertissement['niveau'] === 'grave' ? 'border-vfalse bg-vfalse/5' : 'border-vinvest bg-vinvest/5' }}">
-            <p class="flex items-start gap-2 text-sm font-semibold {{ $avertissement['niveau'] === 'grave' ? 'text-vfalse' : 'text-vinvest' }} mb-0">
-                <span class="material-symbols-rounded !text-[20px]" aria-hidden="true">warning</span>
+        <div class="mb-4 rounded-xl border p-4 {{ $avertissement['niveau'] === 'grave' ? 'border-critique bg-red-50 dark:bg-red-950/30' : 'border-amber-500 bg-amber-50 dark:bg-amber-950/30' }}">
+            <p class="flex items-start gap-2 text-sm font-semibold {{ $avertissement['niveau'] === 'grave' ? 'text-critique' : 'text-amber-700 dark:text-amber-300' }} mb-0">
+                <x-lucide name="triangle-alert" class="w-4 h-4" />
                 <span>{{ $avertissement['texte'] }}</span>
             </p>
         </div>
     @endforeach
 
     <div class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">
+        <h1 class="text-2xl md:text-3xl font-titre font-bold text-encre dark:text-white leading-tight mb-1">
             Bon retour, {{ $membre?->first_name ?? $membre?->name ?? 'à vous' }}
         </h1>
-        <p class="text-[#64748B] text-sm mb-0">
+        <p class="text-encre-3 dark:text-nuit-3 text-sm mb-0">
             Ce qui attend une décision, puis l'activité de la plateforme.
         </p>
     </div>
@@ -43,7 +43,7 @@
          s'affiche comme telle plutôt que de faire disparaître le bloc. Une
          file vide qu'on ne voit pas est indistinguable d'une file qu'on a
          oublié de regarder. --}}
-    <h2 class="text-sm font-display font-bold text-[#0F172A] mb-3">À traiter maintenant</h2>
+    <h2 class="text-sm font-titre font-bold text-encre dark:text-white mb-3">À traiter maintenant</h2>
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         @php
@@ -72,15 +72,15 @@
         @foreach ($files as $file)
             @php $valeur = $aTraiter[$file['cle']]; @endphp
 
-            <div class="st-kpi">
-                <div class="st-kpi-v {{ $valeur > 0 ? 'text-vfalse' : '' }}">{{ number_format($valeur, 0, ',', ' ') }}</div>
-                <div class="st-kpi-l">{{ $file['libelle'] }}</div>
-                <p class="text-xs text-[#64748B] mt-2 mb-0">{{ $file['aide'] }}</p>
+            <div class="carte p-4">
+                <div class="font-titre text-[26px] leading-none font-semibold tabular-nums {{ $valeur > 0 ? 'text-critique' : '' }}">{{ number_format($valeur, 0, ',', ' ') }}</div>
+                <div class="mt-2 text-[13px] texte-2">{{ $file['libelle'] }}</div>
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-2 mb-0">{{ $file['aide'] }}</p>
 
                 @if ($valeur > 0 && $file['route'] !== null)
-                    <a href="{{ route($file['route']) }}" class="inline-flex items-center gap-1 text-xs font-bold text-primary mt-2">
+                    <a href="{{ route($file['route']) }}" class="inline-flex items-center gap-1 text-xs font-bold text-brand-700 dark:text-brand mt-2">
                         Ouvrir la file
-                        <span class="material-symbols-rounded !text-[15px]" aria-hidden="true">arrow_forward</span>
+                        <x-lucide name="arrow-right" class="w-4 h-4" />
                     </a>
                 @endif
             </div>
@@ -107,20 +107,20 @@
 
 
         {{-- ── L'ÉTAT DU LABORATOIRE ─────────────────────────────────────── --}}
-        <div class="st-card">
-            <div class="st-card-h">
-                <h2 class="font-display font-bold text-[#0F172A] mb-0">Le laboratoire, en direct</h2>
+        <div class="carte">
+            <div class="carte-tete">
+                <h2 class="font-titre font-bold text-encre dark:text-white mb-0">Le laboratoire, en direct</h2>
             </div>
-            <div class="st-card-b">
+            <div class="carte-corps">
                 <dl class="mb-0">
                     @foreach ([
                         'en_cours' => 'Analyses en cours',
                         'en_file' => 'En file d\'attente',
                         'reprises' => 'Reprises programmées',
                     ] as $cle => $libelle)
-                        <div class="flex items-baseline justify-between py-2 border-b border-line last:border-0">
-                            <dt class="text-sm text-[#64748B]">{{ $libelle }}</dt>
-                            <dd class="font-display font-bold text-[#0F172A] mb-0">{{ $laboratoire[$cle] }}</dd>
+                        <div class="flex items-baseline justify-between py-2 border-b border-trait dark:border-nuit-trait last:border-0">
+                            <dt class="text-sm text-encre-3 dark:text-nuit-3">{{ $libelle }}</dt>
+                            <dd class="font-titre font-bold text-encre dark:text-white mb-0">{{ $laboratoire[$cle] }}</dd>
                         </div>
                     @endforeach
                 </dl>
@@ -129,7 +129,7 @@
                      repartira d'elle-même. Le dire ici évite qu'on la traite
                      comme une panne. --}}
                 @if ($laboratoire['reprises'] > 0)
-                    <p class="text-xs text-[#64748B] mt-3 mb-0">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-3 mb-0">
                         Une reprise programmée repart d'elle-même : il n'y a rien à faire.
                     </p>
                 @endif
@@ -137,11 +137,11 @@
         </div>
 
         {{-- ── LES VOLUMES, TELS QUE LE PROTOTYPE LES POSE ────────────────── --}}
-        <div class="st-card lg:col-span-2">
-            <div class="st-card-h">
-                <h2 class="font-display font-bold text-[#0F172A] mb-0">La plateforme</h2>
+        <div class="carte lg:col-span-2">
+            <div class="carte-tete">
+                <h2 class="font-titre font-bold text-encre dark:text-white mb-0">La plateforme</h2>
             </div>
-            <div class="st-card-b">
+            <div class="carte-corps">
                 <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
                     @foreach ([
                         'citoyens' => 'Citoyens inscrits',
@@ -151,8 +151,8 @@
                         'signalements' => 'Signalements reçus',
                     ] as $cle => $libelle)
                         <div>
-                            <div class="st-kpi-v">{{ number_format($volumes[$cle], 0, ',', ' ') }}</div>
-                            <div class="st-kpi-l">{{ $libelle }}</div>
+                            <div class="font-titre text-[26px] leading-none font-semibold tabular-nums">{{ number_format($volumes[$cle], 0, ',', ' ') }}</div>
+                            <div class="mt-2 text-[13px] texte-2">{{ $libelle }}</div>
                         </div>
                     @endforeach
                 </div>
@@ -160,7 +160,7 @@
                 {{-- « Confirmés » et non « inscrits » : compter les adresses non
                      confirmées gonflerait un chiffre que le premier envoi
                      démentirait publiquement. --}}
-                <p class="text-xs text-[#64748B] mt-4 mb-0">
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-4 mb-0">
                     Les abonnés comptés sont ceux qui ont confirmé leur adresse et ne se sont pas désabonnés.
                 </p>
             </div>
@@ -170,23 +170,23 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
 
         {{-- ── DERNIÈRES VÉRIFICATIONS ───────────────────────────────────── --}}
-        <div class="st-card">
-            <div class="st-card-h">
-                <h2 class="font-display font-bold text-[#0F172A] mb-0">Dernières vérifications</h2>
+        <div class="carte">
+            <div class="carte-tete">
+                <h2 class="font-titre font-bold text-encre dark:text-white mb-0">Dernières vérifications</h2>
             </div>
-            <div class="st-card-b">
+            <div class="carte-corps">
                 @forelse ($verifications as $verification)
-                    <div class="flex items-start gap-3 py-2.5 border-b border-line last:border-0">
-                        <span class="st-badge {{ $verification->status->badge() }}">{{ $verification->status->libelle() }}</span>
+                    <div class="flex items-start gap-3 py-2.5 border-b border-trait dark:border-nuit-trait last:border-0">
+                        <span class="pastille {{ $verification->status->badge() }}">{{ $verification->status->libelle() }}</span>
                         <div class="min-w-0 flex-1">
-                            <p class="text-sm text-[#0F172A] mb-0 truncate">
+                            <p class="text-sm text-encre dark:text-white mb-0 truncate">
                                 {{ \Illuminate\Support\Str::limit($verification->claim ?? $verification->type->libelle(), 70) }}
                             </p>
-                            <p class="text-xs text-[#64748B] mb-0">{{ $verification->created_at?->diffForHumans() }}</p>
+                            <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $verification->created_at?->diffForHumans() }}</p>
                         </div>
                     </div>
                 @empty
-                    <p class="text-sm text-[#64748B] mb-0">
+                    <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">
                         Aucune vérification pour l'instant. La première soumission apparaîtra ici.
                     </p>
                 @endforelse
@@ -194,22 +194,22 @@
         </div>
 
         {{-- ── DERNIERS FAITS PUBLIÉS ────────────────────────────────────── --}}
-        <div class="st-card">
-            <div class="st-card-h flex items-center justify-between">
-                <h2 class="font-display font-bold text-[#0F172A] mb-0">Derniers faits publiés</h2>
-                <a href="{{ route('staff.knowledge') }}" class="text-xs font-bold text-primary">Tout voir →</a>
+        <div class="carte">
+            <div class="carte-tete flex items-center justify-between">
+                <h2 class="font-titre font-bold text-encre dark:text-white mb-0">Derniers faits publiés</h2>
+                <a href="{{ route('staff.knowledge') }}" class="text-xs font-bold text-brand-700 dark:text-brand">Tout voir →</a>
             </div>
-            <div class="st-card-b">
+            <div class="carte-corps">
                 @forelse ($faits as $fait)
-                    <div class="flex items-start gap-3 py-2.5 border-b border-line last:border-0">
-                        <span class="st-badge {{ $fait->verdict->badge() }}">{{ $fait->verdict->libelle() }}</span>
+                    <div class="flex items-start gap-3 py-2.5 border-b border-trait dark:border-nuit-trait last:border-0">
+                        <span class="pastille {{ $fait->verdict->badge() }}">{{ $fait->verdict->libelle() }}</span>
                         <div class="min-w-0 flex-1">
-                            <p class="text-sm text-[#0F172A] mb-0 truncate">{{ $fait->title }}</p>
-                            <p class="text-xs text-[#64748B] mb-0">{{ $fait->created_at?->diffForHumans() }}</p>
+                            <p class="text-sm text-encre dark:text-white mb-0 truncate">{{ $fait->title }}</p>
+                            <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $fait->created_at?->diffForHumans() }}</p>
                         </div>
                     </div>
                 @empty
-                    <p class="text-sm text-[#64748B] mb-0">
+                    <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">
                         Aucun fait publié. Le premier verdict publié apparaîtra ici.
                     </p>
                 @endforelse

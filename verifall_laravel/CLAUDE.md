@@ -37,6 +37,12 @@
     corrigée à la racine le même jour. Chemin vérifié et compte recomposé le
     1er septembre 2026 (`find resources/prototype -name '*.html' | wc -l`).
   - Le relevé de fidélité écran par écran est `docs/CONFORMITE_PROTOTYPE.md`.
+  - **Exception depuis le 18 octobre 2026 : l'administration et l'espace mentor.**
+    Leur référence est désormais **`resources/prototype-premium/`** (console premium,
+    page de connexion `connexion.html`, verrouillage de session), validée par le
+    porteur du projet. `resources/prototype/` reste la référence de l'espace
+    citoyen et des pages publiques. Le plan de transposition est
+    `docs/IMPLEMENTATION_PLAN.md` ; la décision est l'arbitrage n° 176.
 - **Architecture** : Clean Architecture / DDD simplifié — `Models → Repositories → Services → Livewire Components`. Domaines : FactChecking, Lms, Community, Hub, Identity, Economy, Gamification, Marketing.
 
 ## Règles de développement (NON NÉGOCIABLES)
@@ -103,6 +109,16 @@ déjà** celles de la quasi-totalité des écrans restants (`faq.*`, `partner.*`
 `testimonial.*`, `user.*`, `kyc.*`, `role.*`, `system.*`, `maintenance.*`…),
 et elles sont semées. Un nouvel écran écrit sa Policy et sa garde de route —
 il n'invente pas de permission.
+
+## Règle de la console : toute liste a sa barre minimale
+
+Tout écran d'administration ou de mentor qui affiche un tableau offre, **au minimum** :
+une recherche, des filtres (repliés dans « Filtres avancés » quand il y en a plusieurs),
+le choix du nombre de lignes, la pagination avec son total (« Lignes 1 à 10 sur 130 »),
+un état vide qui propose de réinitialiser, et un bouton « Réinitialiser ».
+Briques : `<x-premium.barre-de-liste>` et `<x-premium.pied-de-liste>` ; trait
+`App\Support\Trait\ListeDeLaConsole` pour une liste construite en mémoire ; DataTables
+(`data-vdt-*`) pour les gros volumes. Une taille de page forgée dans l'adresse retombe sur 10.
 
 ## Flux d'exécution
 - Install : `composer install && cp .env.example .env && php artisan key:generate`

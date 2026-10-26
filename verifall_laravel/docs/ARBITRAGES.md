@@ -4763,3 +4763,148 @@ combler. Changer la destination est une décision produit, signalée et non pris
 **Ce qui n'était pas un défaut.** Les autres `alt=""` du dépôt sont corrects :
 images décoratives portant `aria-hidden="true"`, à côté d'un lien qui porte déjà
 le titre. Un `alt` vide y est le bon motif.
+
+## 176. La console admin et mentor change de référence visuelle
+
+**La décision.** Le 18 octobre 2026, le porteur du projet a demandé de passer
+du prototype premium (`resources/prototype-premium/`) à l'implémentation de
+l'administration et de l'espace mentor. Pour ces deux espaces, la « référence
+visuelle absolue » de `CLAUDE.md` est donc ce prototype, et non plus
+`resources/prototype/`. L'espace citoyen et les pages publiques ne changent pas.
+
+**Ce que cela change.** Le design system staff (`adminbrand`, Inter, Material
+Symbols) cède la place à celui du prototype premium : colonne vert forêt
+`#0E2A1E`, Bricolage Grotesque et Public Sans, icônes Lucide, mode sombre, thème
+clair par défaut. Le build Tailwind citoyen reste figé ; le staff reçoit sa propre
+feuille, construite et contrôlée de la même façon.
+
+**Ce qui ne change pas.** Les services, dépôts, Policies, permissions et le
+contrat DataTables. On réhabille ; on ne réécrit pas la logique.
+
+**Ce qui reste à trancher.** Les décisions D5 à D7 de
+`docs/IMPLEMENTATION_PLAN.md` : permissions du mentor sur le Hub et la
+Communauté, corps éditable des modèles de courriels, et données RGPD des fiches.
+
+## 177. Le mentor reçoit le CRUD du Hub et de la Communauté, sans publier
+
+**La décision (D5, porteur du projet, 18 octobre 2026).** Le mentor anime aussi
+l'espace où se retrouvent ses apprenants. Il reçoit, sur des permissions qui
+existaient déjà dans `MatricePermissions` (aucune n'est inventée) :
+création, lecture, modification et suppression des actualités du Hub, des
+portails, des offres, des articles du blog et de leurs catégories, des
+catégories du forum, de la FAQ, des partenaires et des témoignages ; la
+modération et la suppression au forum.
+
+**Ce qu'il ne reçoit pas.** `hub_article.publish` et `post.publish` : comme pour
+un cours, la mise en ligne engage la plateforme et reste à l'administrateur.
+`newsletter.view` : elle ouvre la liste des abonnés, des milliers d'adresses
+dont le mentor n'a pas besoin (minimisation, RGPD art. 5.1.c).
+`newsletter.send` : un envoi de masse ne se corrige pas.
+
+**Application.** La migration `2026_10_18_090000_mentor_hub_et_communaute`
+rejoue le semis : un `php artisan migrate` sur cPanel suffit. Le menu du mentor
+s'élargit seul, puisqu'il est lu sur les gardes des routes.
+
+## 178. Historique des connexions et lectures du Hub : deux bases légales
+
+**La décision (D7, 18 octobre 2026).** La fiche d'un compte montrera ses
+connexions et, sous condition, ses lectures du Hub. Ce sont deux traitements
+distincts, et ils n'ont pas la même base légale.
+
+**Connexions — intérêt légitime de sécurité (art. 6.1.f et 32).** Repérer une
+prise de contrôle et répondre au support justifient de garder, pour chaque
+compte : date, résultat (réussie, échouée, bloquée), espace, méthode, famille de
+navigateur et de système, catégorie d'appareil, pays si un mandataire le
+fournit. L'IP est tronquée pour l'affichage (41.85.12.0) et hachée pour
+rapprocher deux connexions ; jamais entière en clair. Pas de User-Agent complet.
+Conservation : 12 mois, ce qu'annonçait déjà `SECURITE_RGPD.md` pour les journaux
+de sécurité. Un échec sur une adresse inconnue n'est rattaché à personne.
+
+**Lectures du Hub — consentement (art. 6.1.a).** Ce qu'on lit dit sa santé, ses
+opinions, sa recherche d'emploi : c'est du profilage (art. 4.4), et la sécurité
+ne le justifie pas. Rien n'est rattaché au compte sans un consentement séparé,
+non pré-coché, donné dans les réglages (`ConsentType::HistoriqueHub`). Le retrait
+efface l'historique sur-le-champ. Conservation : 90 jours. Le comptage anonyme
+des visites (`SuiviDesVisites`) continue, sans rattachement.
+
+**Pour les deux.** Visibles par l'administrateur (et la personne elle-même dans
+son export), jamais par le mentor. Inclus dans l'export RGPD, effacés à
+l'anonymisation du compte, purgés par `verifall:purger-donnees-expirees`.
+Détail et registre : `docs/RGPD_HISTORIQUES.md`.
+
+## 179. Courriels système : le copywriting se modifie, la logique non
+
+**La décision (D6, porteur du projet, 18 octobre 2026).** Le corps des 24
+courriels système reste piloté par le code pour sa LOGIQUE (code à usage unique,
+lien signé, tableaux), mais son COPYWRITING se modifie depuis l'administration :
+objet, titre, corps, libellé du bouton.
+
+**Ce qui existait déjà.** `RenduDeGabarit` sert ces quatre champs depuis
+septembre, `GabaritsEmails` les édite et refuse tout marqueur que le catalogue ne
+fournit pas, et `emails/gabarit.blade.php` purifie le corps. Le commentaire
+d'en-tête de `EmailTemplate`, qui disait « pas de corps », était périmé : il est
+corrigé. Le prototype premium affichait le même malentendu ; sa liste de
+variables reste en lecture seule pour les modèles système, ce qui est la règle.
+
+**Ce qui reste à faire.** Dans la console premium (phase 5), l'éditeur reçoit
+l'aide-mémoire des variables du prototype, alimenté par
+`CatalogueDesCourriels::variables()`.
+
+## 180. Le verrouillage de session est serveur, et il déconnecte la garde
+
+**Le besoin.** Le prototype premium verrouille l'écran après 15 minutes sans
+geste, par Ctrl L ou depuis le menu du profil ; le mot de passe le lève, et le
+travail en cours est conservé.
+
+**La décision.** Verrouiller DÉCONNECTE la garde `staff` et garde en session
+qui était là (`VerrouDeSession`). Un simple drapeau vérifié par un middleware
+sur `/admin` n'aurait pas suffi : les actions Livewire passent par
+`/livewire/update`, hors de ce préfixe, et un écran « verrouillé » aurait
+continué d'en accepter. Garde déconnectée, plus rien de la console ne répond.
+
+**Les règles.**
+- Toute page `/admin` demandée par une session verrouillée mène à l'écran de
+  verrouillage (`redirectGuestsTo`), qui ne montre que l'heure et le nom.
+- Le mot de passe seul lève le verrou ; cinq échecs ferment la session (journal
+  de sécurité : `unlock_failed`, `session_closed_after_unlock_failures`).
+- Au-delà de 30 minutes (`StaffIdleTimeout::MINUTES`), le verrou ne se lève plus
+  sans une connexion complète, double authentification comprise.
+- Le déverrouillage figure au journal des connexions avec la méthode
+  `deverrouillage`, distincte d'une connexion.
+- Le verrou automatique (15 min) est déclenché par `console.js`, mais c'est un
+  POST : sans JavaScript, l'expiration serveur de 30 minutes reste la garantie.
+
+## 181. Le mode maintenance laisse passer l'équipe, ses portes d'entrée et les paiements
+
+**Le besoin.** Fermer la plateforme au public pendant une mise à jour majeure,
+l'équipe gardant tout son accès (demande du 19 octobre 2026).
+
+**Le défaut trouvé.** Le mode existait (lot 10) et exemptait la PAGE de
+connexion de la console, mais le formulaire poste sur `/livewire/update`, que
+le middleware renvoyait en 503. Un membre non connecté voyait le formulaire
+sans pouvoir s'en servir : seule une session déjà ouverte pouvait rouvrir.
+L'écran de verrouillage (n° 180) avait le même défaut, puisqu'un membre
+verrouillé est déconnecté de la garde.
+
+**La décision.** `MaintenanceApplicative` laisse passer :
+- le personnel connecté (inchangé) ;
+- la connexion, la déconnexion et l'écran de verrouillage de la console ;
+- `/livewire/update` seulement quand **tous** les composants de l'appel sont
+  `auth.staff-login` ou `auth.verrou-de-session`. Le nom lu vient de
+  l'instantané envoyé par le navigateur ; Livewire en vérifie la somme de
+  contrôle avant toute exécution, donc un nom maquillé est rejeté plus loin ;
+- les rappels Mobile Money (`webhooks.momo`) : un opérateur qui reçoit 503 ne
+  rejoue pas toujours, et l'unité payée ne serait jamais créditée. La route
+  vérifie sa signature HMAC elle-même ;
+- la page de maintenance, son formulaire et son état (`maintenance.etat`) ;
+- `/up`, hors pile web.
+
+Les appels qui attendent du JSON (application mobile) reçoivent un 503 JSON
+avec `Retry-After` quand une heure est annoncée. Les tâches planifiées et la
+file continuent : c'est à l'équipe de les suspendre si la mise à jour l'exige,
+et l'écran le dit.
+
+**Ce qui n'est pas fait.** Pas de fermeture programmée : fermer à heure fixe
+couperait une saisie en cours, et la réouverture reste un geste humain pour la
+même raison (une maintenance qui se rouvrirait seule rouvrirait un site à
+moitié migré). Une annonce préalable aux citoyens reste à arbitrer (P6-7f).

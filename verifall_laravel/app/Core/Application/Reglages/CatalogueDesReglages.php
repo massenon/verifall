@@ -340,6 +340,33 @@ final class CatalogueDesReglages
             new ReglageDefini('instagram_url', 'Instagram', TypeDeReglage::Url, self::GROUPE_SEO),
             new ReglageDefini('linkedin_url', 'LinkedIn', TypeDeReglage::Url, self::GROUPE_SEO),
             new ReglageDefini('whatsapp_group_url', 'Groupe WhatsApp', TypeDeReglage::Url, self::GROUPE_SEO),
+
+            /*
+             |------------------------------------------------------------------
+             | DONNÉES GOOGLE (écran Analytique › SEO)
+             |------------------------------------------------------------------
+             |
+             | Une seule identité de lecture pour les deux services : un COMPTE DE
+             | SERVICE Google, ajouté en lecteur à la propriété GA4 et au site
+             | Search Console. La clé privée qu'il porte est un secret : chiffrée
+             | au repos, jamais renvoyée à l'écran, purgée du journal d'audit.
+             | Sans les trois champs, l'écran SEO le dit au lieu d'inventer des
+             | chiffres.
+             */
+            new ReglageDefini('google_service_account_json', 'Compte de service Google (clé JSON)', TypeDeReglage::TexteLong,
+                self::GROUPE_SEO, secret: true, reglesSupplementaires: ['json'],
+                exemple: '{"type": "service_account", "client_email": "…", "private_key": "…"}',
+                aide: 'Collez le fichier JSON téléchargé depuis Google Cloud (IAM › Comptes de service › Clés). Ajoutez ensuite l’adresse « client_email » en lecteur dans Google Analytics et dans Search Console.'),
+
+            new ReglageDefini('ga4_property_id', 'Google Analytics 4 — identifiant de propriété', TypeDeReglage::Texte,
+                self::GROUPE_SEO, exemple: '123456789',
+                reglesSupplementaires: ['regex:/^([0-9]{6,12})?$/'],
+                aide: 'Le numéro, pas l’identifiant de mesure « G-… » : Analytics › Administration › Détails de la propriété.'),
+
+            new ReglageDefini('gsc_site_url', 'Search Console — site', TypeDeReglage::Texte,
+                self::GROUPE_SEO, exemple: 'https://verifall.com/  ou  sc-domain:verifall.com',
+                reglesSupplementaires: ['regex:/^(https:\/\/[^\s]+|sc-domain:[a-z0-9.-]+)?$/i'],
+                aide: 'Exactement comme dans Search Console : propriété « préfixe d’URL » (avec le / final) ou « domaine » (sc-domain:…).'),
         ];
     }
 

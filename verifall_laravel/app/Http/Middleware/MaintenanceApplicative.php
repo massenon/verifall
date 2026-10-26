@@ -13,15 +13,21 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Détourne le public vers la page de maintenance — et personne d'autre.
  *
- * ## Trois exemptions, et chacune évite de s'enfermer dehors
+ * ## Les exemptions, et chacune évite de s'enfermer dehors
  *
  *   1. **le personnel connecté** — sans quoi on ne pourrait plus rouvrir depuis
  *      l'administration, et il faudrait un accès SSH que l'équipe éditoriale
  *      n'a pas ;
- *   2. **la connexion du personnel** — corollaire du premier : un membre non
- *      encore connecté doit pouvoir entrer ;
- *   3. **la page de maintenance elle-même et son formulaire**, sinon la
- *      redirection tournerait en boucle.
+ *   2. **la connexion et l'écran de verrouillage du personnel** — corollaire du
+ *      premier : un membre non encore connecté, ou verrouillé (donc déconnecté
+ *      de la garde), doit pouvoir entrer ;
+ *   3. **les appels Livewire de CES DEUX écrans-là seulement** — le formulaire
+ *      de connexion poste sur `/livewire/update`, pas sur sa propre route ;
+ *   4. **la page de maintenance, son formulaire et son état** — sinon la
+ *      redirection tournerait en boucle ;
+ *   5. **les rappels de paiement** — un opérateur qui reçoit 503 ne rejoue pas
+ *      toujours, et l'unité payée ne serait jamais créditée. La route vérifie sa
+ *      signature elle-même (arbitrage 181).
  *
  * C'est précisément ce que `php artisan down` ne sait pas faire.
  *
@@ -46,8 +52,31 @@ final class MaintenanceApplicative
     private const EXEMPTES = [
         'maintenance',
         'maintenance.watch',
+        'maintenance.etat',
         'staff.login',
+        'staff.password.request',
         'staff.logout',
+        'staff.verrou',
+        'webhooks.momo',
+    ];
+
+    /**
+     * Les seuls composants Livewire joignables en maintenance : ceux qui font
+     * entrer le personnel. Tout autre composant — public ou citoyen — reste
+     * derrière la page de maintenance.
+     *
+     * Le nom lu ici vient de l'instantané envoyé par le navigateur, donc
+     * falsifiable ; ce n'est pas un problème. Livewire vérifie la somme de
+     * contrôle de chaque instantané AVANT d'exécuter quoi que ce soit : un nom
+     * maquillé est rejeté plus loin, et un nom honnête n'ouvre que l'écran de
+     * connexion, qui est déjà public.
+     *
+     * @var list<string>
+     */
+    private const COMPOSANTS_EXEMPTES = [
+        'auth.staff-login',
+        'auth.staff-forgot-password',
+        'auth.verrou-de-session',
     ];
 
     public function handle(Request $request, Closure $next): Response
@@ -62,11 +91,24 @@ final class MaintenanceApplicative
             return $next($request);
         }
 
+        if ($request->expectsJson()) {
+            // Un appel d'API ou un fetch n'a que faire d'une page HTML : il lit
+            // un statut et un délai.
+            return response()
+                ->json([
+                    'maintenance' => true,
+                    'message' => $maintenance->message(),
+                    'fin_annoncee' => $maintenance->finAnnoncee()?->toIso8601String(),
+                ], Response::HTTP_SERVICE_UNAVAILABLE)
+                ->withHeaders($this->enTetes($maintenance));
+        }
+
         return response()
             ->view('maintenance', [
                 'message' => $maintenance->message(),
                 'finAnnoncee' => $maintenance->finAnnoncee(),
                 'enRetard' => $maintenance->enRetard(),
+                'debut' => $maintenance->debut(),
             ], Response::HTTP_SERVICE_UNAVAILABLE)
             ->withHeaders($this->enTetes($maintenance));
     }
@@ -75,7 +117,45 @@ final class MaintenanceApplicative
     {
         $nom = $request->route()?->getName();
 
-        return $nom !== null && in_array($nom, self::EXEMPTES, true);
+        if ($nom === null) {
+            return false;
+        }
+
+        if (str_ends_with($nom, 'livewire.update')) {
+            return $this->neVisQueLaConnexion($request);
+        }
+
+        return in_array($nom, self::EXEMPTES, true);
+    }
+
+    /**
+     * Vrai seulement si TOUS les composants de l'appel sont exemptés.
+     *
+     * « Tous » et non « un » : Livewire regroupe plusieurs composants dans un
+     * même appel, et un composant public glissé à côté de la connexion
+     * passerait sinon avec elle.
+     */
+    private function neVisQueLaConnexion(Request $request): bool
+    {
+        $composants = $request->input('components');
+
+        if (! is_array($composants) || $composants === []) {
+            return false;
+        }
+
+        foreach ($composants as $composant) {
+            $instantane = is_array($composant) && is_string($composant['snapshot'] ?? null)
+                ? json_decode($composant['snapshot'], true)
+                : null;
+
+            $nom = is_array($instantane) ? ($instantane['memo']['name'] ?? null) : null;
+
+            if (! in_array($nom, self::COMPOSANTS_EXEMPTES, true)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**

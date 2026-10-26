@@ -1,3 +1,6 @@
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/pages/staff-tableau-de-bord.css') }}">
+@endpush
 {{--
   | 05 — Performance du fact-checking (§12).
   |
@@ -55,7 +58,7 @@
         </dl>
 
         <div class="tdb-grid tdb-grid-21 tdb-mt">
-            <article class="st-card tdb-card">
+            <article class="carte tdb-card">
                 <div class="tdb-card-h">
                     <div>
                         <h3 class="tdb-h3">Vérifications dans le temps</h3>
@@ -75,7 +78,7 @@
                 </div>
             </article>
 
-            <article class="st-card tdb-card">
+            <article class="carte tdb-card">
                 <div class="tdb-card-h">
                     <div>
                         <h3 class="tdb-h3">Répartition des verdicts</h3>
@@ -97,7 +100,7 @@
         </div>
 
         @if ($d['types'] !== [])
-            <article class="st-card tdb-card tdb-mt">
+            <article class="carte tdb-card tdb-mt">
                 <div class="tdb-card-h">
                     <h3 class="tdb-h3">Types de contenus soumis</h3>
                 </div>
@@ -107,7 +110,7 @@
                             <li>
                                 <div class="tdb-part-l">
                                     <span style="display: inline-flex; align-items: center; gap: .35rem;">
-                                        <span class="material-symbols-rounded" style="font-size: 17px; color: var(--st-muted);" aria-hidden="true">{{ $type['icone'] }}</span>
+                                        <x-lucide :name="$type['icone']" class="w-4 h-4" />
                                         {{ $type['libelle'] }}
                                     </span>
                                     <strong>{{ number_format($type['nombre'], 0, ',', ' ') }}</strong>

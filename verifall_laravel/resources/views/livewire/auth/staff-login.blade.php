@@ -1,67 +1,59 @@
 <div>
-    <img src="{{ asset('assets/images/logo.png') }}" alt="Vérif'All" class="h-10 w-auto mb-5">
+    {{-- Bandeaux de retour : sortie, inactivité, verrou fermé après 5 échecs. --}}
+    @if (session('mot_de_passe_change'))
+        <div class="mb-6 rounded-ctrl border px-3.5 py-3 text-sm flex items-start gap-2.5 bg-green-50 border-green-200 text-green-900 dark:bg-green-950/30 dark:border-green-900/60 dark:text-green-100" role="status"><x-lucide name="check" class="w-4 h-4 mt-0.5 shrink-0" />Mot de passe modifié. Connectez-vous avec le nouveau.</div>
+    @endif
+    @if (session('inactivite'))
+        <div class="mb-6 rounded-ctrl border px-3.5 py-3 text-sm flex items-start gap-2.5 bg-blue-50 border-blue-200 text-blue-900 dark:bg-blue-950/30 dark:border-blue-900/60 dark:text-blue-100" role="status"><x-lucide name="clock" class="w-4 h-4 mt-0.5 shrink-0" />Votre session a expiré après une période d'inactivité. Reconnectez-vous pour continuer.</div>
+    @elseif (session('verrou_ferme'))
+        <div class="mb-6 rounded-ctrl border px-3.5 py-3 text-sm flex items-start gap-2.5 bg-red-50 border-red-200 text-red-900 dark:bg-red-950/40 dark:border-red-900/60 dark:text-red-100" role="status"><x-lucide name="lock" class="w-4 h-4 mt-0.5 shrink-0" />Cinq mots de passe incorrects : la session a été fermée. Reconnectez-vous.</div>
+    @endif
 
     @if (! $attenteCode)
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Administration</h1>
-        <p class="text-sm text-[#475569] mb-5">Accès réservé aux membres de l'équipe.</p>
+        <h1 class="font-titre text-[28px] font-semibold leading-tight">Connexion à la console</h1>
+        <p class="mt-2 texte-2">Réservée au personnel et aux mentors de l'Académie.</p>
 
-        <form wire:submit="verifierIdentifiants">
-            <div class="ffield mb-3">
-                <input id="a-email" type="email" wire:model.blur="email"
-                       placeholder=" " autocomplete="username">
-                <label for="a-email">Adresse e-mail administrateur</label>
+        <form wire:submit="verifierIdentifiants" class="mt-7 space-y-5" novalidate>
+            <div>
+                <label for="a-email" class="etiquette">Adresse électronique</label>
+                <input id="a-email" type="email" wire:model.blur="email" class="champ !h-11 @error('email') champ-erreur @enderror"
+                       autocomplete="username" inputmode="email" placeholder="prenom.nom@verifall.com" @error('email') aria-invalid="true" aria-describedby="a-email-erreur" @enderror>
+                @error('email') <p id="a-email-erreur" class="aide-erreur" role="alert"><x-lucide name="circle-alert" class="w-3.5 h-3.5" />{{ $message }}</p> @enderror
             </div>
-
-            {{-- L'œil, enfin. Il manquait ici seul, et j'avais renoncé en
-                 supposant que `.ffield` ne supporterait pas un bouton en
-                 position absolue. Vérification faite, `.ffield` EST
-                 `position: relative` — la règle vient de `citizen.css`, que
-                 cette mise en page charge aussi. --}}
-            <div class="mb-4">
-                <x-champ-mot-de-passe variante="staff" id="a-pass"
-                                      label="Mot de passe" modele="motDePasse" />
+            <div>
+                <x-champ-mot-de-passe variante="console" id="a-pass" label="Mot de passe" modele="motDePasse" />
+                @error('motDePasse') <p class="aide-erreur" role="alert"><x-lucide name="circle-alert" class="w-3.5 h-3.5" />{{ $message }}</p> @enderror
             </div>
-
-            @error('email') <p class="mb-3 text-sm text-vfalse" role="alert">{{ $message }}</p> @enderror
-            @error('motDePasse') <p class="mb-3 text-sm text-vfalse" role="alert">{{ $message }}</p> @enderror
-
-            <button type="submit" class="st-btn st-btn-primary w-full justify-center">
-                Accéder au back-office
+            <p class="text-right -mt-2"><a href="{{ route('staff.password.request') }}" class="text-sm underline underline-offset-2 texte-2 hover:text-encre">Mot de passe oublié ?</a></p>
+            <button type="submit" class="btn-primaire w-full !h-11 text-[15px]" wire:loading.attr="disabled">
+                {{-- Classes basculées par Livewire : aucune dépendance aux styles
+                     injectés de `wire:loading`. --}}
+                <span wire:loading.class="hidden" wire:target="verifierIdentifiants">Se connecter</span>
+                <span class="hidden" wire:loading.class.remove="hidden" wire:target="verifierIdentifiants">Vérification…</span>
             </button>
         </form>
     @elseif ($enrolement)
-        {{-- ENRÔLEMENT — première connexion d'un compte staff.
-             Le back-office exige un second facteur ; sans cet écran, un compte
-             neuf n'avait aucun moyen d'en obtenir un, et restait dehors. --}}
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Activer la double authentification</h1>
-        <p class="text-sm text-[#475569] mb-5">
-            Le back-office l'exige. Scannez ce code avec votre application
-            d'authentification, puis saisissez le code qu'elle affiche.
-        </p>
+        {{-- ENRÔLEMENT — première connexion d'un compte de la console : le
+             second facteur est exigé, cet écran permet de l'obtenir. --}}
+        <button type="button" wire:click="annuler" class="btn-fantome btn-sm -ml-2.5 mb-4"><x-lucide name="arrow-left" />Recommencer</button>
+        <h1 class="font-titre text-[28px] font-semibold leading-tight">Activer la double authentification</h1>
+        <p class="mt-2 texte-2">La console l'exige. Scannez ce code avec votre application d'authentification, puis saisissez le code qu'elle affiche.</p>
 
-        <div class="st-card p-4 mb-4 text-center">
-            {{-- QR rendu par le SERVEUR : un code dessiné en JavaScript
-                 disparaît quand le script échoue, et on ne le photographie pas
-                 avec le téléphone qu'on est en train de configurer. --}}
-            <div class="inline-block bg-white p-2 rounded-xl border border-[#E2E8F0]"
-                 role="img" aria-label="Code à scanner avec votre application d'authentification">
+        <div class="carte p-4 mt-6 text-center">
+            {{-- QR rendu par le SERVEUR (BaconQrCode), jamais d'une saisie. --}}
+            <div class="inline-block bg-white p-2 rounded-ctrl border filet" role="img" aria-label="Code à scanner avec votre application d'authentification">
                 {!! $qrCode !!}
             </div>
-            <p class="mt-3 text-xs text-[#64748B] mb-1">Impossible de scanner ? Saisissez cette clé :</p>
-            <p class="font-mono text-sm text-[#0F172A] break-all mb-0">{{ $secret }}</p>
+            <p class="mt-3 text-xs texte-3">Impossible de scanner ? Saisissez cette clé :</p>
+            <p class="font-mono text-sm break-all">{{ $secret }}</p>
         </div>
 
         @if ($codesRecuperation !== [])
-            {{-- Montrés UNE SEULE FOIS. Ils ne sont conservés que hachés :
-                 personne ne pourra les réafficher, pas même un administrateur. --}}
-            <div class="st-card p-4 mb-4 !border-[#D6A419]/40" style="background:#FFFBEB">
-                <p class="text-sm font-bold text-[#0F172A] mb-1">Vos codes de récupération</p>
-                <p class="text-xs text-[#64748B] mb-3">
-                    Notez-les maintenant : ils ne seront plus jamais affichés. Chacun
-                    ne sert qu'une fois, et c'est votre seule issue si vous perdez
-                    votre téléphone.
-                </p>
-                <ul class="grid grid-cols-2 gap-1 font-mono text-sm text-[#0F172A] list-none pl-0 mb-0">
+            {{-- Montrés UNE SEULE FOIS : ils ne sont conservés que hachés. --}}
+            <div class="carte p-4 mt-4 !border-amber-300 !bg-amber-50 dark:!bg-amber-950/30">
+                <p class="text-sm font-semibold">Vos codes de récupération</p>
+                <p class="text-xs texte-2 mt-1 mb-3">Notez-les maintenant : ils ne seront plus jamais affichés. Chacun ne sert qu'une fois, et c'est votre seule issue si vous perdez votre téléphone.</p>
+                <ul class="grid grid-cols-2 gap-1 font-mono text-sm">
                     @foreach ($codesRecuperation as $codeRecuperation)
                         <li>{{ $codeRecuperation }}</li>
                     @endforeach
@@ -69,57 +61,29 @@
             </div>
         @endif
 
-        <form wire:submit="verifierCode">
-            <div class="ffield mb-4">
-                <input id="a-enrol" type="text" wire:model.blur="code"
-                       placeholder=" " inputmode="numeric" autocomplete="one-time-code"
-                       maxlength="12" autofocus>
-                <label for="a-enrol">Code affiché par l'application</label>
+        <form wire:submit="verifierCode" class="mt-6 space-y-4" novalidate>
+            <div>
+                <label for="a-enrol" class="etiquette">Code affiché par l'application</label>
+                <input id="a-enrol" type="text" wire:model.blur="code" class="champ !h-12 text-center font-titre !text-xl tracking-[.3em] tabular-nums"
+                       inputmode="numeric" autocomplete="one-time-code" maxlength="12" autofocus>
+                @error('code') <p class="aide-erreur" role="alert"><x-lucide name="circle-alert" class="w-3.5 h-3.5" />{{ $message }}</p> @enderror
             </div>
-
-            @error('code') <p class="mb-3 text-sm text-vfalse" role="alert">{{ $message }}</p> @enderror
-
-            <button type="submit" class="st-btn st-btn-primary w-full justify-center mb-3">
-                Activer et se connecter
-            </button>
-
-            <button type="button" wire:click="annuler"
-                    class="text-sm text-[#059669] font-semibold underline">
-                ← Recommencer
-            </button>
+            <button type="submit" class="btn-primaire w-full !h-11 text-[15px]">Activer et se connecter</button>
         </form>
     @else
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Vérification en deux étapes</h1>
-        <p class="text-sm text-[#475569] mb-5">
-            Saisissez le code affiché par votre application d'authentification.
-        </p>
+        <button type="button" wire:click="annuler" class="btn-fantome btn-sm -ml-2.5 mb-4"><x-lucide name="arrow-left" />Changer de compte</button>
+        <h1 class="font-titre text-[28px] font-semibold leading-tight">Vérification en deux étapes</h1>
+        <p class="mt-2 texte-2">Saisissez le code à 6 chiffres affiché par votre application d'authentification.</p>
 
-        <form wire:submit="verifierCode">
-            <div class="ffield mb-4">
-                <input id="a-totp" type="text" wire:model.blur="code"
-                       placeholder=" " inputmode="numeric" autocomplete="one-time-code"
-                       maxlength="12" autofocus>
-                <label for="a-totp">Code à 6 chiffres</label>
+        <form wire:submit="verifierCode" class="mt-7 space-y-4" novalidate>
+            <div>
+                <label for="a-totp" class="etiquette">Code à 6 chiffres</label>
+                <input id="a-totp" type="text" wire:model.blur="code" class="champ !h-14 text-center font-titre !text-2xl tracking-[.4em] tabular-nums"
+                       inputmode="numeric" autocomplete="one-time-code" maxlength="12" autofocus>
+                @error('code') <p class="aide-erreur" role="alert"><x-lucide name="circle-alert" class="w-3.5 h-3.5" />{{ $message }}</p> @enderror
+                <p class="aide">Le code change toutes les 30 secondes. Application indisponible ? Saisissez l'un de vos codes de récupération.</p>
             </div>
-
-            @error('code') <p class="mb-3 text-sm text-vfalse" role="alert">{{ $message }}</p> @enderror
-
-            <button type="submit" class="st-btn st-btn-primary w-full justify-center mb-3">
-                Valider
-            </button>
-
-            <p class="text-xs text-[#64748B]">
-                Application indisponible ? Saisissez l'un de vos codes de récupération.
-            </p>
-
-            <button type="button" wire:click="annuler"
-                    class="mt-3 text-sm text-[#059669] font-semibold underline">
-                ← Recommencer
-            </button>
+            <button type="submit" class="btn-primaire w-full !h-11 text-[15px]">Vérifier et entrer</button>
         </form>
     @endif
-
-    <a href="{{ route('public.home') }}" class="mt-6 block text-sm text-[#64748B]">
-        ← Retour au site public
-    </a>
 </div>

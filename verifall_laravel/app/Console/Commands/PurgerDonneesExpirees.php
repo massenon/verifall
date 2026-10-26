@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Core\Identity\Services\DossiersKyc;
+use App\Core\Identity\Services\HistoriqueDuHub;
+use App\Core\Identity\Services\JournalDesConnexions;
 use App\Core\Identity\Services\SuppressionCompteService;
 use App\Models\DataExport;
 use App\Models\User;
@@ -39,6 +41,10 @@ final class PurgerDonneesExpirees extends Command
         $this->info($this->purgerExports().' archive(s) détruite(s).');
         $this->info($this->anonymiserComptes($suppressions).' compte(s) anonymisé(s).');
         $this->info($dossiers->purgerLesPiecesExpirees().' dossier(s) KYC dépiécé(s).');
+        // Durées de l'arbitrage n° 178 : 12 mois pour les connexions, 90 jours
+        // pour les lectures du Hub.
+        $this->info(app(JournalDesConnexions::class)->purger().' connexion(s) de plus de 12 mois effacée(s).');
+        $this->info(app(HistoriqueDuHub::class)->purger().' lecture(s) du Hub de plus de 90 jours effacée(s).');
 
         return self::SUCCESS;
     }

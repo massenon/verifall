@@ -29,7 +29,7 @@ enum TypeQuestion: string
 
     public function badge(): string
     {
-        return 'st-badge st-badge-info';
+        return 'pastille p-info';
     }
 
     /**

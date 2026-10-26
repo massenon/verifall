@@ -6,6 +6,7 @@ namespace App\Core\Application\Services;
 
 use App\Core\Application\Reglages\Reglages;
 use App\Core\Identity\Services\AuditLogService;
+use App\Models\AuditLog;
 use App\Models\MaintenanceWatcher;
 use App\Models\User;
 use Carbon\CarbonImmutable;
@@ -214,6 +215,49 @@ final class ModeMaintenance
         ])->save();
 
         return $watcher;
+    }
+
+    /**
+     * Les dernières maintenances, relues dans le journal d'audit.
+     *
+     * Pas de table à part : chaque ouverture et chaque fermeture y sont déjà
+     * écrites, avec l'auteur. Une seconde trace finirait par contredire la
+     * première. Une fermeture est appariée à l'ouverture qui la précède.
+     *
+     * @return list<array{debut: CarbonImmutable, fin: ?CarbonImmutable, duree_minutes: ?int, message: string, par: string}>
+     */
+    public function historique(int $combien = 6): array
+    {
+        $lignes = AuditLog::query()
+            ->whereIn('action', ['maintenance.enable', 'maintenance.disable'])
+            ->orderBy('created_at')->orderBy('id')
+            ->get(['action', 'after', 'actor_label', 'created_at']);
+
+        $periodes = [];
+        $ouverte = null;
+
+        foreach ($lignes as $ligne) {
+            $quand = CarbonImmutable::parse($ligne->created_at);
+
+            if ($ligne->action === 'maintenance.enable') {
+                $ouverte = [
+                    'debut' => $quand,
+                    'fin' => null,
+                    'duree_minutes' => null,
+                    'message' => (string) ($ligne->after['message'] ?? ''),
+                    'par' => (string) $ligne->actor_label,
+                ];
+                $periodes[] = &$ouverte;
+            } elseif ($ouverte !== null) {
+                $ouverte['fin'] = $quand;
+                $ouverte['duree_minutes'] = (int) round($ouverte['debut']->diffInMinutes($quand));
+                unset($ouverte);
+                $ouverte = null;
+            }
+        }
+        unset($ouverte);
+
+        return array_slice(array_reverse($periodes), 0, $combien);
     }
 
     private function date(string $cle): ?CarbonImmutable

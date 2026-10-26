@@ -309,14 +309,14 @@ describe('les réglages en onglets latéraux', function (): void {
             resource_path('views/livewire/staff/parametres.blade.php')
         );
 
-        expect($vue)->toContain('class="st-settings"')
-            ->and($vue)->toContain('class="st-settings-nav"')
-            ->and($vue)->toContain('class="st-settings-tabs"');
+        expect($vue)->toContain('class="reglages"')
+            ->and($vue)->toContain('class="reglages-nav"')
+            ->and($vue)->toContain('class="reglages-onglets"');
 
-        $css = (string) file_get_contents(public_path('assets/css/staff.css'));
+        $css = (string) file_get_contents(base_path('tools/staff-premium/input.css'));
 
         expect($css)
-            ->toContain('.st-settings')
+            ->toContain('.reglages')
             ->toContain('position: sticky')
             // `align-self: start` est LE détail qui fait qu'un panneau collant
             // colle : sans lui, la colonne s'étire et n'a rien contre quoi coller.

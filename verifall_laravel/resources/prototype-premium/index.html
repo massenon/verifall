@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Console Vérif'All</title>
+  <meta name="description" content="Prototype de la console d'administration et de l'espace mentor de Vérif'All.">
+  <meta name="theme-color" content="#0E2A1E">
+  <link rel="icon" href="assets/img/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/vendor/flatpickr/flatpickr.min.css">
+  <link rel="stylesheet" href="assets/vendor/glightbox/glightbox.min.css">
+  <link rel="stylesheet" href="assets/vendor/quill/quill.snow.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+
+  <script>
+    /* Thème choisi avant le premier rendu : pas de flash. Clair par défaut ;
+       le sombre seulement si la personne l'a choisi, ou a choisi « comme le système ». */
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('vf-theme'); } catch (e) {}
+      if (t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      }
+    })();
+  </script>
+</head>
+<body class="min-h-screen">
+  <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 btn-primaire">Aller au contenu</a>
+
+  <div class="flex min-h-screen">
+    <!-- Colonne de navigation -->
+    <aside id="colonne" class="fixed inset-y-0 left-0 z-40 w-[264px] -translate-x-full lg:translate-x-0 transition-transform bg-foret text-white flex flex-col">
+      <div class="flex items-center gap-2.5 h-16 px-5 border-b border-white/10">
+        <span class="inline-flex w-8 h-8 rounded-ctrl bg-brand items-center justify-center" aria-hidden="true">
+          <i data-lucide="compass" class="w-[18px] h-[18px] text-foret"></i>
+        </span>
+        <div class="leading-tight">
+          <p class="font-titre font-semibold text-[16px]">Vérif'All</p>
+          <p id="espace-libelle" class="text-xs text-white/55">Console d'administration</p>
+        </div>
+      </div>
+
+      <div class="px-3 pt-3">
+        <div class="segments w-full !bg-white/[.06] !border-white/10" role="group" aria-label="Espace">
+          <button class="segment flex-1 !text-white/70" data-espace="admin">Admin</button>
+          <button class="segment flex-1 !text-white/70" data-espace="mentor">Mentor</button>
+        </div>
+      </div>
+
+      <nav id="navigation" class="flex-1 overflow-y-auto defile px-3 pb-6" aria-label="Navigation principale"></nav>
+
+      <div class="p-3 border-t border-white/10">
+        <a href="#/compte" class="flex items-center gap-3 p-2 rounded-ctrl hover:bg-white/[.06]">
+          <span id="moi-avatar" class="avatar w-8 h-8">MA</span>
+          <span class="min-w-0 leading-tight">
+            <span id="moi-nom" class="block text-sm font-medium truncate">Mawuli Adjovi</span>
+            <span id="moi-role" class="block text-xs text-white/55 truncate">Super administrateur</span>
+          </span>
+        </a>
+      </div>
+    </aside>
+    <div id="voile-colonne" class="voile hidden lg:hidden" data-fermer-colonne></div>
+
+    <!-- Zone principale -->
+    <div class="flex-1 min-w-0 lg:pl-[264px] flex flex-col">
+      <header class="sticky top-0 z-30 h-16 bg-papier/90 dark:bg-nuit/90 backdrop-blur border-b filet">
+        <div class="h-full flex items-center gap-2 px-4 sm:px-6">
+          <button class="btn-icone lg:hidden" data-ouvrir-colonne aria-label="Ouvrir la navigation"><i data-lucide="menu"></i></button>
+
+          <button id="ouvrir-commande" class="hidden sm:flex items-center gap-2 h-9 w-full max-w-md px-3 rounded-ctrl border filet bg-white dark:bg-nuit-carte text-sm texte-3 hover:border-brand/50 transition-colors">
+            <i data-lucide="search" class="w-4 h-4"></i>
+            <span class="flex-1 text-left">Chercher un écran, un cours, un signalement…</span>
+            <span class="kbd">Ctrl K</span>
+          </button>
+
+          <div class="ml-auto flex items-center gap-1">
+            <button class="btn-icone sm:hidden" data-commande aria-label="Rechercher"><i data-lucide="search"></i></button>
+            <div class="relative">
+              <button id="bouton-actions" class="btn-primaire !h-9 !px-2.5 lg:!px-3.5 mr-1" aria-haspopup="menu" aria-expanded="false" aria-controls="menu-actions" title="Actions rapides (A)">
+                <i data-lucide="zap"></i><span class="hidden lg:inline">Actions rapides</span>
+              </button>
+              <div id="menu-actions" class="menu right-0 mt-2 w-[min(92vw,420px)] hidden !p-2" role="menu" aria-labelledby="bouton-actions"></div>
+            </div>
+            <a href="#/calendrier" class="btn-icone hidden sm:inline-flex" aria-label="Calendrier"><i data-lucide="calendar-days"></i></a>
+            <div class="relative">
+              <button id="bouton-notifs" class="btn-icone relative" aria-label="Notifications" aria-expanded="false">
+                <i data-lucide="bell"></i>
+                <span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-critique ring-2 ring-papier dark:ring-nuit"></span>
+              </button>
+              <div id="panneau-notifs" class="menu right-0 mt-2 w-[340px] hidden"></div>
+            </div>
+            <button id="bascule-theme" class="btn-icone" aria-label="Changer de thème"><i data-lucide="moon"></i></button>
+            <button id="bascule-plein-ecran" class="btn-icone hidden sm:inline-flex" aria-label="Plein écran" aria-pressed="false" title="Plein écran (F11)"><i data-lucide="maximize"></i></button>
+            <div class="relative ml-1">
+              <button id="bouton-profil" class="flex items-center gap-2 h-10 pl-1 pr-1 sm:pr-2 rounded-full hover:bg-white dark:hover:bg-nuit-carte transition-colors" aria-label="Menu du profil" aria-haspopup="menu" aria-expanded="false" aria-controls="menu-profil">
+                <span class="relative">
+                  <span id="profil-avatar" class="avatar w-8 h-8">MA</span>
+                  <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-bon ring-2 ring-papier dark:ring-nuit" aria-hidden="true"></span>
+                </span>
+                <span class="hidden md:block text-left leading-tight">
+                  <span id="profil-nom-court" class="block text-[13px] font-medium">Mawuli A.</span>
+                  <span id="profil-role-court" class="block text-[11px] texte-3">Administrateur</span>
+                </span>
+                <i data-lucide="chevron-down" class="hidden md:block w-3.5 h-3.5 texte-3"></i>
+              </button>
+              <div id="menu-profil" class="menu right-0 mt-2 w-[290px] hidden" role="menu" aria-labelledby="bouton-profil"></div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main id="contenu" class="flex-1 px-4 sm:px-6 py-6 w-full max-w-[1480px]" tabindex="-1"></main>
+
+      <footer class="px-4 sm:px-6 py-5 text-xs texte-3 border-t filet">
+        Prototype de validation — données fictives. Rien n'est envoyé à un serveur.
+      </footer>
+    </div>
+  </div>
+
+  <!-- Couches partagées -->
+  <div id="tiroir" class="hidden" aria-hidden="true"></div>
+  <div id="modale" class="hidden" aria-hidden="true"></div>
+  <div id="commande" class="hidden" aria-hidden="true"></div>
+  <div id="verrou" class="hidden" aria-hidden="true"></div>
+  <div id="toasts" class="fixed bottom-4 right-4 z-[60] flex flex-col gap-2 w-[min(360px,calc(100vw-2rem))]" aria-live="polite"></div>
+
+  <script src="assets/vendor/lucide/lucide.min.js"></script>
+  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+  <script src="assets/vendor/flatpickr/flatpickr.min.js"></script>
+  <script src="assets/vendor/flatpickr/fr.js"></script>
+  <script src="assets/vendor/glightbox/glightbox.min.js"></script>
+  <script src="assets/vendor/quill/quill.js"></script>
+  <script src="assets/vendor/fullcalendar/fullcalendar.min.js"></script>
+
+  <script src="assets/js/donnees.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/graphiques.js"></script>
+  <script src="assets/js/gestion.js"></script>
+  <script src="assets/js/ecrans-tableaux.js"></script>
+  <script src="assets/js/ecrans-analytique.js"></script>
+  <script src="assets/js/ecrans-outils.js"></script>
+  <script src="assets/js/ecrans-mentor.js"></script>
+  <script src="assets/js/ecrans-profils.js"></script>
+  <script src="assets/js/ecrans-courriels.js"></script>
+  <script src="assets/js/ecrans-maintenance.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

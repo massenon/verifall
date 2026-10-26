@@ -72,7 +72,7 @@
                     data: 'motif', name: 'motif', responsivePriority: 4,
                     render: rendu(
                         function (motif, l) {
-                            var html = '<span class="st-badge st-badge-info">' + e(l.motifLibelle) + '</span>';
+                            var html = '<span class="pastille p-info">' + e(l.motifLibelle) + '</span>';
 
                             // Le libellé sous le motif seulement s'il dit autre chose :
                             // c'est la justification d'un ajustement, typiquement.

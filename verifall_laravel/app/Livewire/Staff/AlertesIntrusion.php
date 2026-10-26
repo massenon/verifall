@@ -7,6 +7,7 @@ namespace App\Livewire\Staff;
 use App\Core\Identity\Services\SecurityLogService;
 use App\Models\SecurityLog;
 use App\Support\Trait\InteractsWithToasts;
+use App\Support\Trait\ListeDeLaConsole;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\View\View;
@@ -14,7 +15,6 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 /**
  * Alertes Intrusion — page de surveillance du back-office.
@@ -31,7 +31,7 @@ use Livewire\WithPagination;
 final class AlertesIntrusion extends Component
 {
     use InteractsWithToasts;
-    use WithPagination;
+    use ListeDeLaConsole;
 
     #[Url(as: 'type', except: '')]
     public string $filtreEvenement = '';
@@ -54,10 +54,9 @@ final class AlertesIntrusion extends Component
         }
     }
 
-    public function reinitialiser(): void
+    protected function reinitialiserLesFiltres(): void
     {
         $this->reset(['filtreEvenement', 'filtreSeverite']);
-        $this->resetPage();
     }
 
     /**
@@ -65,7 +64,7 @@ final class AlertesIntrusion extends Component
      */
     private function alertes(): LengthAwarePaginator
     {
-        return $this->requete()->with('user')->latest('id')->paginate(25);
+        return $this->requete()->with('user')->latest('id')->paginate($this->lignesParPage());
     }
 
     /**
@@ -77,7 +76,13 @@ final class AlertesIntrusion extends Component
             ->when($this->filtreEvenement !== '',
                 fn (Builder $q) => $q->where('event', $this->filtreEvenement))
             ->when($this->filtreSeverite !== '',
-                fn (Builder $q) => $q->where('severity', $this->filtreSeverite));
+                fn (Builder $q) => $q->where('severity', $this->filtreSeverite))
+            ->when(trim($this->recherche) !== '', function (Builder $q): void {
+                $motif = '%'.addcslashes(trim($this->recherche), '%_\\').'%';
+                // L'événement, ou le compte visé : jamais l'empreinte, qui n'est pas lisible.
+                $q->where(fn (Builder $ou) => $ou->where('event', 'like', $motif)
+                    ->orWhereHas('user', fn (Builder $u) => $u->where('name', 'like', $motif)->orWhere('email', 'like', $motif)));
+            });
     }
 
     /**

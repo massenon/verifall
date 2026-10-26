@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Core\Identity\Services\VerrouDeSession;
 use App\Http\Api\V1\Support\RenduDesErreursApi;
 use App\Http\Middleware\ChoisirLaLangue;
 use App\Http\Middleware\CompterLeNavigateur;
@@ -110,8 +111,10 @@ return Application::configure(basePath: dirname(__DIR__))
          | Le chemin demandé décide : ce qui commence par `admin/` mène à la
          | connexion du back-office.
          */
+        // Une session de console VERROUILLÉE (n° 180) va à son écran de
+        // verrouillage : la personne est là, seul le mot de passe manque.
         $middleware->redirectGuestsTo(fn (Request $requete): string => $requete->is('admin/*')
-            ? route('staff.login')
+            ? (session()->has(VerrouDeSession::CLE) ? route('staff.verrou') : route('staff.login'))
             : route('login'));
 
         // Derrière un load-balancer TLS, sans quoi $request->secure() est faux

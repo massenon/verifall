@@ -8,15 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * La surcharge du SUJET d'un courriel.
+ * La surcharge d'un courriel du catalogue : son COPYWRITING, pas sa logique.
  *
- * Pas de corps : les six courriels de la plateforme portent de la logique — un
- * code à usage unique et son délai, un lien signé, un tableau hebdomadaire. Un
- * corps modifiable en base perdrait ces variables au premier enregistrement, et
- * le seul symptôme serait un courriel envoyé sans son code.
+ * Modifiables depuis l'administration (arbitrage n° 179) : l'objet, le titre,
+ * le corps et le libellé du bouton. Les marqueurs `{{ variable }}` sont limités
+ * à ceux que le code fournit (`CatalogueDesCourriels::variables()`), contrôlés à
+ * l'enregistrement ; le corps est purifié à l'affichage (`emails/gabarit`).
  *
- * Une ligne absente n'est pas une anomalie : c'est « le sujet écrit en code
- * convient ». `GabaritsDEmail` s'y replie.
+ * Ce qui reste dans le code et ne se modifie pas ici : ce qui porte de la
+ * logique — le code à usage unique et son délai, le lien signé, un tableau
+ * hebdomadaire. Ils arrivent par leurs marqueurs ; un corps qui les oublierait
+ * est refusé quand le catalogue les déclare obligatoires.
+ *
+ * Une ligne absente n'est pas une anomalie : c'est « le texte écrit en code
+ * convient ». `RenduDeGabarit` s'y replie.
  */
 final class EmailTemplate extends Model
 {

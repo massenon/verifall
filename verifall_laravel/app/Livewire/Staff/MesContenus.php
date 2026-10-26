@@ -6,6 +6,7 @@ namespace App\Livewire\Staff;
 
 use App\Core\Lms\Services\EspaceDuMentor;
 use App\Models\User;
+use App\Support\Trait\ListeDeLaConsole;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\Layout;
@@ -34,9 +35,30 @@ use Livewire\Component;
 #[Layout('components.layouts.staff', ['title' => "Mes contenus · Vérif'All"])]
 final class MesContenus extends Component
 {
+    use ListeDeLaConsole;
+
     /** '' | 'lecon' | 'quiz' | 'direct' */
     #[Url(as: 'format', except: '')]
     public string $filtreFormat = '';
+
+    /** '' | en_ligne | brouillon */
+    #[Url(as: 'etat', except: '')]
+    public string $filtreEtat = '';
+
+    public function updatingFiltreFormat(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFiltreEtat(): void
+    {
+        $this->resetPage();
+    }
+
+    protected function reinitialiserLesFiltres(): void
+    {
+        $this->reset('filtreFormat', 'filtreEtat');
+    }
 
     public function mount(): void
     {
@@ -45,11 +67,14 @@ final class MesContenus extends Component
 
     public function render(EspaceDuMentor $espace): View
     {
-        $contenus = $espace->contenus($this->acteur(), $this->voitTout(), $this->filtreFormat);
+        $contenus = collect($espace->contenus($this->acteur(), $this->voitTout(), $this->filtreFormat))
+            ->when($this->filtreEtat !== '', fn ($c) => $c->filter(fn (array $l): bool => $this->filtreEtat === 'en_ligne' ? $l['publie'] : ! $l['publie']))
+            ->values();
 
         return view('livewire.staff.mes-contenus', [
-            'contenus' => $contenus,
-            'minutes' => array_sum(array_column($contenus, 'duree')),
+            'contenus' => $this->paginerLaListe($contenus, fn (array $l): string => $l['titre'].' '.$l['cours'].' '.$l['format']),
+            'minutes' => (int) $contenus->sum('duree'),
+            'filtresActifs' => collect([$this->filtreFormat, $this->filtreEtat])->filter(fn (string $v): bool => $v !== '')->count(),
         ]);
     }
 

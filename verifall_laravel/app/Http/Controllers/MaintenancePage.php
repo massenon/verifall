@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Core\Application\Services\ModeMaintenance;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 
 /**
  * La page de maintenance, joignable même hors maintenance.
@@ -22,6 +23,22 @@ final class MaintenancePage extends Controller
             'message' => $maintenance->message(),
             'finAnnoncee' => $maintenance->finAnnoncee(),
             'enRetard' => $maintenance->enRetard(),
+            'debut' => $maintenance->debut(),
         ]);
+    }
+
+    /**
+     * L'état, pour la page déjà ouverte.
+     *
+     * `no-store` : un état mis en cache par un proxy annoncerait la réouverture
+     * en retard, ou la fermeture longtemps après la réouverture.
+     */
+    public function etat(ModeMaintenance $maintenance): JsonResponse
+    {
+        return response()->json([
+            'actif' => $maintenance->estActif(),
+            'fin_annoncee' => $maintenance->finAnnoncee()?->toIso8601String(),
+            'en_retard' => $maintenance->enRetard(),
+        ])->header('Cache-Control', 'no-store');
     }
 }

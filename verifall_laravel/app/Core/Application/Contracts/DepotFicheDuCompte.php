@@ -49,6 +49,8 @@ interface DepotFicheDuCompte
         'paiements' => ['date', 'pack', 'montant', 'unites', 'statut'],
         'forum' => ['sujet', 'reponses', 'creeLe'],
         'journal' => ['date', 'action', 'module'],
+        'connexions' => ['date', 'resultat', 'espace'],
+        'lectures-hub' => ['date', 'rubrique', 'titre'],
         // — le périmètre d'un membre du personnel
         'verifications-assignees' => ['affirmation', 'statut', 'assigneeLe', 'creeLe'],
         'cours-encadres' => ['titre', 'publie', 'inscrits', 'creeLe'],

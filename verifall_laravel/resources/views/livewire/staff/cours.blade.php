@@ -10,30 +10,19 @@
   | engage la plateforme. La mettre au formulaire rendrait le droit
   | contournable par quiconque peut modifier.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Tous les cours</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Tous les cours</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                La fiche d'un cours : titre, rayon, niveau, coût, formateur.
-                Les leçons et les quiz s'écrivent dans le constructeur, depuis le bouton de chaque ligne.
-            </p>
-        </div>
-
-        @can('create', App\Models\Course::class)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+<x-premium.entete titre="Tous les cours" :fil="['Tous les cours']">
+        La fiche d'un cours : titre, rayon, niveau, coût, formateur. Les leçons et les quiz s'écrivent dans le constructeur, depuis le bouton de chaque ligne.
+        <x-slot:actions>
+            @can('create', App\Models\Course::class)
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouveau cours
             </button>
         @endcan
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"
@@ -54,26 +43,26 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="cours-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="cours-q">Rechercher un titre, une description</label>
+        <div class="flex-1 mb-0">
+            <label for="cours-q" class="etiquette">Rechercher un titre, une description</label>
+<input id="cours-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreCategorie" class="st-input w-auto" aria-label="Filtrer par catégorie">
+        <select wire:model.live="filtreCategorie" class="champ w-auto" aria-label="Filtrer par catégorie">
             <option value="">Rayon : tous</option>
             @foreach ($categories as $categorie)
                 <option value="{{ $categorie->uuid }}">{{ $categorie->name }}</option>
             @endforeach
         </select>
 
-        <select wire:model.live="filtreNiveau" class="st-input w-auto" aria-label="Filtrer par niveau">
+        <select wire:model.live="filtreNiveau" class="champ w-auto" aria-label="Filtrer par niveau">
             <option value="">Niveau : tous</option>
             @foreach ($niveaux as $unNiveau)
                 <option value="{{ $unNiveau->value }}">{{ $unNiveau->libelle() }}</option>
             @endforeach
         </select>
 
-        <select wire:model.live="filtreEtat" class="st-input w-auto" aria-label="Filtrer par état">
+        <select wire:model.live="filtreEtat" class="champ w-auto" aria-label="Filtrer par état">
             <option value="">État : tous</option>
             <option value="publies">Publiés</option>
             <option value="brouillons">Brouillons</option>
@@ -84,11 +73,11 @@
     @if ($recherche !== '' || $filtreCategorie !== '' || $filtreNiveau !== '' || $filtreEtat !== '')
         <div class="flex flex-wrap items-center gap-2 mb-4">
             @if ($recherche !== '')
-                <span class="st-chip">« {{ $recherche }} »
+                <span class="pastille p-bon">« {{ $recherche }} »
                     <button type="button" wire:click="$set('recherche', '')" aria-label="Retirer la recherche">×</button>
                 </span>
             @endif
-            <button type="button" wire:click="reinitialiser" class="text-sm text-[#059669] font-semibold underline">
+            <button type="button" wire:click="reinitialiser" class="text-sm text-brand-700 dark:text-brand font-semibold underline">
                 Réinitialiser
             </button>
         </div>
@@ -99,7 +88,7 @@
                        title="Aucun cours"
                        description="Aucune fiche ne correspond à ces critères. Un cours créé ici reste en brouillon jusqu'à ce qu'il ait des leçons et qu'on le publie.">
             <x-slot:action>
-                <button type="button" wire:click="reinitialiser" class="st-btn st-btn-secondary">
+                <button type="button" wire:click="reinitialiser" class="btn-second">
                     Réinitialiser les filtres
                 </button>
             </x-slot:action>
@@ -118,38 +107,38 @@
             @foreach ($cours as $unCours)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $unCours->title }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $unCours->title }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                             {{ $unCours->level?->libelle() }}
                             @if ($unCours->instructor !== null)
                                 · {{ $unCours->instructor->name }}
                             @else
-                                · <span class="text-[#DC2626]">sans formateur</span>
+                                · <span class="text-critique">sans formateur</span>
                             @endif
                         </p>
                     </td>
                     <td class="whitespace-nowrap">
                         @if ($unCours->categorie !== null)
-                            <span class="st-badge st-badge-info">{{ $unCours->categorie->name }}</span>
+                            <span class="pastille p-info">{{ $unCours->categorie->name }}</span>
                         @else
-                            <span class="text-xs text-[#64748B]">Sans rayon</span>
+                            <span class="text-xs text-encre-3 dark:text-nuit-3">Sans rayon</span>
                         @endif
                     </td>
                     <td class="whitespace-nowrap text-sm">
                         {{-- Le nombre de leçons est l'information qui décide de la
                              publication : un cours à zéro leçon ne se publie pas. --}}
                         @if ($unCours->lessons_count === 0)
-                            <span class="text-[#DC2626] font-semibold">0 leçon</span>
+                            <span class="text-critique font-semibold">0 leçon</span>
                         @else
-                            <span class="text-[#334155]">{{ $unCours->lessons_count }} leçon(s)</span>
+                            <span class="text-encre-2 dark:text-nuit-2">{{ $unCours->lessons_count }} leçon(s)</span>
                         @endif
-                        <span class="block text-xs text-[#64748B]">{{ $unCours->enrollments_count }} inscrit(s)</span>
+                        <span class="block text-xs text-encre-3 dark:text-nuit-3">{{ $unCours->enrollments_count }} inscrit(s)</span>
                     </td>
                     <td class="whitespace-nowrap text-sm">
                         @if ($unCours->cost_units === 0)
-                            <span class="st-badge st-badge-pub">Gratuit</span>
+                            <span class="pastille p-bon">Gratuit</span>
                         @else
-                            <span class="st-badge st-badge-premium">{{ $unCours->cost_units }} u.</span>
+                            <span class="pastille p-info">{{ $unCours->cost_units }} u.</span>
                         @endif
                     </td>
                     <td>
@@ -164,32 +153,32 @@
                     <td class="text-right whitespace-nowrap">
                         @can('update', $unCours)
                             <a href="{{ route('staff.course-builder', $unCours->slug) }}"
-                               class="st-icnbtn" title="Ouvrir le constructeur">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">design_services</span>
+                               class="btn-icone" title="Ouvrir le constructeur">
+                                <x-lucide name="pen-tool" class="w-4 h-4" />
                             </a>
                             {{-- Les statistiques du cours : inscrits, certificats,
                                  progression moyenne, et la liste de qui décroche. --}}
                             <a href="{{ route('staff.course-stats', $unCours->slug) }}"
-                               class="st-icnbtn" title="Statistiques du cours">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">monitoring</span>
+                               class="btn-icone" title="Statistiques du cours">
+                                <x-lucide name="activity" class="w-4 h-4" />
                             </a>
                         @endcan
                         @can('publish', $unCours)
                             <button type="button" wire:click="basculerLaPublication('{{ $unCours->uuid }}')"
-                                    class="st-icnbtn" title="{{ $unCours->is_published ? 'Retirer du catalogue' : 'Publier' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $unCours->is_published ? 'visibility_off' : 'visibility' }}</span>
+                                    class="btn-icone" title="{{ $unCours->is_published ? 'Retirer du catalogue' : 'Publier' }}">
+                                <x-lucide :name="$unCours->is_published ? 'visibility_off' : 'visibility'" class="w-4 h-4" />
                             </button>
                         @endcan
                         @can('update', $unCours)
                             <button type="button" wire:click="ouvrirEdition('{{ $unCours->uuid }}')"
-                                    class="st-icnbtn" title="Modifier la fiche">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier la fiche">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                         @endcan
                         @can('delete', $unCours)
                             <button type="button" wire:click="demanderLaSuppression('{{ $unCours->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Archiver">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Archiver">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endcan
                     </td>
@@ -204,58 +193,58 @@
                       :title="$enEdition === null ? 'Nouveau cours' : 'Modifier la fiche'"
                       close="fermerLeTiroir">
         <form wire:submit="enregistrer" class="space-y-4">
-            <div class="ffield">
-                <input id="cours-titre" type="text" wire:model="titre" placeholder=" ">
-                <label for="cours-titre">Titre du cours</label>
-                @error('titre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="cours-titre" class="etiquette">Titre du cours</label>
+<input id="cours-titre" type="text" wire:model="titre" class="champ">
+                @error('titre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
-            <div class="ffield">
-                <textarea id="cours-desc" wire:model="descriptif" rows="4" placeholder=" "></textarea>
-                <label for="cours-desc">Ce que ce cours apprend</label>
-                @error('descriptif') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="cours-desc" class="etiquette">Ce que ce cours apprend</label>
+<textarea id="cours-desc" wire:model="descriptif" rows="4" class="champ !h-auto py-2.5"></textarea>
+                @error('descriptif') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="cours-cat" class="block text-sm font-medium text-[#0F172A] mb-1">Rayon</label>
-                    <select id="cours-cat" wire:model="categorieUuid" class="st-input w-full">
+                    <label for="cours-cat" class="block text-sm font-medium text-encre dark:text-white mb-1">Rayon</label>
+                    <select id="cours-cat" wire:model="categorieUuid" class="champ w-full">
                         <option value="">— Sans rayon —</option>
                         @foreach ($categories as $categorie)
                             <option value="{{ $categorie->uuid }}">{{ $categorie->name }}</option>
                         @endforeach
                     </select>
-                    @error('categorieUuid') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('categorieUuid') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
-                    <label for="cours-niv" class="block text-sm font-medium text-[#0F172A] mb-1">Niveau</label>
-                    <select id="cours-niv" wire:model="niveau" class="st-input w-full">
+                    <label for="cours-niv" class="block text-sm font-medium text-encre dark:text-white mb-1">Niveau</label>
+                    <select id="cours-niv" wire:model="niveau" class="champ w-full">
                         @foreach ($niveaux as $unNiveau)
                             <option value="{{ $unNiveau->value }}">{{ $unNiveau->libelle() }}</option>
                         @endforeach
                     </select>
-                    @error('niveau') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('niveau') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
-                <div class="ffield mb-0">
-                    <input id="cours-duree" type="text" wire:model="duree" placeholder=" ">
-                    <label for="cours-duree">Durée annoncée (ex. 4 h)</label>
-                    @error('duree') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="cours-duree" class="etiquette">Durée annoncée (ex. 4 h)</label>
+<input id="cours-duree" type="text" wire:model="duree" class="champ">
+                    @error('duree') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="cours-cout" type="number" min="0" max="500" wire:model="cout" placeholder=" ">
-                    <label for="cours-cout">Coût en unités (0 = gratuit)</label>
-                    @error('cout') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="cours-cout" class="etiquette">Coût en unités (0 = gratuit)</label>
+<input id="cours-cout" type="number" min="0" max="500" wire:model="cout" class="champ">
+                    @error('cout') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
             <div>
-                <label for="cours-form" class="block text-sm font-medium text-[#0F172A] mb-1">Formateur</label>
-                <select id="cours-form" wire:model="formateurUuid" class="st-input w-full">
+                <label for="cours-form" class="block text-sm font-medium text-encre dark:text-white mb-1">Formateur</label>
+                <select id="cours-form" wire:model="formateurUuid" class="champ w-full">
                     <option value="">— À attribuer —</option>
                     @foreach ($formateurs as $formateur)
                         <option value="{{ $formateur->uuid }}">{{ $formateur->name }}</option>
@@ -263,15 +252,15 @@
                 </select>
                 {{-- Mentors et administrateurs seulement : le nom s'affiche en
                      « formateur » sur la fiche publique du cours. --}}
-                <p class="text-xs text-[#64748B] mt-1 mb-0">Son nom apparaît sur la fiche publique du cours.</p>
-                @error('formateurUuid') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">Son nom apparaît sur la fiche publique du cours.</p>
+                @error('formateurUuid') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <label class="flex items-start gap-2.5 cursor-pointer">
                 <input type="checkbox" wire:model="delivreUnCertificat" class="mt-0.5">
-                <span class="text-sm text-[#334155]">
+                <span class="text-sm text-encre-2 dark:text-nuit-2">
                     Délivre un certificat
-                    <span class="block text-xs text-[#64748B]">
+                    <span class="block text-xs text-encre-3 dark:text-nuit-3">
                         À l'achèvement du parcours, un certificat vérifiable publiquement est émis.
                     </span>
                 </span>
@@ -283,94 +272,94 @@
                  aperçus de réseaux sociaux. La cacher derrière une route signée
                  la rendrait invisible là où elle sert. --}}
             <div>
-                <label for="cours-couv" class="block text-sm font-medium text-[#0F172A] mb-1">Image de couverture</label>
+                <label for="cours-couv" class="block text-sm font-medium text-encre dark:text-white mb-1">Image de couverture</label>
 
                 @if ($enEdition !== null && $couvertureActuelle)
                     <img src="{{ $couvertureActuelle }}" alt=""
-                         class="rounded-xl border border-line mb-2" style="max-height: 120px;">
+                         class="rounded-xl border border-trait dark:border-nuit-trait mb-2" style="max-height: 120px;">
                 @endif
 
                 <input id="cours-couv" type="file" wire:model="couverture"
-                       accept="image/jpeg,image/png,image/webp" class="st-input w-full">
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
+                       accept="image/jpeg,image/png,image/webp" class="champ w-full">
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                     JPG, PNG ou WEBP, 4 Mo maximum. Laissée vide, la couverture actuelle est conservée.
                 </p>
-                <div wire:loading wire:target="couverture" class="text-xs text-[#64748B]">Envoi en cours…</div>
-                @error('couverture') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div wire:loading wire:target="couverture" class="text-xs text-encre-3 dark:text-nuit-3">Envoi en cours…</div>
+                @error('couverture') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="cours-langue" class="block text-sm font-medium text-[#0F172A] mb-1">Langue du cours</label>
-                    <select id="cours-langue" wire:model="langue" class="st-input w-full">
+                    <label for="cours-langue" class="block text-sm font-medium text-encre dark:text-white mb-1">Langue du cours</label>
+                    <select id="cours-langue" wire:model="langue" class="champ w-full">
                         @foreach ($langues as $code => $nom)
                             <option value="{{ $code }}">{{ $nom }}</option>
                         @endforeach
                     </select>
-                    @error('langue') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('langue') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="cours-xp" type="number" min="0" max="1000" step="10" wire:model="xp" placeholder=" ">
-                    <label for="cours-xp">Points XP à 100 %</label>
-                    @error('xp') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="cours-xp" class="etiquette">Points XP à 100 %</label>
+<input id="cours-xp" type="number" min="0" max="1000" step="10" wire:model="xp" class="champ">
+                    @error('xp') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
             {{-- ── PRÉREQUIS ET OBJECTIFS ────────────────────────────────────
                  Une entrée PAR LIGNE, stockée en liste. Un bloc de texte se
                  remettrait en page de travers dès qu'on change de gabarit. --}}
-            <div class="ffield">
-                <textarea id="cours-prereq" rows="4" wire:model="prerequis" placeholder=" "></textarea>
-                <label for="cours-prereq">Prérequis — un par ligne</label>
-                <p class="text-xs text-[#64748B] mt-1 mb-0">Ce qu'il faut déjà savoir. Laissez vide s'il n'y en a pas.</p>
-                @error('prerequis') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="cours-prereq" class="etiquette">Prérequis — un par ligne</label>
+<textarea id="cours-prereq" rows="4" wire:model="prerequis" class="champ !h-auto py-2.5"></textarea>
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">Ce qu'il faut déjà savoir. Laissez vide s'il n'y en a pas.</p>
+                @error('prerequis') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
-            <div class="ffield">
-                <textarea id="cours-objectifs" rows="4" wire:model="objectifs" placeholder=" "></textarea>
-                <label for="cours-objectifs">Objectifs — un par ligne</label>
-                <p class="text-xs text-[#64748B] mt-1 mb-0">Ce qu'on saura faire à la fin. C'est ce que lit la fiche publique.</p>
-                @error('objectifs') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="cours-objectifs" class="etiquette">Objectifs — un par ligne</label>
+<textarea id="cours-objectifs" rows="4" wire:model="objectifs" class="champ !h-auto py-2.5"></textarea>
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">Ce qu'on saura faire à la fin. C'est ce que lit la fiche publique.</p>
+                @error('objectifs') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             {{-- ── RÉFÉRENCEMENT ────────────────────────────────────────────
                  Facultatif, et c'est voulu : sans surcharge, le titre et le
                  descriptif du cours servent de métadonnées. Un champ SEO vide
                  ne dégrade rien. --}}
-            <details class="rounded-xl border border-line p-3">
-                <summary class="text-sm font-medium text-[#0F172A] cursor-pointer">Référencement (facultatif)</summary>
+            <details class="rounded-xl border border-trait dark:border-nuit-trait p-3">
+                <summary class="text-sm font-medium text-encre dark:text-white cursor-pointer">Référencement (facultatif)</summary>
 
                 <div class="mt-3 space-y-3">
-                    <div class="ffield mb-0">
-                        <input id="cours-meta-t" type="text" wire:model="metaTitre" placeholder=" ">
-                        <label for="cours-meta-t">Titre SEO</label>
-                        <p class="text-xs text-[#64748B] mt-1 mb-0">Vide, le titre du cours est employé.</p>
-                        @error('metaTitre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="cours-meta-t" class="etiquette">Titre SEO</label>
+<input id="cours-meta-t" type="text" wire:model="metaTitre" class="champ">
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">Vide, le titre du cours est employé.</p>
+                        @error('metaTitre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <textarea id="cours-meta-d" rows="2" wire:model="metaDescription" placeholder=" "></textarea>
-                        <label for="cours-meta-d">Description SEO</label>
-                        <p class="text-xs text-[#64748B] mt-1 mb-0">160 à 320 caractères. Vide, le descriptif est employé.</p>
-                        @error('metaDescription') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="cours-meta-d" class="etiquette">Description SEO</label>
+<textarea id="cours-meta-d" rows="2" wire:model="metaDescription" class="champ !h-auto py-2.5"></textarea>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">160 à 320 caractères. Vide, le descriptif est employé.</p>
+                        @error('metaDescription') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <input id="cours-meta-k" type="text" wire:model="metaMotsCles" placeholder=" ">
-                        <label for="cours-meta-k">Mots-clés, séparés par des virgules</label>
-                        @error('metaMotsCles') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="cours-meta-k" class="etiquette">Mots-clés, séparés par des virgules</label>
+<input id="cours-meta-k" type="text" wire:model="metaMotsCles" class="champ">
+                        @error('metaMotsCles') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
             </details>
 
-            <p class="text-xs text-[#64748B] mb-0">
+            <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                 La publication est un geste à part, depuis la liste — et elle exige au moins une leçon.
             </p>
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>

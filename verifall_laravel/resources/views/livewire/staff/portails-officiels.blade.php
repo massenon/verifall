@@ -7,39 +7,34 @@
   | L'écran porte aussi la bascule d'ouverture de la rubrique citoyenne : le
   | porteur du projet a demandé le CRUD maintenant et l'exposition plus tard.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
-        <div>
-            <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Portails officiels</h1>
-            <p class="text-sm text-[#64748B] mb-0">
-                L'annuaire des sites de l'administration. C'est la rubrique qui répond à
-                « ce site est-il bien celui du ministère, ou un site qui lui ressemble ? »
-            </p>
-        </div>
-
-        @if ($peutGerer)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+    <x-premium.entete titre="Portails officiels">
+        L'annuaire des sites de l'administration. C'est la rubrique qui répond à « ce site est-il bien celui du ministère, ou un site qui lui ressemble ? »
+        <x-slot:actions>
+            @if ($peutGerer)
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Ajouter un portail
             </button>
         @endif
-    </div>
+        </x-slot:actions>
+    </x-premium.entete>
 
     {{-- ── LA BASCULE D'OUVERTURE ────────────────────────────────────────────
          Un geste d'administration, pas un déploiement. Tant qu'elle est fermée,
          l'entrée du menu citoyen reste visible mais désactivée, et l'adresse
          répond 404. --}}
-    <div class="st-card mb-5">
-        <div class="st-card-b flex flex-wrap items-center justify-between gap-3">
+    <div class="carte mb-5">
+        <div class="carte-corps flex flex-wrap items-center justify-between gap-3">
             <div class="min-w-0">
-                <p class="text-sm font-display font-bold text-[#0F172A] mb-0">
+                <p class="text-sm font-titre font-bold text-encre dark:text-white mb-0">
                     Rubrique citoyenne :
-                    <span class="{{ $accesCitoyenOuvert ? 'st-badge st-badge-pub' : 'st-badge st-badge-warn' }}">
+                    <span class="{{ $accesCitoyenOuvert ? 'pastille p-bon' : 'pastille p-alerte' }}">
                         {{ $accesCitoyenOuvert ? 'ouverte' : 'fermée' }}
                     </span>
                 </p>
-                <p class="text-xs text-[#64748B] mb-0 mt-1">
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0 mt-1">
                     @if ($accesCitoyenOuvert)
                         L'entrée « Portails officiels » est cliquable dans le menu du compte.
                     @else
@@ -51,7 +46,7 @@
 
             @if ($peutGerer)
                 <button type="button" wire:click="basculerLAccesCitoyen"
-                        class="st-btn {{ $accesCitoyenOuvert ? 'st-btn-secondary' : 'st-btn-primary' }}">
+                        class="{{ $accesCitoyenOuvert ? 'btn-second' : 'btn-primaire' }}">
                     {{ $accesCitoyenOuvert ? 'Refermer la rubrique' : 'Ouvrir la rubrique' }}
                 </button>
             @endif
@@ -66,10 +61,10 @@
 
     <div class="flex flex-wrap items-center gap-3 my-5">
         <input type="search" wire:model.live.debounce.350ms="recherche"
-               class="st-input" style="max-width: 320px;"
+               class="champ" style="max-width: 320px;"
                placeholder="Nom ou adresse…" aria-label="Rechercher un portail">
 
-        <select wire:model.live="filtreCategorie" class="st-select" style="max-width: 220px;" aria-label="Filtrer par rubrique">
+        <select wire:model.live="filtreCategorie" class="champ" style="max-width: 220px;" aria-label="Filtrer par rubrique">
             <option value="">Toutes les rubriques</option>
             @foreach ($categories as $rubrique)
                 <option value="{{ $rubrique }}">{{ $rubrique }}</option>
@@ -94,34 +89,34 @@
             @foreach ($portails as $portail)
                 <tr wire:key="portail-{{ $portail->uuid }}">
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">
+                        <p class="font-semibold text-encre dark:text-white mb-0">
                             {{ $portail->name }}
                             @if ($portail->is_official)
-                                <span class="st-badge st-badge-info">Officiel</span>
+                                <span class="pastille p-info">Officiel</span>
                             @endif
                         </p>
-                        <p class="text-xs text-[#64748B] mb-0 truncate" style="max-width: 380px;">{{ $portail->url }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0 truncate" style="max-width: 380px;">{{ $portail->url }}</p>
                     </td>
-                    <td class="text-sm text-[#64748B]">{{ $portail->category }}</td>
-                    <td class="text-sm text-[#64748B]">{{ $portail->position }}</td>
+                    <td class="text-sm text-encre-3 dark:text-nuit-3">{{ $portail->category }}</td>
+                    <td class="text-sm text-encre-3 dark:text-nuit-3">{{ $portail->position }}</td>
                     <td>
-                        <span class="{{ $portail->is_published ? 'st-badge st-badge-pub' : 'st-badge st-badge-draft' }}">
+                        <span class="{{ $portail->is_published ? 'pastille p-bon' : 'pastille p-neutre' }}">
                             {{ $portail->is_published ? 'Publié' : 'Brouillon' }}
                         </span>
                     </td>
                     <td class="text-right whitespace-nowrap">
                         @if ($peutGerer)
                             <button type="button" wire:click="basculerLaPublication('{{ $portail->uuid }}')"
-                                    class="st-icnbtn" title="{{ $portail->is_published ? 'Retirer' : 'Publier' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $portail->is_published ? 'visibility_off' : 'visibility' }}</span>
+                                    class="btn-icone" title="{{ $portail->is_published ? 'Retirer' : 'Publier' }}">
+                                <x-lucide :name="$portail->is_published ? 'visibility_off' : 'visibility'" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="ouvrirEdition('{{ $portail->uuid }}')"
-                                    class="st-icnbtn" title="Modifier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="demanderLaSuppression('{{ $portail->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>
@@ -137,64 +132,64 @@
                           :title="$enEdition !== null ? 'Modifier le portail' : 'Ajouter un portail'"
                           close="fermerLeTiroir">
             <form wire:submit="enregistrer" class="space-y-4">
-                <div class="ffield">
-                    <input id="po-nom" type="text" wire:model="nom" placeholder=" ">
-                    <label for="po-nom">Nom du portail</label>
-                    @error('nom') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="po-nom" class="etiquette">Nom du portail</label>
+<input id="po-nom" type="text" wire:model="nom" class="champ">
+                    @error('nom') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield">
-                    <input id="po-lien" type="url" wire:model="lien" placeholder=" ">
-                    <label for="po-lien">Adresse (https://)</label>
-                    <p class="text-xs text-[#64748B] mt-1 mb-0">
+                <div>
+                    <label for="po-lien" class="etiquette">Adresse (https://)</label>
+<input id="po-lien" type="url" wire:model="lien" class="champ">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                         `https://` est exigé : un portail officiel que le navigateur signale comme
                         non sécurisé serait le pire exemple sur une plateforme qui enseigne à se méfier.
                     </p>
-                    @error('lien') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('lien') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield">
-                    <input id="po-rubrique" type="text" wire:model="categorie" placeholder=" " list="po-rubriques">
-                    <label for="po-rubrique">Rubrique</label>
+                <div>
+                    <label for="po-rubrique" class="etiquette">Rubrique</label>
+<input id="po-rubrique" type="text" wire:model="categorie" list="po-rubriques" class="champ">
                     <datalist id="po-rubriques">
                         @foreach ($categories as $rubrique)
                             <option value="{{ $rubrique }}"></option>
                         @endforeach
                     </datalist>
-                    @error('categorie') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('categorie') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield">
-                    <textarea id="po-desc" wire:model="descriptif" rows="3" placeholder=" "></textarea>
-                    <label for="po-desc">Descriptif</label>
-                    <p class="text-xs text-[#64748B] mt-1 mb-0">Ce que ce site permet de faire, en une phrase.</p>
-                    @error('descriptif') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="po-desc" class="etiquette">Descriptif</label>
+<textarea id="po-desc" wire:model="descriptif" rows="3" class="champ !h-auto py-2.5"></textarea>
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">Ce que ce site permet de faire, en une phrase.</p>
+                    @error('descriptif') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield">
-                    <input id="po-logo" type="text" wire:model="logo" placeholder=" ">
-                    <label for="po-logo">Chemin du logo (facultatif)</label>
+                <div>
+                    <label for="po-logo" class="etiquette">Chemin du logo (facultatif)</label>
+<input id="po-logo" type="text" wire:model="logo" class="champ">
                 </div>
 
-                <div class="ffield">
-                    <input id="po-ordre" type="number" min="0" step="10" wire:model="ordre" placeholder=" ">
-                    <label for="po-ordre">Ordre d'affichage</label>
-                    @error('ordre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="po-ordre" class="etiquette">Ordre d'affichage</label>
+<input id="po-ordre" type="number" min="0" step="10" wire:model="ordre" class="champ">
+                    @error('ordre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <label class="flex items-center gap-2 text-sm text-[#0F172A]">
+                <label class="flex items-center gap-2 text-sm text-encre dark:text-white">
                     <input type="checkbox" wire:model="officiel">
                     Marquer comme site officiel
                 </label>
 
-                <label class="flex items-center gap-2 text-sm text-[#0F172A]">
+                <label class="flex items-center gap-2 text-sm text-encre dark:text-white">
                     <input type="checkbox" wire:model="publie">
                     Publié
                 </label>
 
                 <div class="flex gap-2 pt-2">
-                    <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                    <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                    <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                    <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
                 </div>
             </form>
         </x-offcanvas-form>

@@ -18,6 +18,13 @@ enum ConsentType: string
     case Newsletter = 'newsletter';
 
     /**
+     * Garder l'historique de mes consultations du Hub (arbitrage n° 178).
+     * Facultatif, non coché par défaut, retirable à tout moment : le retrait
+     * efface l'historique.
+     */
+    case HistoriqueHub = 'historique_hub';
+
+    /**
      * Le consentement est-il indispensable à la création du compte ?
      *
      * Seul l'usage strictement nécessaire au service peut être obligatoire :
@@ -25,7 +32,7 @@ enum ConsentType: string
      */
     public function estObligatoire(): bool
     {
-        return $this !== self::Newsletter;
+        return ! in_array($this, [self::Newsletter, self::HistoriqueHub], true);
     }
 
     public function libelle(): string
@@ -34,6 +41,7 @@ enum ConsentType: string
             self::Cgu => "J'accepte les conditions générales d'utilisation",
             self::Privacy => "J'ai lu la politique de confidentialité",
             self::Newsletter => 'Je souhaite recevoir la lettre d\'information (facultatif)',
+            self::HistoriqueHub => 'Garder l\'historique de mes lectures du Hub pendant 90 jours (facultatif)',
         };
     }
 
@@ -50,6 +58,7 @@ enum ConsentType: string
             self::Cgu => '2026-01',
             self::Privacy => '2026-01',
             self::Newsletter => '2026-01',
+            self::HistoriqueHub => '2026-10',
         };
     }
 }

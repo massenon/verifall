@@ -17,12 +17,12 @@
      | composant Blade : le serveur envoie la clé, jamais une classe.
      */
     var BADGES = {
-        'publie': 'st-badge-pub',
-        'brouillon': 'st-badge-draft',
-        'archive': 'st-badge-arch',
-        'danger': 'st-badge-danger',
-        'en-cours': 'st-badge-info',
-        'info': 'st-badge-info',
+        'publie': 'p-bon',
+        'brouillon': 'p-neutre',
+        'archive': 'p-neutre',
+        'danger': 'p-critique',
+        'en-cours': 'p-info',
+        'info': 'p-info',
     };
 
     function monter() {
@@ -75,7 +75,7 @@
                     render: rendu(
                         function (texte, l) {
                             // La mesure, jamais une conclusion.
-                            return l.flambee ? '<span class="st-badge st-badge-danger">' + e(texte) + '</span>' : sousTexte(texte);
+                            return l.flambee ? '<span class="pastille p-critique">' + e(texte) + '</span>' : sousTexte(texte);
                         },
                         function (texte) { return texte; }
                     ),
@@ -89,7 +89,7 @@
                 {
                     data: 'statut', name: 'statut', responsivePriority: 3,
                     render: rendu(
-                        function (v, l) { return '<span class="st-badge ' + (BADGES[l.statutBadge] || 'st-badge-info') + '">' + e(l.statutLibelle) + '</span>'; },
+                        function (v, l) { return '<span class="pastille ' + (BADGES[l.statutBadge] || 'p-info') + '">' + e(l.statutLibelle) + '</span>'; },
                         function (v, l) { return l.statutLibelle; }
                     ),
                 },
@@ -105,7 +105,7 @@
 
                         var titre = l.actions.trancher ? 'Ouvrir et trancher ce signalement' : 'Ouvrir ce signalement';
 
-                        return '<button type="button" class="st-icnbtn" data-vdt-action="ouvrir" data-vdt-uuid="' + e(l.uuid) + '"'
+                        return '<button type="button" class="btn-icone" data-vdt-action="ouvrir" data-vdt-uuid="' + e(l.uuid) + '"'
                             + ' title="' + e(titre) + '" aria-label="' + e(titre) + '">'
                             + '<span class="material-symbols-rounded" aria-hidden="true">' + (l.actions.trancher ? 'gavel' : 'visibility') + '</span></button>';
                     },

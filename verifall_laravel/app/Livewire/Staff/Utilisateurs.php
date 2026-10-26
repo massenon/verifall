@@ -128,9 +128,24 @@ final class Utilisateurs extends Component
 
     public string $motifDeSuspension = '';
 
+    /** Ouvre le tiroir d'édition depuis la fiche d'un compte (`?modifier=<uuid>`). */
+    #[Url(as: 'modifier', except: '')]
+    public string $aModifier = '';
+
     public function mount(): void
     {
         $this->authorize('viewAny', User::class);
+
+        // Sans le droit de modifier, ou pour un uuid inconnu : la liste seule,
+        // sans erreur — un lien de fiche ne doit pas révéler ce qui existe.
+        if ($this->aModifier !== '' && auth('staff')->user()?->can('user.update')) {
+            try {
+                $this->ouvrirEdition($this->aModifier);
+            } catch (\Throwable) {
+                $this->formulaireOuvert = false;
+                $this->enEdition = null;
+            }
+        }
     }
 
     public function render(): View

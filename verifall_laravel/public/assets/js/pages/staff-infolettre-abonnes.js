@@ -46,9 +46,9 @@
         }
 
         var ETATS = {
-            confirme: ['st-badge-pub', 'Confirmé'],
-            en_attente: ['st-badge-draft', 'En attente'],
-            desabonne: ['st-badge-arch', 'Désabonné'],
+            confirme: ['p-bon', 'Confirmé'],
+            en_attente: ['p-neutre', 'En attente'],
+            desabonne: ['p-neutre', 'Désabonné'],
         };
 
         function configuration() {
@@ -83,9 +83,9 @@
                         data: 'etat', name: 'etat', orderable: false, responsivePriority: 3,
                         render: rendu(
                             function (v, l) {
-                                var etat = ETATS[v] || ['st-badge-info', v];
+                                var etat = ETATS[v] || ['p-info', v];
 
-                                return '<span class="st-badge ' + etat[0] + '">' + e(etat[1]) + '</span>'
+                                return '<span class="pastille ' + etat[0] + '">' + e(etat[1]) + '</span>'
                                     + (l.desabonneLeTexte ? sousTexte('le ' + l.desabonneLeTexte) : '');
                             },
                             function (v) { return (ETATS[v] || [null, v])[1]; }
@@ -97,7 +97,7 @@
                         render: function (donnee, type, l) {
                             if (type !== 'display' || !l.actions.desabonner) { return ''; }
 
-                            return '<button type="button" class="st-icnbtn" data-vdt-action="retirer" data-vdt-uuid="' + e(l.uuid) + '"'
+                            return '<button type="button" class="btn-icone" data-vdt-action="retirer" data-vdt-uuid="' + e(l.uuid) + '"'
                                 + ' title="Désabonner cette adresse" aria-label="Désabonner cette adresse">'
                                 + '<span class="material-symbols-rounded" aria-hidden="true">unsubscribe</span></button>';
                         },

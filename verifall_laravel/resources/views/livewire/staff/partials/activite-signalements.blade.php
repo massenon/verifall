@@ -19,17 +19,17 @@
     $total = array_sum(array_column($signalements, 'nombre'));
 @endphp
 
-<div class="st-card">
-    <div class="st-card-h flex items-center justify-between gap-3">
-        <h2 class="font-display font-bold text-[#0F172A] mb-0">Activité de signalements</h2>
-        <a href="{{ route('staff.content-reports') }}" class="text-xs font-bold text-primary">Tout voir →</a>
+<div class="carte">
+    <div class="carte-tete flex items-center justify-between gap-3">
+        <h2 class="font-titre font-bold text-encre dark:text-white mb-0">Activité de signalements</h2>
+        <a href="{{ route('staff.content-reports') }}" class="text-xs font-bold text-brand-700 dark:text-brand">Tout voir →</a>
     </div>
 
-    <div class="st-card-b">
+    <div class="carte-corps">
         @if ($total === 0)
             {{-- Dire le vide plutôt que dessiner une ligne plate qu'on prendra
                  pour une panne de l'écran. --}}
-            <p class="text-sm text-[#64748B] mb-0">
+            <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">
                 Aucun signalement sur les quatorze derniers jours. C'est une bonne nouvelle,
                 pas un écran vide.
             </p>
@@ -48,11 +48,11 @@
             </div>
 
             <div class="flex items-center justify-between mt-2">
-                <span class="text-xs text-[#64748B]">{{ $signalements[0]['etiquette'] }}</span>
-                <span class="text-xs text-[#64748B]">
+                <span class="text-xs text-encre-3 dark:text-nuit-3">{{ $signalements[0]['etiquette'] }}</span>
+                <span class="text-xs text-encre-3 dark:text-nuit-3">
                     {{ $total }} sur 14 jours · pic à {{ $pic }}
                 </span>
-                <span class="text-xs text-[#64748B]">{{ end($signalements)['etiquette'] }}</span>
+                <span class="text-xs text-encre-3 dark:text-nuit-3">{{ end($signalements)['etiquette'] }}</span>
             </div>
         @endif
     </div>

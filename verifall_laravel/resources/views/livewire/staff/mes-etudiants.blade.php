@@ -6,26 +6,19 @@
   | dans ce cours », et fusionner les lignes obligerait à choisir un avancement
   | parmi trois.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="mb-5">
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Mes Étudiants</h1>
-        <p class="text-sm text-[#64748B] mb-0">
-            @if ($toutVoir)
-                Tous les inscrits de la plateforme, tous formateurs confondus.
-            @else
-                Les personnes inscrites à vos cours. Les moins avancées en tête.
-            @endif
-        </p>
-    </div>
+    <x-premium.entete titre="Mes Étudiants">
+        @if ($toutVoir) Tous les inscrits de la plateforme, tous formateurs confondus. @else Les personnes inscrites à vos cours. Les moins avancées en tête. @endif
+    </x-premium.entete>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0" style="min-width: 220px;">
-            <input id="etu-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="etu-q">Rechercher un nom, une adresse</label>
+        <div class="flex-1 mb-0" style="min-width: 220px;">
+            <label for="etu-q" class="etiquette">Rechercher un nom, une adresse</label>
+<input id="etu-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreCours" class="st-input w-auto" aria-label="Filtrer par cours">
+        <select wire:model.live="filtreCours" class="champ w-auto" aria-label="Filtrer par cours">
             <option value="">Tous mes cours</option>
             @foreach ($mesCours as $cours)
                 <option value="{{ $cours->uuid }}">{{ $cours->title }}</option>
@@ -33,7 +26,7 @@
         </select>
 
         @if ($recherche !== '' || $filtreCours !== '')
-            <button type="button" wire:click="reinitialiser" class="text-sm text-[#059669] font-semibold underline">
+            <button type="button" wire:click="reinitialiser" class="text-sm text-brand-700 dark:text-brand font-semibold underline">
                 Réinitialiser
             </button>
         @endif
@@ -61,11 +54,11 @@
             @foreach ($inscrits as $inscription)
                 <tr wire:key="etu-{{ $inscription->uuid }}">
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $inscription->user?->name ?? 'Compte supprimé' }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">{{ $inscription->user?->email }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">@if ($inscription->user)<a href="{{ route('staff.users.show', $inscription->user) }}" class="hover:underline">{{ $inscription->user->name }}</a>@else Compte supprimé @endif</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $inscription->user?->email }}</p>
                     </td>
 
-                    <td class="text-sm text-[#334155]">{{ $inscription->course?->title ?? '—' }}</td>
+                    <td class="text-sm text-encre-2 dark:text-nuit-2">{{ $inscription->course?->title ?? '—' }}</td>
 
                     <td style="min-width: 160px;">
                         <div class="flex items-center gap-2">
@@ -76,14 +69,14 @@
                                 <div style="height:6px; border-radius:3px; background:#059669;
                                             width: {{ max(0, min(100, (int) $inscription->progress)) }}%;"></div>
                             </div>
-                            <span class="text-xs text-[#64748B] shrink-0">{{ (int) $inscription->progress }} %</span>
+                            <span class="text-xs text-encre-3 dark:text-nuit-3 shrink-0">{{ (int) $inscription->progress }} %</span>
                         </div>
                         @if ($inscription->completed_at !== null)
-                            <span class="st-badge st-badge-pub mt-1">Terminé</span>
+                            <span class="pastille p-bon mt-1">Terminé</span>
                         @endif
                     </td>
 
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">
                         {{-- La date relative plutôt que le format long : sur cet
                              écran, « il y a 2 mois » se lit d'un coup d'œil là où
                              « 3 juil. 2026 » demande un calcul. --}}

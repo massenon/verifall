@@ -8,19 +8,11 @@
   | La liste est triée par les MOINS avancés, parce que cet écran sert à
   | relancer — et qu'on relance ceux qui décrochent, pas ceux qui ont fini.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="mb-5">
-        <p class="text-xs text-[#64748B] mb-1">
-            <a href="{{ route('staff.courses') }}" class="hover:text-primary">Cours</a>
-            <span aria-hidden="true">/</span> Statistiques
-        </p>
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">{{ $cours->title }}</h1>
-        <p class="text-sm text-[#64748B] mb-0">
-            {{ $cours->category }}@if ($cours->instructor) · {{ $cours->instructor->name }}@endif
-            · {{ $cours->cost_units > 0 ? $cours->cost_units.' unité'.($cours->cost_units > 1 ? 's' : '') : 'Gratuit' }}
-        </p>
-    </div>
+    <x-premium.entete :titre="$cours->title" :fil="['Cours', 'Statistiques']">
+        {{ $cours->category }}@if ($cours->instructor) · {{ $cours->instructor->name }}@endif · {{ $cours->cost_units > 0 ? $cours->cost_units.' unité'.($cours->cost_units > 1 ? 's' : '') : 'Gratuit' }}
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($chiffres['inscrits'], 0, ',', ' ')" label="Citoyens inscrits" />
@@ -32,7 +24,7 @@
     {{-- La moyenne écarte ceux qui n'ont jamais ouvert la première leçon : ils
          n'ont pas abandonné le cours, ils ne l'ont pas commencé. Les compter
          tirerait la moyenne vers le bas sans rien apprendre du contenu. --}}
-    <p class="text-xs text-[#64748B] mt-3 mb-5">
+    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-3 mb-5">
         {{-- L'accord suit le nombre : « les 1 inscrits restés » se lisait sur
              chaque cours n'ayant qu'un seul inscrit à 0 %. --}}
         La progression moyenne ne compte que ceux qui ont commencé.
@@ -48,6 +40,18 @@
                        title="Aucun inscrit"
                        description="Les citoyens inscrits à ce cours apparaîtront ici, les moins avancés en tête." />
     @else
+        <x-premium.barre-de-liste placeholder="Rechercher un inscrit (nom, courriel)…" :actifs="$filtresActifs">
+            <div>
+                <label for="sc-f-etat" class="etiquette">Avancement</label>
+                <select id="sc-f-etat" wire:model.live="filtreEtat" class="champ">
+                    <option value="">Tous</option>
+                    <option value="termine">Ont terminé</option>
+                    <option value="en_cours">En cours</option>
+                    <option value="jamais">Jamais commencé</option>
+                </select>
+            </div>
+        </x-premium.barre-de-liste>
+
         <x-data-table variant="staff" :count="$inscrits->total()" :selectable="false">
             <x-slot:head>
                 <th scope="col">Citoyen</th>
@@ -59,8 +63,8 @@
             @foreach ($inscrits as $inscription)
                 <tr wire:key="insc-{{ $inscription->uuid }}">
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $inscription->user?->name ?? 'Compte supprimé' }}</p>
-                        <p class="text-xs text-[#64748B] mb-0">{{ $inscription->user?->email }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $inscription->user?->name ?? 'Compte supprimé' }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $inscription->user?->email }}</p>
                     </td>
                     <td style="min-width: 160px;">
                         <div class="flex items-center gap-2">
@@ -71,13 +75,13 @@
                                 <div style="height:6px; border-radius:3px; background:#059669;
                                             width: {{ max(0, min(100, (int) $inscription->progress)) }}%;"></div>
                             </div>
-                            <span class="text-xs text-[#64748B] shrink-0">{{ (int) $inscription->progress }} %</span>
+                            <span class="text-xs text-encre-3 dark:text-nuit-3 shrink-0">{{ (int) $inscription->progress }} %</span>
                         </div>
                         @if ($inscription->completed_at !== null)
-                            <span class="st-badge st-badge-pub mt-1">Terminé</span>
+                            <span class="pastille p-bon mt-1">Terminé</span>
                         @endif
                     </td>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">
                         {{ $inscription->created_at?->translatedFormat('j M Y') }}
                     </td>
                     <td class="text-right whitespace-nowrap">
@@ -85,18 +89,18 @@
                             {{-- Pas de relance pour qui a terminé : « poursuivez
                                  votre cours » après le certificat est le genre de
                                  message qui fait se désabonner de tout. --}}
-                            <span class="text-xs text-[#64748B]">Rien à relancer</span>
+                            <span class="text-xs text-encre-3 dark:text-nuit-3">Rien à relancer</span>
                         @else
                             <button type="button" wire:click="relancer('{{ $inscription->uuid }}')"
                                     wire:loading.attr="disabled"
-                                    class="text-xs font-bold text-primary">
+                                    class="text-xs font-bold text-brand-700 dark:text-brand">
                                 Relancer
                             </button>
                             @if ($inscription->last_reminder_at !== null)
                                 {{-- « relancé » imposerait un accord, donc un
                                      genre qu'on ne connaît pas. Le substantif
                                      l'évite. --}}
-                                <span class="block text-xs text-[#64748B]">
+                                <span class="block text-xs text-encre-3 dark:text-nuit-3">
                                     relance {{ $inscription->last_reminder_at->diffForHumans() }}
                                 </span>
                             @endif
@@ -106,9 +110,9 @@
             @endforeach
         </x-data-table>
 
-        <div class="mt-4">{{ $inscrits->links() }}</div>
+        <x-premium.pied-de-liste :liste="$inscrits" />
 
-        <p class="text-xs text-[#64748B] mt-3 mb-0">
+        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-3 mb-0">
             Une relance part par notification et par courriel. Un même inscrit ne peut pas
             être relancé deux fois en moins de {{ $reposJours }} jours — c'est l'application qui
             tient le délai, pas la mémoire de qui clique.

@@ -31,10 +31,10 @@ enum StatutInscriptionExamen: string
     public function badge(): string
     {
         return match ($this) {
-            self::Inscrit => 'st-badge st-badge-info',
-            self::Confirme => 'st-badge st-badge-pub',
-            self::ReportDemande => 'st-badge st-badge-warn',
-            self::Annule => 'st-badge st-badge-arch',
+            self::Inscrit => 'pastille p-info',
+            self::Confirme => 'pastille p-bon',
+            self::ReportDemande => 'pastille p-alerte',
+            self::Annule => 'pastille p-neutre',
         };
     }
 

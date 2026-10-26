@@ -10,32 +10,19 @@
   | sans famille. C'est le bon comportement, mais c'est contre-intuitif — la
   | confirmation le dit, et le compteur d'orphelines reste affiché.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ route('staff.trusted-sources') }}" class="hover:text-[#065F46]">Sources vérifiées</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Catégories</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Catégories de sources</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Les familles du référentiel. Chacune porte une crédibilité par défaut, proposée à la création d'une fiche —
-                référencer trente agences de presse ne doit pas demander de taper « 90 » trente fois.
-            </p>
-        </div>
-
-        @can('create', App\Models\SourceCategory::class)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+<x-premium.entete titre="Catégories de sources" :fil="['Catégories']">
+        Les familles du référentiel. Chacune porte une crédibilité par défaut, proposée à la création d'une fiche — référencer trente agences de presse ne doit pas demander de taper « 90 » trente fois.
+        <x-slot:actions>
+            @can('create', App\Models\SourceCategory::class)
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouvelle famille
             </button>
         @endcan
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="3">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"
@@ -52,9 +39,9 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="fam-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="fam-q">Rechercher une famille</label>
+        <div class="flex-1 mb-0">
+            <label for="fam-q" class="etiquette">Rechercher une famille</label>
+<input id="fam-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
     </section>
 
@@ -64,7 +51,7 @@
                        description="Les sources peuvent exister sans famille : le classement est un confort de lecture, pas une condition. Créez-en une dès que la liste devient longue.">
             <x-slot:action>
                 @can('create', App\Models\SourceCategory::class)
-                    <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
+                    <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
                         Nouvelle famille
                     </button>
                 @endcan
@@ -83,25 +70,25 @@
             @foreach ($familles as $famille)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $famille->name }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $famille->name }}</p>
                         @if ($famille->description !== null)
-                            <p class="text-xs text-[#64748B] mb-0">{{ Str::limit($famille->description, 90) }}</p>
+                            <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ Str::limit($famille->description, 90) }}</p>
                         @endif
                     </td>
                     <td class="whitespace-nowrap">{{ $famille->default_credibility }} / 100</td>
                     <td class="whitespace-nowrap">{{ $famille->sources_count }}</td>
-                    <td class="whitespace-nowrap text-[#64748B]">{{ $famille->sort_order }}</td>
+                    <td class="whitespace-nowrap text-encre-3 dark:text-nuit-3">{{ $famille->sort_order }}</td>
                     <td class="text-right whitespace-nowrap">
                         @can('update', $famille)
                             <button type="button" wire:click="ouvrirEdition('{{ $famille->uuid }}')"
-                                    class="st-icnbtn" title="Modifier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                         @endcan
                         @can('delete', $famille)
                             <button type="button" wire:click="demanderLaSuppression('{{ $famille->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endcan
                     </td>
@@ -116,40 +103,40 @@
                       :title="$enEdition === null ? 'Nouvelle famille' : 'Modifier la famille'"
                       close="fermerLeTiroir">
         <form wire:submit="enregistrer" class="space-y-4">
-            <div class="ffield">
-                <input id="fam-nom" type="text" wire:model="nom" placeholder=" ">
-                <label for="fam-nom">Nom de la famille</label>
-                @error('nom') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="fam-nom" class="etiquette">Nom de la famille</label>
+<input id="fam-nom" type="text" wire:model="nom" class="champ">
+                @error('nom') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
-            <div class="ffield">
-                <textarea id="fam-desc" wire:model="descriptif" rows="3" placeholder=" "></textarea>
-                <label for="fam-desc">Ce que cette famille regroupe</label>
-                @error('descriptif') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="fam-desc" class="etiquette">Ce que cette famille regroupe</label>
+<textarea id="fam-desc" wire:model="descriptif" rows="3" class="champ !h-auto py-2.5"></textarea>
+                @error('descriptif') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
-                <div class="ffield mb-0">
-                    <input id="fam-cred" type="number" min="0" max="100" wire:model="credibiliteParDefaut" placeholder=" ">
-                    <label for="fam-cred">Crédibilité par défaut</label>
-                    @error('credibiliteParDefaut') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="fam-cred" class="etiquette">Crédibilité par défaut</label>
+<input id="fam-cred" type="number" min="0" max="100" wire:model="credibiliteParDefaut" class="champ">
+                    @error('credibiliteParDefaut') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="fam-ordre" type="number" min="0" wire:model="ordre" placeholder=" ">
-                    <label for="fam-ordre">Ordre d'affichage</label>
-                    @error('ordre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="fam-ordre" class="etiquette">Ordre d'affichage</label>
+<input id="fam-ordre" type="number" min="0" wire:model="ordre" class="champ">
+                    @error('ordre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
-            <p class="text-xs text-[#64748B] mb-0">
+            <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                 La crédibilité par défaut n'est qu'une proposition : chaque fiche peut s'en écarter.
                 Modifier une famille ne touche pas les sources déjà référencées.
             </p>
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>

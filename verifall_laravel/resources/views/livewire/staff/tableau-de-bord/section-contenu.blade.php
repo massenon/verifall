@@ -1,3 +1,6 @@
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/pages/staff-tableau-de-bord.css') }}">
+@endpush
 {{--
   | 06 — Performance du contenu (§13) : les volumes, type par type.
   |
@@ -12,7 +15,7 @@
     @if ($enErreur)
         @include('livewire.staff.tableau-de-bord.erreur', ['bloc' => 'Performance du contenu'])
     @else
-        <article class="st-card tdb-card">
+        <article class="carte tdb-card">
             <div class="tdb-card-h">
                 <div>
                     <h3 class="tdb-h3">Contenus publiés</h3>
@@ -21,7 +24,7 @@
             </div>
 
             <div class="tdb-table-wrap">
-                <table class="st-table tdb-table">
+                <table class="tableau tdb-table">
                     <thead>
                         <tr>
                             <th scope="col">Type</th>
@@ -36,7 +39,7 @@
                             <tr wire:key="contenu-{{ $loop->index }}">
                                 <th scope="row" style="text-align: left; font-weight: 600; color: var(--st-ink);">
                                     <span style="display: inline-flex; align-items: center; gap: .45rem;">
-                                        <span class="material-symbols-rounded" style="font-size: 18px; color: var(--st-brand);" aria-hidden="true">{{ $ligne['icone'] }}</span>
+                                        <x-lucide :name="$ligne['icone']" class="w-4 h-4" />
                                         @if ($ligne['route'])
                                             <a href="{{ route($ligne['route']) }}" style="color: inherit;">{{ $ligne['libelle'] }}</a>
                                         @else

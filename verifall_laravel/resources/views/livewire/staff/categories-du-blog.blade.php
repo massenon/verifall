@@ -9,31 +9,19 @@
   | rubrique de blog vide ne s'affiche simplement pas côté public. C'est le
   | nombre de billets qui décide, pas un état de plus à tenir.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ route('staff.posts') }}" class="hover:text-[#065F46]">Articles du blog</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Rubriques</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Catégories du blog</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Les rubriques éditoriales. Une rubrique sans billet ne s'affiche pas côté public.
-            </p>
-        </div>
-
-        @if ($peutGerer)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+<x-premium.entete titre="Catégories du blog" :fil="['Rubriques']">
+        Les rubriques éditoriales. Une rubrique sans billet ne s'affiche pas côté public.
+        <x-slot:actions>
+            @if ($peutGerer)
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouvelle rubrique
             </button>
         @endif
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="3">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"
@@ -47,9 +35,9 @@
     </x-kpi-grid>
 
     <section class="mb-4">
-        <div class="ffield mb-0">
-            <input id="cb-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="cb-q">Rechercher une rubrique</label>
+        <div class="mb-0">
+            <label for="cb-q" class="etiquette">Rechercher une rubrique</label>
+<input id="cb-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
     </section>
 
@@ -69,20 +57,20 @@
             @foreach ($categories as $categorie)
                 <tr>
                     <td>
-                        <p class="font-semibold text-[#0F172A] mb-0">{{ $categorie->name }}</p>
-                        <p class="text-xs text-[#64748B] mb-0 font-mono">{{ $categorie->slug }}</p>
+                        <p class="font-semibold text-encre dark:text-white mb-0">{{ $categorie->name }}</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0 font-mono">{{ $categorie->slug }}</p>
                     </td>
                     <td class="whitespace-nowrap">{{ $categorie->posts_count }}</td>
-                    <td class="whitespace-nowrap text-[#64748B]">{{ $categorie->position }}</td>
+                    <td class="whitespace-nowrap text-encre-3 dark:text-nuit-3">{{ $categorie->position }}</td>
                     <td class="text-right whitespace-nowrap">
                         @if ($peutGerer)
                             <button type="button" wire:click="ouvrirEdition('{{ $categorie->uuid }}')"
-                                    class="st-icnbtn" title="Modifier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="demanderLaSuppression('{{ $categorie->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>
@@ -98,26 +86,26 @@
                           :title="$enEdition === null ? 'Nouvelle rubrique' : 'Modifier la rubrique'"
                           close="fermerLeTiroir">
             <form wire:submit="enregistrer" class="space-y-4">
-                <div class="ffield">
-                    <input id="cb-nom" type="text" wire:model="nom" placeholder=" ">
-                    <label for="cb-nom">Nom de la rubrique</label>
+                <div>
+                    <label for="cb-nom" class="etiquette">Nom de la rubrique</label>
+<input id="cb-nom" type="text" wire:model="nom" class="champ">
                     @if ($enEdition !== null)
-                        <p class="text-xs text-[#64748B] mt-1 mb-0">
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                             L'adresse publique (le slug) ne change pas : un billet se partage et s'indexe.
                         </p>
                     @endif
-                    @error('nom') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('nom') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield">
-                    <input id="cb-ordre" type="number" min="0" wire:model="ordre" placeholder=" ">
-                    <label for="cb-ordre">Ordre d'affichage</label>
-                    @error('ordre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="cb-ordre" class="etiquette">Ordre d'affichage</label>
+<input id="cb-ordre" type="number" min="0" wire:model="ordre" class="champ">
+                    @error('ordre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="flex gap-2 pt-2">
-                    <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                    <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                    <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                    <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
                 </div>
             </form>
         </x-offcanvas-form>

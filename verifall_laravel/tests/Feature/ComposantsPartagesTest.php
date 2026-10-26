@@ -86,18 +86,11 @@ it('respecte la cascade CSS imposée, tailwind en dernier', function (): void {
      | retomberaient à la moitié de leur hauteur.
      */
     expect($ordre)->toBe([
-        'fonts/fonts.css',
-        'citizen.css',
-        'staff.css',
         'vendor/quill.snow.css',
-        'tailwind.css',
-        'staff-shell.css',
         'verifall-app.css',
-        // Après la couche applicative : la barre supérieure redéfinit
-        // `--topbar-h`, dont dépendent la barre latérale et le contenu.
-        'staff-topbar.css',
-        // Les feuilles d'écran (`@stack('styles')`) ferment toujours la marche.
-        'pages/staff-tableau-de-bord.css',
+        'fonts/premium.css',
+        'staff-premium.css',
+        // Les feuilles d'écran (`@stack('styles')`) ferment la marche, quand l'écran en pousse une.
     ]);
 });
 
@@ -165,7 +158,7 @@ describe('accordéon KPI', function (): void {
         expect(Blade::render('<x-kpi value="8" label="Badges" />'))
             ->toContain('kpi-card')->toContain('kpi-value')
             ->and(Blade::render('<x-kpi variant="staff" value="8" label="Badges" />'))
-            ->toContain('st-kpi')->toContain('st-kpi-v');
+            ->toContain('carte p-4')->toContain('tabular-nums');
     });
 });
 

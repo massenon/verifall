@@ -159,8 +159,10 @@ it('donne au mentor un menu strictement PLUS PETIT', function () {
     $admin = collect(MenuDuBackOffice::pour(membreAvecRole(UserRole::Admin->value)))
         ->flatten(1)->pluck('route');
 
+    // Seule exception, voulue : la porte d'entrée. Le mentor a SON tableau de
+    // bord (P4-2), l'administrateur celui de la plateforme — un seul chacun.
     expect($mentor->count())->toBeLessThan($admin->count())
-        ->and($mentor->diff($admin)->values()->all())->toBe([]);
+        ->and($mentor->diff($admin)->values()->all())->toBe(['staff.mentor.dashboard']);
 });
 
 it('n’affiche AUCUN groupe vide', function () {
@@ -192,9 +194,9 @@ it('rend la barre sans lien interdit, sur une page réelle', function () {
     $this->actingAs($mentor, 'staff')
         ->get(route('staff.my-students'))
         ->assertOk()
-        ->assertSee('Mes Étudiants')
-        ->assertDontSee('Rôles &amp; Permissions', escape: false)
-        ->assertDontSee('Réglages du Système');
+        ->assertSee('Mes apprenants')
+        ->assertDontSee('Rôles et permissions')
+        ->assertDontSee('Modèles de courriels');
 });
 
 it('ouvre le groupe de la page courante', function () {
@@ -202,8 +204,11 @@ it('ouvre le groupe de la page courante', function () {
     // l'on ne voit pas où l'on se trouve.
     $admin = membreAvecRole(UserRole::Admin->value);
 
-    $this->actingAs($admin, 'staff')
+    $html = $this->actingAs($admin, 'staff')
         ->get(route('staff.settings'))
         ->assertOk()
-        ->assertSee('CONFIG SYSTÈME');
+        ->content();
+
+    // Le groupe « Système » est rendu ouvert et marqué comme courant.
+    expect(preg_match('/data-groupe="systeme"\s+open\s+data-courant/', $html))->toBe(1);
 });

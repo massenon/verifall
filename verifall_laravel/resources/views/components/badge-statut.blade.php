@@ -18,17 +18,17 @@
      | se lire à la seule teinte (accessibilité, et règle de marque).
      */
     $map = [
-        'vrai' => ['citizen' => 'vbadge vbadge-true', 'staff' => 'st-badge st-badge-pub', 'defaut' => 'VRAI'],
-        'faux' => ['citizen' => 'vbadge vbadge-false', 'staff' => 'st-badge st-badge-danger', 'defaut' => 'FAUX'],
-        'trompeur' => ['citizen' => 'vbadge vbadge-doubt', 'staff' => 'st-badge st-badge-warn', 'defaut' => 'TROMPEUR'],
-        'non-verifiable' => ['citizen' => 'vbadge', 'staff' => 'st-badge', 'defaut' => 'NON VÉRIFIABLE'],
-        'en-cours' => ['citizen' => 'vbadge vbadge-progress', 'staff' => 'st-badge st-badge-info', 'defaut' => 'En cours'],
-        'publie' => ['citizen' => 'vbadge vbadge-true', 'staff' => 'st-badge st-badge-pub', 'defaut' => 'Publié'],
-        'brouillon' => ['citizen' => 'vbadge', 'staff' => 'st-badge st-badge-draft', 'defaut' => 'Brouillon'],
-        'archive' => ['citizen' => 'vbadge', 'staff' => 'st-badge st-badge-arch', 'defaut' => 'Archivé'],
-        'premium' => ['citizen' => 'vbadge', 'staff' => 'st-badge st-badge-premium', 'defaut' => 'Premium'],
-        'danger' => ['citizen' => 'vbadge vbadge-false', 'staff' => 'st-badge st-badge-danger', 'defaut' => 'Alerte'],
-        'info' => ['citizen' => 'vbadge', 'staff' => 'st-badge st-badge-info', 'defaut' => 'Information'],
+        'vrai' => ['citizen' => 'vbadge vbadge-true', 'staff' => 'pastille p-bon', 'defaut' => 'VRAI'],
+        'faux' => ['citizen' => 'vbadge vbadge-false', 'staff' => 'pastille p-critique', 'defaut' => 'FAUX'],
+        'trompeur' => ['citizen' => 'vbadge vbadge-doubt', 'staff' => 'pastille p-alerte', 'defaut' => 'TROMPEUR'],
+        'non-verifiable' => ['citizen' => 'vbadge', 'staff' => 'pastille', 'defaut' => 'NON VÉRIFIABLE'],
+        'en-cours' => ['citizen' => 'vbadge vbadge-progress', 'staff' => 'pastille p-info', 'defaut' => 'En cours'],
+        'publie' => ['citizen' => 'vbadge vbadge-true', 'staff' => 'pastille p-bon', 'defaut' => 'Publié'],
+        'brouillon' => ['citizen' => 'vbadge', 'staff' => 'pastille p-neutre', 'defaut' => 'Brouillon'],
+        'archive' => ['citizen' => 'vbadge', 'staff' => 'pastille p-neutre', 'defaut' => 'Archivé'],
+        'premium' => ['citizen' => 'vbadge', 'staff' => 'pastille p-info', 'defaut' => 'Premium'],
+        'danger' => ['citizen' => 'vbadge vbadge-false', 'staff' => 'pastille p-critique', 'defaut' => 'Alerte'],
+        'info' => ['citizen' => 'vbadge', 'staff' => 'pastille p-info', 'defaut' => 'Information'],
     ];
 
     $key = $map[$statut] ?? $map['info'];
@@ -37,7 +37,7 @@
 @endphp
 
 <span {{ $attributes->merge(['class' => $classes]) }}>
-    {{-- .st-badge fournit deja sa pastille via ::before ; .vbadge non.
+    {{-- .pastille fournit deja sa pastille via ::before ; .vbadge non.
          Sans cette distinction, le staff affichait deux points. --}}
     @unless ($staff)<span aria-hidden="true">●</span>@endunless{{ $texte }}
 </span>

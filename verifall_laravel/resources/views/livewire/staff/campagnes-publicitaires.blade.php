@@ -10,30 +10,19 @@
   | drapeau : une campagne active dont la fenêtre est passée ne paraît nulle
   | part, et la ligne doit le dire.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Campagnes publicitaires</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Campagnes publicitaires</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Bandeaux et modales du site public. Une campagne a une fenêtre de diffusion :
-                elle peut se préparer à l'avance et s'éteindre seule.
-            </p>
-        </div>
-
-        @if ($peutGerer)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+<x-premium.entete titre="Campagnes publicitaires" :fil="['Campagnes publicitaires']">
+        Bandeaux et modales du site public. Une campagne a une fenêtre de diffusion : elle peut se préparer à l'avance et s'éteindre seule.
+        <x-slot:actions>
+            @if ($peutGerer)
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouvelle campagne
             </button>
         @endif
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['total'], 0, ',', ' ')"
@@ -52,12 +41,12 @@
     </x-kpi-grid>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
-        <div class="ffield flex-1 mb-0">
-            <input id="cp-q" type="search" wire:model.live.debounce.350ms="recherche" placeholder=" ">
-            <label for="cp-q">Rechercher une campagne</label>
+        <div class="flex-1 mb-0">
+            <label for="cp-q" class="etiquette">Rechercher une campagne</label>
+<input id="cp-q" type="search" wire:model.live.debounce.350ms="recherche" class="champ">
         </div>
 
-        <select wire:model.live="filtreEtat" class="st-input w-auto" aria-label="Filtrer par état">
+        <select wire:model.live="filtreEtat" class="champ w-auto" aria-label="Filtrer par état">
             <option value="">État : tous</option>
             <option value="diffusees">Diffusées</option>
             <option value="programmees">Programmées</option>
@@ -89,18 +78,18 @@
                             <span class="inline-block w-3 h-3 rounded-full"
                                   style="background: {{ $campagne->color ?? '#059669' }}" aria-hidden="true"></span>
                             <div>
-                                <p class="font-semibold text-[#0F172A] mb-0">{{ $campagne->title }}</p>
-                                <p class="text-xs text-[#64748B] mb-0">{{ Str::limit($campagne->text, 70) }}</p>
+                                <p class="font-semibold text-encre dark:text-white mb-0">{{ $campagne->title }}</p>
+                                <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ Str::limit($campagne->text, 70) }}</p>
                             </div>
                         </div>
                     </td>
                     <td class="whitespace-nowrap">
-                        <span class="st-badge st-badge-info">{{ $campagne->type === 'overlay' ? 'Modale' : 'Bandeau' }}</span>
+                        <span class="pastille p-info">{{ $campagne->type === 'overlay' ? 'Modale' : 'Bandeau' }}</span>
                         @if ($campagne->type === 'overlay' && $campagne->delay_seconds > 0)
-                            <span class="block text-xs text-[#64748B] mt-1">après {{ $campagne->delay_seconds }} s</span>
+                            <span class="block text-xs text-encre-3 dark:text-nuit-3 mt-1">après {{ $campagne->delay_seconds }} s</span>
                         @endif
                     </td>
-                    <td class="whitespace-nowrap text-sm text-[#64748B]">
+                    <td class="whitespace-nowrap text-sm text-encre-3 dark:text-nuit-3">
                         @if ($campagne->starts_at === null && $campagne->ends_at === null)
                             Sans borne
                         @else
@@ -116,29 +105,29 @@
                         @if ($diffusee)
                             <x-badge-statut variant="staff" statut="publie" label="Diffusée" />
                         @elseif (! $campagne->is_active)
-                            <span class="st-badge st-badge-draft">Inactive</span>
+                            <span class="pastille p-neutre">Inactive</span>
                         @elseif ($campagne->starts_at !== null && $campagne->starts_at > now())
-                            <span class="st-badge st-badge-warn">Programmée</span>
+                            <span class="pastille p-alerte">Programmée</span>
                         @else
                             {{-- Active mais fenêtre passée : ne paraît nulle part. Sans
                                  cet état, la ligne dirait « active » et personne ne
                                  comprendrait pourquoi rien ne s'affiche. --}}
-                            <span class="st-badge st-badge-arch">Terminée</span>
+                            <span class="pastille p-neutre">Terminée</span>
                         @endif
                     </td>
                     <td class="text-right whitespace-nowrap">
                         @if ($peutGerer)
                             <button type="button" wire:click="basculerLActivation('{{ $campagne->uuid }}')"
-                                    class="st-icnbtn" title="{{ $campagne->is_active ? 'Arrêter' : 'Activer' }}">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">{{ $campagne->is_active ? 'pause' : 'play_arrow' }}</span>
+                                    class="btn-icone" title="{{ $campagne->is_active ? 'Arrêter' : 'Activer' }}">
+                                <x-lucide :name="$campagne->is_active ? 'pause' : 'play_arrow'" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="ouvrirEdition('{{ $campagne->uuid }}')"
-                                    class="st-icnbtn" title="Modifier">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                    class="btn-icone" title="Modifier">
+                                <x-lucide name="pencil" class="w-4 h-4" />
                             </button>
                             <button type="button" wire:click="demanderLaSuppression('{{ $campagne->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique" title="Supprimer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         @endif
                     </td>
@@ -154,62 +143,62 @@
                           :title="$enEdition === null ? 'Nouvelle campagne' : 'Modifier la campagne'"
                           close="fermerLeTiroir">
             <form wire:submit="enregistrer" class="space-y-4">
-                <div class="ffield">
-                    <input id="cp-titre" type="text" wire:model="titre" placeholder=" ">
-                    <label for="cp-titre">Titre</label>
-                    @error('titre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="cp-titre" class="etiquette">Titre</label>
+<input id="cp-titre" type="text" wire:model="titre" class="champ">
+                    @error('titre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield">
-                    <textarea id="cp-texte" wire:model="texte" rows="3" placeholder=" "></textarea>
-                    <label for="cp-texte">Message</label>
-                    @error('texte') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="cp-texte" class="etiquette">Message</label>
+<textarea id="cp-texte" wire:model="texte" rows="3" class="champ !h-auto py-2.5"></textarea>
+                    @error('texte') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="grid sm:grid-cols-2 gap-4">
                     <div>
-                        <label for="cp-type" class="block text-sm font-medium text-[#0F172A] mb-1">Type</label>
-                        <select id="cp-type" wire:model.live="type" class="st-input w-full">
+                        <label for="cp-type" class="block text-sm font-medium text-encre dark:text-white mb-1">Type</label>
+                        <select id="cp-type" wire:model.live="type" class="champ w-full">
                             <option value="banner">Bandeau</option>
                             <option value="overlay">Modale</option>
                         </select>
-                        @error('type') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                        @error('type') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
-                        <label for="cp-couleur" class="block text-sm font-medium text-[#0F172A] mb-1">Couleur</label>
-                        <input id="cp-couleur" type="color" wire:model="couleur" class="st-input w-full">
-                        @error('couleur') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                        <label for="cp-couleur" class="block text-sm font-medium text-encre dark:text-white mb-1">Couleur</label>
+                        <input id="cp-couleur" type="color" wire:model="couleur" class="champ w-full">
+                        @error('couleur') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
                 @if ($type === 'overlay')
-                    <div class="ffield">
-                        <input id="cp-delai" type="number" min="0" max="120" wire:model="delai" placeholder=" ">
-                        <label for="cp-delai">Délai avant apparition (secondes)</label>
-                        <p class="text-xs text-[#64748B] mt-1 mb-0">
+                    <div>
+                        <label for="cp-delai" class="etiquette">Délai avant apparition (secondes)</label>
+<input id="cp-delai" type="number" min="0" max="120" wire:model="delai" class="champ">
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                             Au-delà de deux minutes, la modale tombe sur quelqu'un qui lit — et se fait
                             fermer sans être lue.
                         </p>
-                        @error('delai') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                        @error('delai') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 @endif
 
                 <div class="grid sm:grid-cols-2 gap-4">
-                    <div class="ffield mb-0">
-                        <input id="cp-bouton" type="text" wire:model="bouton" placeholder=" ">
-                        <label for="cp-bouton">Libellé du bouton</label>
-                        @error('bouton') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="cp-bouton" class="etiquette">Libellé du bouton</label>
+<input id="cp-bouton" type="text" wire:model="bouton" class="champ">
+                        @error('bouton') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <input id="cp-lien" type="text" wire:model="lien" placeholder=" ">
-                        <label for="cp-lien">Destination</label>
-                        @error('lien') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="cp-lien" class="etiquette">Destination</label>
+<input id="cp-lien" type="text" wire:model="lien" class="champ">
+                        @error('lien') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
-                <p class="text-xs text-[#64748B] mb-0">
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                     Bouton et destination sont obligatoires : une campagne sans eux occuperait
                     le haut de chaque page pour dire quelque chose sans permettre d'y donner suite.
                     La destination accepte une adresse complète, un chemin du site
@@ -218,38 +207,38 @@
                 </p>
 
                 <div class="grid sm:grid-cols-2 gap-4">
-                    <div class="ffield mb-0">
-                        <input id="cp-debut" type="datetime-local" wire:model="debut" placeholder=" ">
-                        <label for="cp-debut">Début (facultatif)</label>
-                        @error('debut') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="cp-debut" class="etiquette">Début (facultatif)</label>
+<input id="cp-debut" type="datetime-local" wire:model="debut" class="champ">
+                        @error('debut') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="ffield mb-0">
-                        <input id="cp-fin" type="datetime-local" wire:model="fin" placeholder=" ">
-                        <label for="cp-fin">Fin (facultatif)</label>
-                        @error('fin') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div class="mb-0">
+                        <label for="cp-fin" class="etiquette">Fin (facultatif)</label>
+<input id="cp-fin" type="datetime-local" wire:model="fin" class="champ">
+                        @error('fin') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
-                <div class="ffield">
-                    <input id="cp-ordre" type="number" min="0" wire:model="ordre" placeholder=" ">
-                    <label for="cp-ordre">Ordre</label>
-                    @error('ordre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="cp-ordre" class="etiquette">Ordre</label>
+<input id="cp-ordre" type="number" min="0" wire:model="ordre" class="champ">
+                    @error('ordre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
                 <label class="flex items-start gap-2.5 cursor-pointer">
                     <input type="checkbox" wire:model="active" class="mt-0.5">
-                    <span class="text-sm text-[#334155]">
+                    <span class="text-sm text-encre-2 dark:text-nuit-2">
                         Campagne active
-                        <span class="block text-xs text-[#64748B]">
+                        <span class="block text-xs text-encre-3 dark:text-nuit-3">
                             Elle paraîtra dans sa fenêtre de diffusion, ou immédiatement si aucune borne n'est fixée.
                         </span>
                     </span>
                 </label>
 
                 <div class="flex gap-2 pt-2">
-                    <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                    <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                    <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                    <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
                 </div>
             </form>
         </x-offcanvas-form>

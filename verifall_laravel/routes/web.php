@@ -27,6 +27,7 @@ use App\Http\Controllers\Public\ServiceWorkerController;
 use App\Http\Controllers\Public\SoutienController;
 use App\Http\Controllers\Staff\DonneesDeLaBanqueDeQuestionsController;
 use App\Http\Controllers\Staff\DonneesDeLaCorrectionController;
+use App\Http\Controllers\Staff\DonneesDeLaFicheDuCompteController;
 use App\Http\Controllers\Staff\DonneesDeLEnrolementAuxExamensController;
 use App\Http\Controllers\Staff\DonneesDesAbonnesController;
 use App\Http\Controllers\Staff\DonneesDesExamensController;
@@ -35,17 +36,25 @@ use App\Http\Controllers\Staff\DonneesDesMessagesContactController;
 use App\Http\Controllers\Staff\DonneesDesSignalementsContenuController;
 use App\Http\Controllers\Staff\DonneesDesSourcesVerifieesController;
 use App\Http\Controllers\Staff\DonneesDesUtilisateursController;
+use App\Http\Controllers\Staff\DonneesDuCalendrierController;
 use App\Http\Controllers\Staff\DonneesDuJournalDesUnitesController;
+use App\Http\Controllers\Staff\FichierDeLaMediathequeController;
 use App\Http\Controllers\Staff\PieceKycController;
+use App\Http\Controllers\Staff\RechercheDeLaPaletteController;
+use App\Http\Controllers\Staff\ThemeDeLaConsoleController;
+use App\Http\Controllers\Staff\VerrouillerLaSessionController;
 use App\Http\Controllers\TourController;
 use App\Http\Controllers\Webhooks\MomoWebhookController;
 use App\Http\Middleware\CompteActif;
+use App\Http\Middleware\EnvoyerLeMentorVersSonTableauDeBord;
 use App\Http\Middleware\GuardStaffParDefaut;
 use App\Http\Middleware\SansIndexation;
 use App\Livewire\Auth\ForgotPassword;
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
+use App\Livewire\Auth\StaffForgotPassword;
 use App\Livewire\Auth\StaffLogin;
+use App\Livewire\Auth\VerrouDeSession as VerrouDeSessionEcran;
 use App\Livewire\Citizen\ArticleHub;
 use App\Livewire\Citizen\Catalogue;
 use App\Livewire\Citizen\Certificat;
@@ -88,9 +97,11 @@ use App\Livewire\Public\VerifierCertificat;
 use App\Livewire\Public\VerifierInvite;
 use App\Livewire\Staff\ActualitesHub as StaffActualitesHub;
 use App\Livewire\Staff\AlertesIntrusion;
+use App\Livewire\Staff\Analytique;
 use App\Livewire\Staff\ArticlesDuBlog as StaffArticlesDuBlog;
 use App\Livewire\Staff\BadgesDeProgression as StaffBadgesDeProgression;
 use App\Livewire\Staff\BanqueDeQuestions as StaffBanqueDeQuestions;
+use App\Livewire\Staff\Calendrier;
 use App\Livewire\Staff\CampagnesPublicitaires as StaffCampagnesPublicitaires;
 use App\Livewire\Staff\CategoriesDeCours as StaffCategoriesDeCours;
 use App\Livewire\Staff\CategoriesDeSources as StaffCategoriesDeSources;
@@ -104,6 +115,7 @@ use App\Livewire\Staff\EnrolementAuxCours as StaffEnrolementAuxCours;
 use App\Livewire\Staff\EnrolementAuxExamens as StaffEnrolementAuxExamens;
 use App\Livewire\Staff\Examens as StaffExamens;
 use App\Livewire\Staff\FaitsVerifies;
+use App\Livewire\Staff\FicheUtilisateur;
 use App\Livewire\Staff\ForumCitoyen as StaffForumCitoyen;
 use App\Livewire\Staff\GabaritCertificat as StaffGabaritCertificat;
 use App\Livewire\Staff\GabaritsEmails as StaffGabaritsEmails;
@@ -114,10 +126,13 @@ use App\Livewire\Staff\JournalDesEmails as StaffJournalDesEmails;
 use App\Livewire\Staff\JournalDesUnites as StaffJournalDesUnites;
 use App\Livewire\Staff\LiveClasses as StaffLiveClasses;
 use App\Livewire\Staff\Maintenance as StaffMaintenance;
+use App\Livewire\Staff\Mediatheque;
+use App\Livewire\Staff\Mentor\TableauDeBord as TableauDeBordDuMentor;
 use App\Livewire\Staff\Mentors as StaffMentors;
 use App\Livewire\Staff\MesContenus;
 use App\Livewire\Staff\MesEtudiants;
 use App\Livewire\Staff\MessagesContact;
+use App\Livewire\Staff\MonCompte;
 use App\Livewire\Staff\MotsSurveilles;
 use App\Livewire\Staff\Opportunites;
 use App\Livewire\Staff\Outils as StaffOutils;
@@ -439,6 +454,11 @@ Route::get('/maintenance', MaintenancePage::class)->name('maintenance');
 Route::post('/maintenance/prevenez-moi', MaintenanceController::class)
     ->middleware('throttle:6,1')->name('maintenance.watch');
 
+// L'état que la page interroge pour annoncer la réouverture sans qu'on
+// rafraîchisse en boucle. Trois champs, aucune donnée personnelle.
+Route::get('/maintenance/etat', [MaintenancePage::class, 'etat'])
+    ->middleware('throttle:30,1')->name('maintenance.etat');
+
 Route::get('/connexion', Login::class)->middleware('guest')->name('login');
 
 // POST exclusivement : un GET de deconnexion se declencherait depuis une
@@ -632,7 +652,13 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
          | chantier. Signalé en production.
          */
         Route::get('tableau-de-bord', TableauDeBordPersonnel::class)
+            ->middleware(EnvoyerLeMentorVersSonTableauDeBord::class)
             ->name('dashboard');
+
+        // Le tableau de bord du MENTOR (IMPLEMENTATION_PLAN, P4-2) : sa
+        // journée, ses copies, ses cours. Borné à ses cours par le dépôt.
+        Route::get('mentor/tableau-de-bord', TableauDeBordDuMentor::class)
+            ->middleware('can:student.view')->name('mentor.dashboard');
 
         /*
          | ÉCONOMIE. La grille tarifaire, modifiable sans déploiement — c'est
@@ -989,6 +1015,17 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
         Route::get('utilisateurs-data', DonneesDesUtilisateursController::class)
             ->middleware('can:viewAny,'.User::class)->name('users.data');
 
+        /*
+         | La fiche d'un compte : même garde sur la page et sur ses onglets
+         | (`can:view,user`), adressée par uuid et jamais par identifiant. Un
+         | segment fixe (`donnees`) sépare la source des onglets de l'uuid.
+         */
+        Route::get('utilisateurs/{user:uuid}', FicheUtilisateur::class)
+            ->middleware('can:view,user')->name('users.show');
+
+        Route::get('utilisateurs/{user:uuid}/donnees/{onglet}', DonneesDeLaFicheDuCompteController::class)
+            ->middleware('can:view,user')->name('users.show.data');
+
         Route::get('roles', StaffRoles::class)
             ->middleware('can:viewAny,'.SpatieRole::class)->name('roles');
 
@@ -1087,9 +1124,33 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
         // inscrite au journal d'audit.
         Route::post('deconnexion', StaffLogoutController::class)
             ->name('logout');
+
+        // Verrouillage de session (arbitrage n° 180) : POST seulement.
+        Route::post('verrouiller', VerrouillerLaSessionController::class)
+            ->name('lock');
+
+        // Mon compte : l'identité vient de la garde, jamais d'un paramètre.
+        Route::get('mon-compte', MonCompte::class)->name('account');
+
+        // Le calendrier : lecture seule, chaque famille d'événements filtrée par droit.
+        // Médiathèque : images sur le disque privé, servies par lien signé ET droit revérifié.
+        Route::get('mediatheque', Mediatheque::class)->middleware('can:media.view')->name('media');
+        Route::get('mediatheque/{media}/fichier', FichierDeLaMediathequeController::class)->middleware(['signed', 'can:media.view'])->name('media.file');
+
+        Route::get('analytique', Analytique::class)->middleware('can:analytics.view')->name('analytics');
+
+        Route::get('calendrier', Calendrier::class)->middleware('can:viewAny,'.LiveClass::class)->name('calendar');
+        Route::get('calendrier/donnees', DonneesDuCalendrierController::class)->middleware(['can:viewAny,'.LiveClass::class, 'throttle:60,1'])->name('calendar.data');
+        Route::get('recherche', RechercheDeLaPaletteController::class)->middleware('throttle:60,1')->name('search');
+        Route::post('theme', ThemeDeLaConsoleController::class)->middleware('throttle:30,1')->name('theme');
     });
 
     Route::get('connexion', StaffLogin::class)->middleware('guest:staff')->name('login');
+    Route::get('mot-de-passe-oublie', StaffForgotPassword::class)->middleware('guest:staff')->name('password.request');
+
+    // L'écran de verrouillage : la garde staff y est DÉCONNECTÉE ; c'est la
+    // session qui sait qui revient (VerrouDeSession).
+    Route::get('verrou', VerrouDeSessionEcran::class)->middleware('guest:staff')->name('verrou');
 });
 
 // ------------------------------------------------ guide vivant des composants

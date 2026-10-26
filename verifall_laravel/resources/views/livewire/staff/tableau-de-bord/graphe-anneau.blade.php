@@ -1,3 +1,6 @@
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/pages/staff-tableau-de-bord.css') }}">
+@endpush
 {{--
   | Anneau de répartition — SVG, sans bibliothèque.
   |

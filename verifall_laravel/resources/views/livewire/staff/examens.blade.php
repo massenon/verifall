@@ -20,30 +20,19 @@
   <link rel="stylesheet" href="{{ asset('assets/css/pages/datatables-staff.css') }}">
 @endpush
 
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Examens</span>
-    </nav>
-
-    <header class="mb-6 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Examens</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                Les épreuves certifiantes et leurs sessions. Une épreuve sans question ne se publie pas :
-                elle serait réussie par tout le monde.
-            </p>
-        </div>
-
-        @can('create', App\Models\Exam::class)
-            <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
-                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+<x-premium.entete titre="Examens" :fil="['Examens']">
+        Les épreuves certifiantes et leurs sessions. Une épreuve sans question ne se publie pas : elle serait réussie par tout le monde.
+        <x-slot:actions>
+            @can('create', App\Models\Exam::class)
+            <button type="button" wire:click="ouvrirCreation" class="btn-primaire">
+                <x-lucide name="plus" class="w-4 h-4" />
                 Nouvel examen
             </button>
         @endcan
-    </header>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($indicateurs['actifs'], 0, ',', ' ')"
@@ -70,42 +59,42 @@
          data-vdt-evenement="{{ \App\Livewire\Staff\Examens::EVENEMENT_TABLE_A_RECHARGER }}">
 
         <section class="mb-4 flex flex-wrap items-center gap-3">
-            <div class="ffield flex-1 mb-0">
-                <input id="ex-q" type="search" data-vdt-recherche data-vdt-url="q" data-vdt-livewire="recherche" value="{{ $recherche }}" placeholder=" ">
-                <label for="ex-q">Rechercher une épreuve</label>
+            <div class="flex-1 mb-0">
+                <label for="ex-q" class="etiquette">Rechercher une épreuve</label>
+<input id="ex-q" type="search" data-vdt-recherche data-vdt-url="q" data-vdt-livewire="recherche" value="{{ $recherche }}" class="champ">
             </div>
 
-            <select data-vdt-filtre="statut" data-vdt-url="statut" data-vdt-livewire="filtreStatut" class="st-input w-auto" aria-label="Filtrer par statut">
+            <select data-vdt-filtre="statut" data-vdt-url="statut" data-vdt-livewire="filtreStatut" class="champ w-auto" aria-label="Filtrer par statut">
                 <option value="">Statut : tous</option>
                 @foreach ($statuts as $unStatut)
                     <option value="{{ $unStatut->value }}" @selected($filtreStatut === $unStatut->value)>{{ $unStatut->libelle() }}</option>
                 @endforeach
             </select>
 
-            <select data-vdt-filtre="cours" data-vdt-url="cours" class="st-input w-auto" aria-label="Filtrer par cours">
+            <select data-vdt-filtre="cours" data-vdt-url="cours" class="champ w-auto" aria-label="Filtrer par cours">
                 <option value="">Cours : tous</option>
                 @foreach ($cours as $unCours)
                     <option value="{{ $unCours->uuid }}">{{ Str::limit($unCours->title, 40) }}</option>
                 @endforeach
             </select>
 
-            <div class="ffield mb-0">
-                <input type="text" data-vdt-filtre="cree_du" data-vdt-url="du" data-vdt-date placeholder=" ">
-                <label>Créé depuis le</label>
+            <div class="mb-0">
+                <label class="etiquette">Créé depuis le</label>
+<input type="text" data-vdt-filtre="cree_du" data-vdt-url="du" data-vdt-date class="champ">
             </div>
-            <div class="ffield mb-0">
-                <input type="text" data-vdt-filtre="cree_au" data-vdt-url="au" data-vdt-date placeholder=" ">
-                <label>jusqu'au</label>
+            <div class="mb-0">
+                <label class="etiquette">jusqu'au</label>
+<input type="text" data-vdt-filtre="cree_au" data-vdt-url="au" data-vdt-date class="champ">
             </div>
 
-            <button type="button" data-vdt-reinitialiser class="st-btn st-btn-secondary">
+            <button type="button" data-vdt-reinitialiser class="btn-second">
                 Réinitialiser
             </button>
         </section>
 
-        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-[#FCA5A5] bg-[#FEF2F2] text-[#991B1B] text-sm px-4 py-3 mb-4">
+        <div role="alert" hidden data-vdt-erreur class="rounded-lg border border-red-300 dark:border-red-900 bg-red-50 dark:bg-red-950/40 text-red-800 dark:text-red-300 text-sm px-4 py-3 mb-4">
             <p data-vdt-erreur-message class="mb-2">Impossible de charger les examens.</p>
-            <button type="button" data-vdt-reessayer class="st-btn st-btn-secondary">Réessayer</button>
+            <button type="button" data-vdt-reessayer class="btn-second">Réessayer</button>
         </div>
 
         <table id="table-examens" style="width:100%" data-vdt-table>
@@ -128,24 +117,24 @@
         <section class="mt-8">
             <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-3">
                 <div>
-                    <h2 class="text-lg font-display font-bold text-[#0F172A] mb-0">
+                    <h2 class="text-lg font-titre font-bold text-encre dark:text-white mb-0">
                         Sessions — {{ $examenCourant->title }}
                     </h2>
-                    <p class="text-xs text-[#64748B] mb-0">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                         La session porte la date, le lieu et les places. C'est elle qu'on ouvre aux inscriptions.
                     </p>
                 </div>
 
                 @can('update', $examenCourant)
                     @if ($examenCourant->status?->value === 'published')
-                        <button type="button" wire:click="ouvrirCreationSession" class="st-btn st-btn-secondary">
-                            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+                        <button type="button" wire:click="ouvrirCreationSession" class="btn-second">
+                            <x-lucide name="plus" class="w-4 h-4" />
                             Planifier une session
                         </button>
                     @else
                         {{-- Le service refuse : « on ne convoque personne à un examen
                              qui n'est pas publié ». On le dit AVANT le clic. --}}
-                        <p class="text-xs text-[#DC2626] mb-0">Publiez l'épreuve pour pouvoir planifier une session.</p>
+                        <p class="text-xs text-critique mb-0">Publiez l'épreuve pour pouvoir planifier une session.</p>
                     @endif
                 @endcan
             </div>
@@ -167,31 +156,31 @@
                     @foreach ($sessions as $session)
                         <tr>
                             <td class="whitespace-nowrap">
-                                <p class="font-semibold text-[#0F172A] mb-0">
+                                <p class="font-semibold text-encre dark:text-white mb-0">
                                     {{ $session->starts_at?->translatedFormat('j M Y · H:i') }}
                                 </p>
                                 @if ($session->is_proctored)
-                                    <p class="text-xs text-[#64748B] mb-0">Surveillée</p>
+                                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">Surveillée</p>
                                 @endif
                             </td>
-                            <td class="text-sm text-[#334155]">{{ $session->location ?? 'En ligne' }}</td>
+                            <td class="text-sm text-encre-2 dark:text-nuit-2">{{ $session->location ?? 'En ligne' }}</td>
                             <td class="whitespace-nowrap text-sm">{{ $session->seats ?? 'illimitées' }}</td>
                             <td>
-                                <span class="st-badge st-badge-info">{{ $session->status?->libelle() ?? $session->status }}</span>
+                                <span class="pastille p-info">{{ $session->status?->libelle() ?? $session->status }}</span>
                             </td>
                             <td class="text-right whitespace-nowrap">
                                 @can('update', $examenCourant)
                                     <button type="button" wire:click="changerLEtatDeLaSession('{{ $session->uuid }}', 'ouvrir')"
-                                            class="st-icnbtn" title="Ouvrir aux inscriptions">
-                                        <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">lock_open</span>
+                                            class="btn-icone" title="Ouvrir aux inscriptions">
+                                        <x-lucide name="lock-open" class="w-4 h-4" />
                                     </button>
                                     <button type="button" wire:click="changerLEtatDeLaSession('{{ $session->uuid }}', 'fermer')"
-                                            class="st-icnbtn" title="Fermer les inscriptions">
-                                        <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">lock</span>
+                                            class="btn-icone" title="Fermer les inscriptions">
+                                        <x-lucide name="lock" class="w-4 h-4" />
                                     </button>
                                     <button type="button" wire:click="changerLEtatDeLaSession('{{ $session->uuid }}', 'annuler')"
-                                            class="st-icnbtn text-[#DC2626]" title="Annuler la session">
-                                        <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">event_busy</span>
+                                            class="btn-icone text-critique" title="Annuler la session">
+                                        <x-lucide name="calendar-x" class="w-4 h-4" />
                                     </button>
                                 @endcan
                             </td>
@@ -206,57 +195,57 @@
                       :title="$enEdition === null ? 'Nouvel examen' : 'Modifier l\'épreuve'"
                       close="fermerLeTiroir">
         <form wire:submit="enregistrer" class="space-y-4">
-            <div class="ffield">
-                <input id="ex-titre" type="text" wire:model="titre" placeholder=" ">
-                <label for="ex-titre">Titre de l'épreuve</label>
-                @error('titre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-            </div>
-
-            <div class="ffield">
-                <textarea id="ex-desc" wire:model="descriptif" rows="3" placeholder=" "></textarea>
-                <label for="ex-desc">Ce que cette épreuve évalue</label>
-                @error('descriptif') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="ex-titre" class="etiquette">Titre de l'épreuve</label>
+<input id="ex-titre" type="text" wire:model="titre" class="champ">
+                @error('titre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <label for="ex-cours" class="block text-sm font-medium text-[#0F172A] mb-1">Cours rattaché</label>
-                <select id="ex-cours" wire:model="coursUuid" class="st-input w-full">
+                <label for="ex-desc" class="etiquette">Ce que cette épreuve évalue</label>
+<textarea id="ex-desc" wire:model="descriptif" rows="3" class="champ !h-auto py-2.5"></textarea>
+                @error('descriptif') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label for="ex-cours" class="block text-sm font-medium text-encre dark:text-white mb-1">Cours rattaché</label>
+                <select id="ex-cours" wire:model="coursUuid" class="champ w-full">
                     <option value="">— Transverse —</option>
                     @foreach ($cours as $unCours)
                         <option value="{{ $unCours->uuid }}">{{ $unCours->title }}</option>
                     @endforeach
                 </select>
-                @error('coursUuid') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                @error('coursUuid') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid sm:grid-cols-3 gap-4">
-                <div class="ffield mb-0">
-                    <input id="ex-duree" type="number" min="5" max="480" wire:model="duree" placeholder=" ">
-                    <label for="ex-duree">Durée (min)</label>
-                    @error('duree') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="ex-duree" class="etiquette">Durée (min)</label>
+<input id="ex-duree" type="number" min="5" max="480" wire:model="duree" class="champ">
+                    @error('duree') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="ex-seuil" type="number" min="50" max="100" wire:model="seuil" placeholder=" ">
-                    <label for="ex-seuil">Seuil (%)</label>
-                    @error('seuil') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="ex-seuil" class="etiquette">Seuil (%)</label>
+<input id="ex-seuil" type="number" min="50" max="100" wire:model="seuil" class="champ">
+                    @error('seuil') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="ex-tent" type="number" min="1" max="5" wire:model="tentatives" placeholder=" ">
-                    <label for="ex-tent">Tentatives</label>
-                    @error('tentatives') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="ex-tent" class="etiquette">Tentatives</label>
+<input id="ex-tent" type="number" min="1" max="5" wire:model="tentatives" class="champ">
+                    @error('tentatives') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
-            <p class="text-xs text-[#64748B] mb-0">
+            <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                 L'épreuve naît en brouillon. Attachez-lui des questions depuis la banque avant de publier :
                 un examen sans question serait réussi par tout le monde.
             </p>
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroir" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroir" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>
@@ -265,34 +254,34 @@
                       title="Planifier une session"
                       close="fermerLeTiroirSession">
         <form wire:submit="enregistrerLaSession" class="space-y-4">
-            <div class="ffield">
-                <input id="se-debut" type="datetime-local" wire:model="sessionDebut" placeholder=" ">
-                <label for="se-debut">Date et heure</label>
-                @error('sessionDebut') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="se-debut" class="etiquette">Date et heure</label>
+<input id="se-debut" type="datetime-local" wire:model="sessionDebut" class="champ">
+                @error('sessionDebut') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
-                <div class="ffield mb-0">
-                    <input id="se-places" type="number" min="1" max="1000" wire:model="sessionPlaces" placeholder=" ">
-                    <label for="se-places">Places</label>
-                    @error('sessionPlaces') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="se-places" class="etiquette">Places</label>
+<input id="se-places" type="number" min="1" max="1000" wire:model="sessionPlaces" class="champ">
+                    @error('sessionPlaces') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="se-lieu" type="text" wire:model="sessionLieu" placeholder=" ">
-                    <label for="se-lieu">Lieu (vide = en ligne)</label>
-                    @error('sessionLieu') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="se-lieu" class="etiquette">Lieu (vide = en ligne)</label>
+<input id="se-lieu" type="text" wire:model="sessionLieu" class="champ">
+                    @error('sessionLieu') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
             <label class="flex items-start gap-2.5 cursor-pointer">
                 <input type="checkbox" wire:model="sessionSurveillee" class="mt-0.5">
-                <span class="text-sm text-[#334155]">Session surveillée</span>
+                <span class="text-sm text-encre-2 dark:text-nuit-2">Session surveillée</span>
             </label>
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Planifier</button>
-                <button type="button" wire:click="fermerLeTiroirSession" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Planifier</button>
+                <button type="button" wire:click="fermerLeTiroirSession" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>

@@ -5,17 +5,21 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Core\Application\Contracts\DepotAbonnes;
+use App\Core\Application\Contracts\DepotAnalytique;
 use App\Core\Application\Contracts\DepotBanqueQuestions;
 use App\Core\Application\Contracts\DepotCopiesExamen;
 use App\Core\Application\Contracts\DepotCorrections;
 use App\Core\Application\Contracts\DepotExamens;
 use App\Core\Application\Contracts\DepotFaitsVerifies;
+use App\Core\Application\Contracts\DepotFicheDuCompte;
 use App\Core\Application\Contracts\DepotInscriptionsExamen;
 use App\Core\Application\Contracts\DepotMessagesContact;
 use App\Core\Application\Contracts\DepotNotes;
 use App\Core\Application\Contracts\DepotPlanDuSite;
 use App\Core\Application\Contracts\DepotSignalementsContenu;
 use App\Core\Application\Contracts\DepotSourcesFiables;
+use App\Core\Application\Contracts\DepotStatistiquesDuTableauDeBord;
+use App\Core\Application\Contracts\DepotTableauDeBordMentor;
 use App\Core\Application\Contracts\DepotUtilisateurs;
 use App\Core\Application\Contracts\UnitLogRepositoryInterface;
 use App\Core\Application\Contracts\XpLogRepositoryInterface;
@@ -25,17 +29,21 @@ use App\Core\Economy\Providers\MomoProviderInterface;
 use App\Enums\UserRole;
 use App\Http\Middleware\GuardStaffParDefaut;
 use App\Infrastructure\Persistence\DepotAbonnesEloquent;
+use App\Infrastructure\Persistence\DepotAnalytiqueEloquent;
 use App\Infrastructure\Persistence\DepotBanqueQuestionsEloquent;
 use App\Infrastructure\Persistence\DepotCopiesExamenEloquent;
 use App\Infrastructure\Persistence\DepotCorrectionsEloquent;
 use App\Infrastructure\Persistence\DepotExamensEloquent;
 use App\Infrastructure\Persistence\DepotFaitsVerifiesEloquent;
+use App\Infrastructure\Persistence\DepotFicheDuCompteEloquent;
 use App\Infrastructure\Persistence\DepotInscriptionsExamenEloquent;
 use App\Infrastructure\Persistence\DepotMessagesContactEloquent;
 use App\Infrastructure\Persistence\DepotNotesEloquent;
 use App\Infrastructure\Persistence\DepotPlanDuSiteEloquent;
 use App\Infrastructure\Persistence\DepotSignalementsContenuEloquent;
 use App\Infrastructure\Persistence\DepotSourcesFiablesEloquent;
+use App\Infrastructure\Persistence\DepotStatistiquesDuTableauDeBordEloquent;
+use App\Infrastructure\Persistence\DepotTableauDeBordMentorEloquent;
 use App\Infrastructure\Persistence\DepotUtilisateursEloquent;
 use App\Infrastructure\Persistence\EloquentUnitLogRepository;
 use App\Infrastructure\Persistence\EloquentXpLogRepository;
@@ -103,6 +111,12 @@ final class AppServiceProvider extends ServiceProvider
         // Boîte de contact. Le formulaire du prototype ne postait nulle part ;
         // il poste désormais ici.
         $this->app->bind(DepotMessagesContact::class, DepotMessagesContactEloquent::class);
+
+        // Tableau de bord du mentor (P4-2), borné à ses cours.
+        $this->app->bind(DepotTableauDeBordMentor::class, DepotTableauDeBordMentorEloquent::class);
+        $this->app->bind(DepotAnalytique::class, DepotAnalytiqueEloquent::class);
+        $this->app->bind(DepotFicheDuCompte::class, DepotFicheDuCompteEloquent::class);
+        $this->app->bind(DepotStatistiquesDuTableauDeBord::class, DepotStatistiquesDuTableauDeBordEloquent::class);
 
         // File de modération des contenus signalés. Elle existait en base
         // depuis des mois ; il lui manquait un lecteur.

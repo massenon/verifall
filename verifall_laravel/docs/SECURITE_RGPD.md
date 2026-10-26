@@ -36,6 +36,7 @@
 - **Droit à l'effacement** : « Supprimer mon compte » → confirmation par mot de passe + OTP → soft delete 30 j (délai de rétractation notifié) → Job d'anonymisation définitive (PII → null/hash, contenus forum attribués à « Citoyen supprimé », certificats conservés anonymisés pour la vérification publique — base légale : intérêt légitime documenté).
 - **Rétention** : commande planifiée `CleanupEvidences` (preuves d'analyse > 90 j), logs sécurité 12 mois, comptes inactifs 3 ans → e-mail puis anonymisation.
 - **Chiffrement** : PII sensibles (pièces KYC, téléphone) via casts `encrypted` ; HTTPS forcé (`URL::forceScheme('https')`).
+- **Historiques rattachés au compte** (arbitrage n° 178, `docs/RGPD_HISTORIQUES.md`) : connexions par compte en intérêt légitime de sécurité, IP tronquée et hachée, 12 mois ; lectures du Hub uniquement avec consentement séparé, 90 jours, effacées au retrait.
 - **Registre & DPO** : page confidentialité à jour (celle du prototype), mention du responsable de traitement (Vérif'All / René Fadonougbo), procédure de réclamation APDP Bénin.
 
 ## 6. Checklist pré-déploiement

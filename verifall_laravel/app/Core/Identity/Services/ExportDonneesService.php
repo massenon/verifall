@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Core\Identity\Services;
 
+use App\Models\ConsultationHub;
 use App\Models\DataExport;
+use App\Models\HistoriqueConnexion;
 use App\Models\User;
 use BackedEnum;
 use Illuminate\Support\Facades\Storage;
@@ -143,6 +145,30 @@ final class ExportDonneesService
 
             // Le journal des consentements est la preuve que la personne peut
             // exiger de nous : il a plus sa place ici que n'importe quoi d'autre.
+
+            // Arbitrage n° 178 : le droit d'accès couvre les deux historiques.
+            'connexions' => HistoriqueConnexion::query()->where('user_id', $utilisateur->id)
+                ->latest('created_at')->get()
+                ->map(fn (HistoriqueConnexion $c): array => [
+                    'date' => $c->created_at->toIso8601String(),
+                    'espace' => $c->espace,
+                    'resultat' => $c->resultat,
+                    'methode' => $c->methode,
+                    'navigateur' => $c->navigateur,
+                    'systeme' => $c->systeme,
+                    'appareil' => $c->appareil,
+                    'reseau' => $c->ip_tronquee,
+                    'pays' => $c->pays,
+                ])->all(),
+
+            'lectures_du_hub' => ConsultationHub::query()->where('user_id', $utilisateur->id)
+                ->latest('created_at')->get()
+                ->map(fn (ConsultationHub $c): array => [
+                    'date' => $c->created_at->toIso8601String(),
+                    'rubrique' => $c->rubrique,
+                    'titre' => $c->titre,
+                    'action' => $c->action,
+                ])->all(),
             'consentements' => $utilisateur->consents()
                 ->orderBy('recorded_at')
                 ->get()

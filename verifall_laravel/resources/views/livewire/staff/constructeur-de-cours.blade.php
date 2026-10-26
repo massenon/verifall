@@ -9,23 +9,11 @@
   | superposer : une question porte deux à six propositions, et un tiroir dans
   | un tiroir ne se referme jamais dans le bon ordre.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ route('staff.courses') }}" class="hover:text-[#065F46]">Tous les cours</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">{{ Str::limit($cours->title, 40) }}</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">{{ $cours->title }}</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            {{ $cours->categorie?->name ?? 'Sans rayon' }} · {{ $cours->level?->libelle() }} ·
-            {{ $cours->is_published ? 'publié au catalogue' : 'brouillon' }}
-        </p>
-    </header>
+<x-premium.entete :titre="$cours->title" :fil="['Cours']">
+        {{ $cours->categorie?->name ?? 'Sans rayon' }} · {{ $cours->level?->libelle() }} · {{ $cours->is_published ? 'publié au catalogue' : 'brouillon' }}
+    </x-premium.entete>
 
     @if ($quizCourant !== null)
         {{-- ─────────────────────────────── éditeur de questions d'un quiz --}}
@@ -33,19 +21,19 @@
             <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-4">
                 <div>
                     <button type="button" wire:click="refermerLesQuestions"
-                            class="text-sm text-[#059669] font-semibold underline mb-1">
+                            class="text-sm text-brand-700 dark:text-brand font-semibold underline mb-1">
                         ← Revenir au plan du cours
                     </button>
-                    <h2 class="text-xl font-display font-bold text-[#0F172A] mb-0">
+                    <h2 class="text-xl font-titre font-bold text-encre dark:text-white mb-0">
                         Questions — {{ $quizCourant->title }}
                     </h2>
-                    <p class="text-sm text-[#64748B] mb-0">
+                    <p class="text-sm text-encre-3 dark:text-nuit-3 mb-0">
                         Seuil de réussite {{ $quizCourant->pass_score }} % · {{ $questions->count() }} question(s)
                     </p>
                 </div>
 
-                <button type="button" wire:click="ouvrirCreationQuestion" class="st-btn st-btn-primary">
-                    <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+                <button type="button" wire:click="ouvrirCreationQuestion" class="btn-primaire">
+                    <x-lucide name="plus" class="w-4 h-4" />
                     Ajouter une question
                 </button>
             </div>
@@ -57,18 +45,17 @@
             @else
                 <div class="space-y-3">
                     @foreach ($questions as $rang => $question)
-                        <article class="st-card p-4">
+                        <article class="carte p-4">
                             <div class="flex items-start justify-between gap-3">
                                 <div class="flex-1">
-                                    <p class="text-xs text-[#64748B] mb-1">Question {{ $rang + 1 }}</p>
-                                    <p class="font-semibold text-[#0F172A] mb-2">{{ $question->prompt }}</p>
+                                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-1">Question {{ $rang + 1 }}</p>
+                                    <p class="font-semibold text-encre dark:text-white mb-2">{{ $question->prompt }}</p>
 
                                     <ul class="list-none pl-0 mb-0 space-y-1">
                                         @foreach ($question->answers->sortBy('position') as $reponse)
                                             <li class="text-sm flex items-start gap-2">
-                                                <span class="material-symbols-rounded !text-[17px] {{ $reponse->is_correct ? 'text-[#059669]' : 'text-[#64748B]' }}"
-                                                      aria-hidden="true">{{ $reponse->is_correct ? 'check_circle' : 'radio_button_unchecked' }}</span>
-                                                <span class="{{ $reponse->is_correct ? 'text-[#065F46] font-medium' : 'text-[#334155]' }}">{{ $reponse->label }}</span>
+                                                <x-lucide :name="$reponse->is_correct ? 'check_circle' : 'radio_button_unchecked'" class="w-4 h-4 {{ $reponse->is_correct ? 'text-brand-700 dark:text-brand' : 'text-encre-3 dark:text-nuit-3' }}" />
+                                                <span class="{{ $reponse->is_correct ? 'text-brand-700 dark:text-brand font-medium' : 'text-encre-2 dark:text-nuit-2' }}">{{ $reponse->label }}</span>
                                             </li>
                                         @endforeach
                                     </ul>
@@ -76,7 +63,7 @@
                                     @if ($question->explanation !== null)
                                         {{-- L'explication est le cœur pédagogique du quiz :
                                              sans elle, un quiz note sans rien apprendre. --}}
-                                        <p class="text-xs text-[#64748B] mt-2 mb-0">
+                                        <p class="text-xs text-encre-3 dark:text-nuit-3 mt-2 mb-0">
                                             <span class="font-semibold">Explication :</span> {{ Str::limit($question->explanation, 160) }}
                                         </p>
                                     @endif
@@ -84,12 +71,12 @@
 
                                 <div class="whitespace-nowrap">
                                     <button type="button" wire:click="ouvrirEditionQuestion('{{ $question->uuid }}')"
-                                            class="st-icnbtn" title="Modifier">
-                                        <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                            class="btn-icone" title="Modifier">
+                                        <x-lucide name="pencil" class="w-4 h-4" />
                                     </button>
                                     <button type="button" wire:click="demanderLaSuppression('question', '{{ $question->uuid }}')"
-                                            class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                        <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                            class="btn-icone text-critique" title="Supprimer">
+                                        <x-lucide name="trash-2" class="w-4 h-4" />
                                     </button>
                                 </div>
                             </div>
@@ -105,12 +92,12 @@
             <section>
                 <div class="flex items-end justify-between gap-3 mb-3">
                     <div>
-                        <h2 class="text-lg font-display font-bold text-[#0F172A] mb-0">Leçons</h2>
-                        <p class="text-xs text-[#64748B] mb-0">{{ $lecons->count() }} leçon(s), dans l'ordre du parcours</p>
+                        <h2 class="text-lg font-titre font-bold text-encre dark:text-white mb-0">Leçons</h2>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $lecons->count() }} leçon(s), dans l'ordre du parcours</p>
                     </div>
                     @can('create', App\Models\Lesson::class)
-                        <button type="button" wire:click="ouvrirCreationLecon" class="st-btn st-btn-secondary">
-                            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+                        <button type="button" wire:click="ouvrirCreationLecon" class="btn-second">
+                            <x-lucide name="plus" class="w-4 h-4" />
                             Leçon
                         </button>
                     @endcan
@@ -123,12 +110,12 @@
                 @else
                     <div class="space-y-2">
                         @foreach ($lecons as $lecon)
-                            <article class="st-card p-3 flex items-center gap-3">
-                                <span class="text-xs font-bold text-[#64748B] w-8 text-center">{{ $lecon->position }}</span>
+                            <article class="carte p-3 flex items-center gap-3">
+                                <span class="text-xs font-bold text-encre-3 dark:text-nuit-3 w-8 text-center">{{ $lecon->position }}</span>
 
                                 <div class="flex-1 min-w-0">
-                                    <p class="font-semibold text-[#0F172A] mb-0 truncate">{{ $lecon->title }}</p>
-                                    <p class="text-xs text-[#64748B] mb-0">
+                                    <p class="font-semibold text-encre dark:text-white mb-0 truncate">{{ $lecon->title }}</p>
+                                    <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                                         {{ $lecon->type?->libelle() ?? $lecon->type }} · {{ $lecon->minutes }} min
                                     </p>
                                 </div>
@@ -140,25 +127,25 @@
                                              masqué n'est pas une garde. --}}
                                         @unless ($loop->first)
                                             <button type="button" wire:click="deplacerLaLecon('{{ $lecon->uuid }}', 'haut')"
-                                                    class="st-icnbtn" title="Monter">
-                                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">arrow_upward</span>
+                                                    class="btn-icone" title="Monter">
+                                                <x-lucide name="arrow-up" class="w-4 h-4" />
                                             </button>
                                         @endunless
                                         @unless ($loop->last)
                                             <button type="button" wire:click="deplacerLaLecon('{{ $lecon->uuid }}', 'bas')"
-                                                    class="st-icnbtn" title="Descendre">
-                                                <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">arrow_downward</span>
+                                                    class="btn-icone" title="Descendre">
+                                                <x-lucide name="arrow-down" class="w-4 h-4" />
                                             </button>
                                         @endunless
                                         <button type="button" wire:click="ouvrirEditionLecon('{{ $lecon->uuid }}')"
-                                                class="st-icnbtn" title="Modifier">
-                                            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                                class="btn-icone" title="Modifier">
+                                            <x-lucide name="pencil" class="w-4 h-4" />
                                         </button>
                                     @endcan
                                     @can('delete', $lecon)
                                         <button type="button" wire:click="demanderLaSuppression('lecon', '{{ $lecon->uuid }}')"
-                                                class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                                class="btn-icone text-critique" title="Supprimer">
+                                            <x-lucide name="trash-2" class="w-4 h-4" />
                                         </button>
                                     @endcan
                                 </div>
@@ -171,12 +158,12 @@
             <section>
                 <div class="flex items-end justify-between gap-3 mb-3">
                     <div>
-                        <h2 class="text-lg font-display font-bold text-[#0F172A] mb-0">Quiz</h2>
-                        <p class="text-xs text-[#64748B] mb-0">{{ $quiz->count() }} quiz, évalués sur leur seuil</p>
+                        <h2 class="text-lg font-titre font-bold text-encre dark:text-white mb-0">Quiz</h2>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">{{ $quiz->count() }} quiz, évalués sur leur seuil</p>
                     </div>
                     @can('create', App\Models\Quiz::class)
-                        <button type="button" wire:click="ouvrirCreationQuiz" class="st-btn st-btn-secondary">
-                            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
+                        <button type="button" wire:click="ouvrirCreationQuiz" class="btn-second">
+                            <x-lucide name="plus" class="w-4 h-4" />
                             Quiz
                         </button>
                     @endcan
@@ -189,36 +176,36 @@
                 @else
                     <div class="space-y-2">
                         @foreach ($quiz as $unQuiz)
-                            <article class="st-card p-3 flex items-center gap-3">
+                            <article class="carte p-3 flex items-center gap-3">
                                 <div class="flex-1 min-w-0">
-                                    <p class="font-semibold text-[#0F172A] mb-0 truncate">{{ $unQuiz->title }}</p>
+                                    <p class="font-semibold text-encre dark:text-white mb-0 truncate">{{ $unQuiz->title }}</p>
                                     <p class="text-xs mb-0">
                                         @if ($unQuiz->questions_count === 0)
                                             {{-- Un quiz vide se termine aussitôt et compte comme
                                                  réussi : c'est un défaut, pas un état neutre. --}}
-                                            <span class="text-[#DC2626] font-semibold">0 question</span>
+                                            <span class="text-critique font-semibold">0 question</span>
                                         @else
-                                            <span class="text-[#64748B]">{{ $unQuiz->questions_count }} question(s)</span>
+                                            <span class="text-encre-3 dark:text-nuit-3">{{ $unQuiz->questions_count }} question(s)</span>
                                         @endif
-                                        <span class="text-[#64748B]">· seuil {{ $unQuiz->pass_score }} % · {{ $unQuiz->minutes }} min</span>
+                                        <span class="text-encre-3 dark:text-nuit-3">· seuil {{ $unQuiz->pass_score }} % · {{ $unQuiz->minutes }} min</span>
                                     </p>
                                 </div>
 
                                 <div class="whitespace-nowrap">
                                     @can('update', $unQuiz)
                                         <button type="button" wire:click="ouvrirLesQuestions('{{ $unQuiz->uuid }}')"
-                                                class="st-icnbtn" title="Ouvrir les questions">
-                                            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">list_alt</span>
+                                                class="btn-icone" title="Ouvrir les questions">
+                                            <x-lucide name="list" class="w-4 h-4" />
                                         </button>
                                         <button type="button" wire:click="ouvrirEditionQuiz('{{ $unQuiz->uuid }}')"
-                                                class="st-icnbtn" title="Modifier">
-                                            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">edit</span>
+                                                class="btn-icone" title="Modifier">
+                                            <x-lucide name="pencil" class="w-4 h-4" />
                                         </button>
                                     @endcan
                                     @can('delete', $unQuiz)
                                         <button type="button" wire:click="demanderLaSuppression('quiz', '{{ $unQuiz->uuid }}')"
-                                                class="st-icnbtn text-[#DC2626]" title="Supprimer">
-                                            <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">delete</span>
+                                                class="btn-icone text-critique" title="Supprimer">
+                                            <x-lucide name="trash-2" class="w-4 h-4" />
                                         </button>
                                     @endcan
                                 </div>
@@ -235,35 +222,35 @@
                       :title="$leconEnEdition === null ? 'Nouvelle leçon' : 'Modifier la leçon'"
                       close="fermerLeTiroirLecon">
         <form wire:submit="enregistrerLaLecon" class="space-y-4">
-            <div class="ffield">
-                <input id="lec-titre" type="text" wire:model="leconTitre" placeholder=" ">
-                <label for="lec-titre">Titre de la leçon</label>
-                @error('leconTitre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="lec-titre" class="etiquette">Titre de la leçon</label>
+<input id="lec-titre" type="text" wire:model="leconTitre" class="champ">
+                @error('leconTitre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid sm:grid-cols-2 gap-4">
                 <div>
-                    <label for="lec-type" class="block text-sm font-medium text-[#0F172A] mb-1">Type</label>
-                    <select id="lec-type" wire:model.live="leconType" class="st-input w-full">
+                    <label for="lec-type" class="block text-sm font-medium text-encre dark:text-white mb-1">Type</label>
+                    <select id="lec-type" wire:model.live="leconType" class="champ w-full">
                         @foreach ($types as $type)
                             <option value="{{ $type->value }}">{{ $type->libelle() }}</option>
                         @endforeach
                     </select>
-                    @error('leconType') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('leconType') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="lec-min" type="number" min="1" max="600" wire:model="leconMinutes" placeholder=" ">
-                    <label for="lec-min">Durée (minutes)</label>
-                    @error('leconMinutes') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="lec-min" class="etiquette">Durée (minutes)</label>
+<input id="lec-min" type="number" min="1" max="600" wire:model="leconMinutes" class="champ">
+                    @error('leconMinutes') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
             @if ($leconType === 'video')
-                <div class="ffield">
-                    <input id="lec-video" type="url" wire:model="leconVideo" placeholder=" ">
-                    <label for="lec-video">Adresse de la vidéo</label>
-                    @error('leconVideo') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div>
+                    <label for="lec-video" class="etiquette">Adresse de la vidéo</label>
+<input id="lec-video" type="url" wire:model="leconVideo" class="champ">
+                    @error('leconVideo') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             @elseif ($leconType === 'audio')
                 {{-- L'ADRESSE, pas le fichier. Héberger l'audio du cours sur le
@@ -271,27 +258,27 @@
                      hébergement mutualisé — celui-là même où aucun démon ne
                      tourne. Les documents joints, eux, sont déposés : on les
                      télécharge une fois, on ne les diffuse pas en continu. --}}
-                <div class="ffield">
-                    <input id="lec-audio" type="url" wire:model="leconAudio" placeholder=" ">
-                    <label for="lec-audio">Adresse de l'audio</label>
-                    <p class="text-xs text-[#64748B] mt-1 mb-0">
+                <div>
+                    <label for="lec-audio" class="etiquette">Adresse de l'audio</label>
+<input id="lec-audio" type="url" wire:model="leconAudio" class="champ">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                         Lien direct vers le fichier, ou vers l'épisode hébergé.
                     </p>
-                    @error('leconAudio') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    @error('leconAudio') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             @endif
 
             <div>
-                <label class="block text-sm font-medium text-[#0F172A] mb-1">
+                <label class="block text-sm font-medium text-encre dark:text-white mb-1">
                     Contenu {{ $leconType === 'video' ? '(facultatif — sous la vidéo)' : '' }}
                 </label>
                 {{-- Quill écrit dans son propre DOM : sans wire:ignore, le premier
                      rendu de Livewire l'effacerait. --}}
-                <div class="st-quill" wire:ignore>
+                <div class="editeur-riche" wire:ignore>
                     <div data-quill-lecon></div>
                 </div>
-                @error('leconContenu') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
+                @error('leconContenu') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                     Le HTML est purifié avant enregistrement : la leçon est rendue à des citoyens.
                 </p>
             </div>
@@ -306,37 +293,37 @@
                  Le dépôt est donc un geste à part, hors du `<form>` : il part
                  dès que le fichier est choisi. --}}
             @if ($leconEnEdition !== null)
-                <div class="rounded-xl border border-line p-3">
-                    <p class="text-sm font-medium text-[#0F172A] mb-2">Documents joints</p>
+                <div class="rounded-xl border border-trait dark:border-nuit-trait p-3">
+                    <p class="text-sm font-medium text-encre dark:text-white mb-2">Documents joints</p>
 
                     @php($leconOuverte = $lecons->firstWhere('uuid', $leconEnEdition))
 
                     @forelse ($leconOuverte?->pieces ?? [] as $document)
-                        <div class="flex items-center justify-between gap-2 py-1.5 border-b border-line last:border-0"
+                        <div class="flex items-center justify-between gap-2 py-1.5 border-b border-trait dark:border-nuit-trait last:border-0"
                              wire:key="piece-{{ $document->uuid }}">
-                            <span class="text-sm text-[#0F172A] min-w-0 truncate">
-                                <span class="material-symbols-rounded !text-[17px]" aria-hidden="true">{{ $document->icone() }}</span>
+                            <span class="text-sm text-encre dark:text-white min-w-0 truncate">
+                                <x-lucide :name="$document->icone()" class="w-4 h-4" />
                                 {{ $document->original_name }}
-                                <span class="text-xs text-[#64748B]">· {{ $document->poidsLisible() }}</span>
+                                <span class="text-xs text-encre-3 dark:text-nuit-3">· {{ $document->poidsLisible() }}</span>
                             </span>
                             <button type="button" wire:click="detacherLaPiece('{{ $document->uuid }}')"
-                                    class="st-icnbtn text-[#DC2626] shrink-0" title="Retirer">
-                                <span class="material-symbols-rounded !text-[18px]" aria-hidden="true">delete</span>
+                                    class="btn-icone text-critique shrink-0" title="Retirer">
+                                <x-lucide name="trash-2" class="w-4 h-4" />
                             </button>
                         </div>
                     @empty
-                        <p class="text-xs text-[#64748B] mb-2">Aucun document pour l'instant.</p>
+                        <p class="text-xs text-encre-3 dark:text-nuit-3 mb-2">Aucun document pour l'instant.</p>
                     @endforelse
 
-                    <input type="file" wire:model="piece" class="st-input w-full mt-2"
+                    <input type="file" wire:model="piece" class="champ w-full mt-2"
                            aria-label="Ajouter un document">
-                    <div wire:loading wire:target="piece" class="text-xs text-[#64748B] mt-1">Envoi en cours…</div>
-                    @error('piece') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                    <div wire:loading wire:target="piece" class="text-xs text-encre-3 dark:text-nuit-3 mt-1">Envoi en cours…</div>
+                    @error('piece') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
 
                     <button type="button" wire:click="attacherLaPiece" wire:loading.attr="disabled"
-                            class="st-btn st-btn-secondary mt-2">Joindre</button>
+                            class="btn-second mt-2">Joindre</button>
 
-                    <p class="text-xs text-[#64748B] mt-2 mb-0">
+                    <p class="text-xs text-encre-3 dark:text-nuit-3 mt-2 mb-0">
                         PDF, Word, Excel, PowerPoint, images, ZIP — 20 Mo maximum. Les fichiers
                         vivent hors du site : seuls les inscrits au cours peuvent les ouvrir.
                     </p>
@@ -344,8 +331,8 @@
             @endif
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroirLecon" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroirLecon" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>
@@ -355,40 +342,40 @@
                       :title="$quizEnEdition === null ? 'Nouveau quiz' : 'Modifier le quiz'"
                       close="fermerLeTiroirQuiz">
         <form wire:submit="enregistrerLeQuiz" class="space-y-4">
-            <div class="ffield">
-                <input id="qz-titre" type="text" wire:model="quizTitre" placeholder=" ">
-                <label for="qz-titre">Titre du quiz</label>
-                @error('quizTitre') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="qz-titre" class="etiquette">Titre du quiz</label>
+<input id="qz-titre" type="text" wire:model="quizTitre" class="champ">
+                @error('quizTitre') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="grid sm:grid-cols-3 gap-4">
-                <div class="ffield mb-0">
-                    <input id="qz-min" type="number" min="1" max="180" wire:model="quizMinutes" placeholder=" ">
-                    <label for="qz-min">Durée (min)</label>
-                    @error('quizMinutes') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="qz-min" class="etiquette">Durée (min)</label>
+<input id="qz-min" type="number" min="1" max="180" wire:model="quizMinutes" class="champ">
+                    @error('quizMinutes') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="qz-seuil" type="number" min="50" max="100" wire:model="quizSeuil" placeholder=" ">
-                    <label for="qz-seuil">Seuil (%)</label>
-                    @error('quizSeuil') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="qz-seuil" class="etiquette">Seuil (%)</label>
+<input id="qz-seuil" type="number" min="50" max="100" wire:model="quizSeuil" class="champ">
+                    @error('quizSeuil') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
 
-                <div class="ffield mb-0">
-                    <input id="qz-xp" type="number" min="0" max="1000" wire:model="quizXp" placeholder=" ">
-                    <label for="qz-xp">Points XP</label>
-                    @error('quizXp') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                <div class="mb-0">
+                    <label for="qz-xp" class="etiquette">Points XP</label>
+<input id="qz-xp" type="number" min="0" max="1000" wire:model="quizXp" class="champ">
+                    @error('quizXp') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
                 </div>
             </div>
 
-            <p class="text-xs text-[#64748B] mb-0">
+            <p class="text-xs text-encre-3 dark:text-nuit-3 mb-0">
                 Le seuil ne descend pas sous 50 % : en dessous, « réussir » voudrait dire
                 se tromper plus souvent qu'avoir juste, et le certificat ne vaudrait plus rien.
             </p>
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroirQuiz" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroirQuiz" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>
@@ -398,16 +385,16 @@
                       :title="$questionEnEdition === null ? 'Nouvelle question' : 'Modifier la question'"
                       close="fermerLeTiroirQuestion">
         <form wire:submit="enregistrerLaQuestion" class="space-y-4">
-            <div class="ffield">
-                <textarea id="qn-enonce" wire:model="questionEnonce" rows="3" placeholder=" "></textarea>
-                <label for="qn-enonce">Énoncé</label>
-                @error('questionEnonce') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+            <div>
+                <label for="qn-enonce" class="etiquette">Énoncé</label>
+<textarea id="qn-enonce" wire:model="questionEnonce" rows="3" class="champ !h-auto py-2.5"></textarea>
+                @error('questionEnonce') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <p class="block text-sm font-medium text-[#0F172A] mb-2">Propositions</p>
+                <p class="block text-sm font-medium text-encre dark:text-white mb-2">Propositions</p>
 
-                @error('propositions') <p class="text-sm text-[#DC2626] mb-2">{{ $message }}</p> @enderror
+                @error('propositions') <p class="text-sm text-critique mb-2">{{ $message }}</p> @enderror
 
                 <div class="space-y-2">
                     @foreach ($propositions as $rang => $proposition)
@@ -417,19 +404,19 @@
                             <input type="checkbox" wire:model="propositions.{{ $rang }}.correcte"
                                    class="mt-3" aria-label="Proposition correcte">
 
-                            <div class="ffield flex-1 mb-0">
-                                <input id="qn-prop-{{ $rang }}" type="text"
-                                       wire:model="propositions.{{ $rang }}.label" placeholder=" ">
-                                <label for="qn-prop-{{ $rang }}">Proposition {{ $rang + 1 }}</label>
+                            <div class="flex-1 mb-0">
+                                <label for="qn-prop-{{ $rang }}" class="etiquette">Proposition {{ $rang + 1 }}</label>
+<input id="qn-prop-{{ $rang }}" type="text"
+                                       wire:model="propositions.{{ $rang }}.label" class="champ">
                                 @error('propositions.'.$rang.'.label')
-                                    <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p>
+                                    <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p>
                                 @enderror
                             </div>
 
                             @if (count($propositions) > 2)
                                 <button type="button" wire:click="retirerUneProposition({{ $rang }})"
-                                        class="st-icnbtn text-[#DC2626] mt-1" title="Retirer">
-                                    <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">close</span>
+                                        class="btn-icone text-critique mt-1" title="Retirer">
+                                    <x-lucide name="x" class="w-4 h-4" />
                                 </button>
                             @endif
                         </div>
@@ -438,24 +425,24 @@
 
                 @if (count($propositions) < 6)
                     <button type="button" wire:click="ajouterUneProposition"
-                            class="text-sm text-[#059669] font-semibold underline mt-2">
+                            class="text-sm text-brand-700 dark:text-brand font-semibold underline mt-2">
                         + Ajouter une proposition
                     </button>
                 @endif
             </div>
 
-            <div class="ffield">
-                <textarea id="qn-expl" wire:model="questionExplication" rows="3" placeholder=" "></textarea>
-                <label for="qn-expl">Explication</label>
-                <p class="text-xs text-[#64748B] mt-1 mb-0">
+            <div>
+                <label for="qn-expl" class="etiquette">Explication</label>
+<textarea id="qn-expl" wire:model="questionExplication" rows="3" class="champ !h-auto py-2.5"></textarea>
+                <p class="text-xs text-encre-3 dark:text-nuit-3 mt-1 mb-0">
                     Affichée après la réponse. Sans elle, un quiz note sans rien apprendre.
                 </p>
-                @error('questionExplication') <p class="text-sm text-[#DC2626] mt-1 mb-0">{{ $message }}</p> @enderror
+                @error('questionExplication') <p class="text-sm text-critique mt-1 mb-0">{{ $message }}</p> @enderror
             </div>
 
             <div class="flex gap-2 pt-2">
-                <button type="submit" class="st-btn st-btn-primary flex-1">Enregistrer</button>
-                <button type="button" wire:click="fermerLeTiroirQuestion" class="st-btn st-btn-secondary">Annuler</button>
+                <button type="submit" class="btn-primaire flex-1">Enregistrer</button>
+                <button type="button" wire:click="fermerLeTiroirQuestion" class="btn-second">Annuler</button>
             </div>
         </form>
     </x-offcanvas-form>

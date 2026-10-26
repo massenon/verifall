@@ -5,11 +5,12 @@
     'placeholder' => null,
     'autocomplete' => 'current-password',
     'requis' => false,
-    // 'citoyen' | 'staff' — voir le bloc ci-dessous.
+    // 'citoyen' | 'staff' | 'console' — voir le bloc ci-dessous.
     'variante' => 'citoyen',
 ])
 
 @php($staff = $variante === 'staff')
+@php($console = $variante === 'console')
 
 {{--
   | Champ de mot de passe avec l'œil « voir / cacher ».
@@ -39,16 +40,19 @@
   | `aria-pressed` est la SOURCE DE VÉRITÉ, pas un reflet : c'est lui que le
   | script relit après un morph Livewire pour réaligner le `type` du champ.
 --}}
-<div class="{{ $staff ? 'ffield' : 'form-floating relative' }}">
-    <input type="password" class="pr-11" id="{{ $id }}" wire:model.blur="{{ $modele }}"
-           placeholder="{{ $staff ? ' ' : ($placeholder ?? $label) }}" autocomplete="{{ $autocomplete }}"
+{{-- Variante « console » (console premium, arbitrage n° 176) : étiquette
+     au-dessus, champ du design system premium. Le bouton est le même. --}}
+@if ($console)<label for="{{ $id }}" class="etiquette">{{ $label }}</label>@endif
+<div class="{{ $staff ? 'ffield' : ($console ? 'relative' : 'form-floating relative') }}">
+    <input type="password" class="{{ $console ? 'champ !h-11 pr-11' : 'pr-11' }}" id="{{ $id }}" wire:model.blur="{{ $modele }}"
+           placeholder="{{ $staff ? ' ' : ($console ? '' : ($placeholder ?? $label)) }}" autocomplete="{{ $autocomplete }}"
            @if ($requis) required @endif
            {{ $attributes->except(['class']) }}>
 
-    <label for="{{ $id }}">{{ $label }}</label>
+    @unless ($console)<label for="{{ $id }}">{{ $label }}</label>@endunless
 
     <button type="button"
-            class="absolute right-3 top-1/2 -translate-y-1/2 text-body hover:text-heading"
+            class="absolute right-3 top-1/2 -translate-y-1/2 text-body hover:text-heading {{ $console ? 'texte-3 hover:text-encre dark:hover:text-white' : '' }}"
             data-pwd-eye="{{ $id }}"
             aria-controls="{{ $id }}"
             aria-label="Afficher le mot de passe" aria-pressed="false">

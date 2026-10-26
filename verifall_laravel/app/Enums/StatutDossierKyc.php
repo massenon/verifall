@@ -47,9 +47,9 @@ enum StatutDossierKyc: string
     public function pastille(): string
     {
         return match ($this) {
-            self::EnAttente => 'st-badge st-badge-warn',
-            self::Approuve => 'st-badge st-badge-pub',
-            self::Refuse => 'st-badge st-badge-danger',
+            self::EnAttente => 'pastille p-alerte',
+            self::Approuve => 'pastille p-bon',
+            self::Refuse => 'pastille p-critique',
         };
     }
 }

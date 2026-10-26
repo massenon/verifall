@@ -1,3 +1,6 @@
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('assets/css/pages/staff-tableau-de-bord.css') }}">
+@endpush
 {{--
   | 10 — Activité récente (§22-23) : une frise compacte, huit événements.
   |
@@ -13,7 +16,7 @@
     @if ($enErreur)
         @include('livewire.staff.tableau-de-bord.erreur', ['bloc' => 'Activité récente'])
     @else
-        <article class="st-card tdb-card">
+        <article class="carte tdb-card">
             <div class="tdb-card-h">
                 <div>
                     <h3 class="tdb-h3">Derniers événements</h3>
@@ -28,7 +31,7 @@
                         @foreach ($d['evenements'] as $evenement)
                             <li class="tdb-evt" wire:key="evt-{{ $loop->index }}">
                                 <span class="tdb-evt-ico {{ 'is-'.$evenement['ton'] }}" aria-hidden="true">
-                                    <span class="material-symbols-rounded">{{ $evenement['icone'] }}</span>
+                                    <x-lucide :name="$evenement['icone']" class="w-4 h-4" />
                                 </span>
                                 <div>
                                     <p class="tdb-evt-e">{{ $evenement['evenement'] }}</p>

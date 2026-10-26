@@ -21,7 +21,7 @@
 
 [data-vdt] .dt-container {
   font-size: .875rem;
-  color: #0F172A;
+  color: var(--st-ink);
 }
 
 /* Les barres du haut et du bas : elles passent à la ligne plutôt que de
@@ -51,13 +51,13 @@ div.dt-button-collection .dt-button {
 [data-vdt] table.dataTable .vdt-titre {
   display: block;
   font-weight: 600;
-  color: #0F172A;
+  color: var(--st-ink);
 }
 
 [data-vdt] table.dataTable .vdt-sous-texte {
   display: block;
   font-size: .75rem;
-  color: #64748B;
+  color: var(--st-muted);
   max-width: 28rem;
   overflow-wrap: anywhere;
 }
@@ -67,12 +67,13 @@ div.dt-button-collection .dt-button {
   text-align: right;
 }
 
-[data-vdt] table.dataTable td.vdt-actions .material-symbols-rounded {
-  font-size: 19px;
+[data-vdt] table.dataTable td.vdt-actions svg {
+  width: 18px;
+  height: 18px;
 }
 
 /* « Aucun résultat » : le bouton de réinitialisation sous le message. */
-[data-vdt] table.dataTable td.dt-empty .st-btn {
+[data-vdt] table.dataTable td.dt-empty .btn {
   margin-top: .5rem;
 }
 
@@ -94,7 +95,7 @@ div.dt-button-background {
   /* Les filtres rapides prennent toute la largeur : à 400 px, quatre listes
      côte à côte ne se lisent plus. */
   [data-vdt] select[data-vdt-filtre],
-  [data-vdt] .ffield {
+  [data-vdt] .champ {
     width: 100%;
   }
 
@@ -118,6 +119,44 @@ div.dt-button-background {
 
 [data-vdt] table.dataTable a.vdt-lien-fiche:hover .vdt-titre,
 [data-vdt] table.dataTable a.vdt-lien-fiche:focus-visible .vdt-titre {
-  color: #065F46;
+  color: var(--st-brand);
   text-decoration: underline;
 }
+
+/* ── Habillage premium de DataTables (clair et sombre) ─────────────────── */
+[data-vdt] .dt-container { font-family: "Public Sans", system-ui, sans-serif; }
+[data-vdt] table.dataTable { border-collapse: collapse; width: 100%; }
+[data-vdt] table.dataTable > thead > tr > th,
+[data-vdt] table.dataTable > thead > tr > td {
+  border-bottom: 1px solid var(--st-border);
+  font-size: 13px; font-weight: 500; color: var(--st-muted);
+  padding: .65rem 1rem; text-align: left; white-space: nowrap;
+}
+[data-vdt] table.dataTable > tbody > tr > td { border-bottom: 1px solid var(--st-border); padding: .8rem 1rem; color: var(--st-text); }
+[data-vdt] table.dataTable > tbody > tr { background: transparent; }
+[data-vdt] table.dataTable > tbody > tr:hover > * { background: var(--st-canvas); box-shadow: none; }
+[data-vdt] table.dataTable > tbody > tr:last-child > td { border-bottom: 0; }
+[data-vdt] table.dataTable.hover > tbody > tr:hover > *, [data-vdt] table.dataTable.display > tbody > tr:hover > * { box-shadow: none; }
+[data-vdt] .dt-container .dt-search input,
+[data-vdt] .dt-container .dt-length select {
+  background: var(--st-surface); color: var(--st-ink);
+  border: 1px solid var(--st-border); border-radius: 8px; min-height: 36px; padding: 0 .65rem;
+}
+[data-vdt] .dt-container .dt-search input:focus, [data-vdt] .dt-container .dt-length select:focus {
+  outline: none; border-color: #09B850; box-shadow: 0 0 0 3px rgba(9,184,80,.18);
+}
+[data-vdt] .dt-container .dt-paging .dt-paging-button {
+  border-radius: 8px; border: 1px solid transparent; color: var(--st-text) !important; background: transparent !important;
+}
+[data-vdt] .dt-container .dt-paging .dt-paging-button:hover { background: var(--st-canvas) !important; border-color: var(--st-border); color: var(--st-ink) !important; }
+[data-vdt] .dt-container .dt-paging .dt-paging-button.current,
+[data-vdt] .dt-container .dt-paging .dt-paging-button.current:hover { background: #0E2A1E !important; color: #fff !important; border-color: #0E2A1E; }
+.dark [data-vdt] .dt-container .dt-paging .dt-paging-button.current,
+.dark [data-vdt] .dt-container .dt-paging .dt-paging-button.current:hover { background: #09B850 !important; color: #0E2A1E !important; border-color: #09B850; }
+[data-vdt] .dt-container .dt-info { color: var(--st-muted); }
+[data-vdt] .dt-container .dt-buttons .dt-button {
+  background: var(--st-surface); color: var(--st-ink); border: 1px solid var(--st-border); border-radius: 8px; background-image: none;
+}
+[data-vdt] .dt-container .dt-buttons .dt-button:hover { background: var(--st-canvas); }
+.dark [data-vdt] table.dataTable > thead > tr > th { color: var(--st-muted); }
+div.dt-button-collection, div.dtsb-searchBuilder { background: var(--st-surface); color: var(--st-ink); border: 1px solid var(--st-border); border-radius: 10px; }

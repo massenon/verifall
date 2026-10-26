@@ -157,8 +157,10 @@ describe('l’écran', function () {
          | `CourrielsCablesTest` qui garantit qu'aucun ne s'installe durablement
          | dans cet état.
          */
+        // Les vingt-quatre d'un coup : la liste est paginée, on demande la plus grande page.
         Livewire::actingAs($this->admin, 'staff')
             ->test(GabaritsEmails::class)
+            ->set('parPage', 50)
             ->assertDontSee('Pas encore câblé');
     });
 

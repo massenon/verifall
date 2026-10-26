@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Core\Application\Contracts\DepotFicheDuCompte;
+use App\Core\Identity\Services\HistoriqueDuHub;
 use App\Enums\UserRole;
 use App\Livewire\Staff\FicheUtilisateur;
 use App\Livewire\Staff\Utilisateurs;
@@ -11,11 +12,13 @@ use App\Models\Assignment;
 use App\Models\AssignmentSubmission;
 use App\Models\AuditLog;
 use App\Models\Certificate;
+use App\Models\ConsultationHub;
 use App\Models\Course;
 use App\Models\Enrollment;
 use App\Models\Exam;
 use App\Models\ExamAttempt;
 use App\Models\ForumCategory;
+use App\Models\HistoriqueConnexion;
 use App\Models\Payment;
 use App\Models\Quiz;
 use App\Models\QuizAttempt;
@@ -245,6 +248,9 @@ it('rend dans chaque onglet les lignes de CE compte, et jamais celles d’un aut
 it('ne laisse sortir ni id, ni clé étrangère, ni secret, ni téléphone chiffré', function (): void {
     ficheHistorique($this->citoyen, 'RHODES');
 
+    // Les lectures du Hub n'existent qu'avec le consentement du compte.
+    app(HistoriqueDuHub::class)->definir($this->citoyen, true, '127.0.0.1', 'test');
+
     foreach (array_keys(DepotFicheDuCompte::COLONNES_TRIABLES) as $onglet) {
         $contenu = (string) ficheDonnees($this->admin, $this->citoyen, $onglet)->assertOk()->getContent();
 
@@ -454,4 +460,30 @@ it('ouvre le tiroir d’édition existant depuis la fiche (?modifier=)', functio
         ->actingAs($lecteur, 'staff')
         ->test(Utilisateurs::class)
         ->assertSet('formulaireOuvert', false);
+});
+
+it('montre l’historique des connexions sans l’empreinte d’IP, et seulement à qui lit le journal', function (): void {
+    HistoriqueConnexion::query()->create(['user_id' => $this->citoyen->id, 'espace' => 'citoyen', 'resultat' => 'reussie', 'methode' => 'mot_de_passe', 'navigateur' => 'Firefox', 'systeme' => 'Linux', 'ip_tronquee' => '41.138.2.0', 'ip_hash' => 'EMPREINTE-SECRETE']);
+
+    $reponse = ficheDonnees($this->admin, $this->citoyen, 'connexions')->assertOk();
+
+    expect($reponse->json('recordsTotal'))->toBe(1)
+        ->and($reponse->json('data.0.reseau'))->toBe('41.138.2.0')
+        ->and($reponse->getContent())->not->toContain('EMPREINTE-SECRETE');
+
+    $lecteur = User::factory()->actif()->create();
+    $lecteur->givePermissionTo('user.view');
+    ficheDonnees($lecteur, $this->citoyen, 'connexions')->assertForbidden();
+});
+
+it('ne montre les lectures du Hub qu’avec le consentement du compte', function (): void {
+    ficheDonnees($this->admin, $this->citoyen, 'lectures-hub')->assertForbidden();
+
+    app(HistoriqueDuHub::class)->definir($this->citoyen, true, '127.0.0.1', 'test');
+    ConsultationHub::query()->create(['user_id' => $this->citoyen->id, 'rubrique' => 'actualite', 'cible_id' => 1, 'titre' => 'Une actualité lue', 'action' => 'lu']);
+
+    ficheDonnees($this->admin, $this->citoyen, 'lectures-hub')->assertOk()->assertJsonPath('data.0.titre', 'Une actualité lue');
+
+    app(HistoriqueDuHub::class)->definir($this->citoyen, false, '127.0.0.1', 'test');
+    ficheDonnees($this->admin, $this->citoyen, 'lectures-hub')->assertForbidden();
 });

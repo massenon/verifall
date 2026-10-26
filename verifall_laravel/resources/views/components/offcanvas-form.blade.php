@@ -21,33 +21,33 @@
 
 @php $staff = $variant === 'staff'; @endphp
 
-<div class="{{ $staff ? 'st-oc-backdrop' : 'modal-backdrop' }} {{ $open ? 'is-open' : '' }}"
+<div class="{{ $staff ? 'fond-tiroir' : 'modal-backdrop' }} {{ $open ? 'is-open' : '' }}"
      data-oc-backdrop
      @if ($close) wire:click="{{ $close }}" @endif
      aria-hidden="true"></div>
 
-<aside class="{{ $staff ? 'st-oc' : 'modal' }} {{ $open ? 'is-open' : '' }}"
+<aside class="{{ $staff ? 'tiroir' : 'modal' }} {{ $open ? 'is-open' : '' }}"
        data-oc
        id="{{ $id }}"
        role="dialog"
        aria-modal="true"
        @unless ($open) aria-hidden="true" @endunless
        aria-labelledby="{{ $id }}-title">
-    <div class="{{ $staff ? 'st-oc-h' : 'px-5 py-4 border-b border-line' }}">
+    <div class="{{ $staff ? 'tiroir-tete' : 'px-5 py-4 border-b border-line' }}">
         <h2 id="{{ $id }}-title"
-            class="text-lg font-display font-bold {{ $staff ? 'text-[#0F172A]' : 'text-ink' }} mb-0"
+            class="text-lg font-display font-bold {{ $staff ? 'text-encre dark:text-white' : 'text-ink' }} mb-0"
             data-oc-title>{{ $title ?? __('composants.offcanvas_formulaire') }}</h2>
-        <button type="button" class="{{ $staff ? 'st-icnbtn' : 'p-2' }}"
+        <button type="button" class="{{ $staff ? 'btn-icone' : 'p-2' }}"
                 data-oc-close
                 @if ($close) wire:click="{{ $close }}" @endif
                 aria-label="{{ __('composants.offcanvas_fermer') }}">
-            <span class="material-symbols-rounded" aria-hidden="true">close</span>
+            <x-lucide name="x" class="w-4 h-4" />
         </button>
     </div>
 
-    <div class="{{ $staff ? 'st-oc-b' : 'px-5 py-4' }}">{{ $slot }}</div>
+    <div class="{{ $staff ? 'tiroir-corps' : 'px-5 py-4' }}">{{ $slot }}</div>
 
     @isset($footer)
-        <div class="{{ $staff ? 'st-oc-f' : 'px-5 py-4 border-t border-line' }}">{{ $footer }}</div>
+        <div class="{{ $staff ? 'tiroir-pied' : 'px-5 py-4 border-t border-line' }}">{{ $footer }}</div>
     @endisset
 </aside>

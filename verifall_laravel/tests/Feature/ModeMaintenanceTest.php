@@ -70,7 +70,7 @@ it('détourne le PUBLIC vers la page de maintenance, en 503', function () {
 
     $this->get(route('public.home'))
         ->assertStatus(503)
-        ->assertSee('Nous revenons dans un instant');
+        ->assertSee('La boussole se recalibre');
 });
 
 it('laisse la page de maintenance et son formulaire répondre', function () {
