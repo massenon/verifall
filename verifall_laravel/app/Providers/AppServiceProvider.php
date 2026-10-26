@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Core\Application\Contracts\DepotAbonnes;
+use App\Core\Application\Contracts\DepotAnalytique;
 use App\Core\Application\Contracts\DepotBanqueQuestions;
 use App\Core\Application\Contracts\DepotCopiesExamen;
 use App\Core\Application\Contracts\DepotCorrections;
@@ -28,6 +29,7 @@ use App\Core\Economy\Providers\MomoProviderInterface;
 use App\Enums\UserRole;
 use App\Http\Middleware\GuardStaffParDefaut;
 use App\Infrastructure\Persistence\DepotAbonnesEloquent;
+use App\Infrastructure\Persistence\DepotAnalytiqueEloquent;
 use App\Infrastructure\Persistence\DepotBanqueQuestionsEloquent;
 use App\Infrastructure\Persistence\DepotCopiesExamenEloquent;
 use App\Infrastructure\Persistence\DepotCorrectionsEloquent;
@@ -112,6 +114,7 @@ final class AppServiceProvider extends ServiceProvider
 
         // Tableau de bord du mentor (P4-2), borné à ses cours.
         $this->app->bind(DepotTableauDeBordMentor::class, DepotTableauDeBordMentorEloquent::class);
+        $this->app->bind(DepotAnalytique::class, DepotAnalytiqueEloquent::class);
         $this->app->bind(DepotFicheDuCompte::class, DepotFicheDuCompteEloquent::class);
         $this->app->bind(DepotStatistiquesDuTableauDeBord::class, DepotStatistiquesDuTableauDeBordEloquent::class);
 

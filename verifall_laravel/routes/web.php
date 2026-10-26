@@ -97,6 +97,7 @@ use App\Livewire\Public\VerifierCertificat;
 use App\Livewire\Public\VerifierInvite;
 use App\Livewire\Staff\ActualitesHub as StaffActualitesHub;
 use App\Livewire\Staff\AlertesIntrusion;
+use App\Livewire\Staff\Analytique;
 use App\Livewire\Staff\ArticlesDuBlog as StaffArticlesDuBlog;
 use App\Livewire\Staff\BadgesDeProgression as StaffBadgesDeProgression;
 use App\Livewire\Staff\BanqueDeQuestions as StaffBanqueDeQuestions;
@@ -1135,6 +1136,8 @@ Route::prefix('admin')->name('staff.')->group(function (): void {
         // Médiathèque : images sur le disque privé, servies par lien signé ET droit revérifié.
         Route::get('mediatheque', Mediatheque::class)->middleware('can:media.view')->name('media');
         Route::get('mediatheque/{media}/fichier', FichierDeLaMediathequeController::class)->middleware(['signed', 'can:media.view'])->name('media.file');
+
+        Route::get('analytique', Analytique::class)->middleware('can:analytics.view')->name('analytics');
 
         Route::get('calendrier', Calendrier::class)->middleware('can:viewAny,'.LiveClass::class)->name('calendar');
         Route::get('calendrier/donnees', DonneesDuCalendrierController::class)->middleware(['can:viewAny,'.LiveClass::class, 'throttle:60,1'])->name('calendar.data');

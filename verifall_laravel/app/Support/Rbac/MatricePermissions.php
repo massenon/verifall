@@ -132,6 +132,8 @@ final class MatricePermissions
             'faq' => ['view', 'manage'],
             // Médiathèque : voir et déposer ; supprimer le sien (le droit `delete` couvre celui des autres).
             'media' => ['view', 'upload', 'delete'],
+            // Analytique : agrégats globaux (revenus, usage des moteurs) — administrateur seulement.
+            'analytics' => ['view'],
             'testimonial' => ['view', 'manage'],
             'newsletter' => ['view', 'send'],
             /*

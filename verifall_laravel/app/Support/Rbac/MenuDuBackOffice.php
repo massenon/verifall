@@ -72,6 +72,10 @@ final class MenuDuBackOffice
             'staff.calendar' => ['calendar-days', 'Calendrier'],
         ],
 
+        'Analytique' => [
+            'staff.analytics' => ['chart-line', 'Académie, IA et revenus'],
+        ],
+
         'Fact-checking' => [
             // `staff.verifications` est l'écran des signalements CITOYENS ;
             // les contenus signalés du forum sont en Communauté.
