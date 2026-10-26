@@ -78,8 +78,8 @@ final class DonneesGoogle
         $statut = $this->statut();
 
         return [
-            'ga4' => $essai(fn () => $this->ga4Rapport(['dateRanges' => [['startDate' => '7daysAgo', 'endDate' => 'today']], 'metrics' => [['name' => 'sessions']]], false), $statut['ga4'], 'Clé JSON ou identifiant de propriété manquant.'),
-            'gsc' => $essai(fn () => $this->gscRequete(['startDate' => now()->subDays(7)->toDateString(), 'endDate' => now()->toDateString(), 'rowLimit' => 1], false), $statut['gsc'], 'Clé JSON ou site manquant.'),
+            'ga4' => $essai(fn () => $this->ga4Rapport(['dateRanges' => [['startDate' => '7daysAgo', 'endDate' => 'today']], 'metrics' => [['name' => 'sessions']]]), $statut['ga4'], 'Clé JSON ou identifiant de propriété manquant.'),
+            'gsc' => $essai(fn () => $this->gscRequete(['startDate' => now()->subDays(7)->toDateString(), 'endDate' => now()->toDateString(), 'rowLimit' => 1]), $statut['gsc'], 'Clé JSON ou site manquant.'),
         ];
     }
 
