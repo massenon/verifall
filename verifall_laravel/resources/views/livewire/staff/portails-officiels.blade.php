@@ -7,24 +7,19 @@
   | L'écran porte aussi la bascule d'ouverture de la rubrique citoyenne : le
   | porteur du projet a demandé le CRUD maintenant et l'exposition plus tard.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="flex flex-wrap items-start justify-between gap-3 mb-5">
-        <div>
-            <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Portails officiels</h1>
-            <p class="text-sm text-[#64748B] mb-0">
-                L'annuaire des sites de l'administration. C'est la rubrique qui répond à
-                « ce site est-il bien celui du ministère, ou un site qui lui ressemble ? »
-            </p>
-        </div>
-
-        @if ($peutGerer)
+    <x-premium.entete titre="Portails officiels">
+        L'annuaire des sites de l'administration. C'est la rubrique qui répond à « ce site est-il bien celui du ministère, ou un site qui lui ressemble ? »
+        <x-slot:actions>
+            @if ($peutGerer)
             <button type="button" wire:click="ouvrirCreation" class="st-btn st-btn-primary">
                 <span class="material-symbols-rounded !text-[19px]" aria-hidden="true">add</span>
                 Ajouter un portail
             </button>
         @endif
-    </div>
+        </x-slot:actions>
+    </x-premium.entete>
 
     {{-- ── LA BASCULE D'OUVERTURE ────────────────────────────────────────────
          Un geste d'administration, pas un déploiement. Tant qu'elle est fermée,

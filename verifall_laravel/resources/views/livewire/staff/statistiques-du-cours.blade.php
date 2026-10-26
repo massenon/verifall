@@ -8,19 +8,11 @@
   | La liste est triée par les MOINS avancés, parce que cet écran sert à
   | relancer — et qu'on relance ceux qui décrochent, pas ceux qui ont fini.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="mb-5">
-        <p class="text-xs text-[#64748B] mb-1">
-            <a href="{{ route('staff.courses') }}" class="hover:text-primary">Cours</a>
-            <span aria-hidden="true">/</span> Statistiques
-        </p>
-        <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">{{ $cours->title }}</h1>
-        <p class="text-sm text-[#64748B] mb-0">
-            {{ $cours->category }}@if ($cours->instructor) · {{ $cours->instructor->name }}@endif
-            · {{ $cours->cost_units > 0 ? $cours->cost_units.' unité'.($cours->cost_units > 1 ? 's' : '') : 'Gratuit' }}
-        </p>
-    </div>
+    <x-premium.entete :titre="$cours->title" :fil="['Cours', 'Statistiques']">
+        {{ $cours->category }}@if ($cours->instructor) · {{ $cours->instructor->name }}@endif · {{ $cours->cost_units > 0 ? $cours->cost_units.' unité'.($cours->cost_units > 1 ? 's' : '') : 'Gratuit' }}
+    </x-premium.entete>
 
     <x-kpi-grid variant="staff" :cols="4">
         <x-kpi variant="staff" :value="number_format($chiffres['inscrits'], 0, ',', ' ')" label="Citoyens inscrits" />

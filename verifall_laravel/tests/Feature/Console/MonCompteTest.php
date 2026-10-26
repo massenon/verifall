@@ -100,3 +100,11 @@ it('affiche l’onglet des sessions', function (): void {
     Livewire::actingAs($this->membre, 'staff')->test(MonCompte::class)->set('onglet', 'sessions')
         ->assertSee('Appareils connectés')->call('fermerLesAutres')->assertHasNoErrors();
 });
+
+it('laisse un mentor ouvrir sa propre fiche, et seulement la sienne', function (): void {
+    $this->actingAs($this->membre, 'staff')->get(route('staff.users.show', $this->membre))->assertOk();
+
+    $autre = User::factory()->actif()->create();
+    $this->actingAs($this->membre, 'staff')->get(route('staff.users.show', $autre))->assertForbidden();
+    $this->actingAs($this->membre, 'staff')->getJson(route('staff.users.show.data', ['user' => $autre->uuid, 'onglet' => 'verifications']))->assertForbidden();
+});

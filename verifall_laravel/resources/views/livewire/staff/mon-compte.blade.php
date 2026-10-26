@@ -9,6 +9,7 @@
       <h1 class="text-[26px] sm:text-[28px] font-semibold leading-tight text-encre dark:text-white">{{ $membre->name }}</h1>
       <p class="text-sm texte-2">{{ $membre->email }} · {{ $roles->implode(', ') ?: 'Équipe' }}</p>
     </div>
+    <a href="{{ route('staff.users.show', $membre) }}" class="btn-second ml-auto"><x-lucide name="id-card" />Ma fiche d'activité</a>
   </div>
 
   <div class="onglets" role="tablist">

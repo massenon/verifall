@@ -36,7 +36,7 @@ use Symfony\Component\Finder\Finder;
 function filsDePageAssumes(): array
 {
     return [
-        'constructeur-de-cours.blade.php' => "Hors menu : la barre ne dit que « Constructeur de cours », et l'en-tête n'a aucun autre chemin vers « Tous les cours » ni le titre du cours abrégé.",
+        // Plus aucune exemption : le constructeur de cours passe par <x-premium.entete>.
     ];
 }
 
@@ -58,6 +58,8 @@ describe('le fil d’Ariane', function (): void {
     });
 
     it('ne garde aucune exemption devenue sans objet', function (): void {
+        expect(filsDePageAssumes())->toBeArray();
+
         foreach (array_keys(filsDePageAssumes()) as $fichier) {
             $chemin = resource_path('views/livewire/staff/'.$fichier);
 

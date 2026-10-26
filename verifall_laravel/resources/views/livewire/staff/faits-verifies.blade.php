@@ -13,24 +13,13 @@
   <link rel="stylesheet" href="{{ asset('assets/css/pages/datatables-staff.css') }}">
 @endpush
 
-<div class="p-6 lg:p-8">
+<div>
 
     {{-- Fil d'Ariane — même chemin que le prototype. --}}
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Fact-Checking</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">Fact checks</span>
-    </nav>
-
-    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
-        <div>
-            <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">Fact checks</h1>
-            <p class="text-[#64748B] text-sm mb-0">
-                La base des vérifications publiées : verdicts, sources et démentis officiels.
-            </p>
-        </div>
-
-        <div class="flex flex-wrap gap-2">
+<x-premium.entete titre="Fact checks">
+        La base des vérifications publiées : verdicts, sources et démentis officiels.
+        <x-slot:actions>
+            <div class="flex flex-wrap gap-2">
             @can('create', VerifiedFact::class)
                 <button type="button" class="st-btn st-btn-secondary" wire:click="ouvrirImport">
                     <span class="material-symbols-rounded !text-[18px]" aria-hidden="true">upload</span> Importer
@@ -49,7 +38,8 @@
                 </button>
             @endcan
         </div>
-    </div>
+        </x-slot:actions>
+    </x-premium.entete>
 
     {{-- Quatre indicateurs, tous MESURÉS : ils viennent de
          DepotFaitsVerifies::indicateurs(), aucun n'est écrit dans le gabarit. --}}

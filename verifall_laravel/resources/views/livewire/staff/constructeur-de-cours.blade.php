@@ -9,23 +9,11 @@
   | superposer : une question porte deux à six propositions, et un tiroir dans
   | un tiroir ne se referme jamais dans le bon ordre.
 --}}
-<div class="p-6 lg:p-8">
+<div>
 
-    <nav class="text-xs text-[#64748B] mb-2" aria-label="Fil d'Ariane">
-        <a href="{{ route('staff.dashboard') }}" class="hover:text-[#065F46]">Administration</a>
-        <span aria-hidden="true">/</span>
-        <a href="{{ route('staff.courses') }}" class="hover:text-[#065F46]">Tous les cours</a>
-        <span aria-hidden="true">/</span>
-        <span class="text-[#0F172A] font-medium">{{ Str::limit($cours->title, 40) }}</span>
-    </nav>
-
-    <header class="mb-6">
-        <h1 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] leading-tight mb-1">{{ $cours->title }}</h1>
-        <p class="text-[#64748B] text-sm mb-0">
-            {{ $cours->categorie?->name ?? 'Sans rayon' }} · {{ $cours->level?->libelle() }} ·
-            {{ $cours->is_published ? 'publié au catalogue' : 'brouillon' }}
-        </p>
-    </header>
+<x-premium.entete :titre="$cours->title" :fil="['Cours']">
+        {{ $cours->categorie?->name ?? 'Sans rayon' }} · {{ $cours->level?->libelle() }} · {{ $cours->is_published ? 'publié au catalogue' : 'brouillon' }}
+    </x-premium.entete>
 
     @if ($quizCourant !== null)
         {{-- ─────────────────────────────── éditeur de questions d'un quiz --}}

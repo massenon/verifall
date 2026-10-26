@@ -5,22 +5,18 @@
   | source, usage différent : les fondre donnerait un écran qui répond mal aux
   | deux questions.
 --}}
-<div class="p-4 sm:p-6 lg:p-8">
+<div>
 
-    <div class="mb-5 flex flex-wrap items-start justify-between gap-3">
-        <div>
-            <h1 class="text-xl font-display font-bold text-[#0F172A] mb-1">Progression</h1>
-            <p class="text-sm text-[#64748B] mb-0">
-                Qui avance, qui a décroché. Les moins avancés en tête — c'est à eux qu'on écrit.
-            </p>
-        </div>
-
-        @if ($inscrits->total() > 0)
+    <x-premium.entete titre="Progression">
+        Qui avance, qui a décroché. Les moins avancés en tête — c'est à eux qu'on écrit.
+        <x-slot:actions>
+            @if ($inscrits->total() > 0)
             <button type="button" wire:click="exporter" class="st-btn st-btn-secondary">
                 Exporter la cohorte
             </button>
         @endif
-    </div>
+        </x-slot:actions>
+    </x-premium.entete>
 
     <section class="mb-4 flex flex-wrap items-center gap-3">
         <div class="ffield flex-1 mb-0" style="min-width: 220px;">

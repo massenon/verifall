@@ -37,9 +37,16 @@ final class UserPolicy
         return $utilisateur->can('user.view');
     }
 
+    /**
+     * Voir une fiche de compte : le droit de lister, ou SA PROPRE fiche.
+     *
+     * Un mentor ne liste pas les comptes, mais il doit pouvoir relire sa fiche
+     * d'activité (ses cours, ses corrections). La fiche d'un autre reste
+     * soumise à `user.view`, et le serveur de ses onglets applique la même garde.
+     */
     public function view(User $utilisateur, User $cible): bool
     {
-        return $utilisateur->can('user.view');
+        return $utilisateur->can('user.view') || $utilisateur->is($cible);
     }
 
     /**
