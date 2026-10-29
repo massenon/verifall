@@ -1,0 +1,348 @@
+<title>Vérif All — Bannière Play Store</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap">
+
+<style>
+/* ─── Tokens — charte Vérifall ───────────────────────────────────────────── */
+:root {
+  --forest:       #063B2A;
+  --forest-deep:  #031e16;
+  --primary:      #09B850;
+  --primary-dark: #079A43;
+  --brand-red:    #D6293E;
+  --warn:         #D97706;
+  --on-forest:    rgba(255,255,255,0.62);
+  --on-forest-hi: rgba(255,255,255,0.92);
+
+  --font-display: 'Instrument Sans', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #060e09;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding-block: 32px;
+  padding-left:  max(16px, env(safe-area-inset-left,  0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  font-family: var(--font-body);
+}
+
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+}
+
+/* ─── Banner canvas (1024 × 500) ─────────────────────────────────────────── */
+.banner {
+  width: min(1024px, 100%);
+  aspect-ratio: 1024 / 500;
+  background: var(--forest-deep);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  display: grid;
+  grid-template-columns: 480px 1fr;
+}
+
+/* Halos décoratifs */
+.banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 560px 400px at -60px 560px, rgba(9,184,80,0.13) 0%, transparent 70%),
+    radial-gradient(ellipse 300px 300px at 110% -10%, rgba(9,184,80,0.09) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Ligne de séparation */
+.banner::after {
+  content: '';
+  position: absolute;
+  left: 480px;
+  top: 12%;
+  bottom: 12%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(9,184,80,0.25) 40%, rgba(9,184,80,0.25) 60%, transparent);
+}
+
+/* ─── Panneau gauche ─────────────────────────────────────────────────────── */
+.left {
+  padding: clamp(28px, 5%, 52px) clamp(28px, 5%, 48px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.logo-icon {
+  width: 42px;
+  height: 42px;
+  background: var(--primary);
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 18px rgba(9,184,80,0.4);
+}
+
+.logo-icon svg { width: 24px; height: 24px; }
+
+.logo-name {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--on-forest-hi);
+  letter-spacing: -0.3px;
+}
+
+.logo-name span { color: var(--primary); }
+
+.headline {
+  font-family: var(--font-display);
+  font-size: clamp(30px, 4vw, 44px);
+  font-weight: 800;
+  color: var(--on-forest-hi);
+  line-height: 1.08;
+  letter-spacing: -1.2px;
+  text-wrap: balance;
+}
+
+.headline em {
+  font-style: normal;
+  color: var(--primary);
+  text-shadow: 0 0 32px rgba(9,184,80,0.4);
+}
+
+.subline {
+  font-size: clamp(13px, 1.5vw, 15px);
+  color: var(--on-forest);
+  line-height: 1.55;
+  max-width: 340px;
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  padding: 5px 13px 5px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.65);
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+  flex-shrink: 0;
+}
+
+/* ─── Panneau droit ──────────────────────────────────────────────────────── */
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 44px 32px 36px;
+  position: relative;
+  z-index: 2;
+}
+
+.cards {
+  width: 100%;
+  max-width: 296px;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.card {
+  border-radius: 14px;
+  padding: 15px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  opacity: 0.08;
+}
+
+.card.vrai   { background: rgba(22,163,74,0.14);   border-color: rgba(22,163,74,0.28); }
+.card.faux   { background: rgba(214,41,62,0.14);   border-color: rgba(214,41,62,0.28); }
+.card.trompeur { background: rgba(217,119,6,0.14); border-color: rgba(217,119,6,0.28); }
+
+.verdict {
+  flex-shrink: 0;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.card.vrai     .verdict { color: #4ade80; background: rgba(74,222,128,0.15); }
+.card.faux     .verdict { color: #f87171; background: rgba(248,113,113,0.15); }
+.card.trompeur .verdict { color: #fbbf24; background: rgba(251,191,36,0.15); }
+
+.card-body { flex: 1; min-width: 0; }
+
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--on-forest-hi);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-meta {
+  margin-top: 3px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.38);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ─── Section téléchargement ─────────────────────────────────────────────── */
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--primary);
+  color: var(--forest-deep);
+  border: none;
+  border-radius: 28px;
+  padding: 11px 22px 11px 18px;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+  width: fit-content;
+  letter-spacing: -0.2px;
+  box-shadow: 0 4px 20px rgba(9,184,80,0.3);
+  transition: transform 0.1s;
+}
+
+.cta:hover { transform: translateY(-1px); }
+.cta svg { width: 18px; height: 18px; }
+
+/* ─── Note dimension ─────────────────────────────────────────────────────── */
+.note {
+  font-size: 12px;
+  color: rgba(255,255,255,0.22);
+  text-align: center;
+}
+</style>
+
+<p class="label">Feature Graphic · 1024 × 500 px · Google Play Store</p>
+
+<div class="banner">
+  <!-- Panneau gauche -->
+  <div class="left">
+    <div class="logo">
+      <div class="logo-icon">
+        <!-- Bouclier + coche = icône Vérif All -->
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L20 5.5V11C20 15.8 16.5 20.2 12 22C7.5 20.2 4 15.8 4 11V5.5L12 2Z"
+                fill="white" fill-opacity="0.18"/>
+          <path d="M8 12L11 15L16 9"
+                stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="logo-name">Vérif<span>All</span></div>
+    </div>
+
+    <div>
+      <h1 class="headline">La boussole<br>citoyenne de<br>l'<em>information</em></h1>
+    </div>
+
+    <p class="subline">Vérifiez les faits, comprenez les sources, partagez en confiance.</p>
+
+    <div>
+      <button class="cta">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 16L6 10h4V4h4v6h4l-6 6z" fill="currentColor"/>
+          <path d="M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Télécharger gratuitement
+      </button>
+      <div class="badges" style="margin-top:14px">
+        <div class="badge"><div class="badge-dot"></div>Gratuit</div>
+        <div class="badge"><div class="badge-dot"></div>Sans pub</div>
+        <div class="badge"><div class="badge-dot"></div>RGPD</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panneau droit -->
+  <div class="right">
+    <div class="cards">
+      <div class="card vrai">
+        <span class="verdict">✓ Vrai</span>
+        <div class="card-body">
+          <div class="card-title">Le vaccin contre le paludisme</div>
+          <div class="card-meta">OMS · Vérifié il y a 2 h</div>
+        </div>
+      </div>
+      <div class="card faux">
+        <span class="verdict">✗ Faux</span>
+        <div class="card-body">
+          <div class="card-title">La 5G propage le coronavirus</div>
+          <div class="card-meta">ARCEP · Vérifié il y a 1 j</div>
+        </div>
+      </div>
+      <div class="card trompeur">
+        <span class="verdict">~ Trompeur</span>
+        <div class="card-body">
+          <div class="card-title">Baisse du prix du carburant</div>
+          <div class="card-meta">Ministère · Vérifié il y a 3 h</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="note">Exporter via Navigateur → Imprimer → Enregistrer PDF, ou capture d'écran à 100 % zoom</p>
