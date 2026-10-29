@@ -76,6 +76,12 @@
             <h6>{{ __('mentions_legales.10_droit_applicable_et_reglement_des_litiges') }}</h6>
             <p>{{ __('mentions_legales.l_utilisation_de_la_plateforme_est_soumise', ['courriel' => $legal->contact() ?? 'contact@verifall.com']) }}</p>
             <p>{{ __('mentions_legales.a_defaut_d_accord_competence_exclusive_est') }}</p>
+
+            <h6 id="accessibilite">{{ __('mentions_legales.11_accessibilite_numerique') }}</h6>
+            <p>{{ __('mentions_legales.verifall_s_engage_a_rendre_son_site_accessible') }}</p>
+            <p>{{ __('mentions_legales.etat_de_conformite_actuel') }}</p>
+            <p>{{ __('mentions_legales.pour_signaler_un_probleme_accessibilite') }} {{ $legal->contact() ?? 'contact@verifall.com' }}{{ __('mentions_legales.accusé_reception_accessibilite') }}</p>
+            <p>{{ __('mentions_legales.voie_de_recours_accessibilite') }}</p>
           </div>
         </div>
       </section>

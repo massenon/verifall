@@ -330,7 +330,7 @@ final class AppServiceProvider extends ServiceProvider
     private function identiteLegaleSurLesPagesLegales(): void
     {
         View::composer(
-            ['public.mentions-legales', 'public.confidentialite', 'public.cookies', 'public.conditions-generales'],
+            ['public.mentions-legales', 'public.confidentialite', 'public.cookies', 'public.conditions-generales', 'public.supprimer-mon-compte'],
             function (VueRendue $vue): void {
                 $vue->with('legal', $this->app->make(IdentiteLegale::class));
             },

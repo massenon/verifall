@@ -127,7 +127,8 @@ return [
 
     'rectification_vos_informations_de_profil_se_modifient' => '<strong>Rectification:</strong> your profile information can be changed directly from your account.',
 
-    'effacement_la_suppression_du_compte_se_demande' => '<strong>Erasure:</strong> account deletion is requested from your settings. It remains reversible during the cooling-off period, then becomes final.',
+    'effacement_la_suppression_du_compte_se_demande' => '<strong>Erasure:</strong> account deletion is requested from your settings or via :lien_suppression. It remains reversible during the cooling-off period, then becomes final.',
+    'lien_supprimer_mon_compte' => 'the dedicated page',
 
     'opposition_et_retrait_du_consentement_le_desabonnement' => '<strong>Objection and withdrawal of consent:</strong> unsubscribing from the newsletter takes one click, without signing in, from any of our emails.',
 

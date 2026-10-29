@@ -408,6 +408,17 @@ Route::prefix('/')->name('public.')->group(function (): void {
      */
     Route::get('conditions-generales', ConditionsGeneralesController::class)->name('terms');
 
+    /*
+     | SUPPRESSION DE COMPTE. Page publique informant sur la procédure in-app
+     | et web, les données effacées et conservées, et le délai de rétractation.
+     | Requise par le Play Store avant toute soumission (Data Safety).
+     | Le contrôleur viendra en Lot B pour gérer le formulaire POST.
+     */
+    Route::view('supprimer-mon-compte', 'public.supprimer-mon-compte', [
+        'title' => "Supprimer mon compte · Vérif'All",
+        'jours' => \App\Core\Identity\Services\SuppressionCompteService::JOURS_RETRACTATION,
+    ])->name('account-deletion');
+
     Route::get('corrections', Corrections::class)->name('corrections');
     Route::get('methodologie', Methodologie::class)->name('methodology');
 

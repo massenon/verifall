@@ -31,7 +31,7 @@ return [
 
     '1_ce_qu_est_un_cookie' => '1. What a cookie is',
 
-    'un_cookie_est_un_petit_fichier_depose' => 'A cookie is a small file placed on your device when you visit. It carries a piece of information from one page to the next, for instance the fact that you are signed in. The term covers every tracker here, including those that rely on the browser’s local storage.',
+    'un_cookie_est_un_petit_fichier_depose' => 'A cookie is a small file placed on your device when you visit. It carries a piece of information from one page to the next, for instance the fact that you are signed in. The term covers every tracker here, including those that rely on the browser\'s local storage.',
 
     '2_les_traceurs_strictement_necessaires' => '2. Strictly necessary trackers',
 
@@ -43,13 +43,15 @@ return [
 
     'preference_de_langue_retient_la_langue_choisie' => '<strong>Language preference:</strong> remembers the language you chose, so you are not asked again on every page.',
 
-    'reponse_au_bandeau_de_consentement_retient_votre' => '<strong>Consent banner answer:</strong> remembers your choice, precisely so that you are not asked again.',
+    'pourquoi_pas_de_bandeau_titre' => 'Why does this site not show a cookie banner?',
+
+    'pourquoi_pas_de_bandeau_texte' => 'Vérif\'All only places cookies that are strictly necessary for the service to work (session, CSRF security, language preference). These trackers are exempt from the requirement to obtain consent, in line with CNIL guidelines and equivalent authorities. There is therefore nothing to accept or refuse: no advertising cookies, no third-party audience measurement tool is active.',
 
     '3_la_mesure_d_audience' => '3. Audience measurement',
 
-    'aucune_mesure_d_audience_n_est_active' => 'No audience measurement runs by default on this platform. No tracking identifier is placed until a tool has been configured and you have consented to it.',
+    'aucune_mesure_d_audience_n_est_active' => 'No audience measurement runs by default on this platform. No tracking identifier is placed until a tool has been configured.',
 
-    'si_une_mesure_d_audience_est_activee' => 'If audience measurement is switched on, it will only happen after your explicit agreement, given through the consent banner. Refusing takes nothing away from the service: every feature remains available.',
+    'si_une_mesure_d_audience_est_activee' => 'If audience measurement is ever switched on, a consent banner will be added to the site <strong>before</strong> any additional tracker is placed. You will then be free to accept or refuse, with no effect on any feature of the service.',
 
     '4_ce_que_nous_ne_deposons_pas' => '4. What we do not place',
 
@@ -57,9 +59,9 @@ return [
 
     '5_retirer_votre_accord' => '5. Withdrawing your agreement',
 
-    'votre_choix_se_modifie_a_tout_moment' => 'Your choice can be changed at any time. Clearing the site’s cookies from your browser brings the banner back, and you can then answer differently.',
+    'votre_choix_se_modifie_a_tout_moment' => 'Strictly necessary cookies do not require consent and cannot be refused without breaking the service. You can, however, clear them at any time from your browser settings. Note that deleting the session cookie will sign you out.',
 
-    'vous_pouvez_egalement_configurer_votre_navigateur_pour' => 'You can also set your browser to refuse cookies systematically. Be aware, though, that refusing the strictly necessary trackers prevents you from signing in to your personal area: they are what keeps you there.',
+    'vous_pouvez_egalement_configurer_votre_navigateur_pour' => 'You can also configure your browser to block all cookies. If you do, signing in to your personal area will no longer be possible.',
 
     '6_traceurs_deposes_par_des_tiers' => '6. Trackers placed by third parties',
 

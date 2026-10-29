@@ -27,13 +27,17 @@
             <h6>{{ __('cookies.1_ce_qu_est_un_cookie') }}</h6>
             <p>{{ __('cookies.un_cookie_est_un_petit_fichier_depose') }}</p>
 
+            <div class="bg-primary/10 border border-primary/20 rounded-lg px-6 py-5 mb-6">
+              <p class="font-semibold text-heading mb-2">{!! __('cookies.pourquoi_pas_de_bandeau_titre') !!}</p>
+              <p class="mb-0">{!! __('cookies.pourquoi_pas_de_bandeau_texte') !!}</p>
+            </div>
+
             <h6>{{ __('cookies.2_les_traceurs_strictement_necessaires') }}</h6>
             <p>{{ __('cookies.ils_font_fonctionner_le_service_et_ne') }}</p>
             <ul>
               <li>{!! __('cookies.cookie_de_session_vous_garde_connecte_d') !!}</li>
               <li>{!! __('cookies.jeton_de_securite_csrf_empeche_qu_un') !!}</li>
               <li>{!! __('cookies.preference_de_langue_retient_la_langue_choisie') !!}</li>
-              <li>{!! __('cookies.reponse_au_bandeau_de_consentement_retient_votre') !!}</li>
             </ul>
 
             <h6>{{ __('cookies.3_la_mesure_d_audience') }}</h6>

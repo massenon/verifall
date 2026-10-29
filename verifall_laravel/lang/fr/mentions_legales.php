@@ -75,6 +75,14 @@ return [
     '9_financement_et_independance' => '9. Financement et indépendance',
     '10_droit_applicable_et_reglement_des_litiges' => '10. Droit applicable et règlement des litiges',
     'a_defaut_d_accord_competence_exclusive_est' => 'À défaut d\'accord, compétence exclusive est attribuée aux tribunaux de Cotonou.',
+
+    '11_accessibilite_numerique' => '11. Accessibilité numérique',
+    'verifall_s_engage_a_rendre_son_site_accessible' => 'Vérif\'All s\'engage à rendre son site web et son application mobiles accessibles, conformément aux recommandations WCAG 2.1 niveau AA.',
+    'etat_de_conformite_actuel' => 'État de conformité actuel : partiellement conforme. Des travaux d\'amélioration sont en cours, notamment sur les alternatives textuelles des images, les contrastes de couleur dans certains modules et la navigation au clavier dans les formulaires interactifs.',
+    'pour_signaler_un_probleme_accessibilite' => 'Pour signaler un problème d\'accessibilité ou demander une version accessible d\'un contenu, écrivez à',
+    'accusé_reception_accessibilite' => '. Nous accusons réception sous 5 jours ouvrés et traitons votre demande dans les 30 jours.',
+    'voie_de_recours_accessibilite' => 'Voie de recours : si vous n\'obtenez pas de réponse dans ce délai, vous pouvez contacter l\'ARCEP Bénin ou le Défenseur des Droits de votre pays de résidence.',
+
     'rejoignez_un_espace_d_information_transparent_et' => 'Rejoignez un espace d\'information transparent et sécurisé.',
     'maintenant_que_vous_connaissez_nos_engagements_passez' => 'Maintenant que vous connaissez nos engagements, passez à l\'action.<br>Créez votre compte gratuit pour bénéficier de tous nos outils et participer activement à la lutte contre la désinformation.',
 ];
