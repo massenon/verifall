@@ -56,6 +56,9 @@ return [
     'message_confirmation' => 'If this address is linked to an account, a deletion link valid for 24 hours has just been sent. Check your inbox.',
     'note_securite' => 'This form is limited to 3 submissions per hour. If you do not receive an e-mail, check your spam folder or write to',
 
+    'compte_ferme_confirmation' => 'Your account has been closed. An e-mail with your cancellation link has just been sent. You have 30 days to change your mind.',
+    'suppression_deja_en_cours' => 'A deletion is already scheduled for this account. Check your inbox for the cancellation link.',
+
     'footer_confidentialite' => 'See also our',
     'footer_lien_confidentialite' => 'privacy policy',
     'footer_et' => 'and our',

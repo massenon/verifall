@@ -15,6 +15,7 @@ use App\Http\Controllers\MaintenancePage;
 use App\Http\Controllers\Public\AbonnementController;
 use App\Http\Controllers\Public\CarteDeDementiController;
 use App\Http\Controllers\Public\ConditionsGeneralesController;
+use App\Http\Controllers\Public\SuppressionCompteController;
 use App\Http\Controllers\Public\ContactController;
 use App\Http\Controllers\Public\DepartVersLaSourceController;
 use App\Http\Controllers\Public\FaqController;
@@ -412,12 +413,18 @@ Route::prefix('/')->name('public.')->group(function (): void {
      | SUPPRESSION DE COMPTE. Page publique informant sur la procédure in-app
      | et web, les données effacées et conservées, et le délai de rétractation.
      | Requise par le Play Store avant toute soumission (Data Safety).
-     | Le contrôleur viendra en Lot B pour gérer le formulaire POST.
+     |
+     | GET  /supprimer-mon-compte          → page informative + formulaire (Lot B)
+     | POST /supprimer-mon-compte          → envoi du lien signé 24 h
+     | GET  /supprimer-mon-compte/{uuid}/confirmer → clôture du compte (lien signé)
      */
     Route::view('supprimer-mon-compte', 'public.supprimer-mon-compte', [
         'title' => "Supprimer mon compte · Vérif'All",
         'jours' => \App\Core\Identity\Services\SuppressionCompteService::JOURS_RETRACTATION,
     ])->name('account-deletion');
+
+    Route::post('supprimer-mon-compte', [SuppressionCompteController::class, 'envoyerLien'])
+        ->middleware('throttle:3,60')->name('account-deletion.send');
 
     Route::get('corrections', Corrections::class)->name('corrections');
     Route::get('methodologie', Methodologie::class)->name('methodology');
@@ -644,6 +651,12 @@ Route::post('/webhooks/momo/{provider}', MomoWebhookController::class)
 // l'URL tient lieu de preuve, et sa duree est bornee a l'echeance.
 Route::get('/compte/annuler-suppression/{uuid}', AnnulerSuppressionController::class)
     ->middleware('signed')->name('account.deletion.cancel');
+
+// Confirmation de la suppression par lien e-mail (Lot B — voie de secours).
+// Doit rester hors du groupe public. : le nom `account.deletion.confirm` est
+// utilisé dans LienSuppressionCompteMail sans préfixe.
+Route::get('/supprimer-mon-compte/{uuid}/confirmer', [SuppressionCompteController::class, 'confirmer'])
+    ->middleware('signed')->name('account.deletion.confirm');
 
 // ------------------------------------------------------------------ staff
 Route::prefix('admin')->name('staff.')->group(function (): void {

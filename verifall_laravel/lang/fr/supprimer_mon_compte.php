@@ -57,6 +57,9 @@ return [
     'message_confirmation' => 'Si cette adresse est associée à un compte, un lien de suppression valable 24 heures vient d\'être envoyé. Vérifiez votre boîte de réception.',
     'note_securite' => 'Ce formulaire est limité à 3 envois par heure. Si vous ne recevez pas d\'e-mail, vérifiez vos spams ou écrivez à',
 
+    'compte_ferme_confirmation' => 'Votre compte a été fermé. Un e-mail contenant votre lien d\'annulation vient de vous être envoyé. Vous avez 30 jours pour changer d\'avis.',
+    'suppression_deja_en_cours' => 'Une suppression est déjà programmée pour ce compte. Consultez votre boîte e-mail pour le lien d\'annulation.',
+
     'footer_confidentialite' => 'Voir aussi notre',
     'footer_lien_confidentialite' => 'politique de confidentialité',
     'footer_et' => 'et nos',

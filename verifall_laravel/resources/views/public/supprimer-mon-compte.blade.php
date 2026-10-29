@@ -86,33 +86,56 @@
             <p><strong>{{ __('supprimer_mon_compte.annuler_intro', ['jours' => $jours]) }}</strong></p>
             <p>{{ __('supprimer_mon_compte.annuler_texte', ['jours' => $jours]) }}</p>
 
-            {{-- Section 5 — Utilisateur sans accès (formulaire — Lot B) --}}
+            {{-- Section 5 — Utilisateur sans accès (formulaire) --}}
             <h6>{{ __('supprimer_mon_compte.5_sans_acces_au_compte') }}</h6>
             <p>{{ __('supprimer_mon_compte.sans_acces_intro') }}</p>
 
-            {{-- TODO Lot B : remplacer ce bloc statique par le formulaire POST
-                 via Public\SuppressionCompteController@envoyerLien une fois OQ1 répondu. --}}
             <div class="not-prose bg-[#f8f9fa] border border-line rounded-xl p-6 mt-4">
-              <form method="POST" action="{{ route('public.account-deletion') }}" class="space-y-4">
-                @csrf
-                <div>
-                  <label for="email" class="block text-sm font-medium text-heading mb-1">
-                    {{ __('supprimer_mon_compte.champ_email_label') }}
-                  </label>
-                  <input type="email" id="email" name="email"
-                         placeholder="{{ __('supprimer_mon_compte.champ_email_placeholder') }}"
-                         class="w-full rounded-lg border border-line px-4 py-2.5 text-body focus:outline-none focus:ring-2 focus:ring-primary/50"
-                         required>
+
+              {{-- Flash : lien envoyé --}}
+              @if(session('suppression_lien'))
+                <div class="mb-4 rounded-lg bg-primary/10 border border-primary/20 px-4 py-3 text-sm text-heading">
+                  {{ session('suppression_lien') }}
                 </div>
-                <button type="submit"
-                        class="inline-flex items-center rounded-lg bg-primary text-white font-semibold px-5 py-2.5 hover:bg-primary-dark transition-colors">
-                  {{ __('supprimer_mon_compte.bouton_envoyer') }}
-                </button>
-              </form>
-              <p class="text-sm text-body/70 mt-4">
-                {{ __('supprimer_mon_compte.note_securite') }}
-                {{ $legal->contact() ?? 'contact@verifall.com' }}.
-              </p>
+              @endif
+
+              {{-- Flash : confirmation honorée --}}
+              @if(session('suppression_confirmer') === 'reussie')
+                <div class="mb-4 rounded-lg bg-primary/10 border border-primary/20 px-4 py-3 text-sm text-heading">
+                  {{ __('supprimer_mon_compte.compte_ferme_confirmation') }}
+                </div>
+              @elseif(session('suppression_confirmer') === 'deja_programme')
+                <div class="mb-4 rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-heading">
+                  {{ __('supprimer_mon_compte.suppression_deja_en_cours') }}
+                </div>
+              @endif
+
+              @unless(session('suppression_confirmer') === 'reussie')
+                <form method="POST" action="{{ route('public.account-deletion.send') }}" class="space-y-4">
+                  @csrf
+                  <div>
+                    <label for="email" class="block text-sm font-medium text-heading mb-1">
+                      {{ __('supprimer_mon_compte.champ_email_label') }}
+                    </label>
+                    <input type="email" id="email" name="email"
+                           value="{{ old('email') }}"
+                           placeholder="{{ __('supprimer_mon_compte.champ_email_placeholder') }}"
+                           class="w-full rounded-lg border border-line px-4 py-2.5 text-body focus:outline-none focus:ring-2 focus:ring-primary/50"
+                           required>
+                    @error('email')
+                      <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                    @enderror
+                  </div>
+                  <button type="submit"
+                          class="inline-flex items-center rounded-lg bg-primary text-white font-semibold px-5 py-2.5 hover:bg-primary-dark transition-colors">
+                    {{ __('supprimer_mon_compte.bouton_envoyer') }}
+                  </button>
+                </form>
+                <p class="text-sm text-body/70 mt-4">
+                  {{ __('supprimer_mon_compte.note_securite') }}
+                  {{ $legal->contact() ?? 'contact@verifall.com' }}.
+                </p>
+              @endunless
             </div>
 
             {{-- Footer légal --}}
