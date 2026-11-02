@@ -102,6 +102,30 @@ final class RegistreDesMoteurs
      */
     public function moduleOuvert(TypeContenu $type): bool
     {
+        /*
+         | INTERRUPTEUR DE TYPE — couche admin, indépendante des moteurs.
+         |
+         | Image, audio et vidéo ont chacun une case dans les réglages
+         | (`module_{type}_actif`). Texte et URL n'en ont pas : ils sont
+         | toujours disponibles, aucune clé externe ne les bloque.
+         |
+         | Si la case est cochée mais que le moteur sous-jacent n'est pas
+         | configuré, la condition ci-dessous l'arrête de toute façon.
+         | Mais si elle est décochée, on s'arrête ici — l'onglet est fermé
+         | même si un moteur est configuré, ce qui permet de masquer un
+         | type pendant une maintenance sans toucher aux clés.
+         */
+        $cleModule = match ($type) {
+            TypeContenu::Image => 'module_image_actif',
+            TypeContenu::Audio => 'module_audio_actif',
+            TypeContenu::Video => 'module_video_actif',
+            default => null,
+        };
+
+        if ($cleModule !== null && ! app(Reglages::class)->actif($cleModule)) {
+            return false;
+        }
+
         $indispensable = $type->moteurIndispensable();
 
         if ($indispensable === null) {
