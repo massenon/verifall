@@ -6,6 +6,8 @@ namespace App\Livewire\Citizen;
 
 use App\Core\Economy\Exceptions\SoldeInsuffisant;
 use App\Core\FactChecking\Services\ModuleIndisponible;
+use App\Core\FactChecking\Services\QuotaMediaAtteint;
+use App\Core\FactChecking\Services\QuotaMediaService;
 use App\Core\FactChecking\Services\RegistreDesMoteurs;
 use App\Core\FactChecking\Services\SoumissionVerificationService;
 use App\Enums\StatutVerification;
@@ -137,12 +139,25 @@ final class Verifier extends Component
         return $registre->moduleOuvert($type);
     }
 
-    public function lancer(SoumissionVerificationService $soumissions): void
+    public function lancer(SoumissionVerificationService $soumissions, QuotaMediaService $quota): void
     {
         $type = $this->typeChoisi();
         $donnees = $this->validate($this->regles($type), $this->messages());
 
         $utilisateur = $this->utilisateur();
+
+        /*
+         | Quota multimédia — en plus du coût en unités et du débit horaire.
+         | S'applique aux comptes gratuits sur Image, Audio et Vidéo ; les rôles
+         | Admin/Modérateur/Mentor sont exempts.
+         */
+        try {
+            $quota->verifier($type, $utilisateur);
+        } catch (QuotaMediaAtteint $depasse) {
+            $this->toastWarning($depasse->messageUtilisateur());
+
+            return;
+        }
 
         /*
          | Limitation de débit, en plus du coût en unités. Les deux ne protègent
@@ -194,6 +209,7 @@ final class Verifier extends Component
         // Compte APRES le succes : une soumission refusee faute de solde ne
         // doit pas consommer le quota horaire.
         RateLimiter::hit($cle, 3600);
+        $quota->enregistrer($type, $utilisateur);
 
         AnalyserVerification::dispatch($verification->id);
 

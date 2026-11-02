@@ -148,7 +148,7 @@ final class ConstructeurDePrompt
      * des instructions ne doit pas pouvoir décider lui-même en combien de
      * claims il se décompose.
      */
-    public function pourExtraction(string $contenuBrut, ?string $contexte): string
+    public function pourExtraction(string $contenuBrut, ?string $contexte, ?TypeContenu $type = null): string
     {
         $chemin = resource_path(self::GABARIT_EXTRACTION);
 
@@ -156,9 +156,11 @@ final class ConstructeurDePrompt
             throw new RuntimeException('Gabarit de prompt introuvable : '.self::GABARIT_EXTRACTION);
         }
 
+        $consignesType = $type !== null ? $this->consignesExtractionDuType($type) : '';
+
         $prompt = str_replace(
-            ['{{CONSIGNES_DE_SECURITE}}', '{{DATE}}'],
-            [$this->consignesDeSecurite(), now()->locale('fr')->isoFormat('D MMMM YYYY')],
+            ['{{CONSIGNES_DE_SECURITE}}', '{{CONSIGNES_DU_TYPE}}', '{{DATE}}'],
+            [$this->consignesDeSecurite(), $consignesType, now()->locale('fr')->isoFormat('D MMMM YYYY')],
             File::get($chemin),
         );
 
