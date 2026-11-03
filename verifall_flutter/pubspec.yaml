@@ -62,6 +62,7 @@ dependencies:
   # même temps. Le socle ne les utilise pas ; chaque parcours utilise les siennes.
   infinite_scroll_pagination: ^5.1.1  # M2, M4 — listes par curseur
   image_picker: ^1.2.3                # M2 — écran 09
+  file_picker: ^8.0.0                 # M2 — écran 09, sélection audio (image_picker ne supporte pas l'audio)
   share_plus: ^13.3.0                 # M2, M3, M4, M5
   url_launcher: ^6.3.2                # M2, M4 — onglet système, jamais de WebView maison
   chewie: ^1.15.0                     # M3 — écran 16
