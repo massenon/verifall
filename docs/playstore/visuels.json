@@ -1,0 +1,135 @@
+{
+  "app": {
+    "nom": "Vérif'All",
+    "slogan": "La boussole contre la désinformation",
+    "description_courte": "Vérifiez textes, images, vidéos et audios en quelques secondes.",
+    "couleur_primaire": "#09B850",
+    "couleur_sombre": "#063B2A",
+    "couleur_ink": "#111827",
+    "couleur_surface": "#FFFFFF",
+    "couleur_canvas": "#F9FAFB",
+    "logo": "../../verifall_laravel/public/assets/images/logo.png",
+    "logo_svg_blanc": "../../verifall_laravel/public/assets/images/logo-light.svg",
+    "prototype_base": "../../verifall_laravel/resources/prototype",
+    "polices": [
+      "https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@700&display=swap"
+    ]
+  },
+  "feature_graphic": {
+    "largeur": 1024,
+    "hauteur": 500,
+    "alt": "Vérif'All — vérifiez textes, images, vidéos et audios contre la désinformation",
+    "fond_degrade": ["#09B850", "#063B2A"],
+    "angle_degrade": 135,
+    "titre": "Vérif'All",
+    "sous_titre": "La boussole contre la désinformation",
+    "motif_cercles": true
+  },
+  "captures": [
+    {
+      "id": "01",
+      "fichier": "01-verifier.png",
+      "titre": "Vérifiez en un instant",
+      "sous_titre": "Texte · Lien · Image · Vidéo · Audio",
+      "alt": "Écran de soumission Vérif'All : choisissez le type de contenu à analyser",
+      "url": "compte-user/verifier.html",
+      "viewport": { "largeur": 390, "hauteur": 844 },
+      "scroll_y": 0,
+      "couleur_bande": "#09B850",
+      "texte_blanc": true
+    },
+    {
+      "id": "02",
+      "fichier": "02-analyse.png",
+      "titre": "L'IA analyse pour vous",
+      "sous_titre": "5 moteurs · Sources croisées · En quelques secondes",
+      "alt": "Écran d'analyse Vérif'All : progression en temps réel des 5 étapes de vérification",
+      "url": "compte-user/verification-en-cours.html",
+      "viewport": { "largeur": 390, "hauteur": 844 },
+      "scroll_y": 0,
+      "couleur_bande": "#063B2A",
+      "texte_blanc": true
+    },
+    {
+      "id": "03",
+      "fichier": "03-rapport.png",
+      "titre": "Votre verdict détaillé",
+      "sous_titre": "Indice de fiabilité · Sources · Analyse éditoriale",
+      "alt": "Rapport de vérification Vérif'All : verdict, score de fiabilité et analyse complète",
+      "url": "compte-user/rapport.html",
+      "viewport": { "largeur": 390, "hauteur": 844 },
+      "scroll_y": 0,
+      "couleur_bande": "#09B850",
+      "texte_blanc": true
+    },
+    {
+      "id": "04",
+      "fichier": "04-historique.png",
+      "titre": "Toutes vos vérifications",
+      "sous_titre": "Historique · Filtres · Partage du rapport",
+      "alt": "Liste des vérifications Vérif'All : historique filtrable avec verdicts et dates",
+      "url": "compte-user/mes-verifications.html",
+      "viewport": { "largeur": 390, "hauteur": 844 },
+      "scroll_y": 0,
+      "couleur_bande": "#111827",
+      "texte_blanc": true
+    },
+    {
+      "id": "05",
+      "fichier": "05-dashboard.png",
+      "titre": "Votre tableau de bord",
+      "sous_titre": "Statistiques · Badges · Progression",
+      "alt": "Tableau de bord Vérif'All : KPI personnels, badges et activité récente",
+      "url": "compte-user/dashboard.html",
+      "viewport": { "largeur": 390, "hauteur": 844 },
+      "scroll_y": 0,
+      "couleur_bande": "#09B850",
+      "texte_blanc": true
+    },
+    {
+      "id": "06",
+      "fichier": "06-catalogue.png",
+      "titre": "Formez-vous en ligne",
+      "sous_titre": "Cours · Quizz · Certificats reconnus",
+      "alt": "Catalogue de cours Vérif'All : formations à la vérification d'information et médias",
+      "url": "compte-user/catalogue.html",
+      "viewport": { "largeur": 390, "hauteur": 844 },
+      "scroll_y": 0,
+      "couleur_bande": "#063B2A",
+      "texte_blanc": true
+    },
+    {
+      "id": "07",
+      "fichier": "07-outils.png",
+      "titre": "Vos outils de détection",
+      "sous_titre": "IA · Deepfake · Géolocalisation · Sources",
+      "alt": "Boîte à outils Vérif'All : détecteurs d'images synthétiques, deepfakes et sources",
+      "url": "compte-user/outils.html",
+      "viewport": { "largeur": 390, "hauteur": 844 },
+      "scroll_y": 0,
+      "couleur_bande": "#111827",
+      "texte_blanc": true
+    },
+    {
+      "id": "08",
+      "fichier": "08-accueil.png",
+      "titre": "La vérité accessible",
+      "sous_titre": "Communauté · Actualités · Certifiés",
+      "alt": "Page d'accueil Vérif'All : plateforme béninoise de fact-checking citoyenne",
+      "url": "index.html",
+      "viewport": { "largeur": 390, "hauteur": 844 },
+      "scroll_y": 0,
+      "couleur_bande": "#09B850",
+      "texte_blanc": true
+    }
+  ],
+  "google_rules": {
+    "ratio": "9:16",
+    "dimensions_captures": [1080, 1920],
+    "texte_max_pct": 20,
+    "mots_interdits": ["meilleur", "n°1", "gratuit", "nouveau", "remise", "Télécharger", "Installer", "Essayer"],
+    "badge_google_play_interdit": true,
+    "alt_max_chars": 140,
+    "contraste_min": "AA"
+  }
+}
