@@ -1,201 +1,250 @@
 #!/usr/bin/env python3
 """
-Vérif'All — Feature graphic 1024×500
-======================================
-Prend deux screenshots -alt existants (verifier + rapport),
-en extrait la zone téléphone, les incline et les compose
-sur un dégradé vert, avec le logo centré.
-Style : Xomiton (phones inclinés émergeant du bas).
-
-Usage : python3 make_feature_graphic.py
+Vérif'All — Feature graphic 1024×500  (v2 — design expert)
+============================================================
+Fond vignette radiale sombre, deux téléphones inclinés avec ombre
+portée, logo-wordmark centré avec anneau lumineux subtil.
 """
 import math, sys
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageChops
 
-VISUELS  = Path(__file__).resolve().parent.parent.parent / \
+VISUELS  = Path(__file__).resolve().parents[2] / \
            "verifall_flutter/docs/publication-play-store/visuels"
-OUT      = Path(__file__).resolve().parent / "assets/feature-graphic-1024x500.png"
-LOGO_PNG = Path(__file__).resolve().parent.parent.parent / \
-           "verifall_laravel/public/assets/images/logo-light.png"
+ASSETS   = Path(__file__).resolve().parent / "assets"
+OUT      = ASSETS / "feature-graphic-1024x500.png"
 
-# Couleurs
-VERT_VIF   = (9, 184, 80)    # #09B850
-VERT_FOND  = (6,  59, 42)    # #063B2A
-VERT_CLAIR = (10, 80, 56)    # centre radial
-BLANC      = (255, 255, 255)
+FONT_DIR   = Path(__file__).resolve().parents[2] / "verifall_flutter/assets/fonts"
+LOGO_ICON  = Path(__file__).resolve().parents[2] / \
+             "verifall_laravel/public/assets/images/logo-icon.png"
+LOGO_LIGHT = Path(__file__).resolve().parents[2] / \
+             "verifall_laravel/public/assets/images/logo-light.png"
+
+# ── Palette ──────────────────────────────────────────────────────────────────
+VERT_VIF     = (9,  184, 80)    # #09B850
+VERT_FOND    = (6,   59, 42)    # #063B2A
+VERT_PROFOND = (4,   28, 20)    # #041C14  — bords vignette
+VERT_GLOW    = (10,  90, 56)    # lueur centre
+BLANC        = (255, 255, 255)
 
 W, H = 1024, 500
 
-# ── Fond dégradé diagonal vert vif → vert sombre ─────────────────────────────
-def fond() -> Image.Image:
-    img = Image.new("RGB", (W, H), VERT_FOND)
-    # Dégradé horizontal gauche→droite
-    r1,g1,b1 = VERT_VIF
-    r2,g2,b2 = VERT_FOND
-    for x in range(W):
-        t = x / (W - 1)
-        col = Image.new("RGB", (1, H), (
-            int(r1 + (r2-r1)*t),
-            int(g1 + (g2-g1)*t),
-            int(b1 + (b2-b1)*t),
-        ))
-        img.paste(col, (x, 0))
-    # Lueur radiale centrale
-    glow = Image.new("RGBA", (W, H), (0,0,0,0))
-    d = ImageDraw.Draw(glow)
-    cx, cy = W//2, H//2
-    for r, a in [(350, 20), (220, 38), (120, 55)]:
-        d.ellipse([(cx-r, cy-r),(cx+r, cy+r)], fill=(*VERT_CLAIR, a))
-    glow = glow.filter(ImageFilter.GaussianBlur(radius=70))
-    result = Image.alpha_composite(img.convert("RGBA"), glow)
+# Coordonnées exactes du cadre iPhone dans les screenshots 1080×1920
+PHONE_BOX = (230, 270, 870, 1810)   # x1, y1, x2, y2
+
+
+# ── Utilitaires police ────────────────────────────────────────────────────────
+def _font(filename: str, size: int) -> ImageFont.FreeTypeFont:
+    p = FONT_DIR / filename
+    if p.exists():
+        return ImageFont.truetype(str(p), size)
+    # fallback système
+    for fb in ["/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+               "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"]:
+        if Path(fb).exists():
+            return ImageFont.truetype(fb, size)
+    return ImageFont.load_default()
+
+def txt_center(draw, text, cx, y, font, fill, anchor="lt"):
+    bb = draw.textbbox((0, 0), text, font=font)
+    x = cx - (bb[2] - bb[0]) // 2 - bb[0]
+    draw.text((x, y - bb[1]), text, font=font, fill=fill)
+    return y + (bb[3] - bb[1])   # retourne y bas du texte
+
+
+# ── Fond vignette radiale ─────────────────────────────────────────────────────
+def make_background() -> Image.Image:
+    """
+    Vignette radiale : #041C14 aux coins → #063B2A au centre.
+    Séparé en deux passes pour un effet naturel.
+    """
+    # 1. Base uniforme vert foncé
+    img = Image.new("RGB", (W, H), VERT_PROFOND)
+
+    # 2. Ellipse vert centre sur grand layer flou
+    layer = Image.new("RGBA", (W * 4, H * 4), (0, 0, 0, 0))
+    ld = ImageDraw.Draw(layer)
+    cx, cy = W * 2, H * 2
+    for (rx, ry, alpha) in [
+        (W * 2.2, H * 2.2, 210),   # grande ellipse — couleur fond principale
+        (W * 1.3, H * 1.3, 180),   # milieu
+        (W * 0.7, H * 0.7, 140),   # centre légèrement plus clair
+    ]:
+        cols = [VERT_FOND, VERT_FOND, VERT_GLOW]
+        i = [(W * 2.2, H * 2.2, 210), (W * 1.3, H * 1.3, 180), (W * 0.7, H * 0.7, 140)].index(
+            (rx, ry, alpha))
+        color = cols[i]
+        ld.ellipse([cx - rx, cy - ry, cx + rx, cy + ry],
+                   fill=(*color, alpha))
+    layer = layer.filter(ImageFilter.GaussianBlur(radius=W // 2))
+    layer = layer.resize((W, H), Image.LANCZOS)
+
+    result = Image.alpha_composite(img.convert("RGBA"), layer)
     return result.convert("RGB")
 
 
-# ── Extraction de la zone téléphone ──────────────────────────────────────────
-# Coordonnées approximatives du phone dans les screenshots 1080×1920
-# mesurées sur les -alt : phone ≈ (155, 450, 825, 1875)
-PHONE_BOX = (155, 450, 825, 1875)
-
-def extraire_phone(src_path: Path, target_h: int) -> Image.Image:
-    """Crop la zone téléphone, redimensionne à target_h, retourne RGBA."""
-    img = Image.open(src_path).convert("RGBA")
+# ── Extraction et préparation du téléphone ────────────────────────────────────
+def extract_phone(src: Path, target_h: int) -> Image.Image:
+    """Crop le cadre iPhone exact, redimensionne, retourne RGBA."""
+    img = Image.open(src).convert("RGBA")
     phone = img.crop(PHONE_BOX)
     bw, bh = phone.size
     target_w = int(bw * target_h / bh)
     return phone.resize((target_w, target_h), Image.LANCZOS)
 
 
-def rotation_avec_fond(img: Image.Image, angle: float,
-                        bg: tuple) -> Image.Image:
+def add_shadow(phone_rgba: Image.Image, blur: int = 28,
+               offset: tuple = (0, 18)) -> Image.Image:
     """
-    Tourne img de `angle` degrés.
-    Le fond transparent est remplacé par bg pour que les coins
-    se fondent dans le dégradé vert.
+    Ajoute une ombre portée sombre sous le téléphone.
+    Retourne un RGBA élargi (taille phone + marge pour l'ombre).
     """
-    # Fond de la même couleur que le dégradé
-    bg_img = Image.new("RGBA", img.size, (*bg, 255))
-    bg_img.paste(img, mask=img.split()[3])  # alpha mask
-    # Rotation avec expand=True pour ne pas couper les coins
-    rotated = bg_img.rotate(-angle, expand=True, resample=Image.BICUBIC)
-    return rotated.convert("RGBA")
+    pw, ph = phone_rgba.size
+    margin = blur * 2 + abs(offset[0]) + abs(offset[1])
+    canvas = Image.new("RGBA", (pw + margin * 2, ph + margin * 2), (0, 0, 0, 0))
+
+    # Shadow layer : silhouette noire décalée
+    shadow = Image.new("RGBA", (pw, ph), (0, 0, 0, 0))
+    # Utiliser l'alpha du téléphone comme silhouette
+    _, _, _, alpha = phone_rgba.split()
+    shadow_solid = Image.new("RGBA", (pw, ph), (0, 0, 0, 200))
+    shadow_solid.putalpha(alpha)
+    canvas.paste(shadow_solid,
+                 (margin + offset[0], margin + offset[1]),
+                 shadow_solid)
+    canvas = canvas.filter(ImageFilter.GaussianBlur(radius=blur))
+
+    # Coller le téléphone par-dessus
+    canvas.paste(phone_rgba, (margin, margin), phone_rgba)
+    return canvas
 
 
-# ── Police ───────────────────────────────────────────────────────────────────
-def police(taille: int, gras: bool = False) -> ImageFont.FreeTypeFont:
-    candidats = []
-    if gras:
-        candidats += [
-            str(Path(__file__).parent.parent.parent /
-                "verifall_flutter/assets/fonts/InstrumentSans-Bold.ttf"),
-            str(Path(__file__).parent.parent.parent /
-                "verifall_laravel/resources/prototype/css/fonts/InstrumentSans-Bold.ttf"),
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-            "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-        ]
-    else:
-        candidats += [
-            str(Path(__file__).parent.parent.parent /
-                "verifall_flutter/assets/fonts/Inter-Regular.ttf"),
-            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-            "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
-        ]
-    for p in candidats:
-        if Path(p).exists():
-            try:
-                return ImageFont.truetype(p, taille)
-            except Exception:
-                continue
-    return ImageFont.load_default()
+def tilt_phone(phone_rgba: Image.Image, angle_deg: float) -> Image.Image:
+    """
+    Incline le téléphone de angle_deg degrés (PIL = sens anti-horaire).
+    expand=True pour ne pas couper les coins.
+    Fond transparent conservé.
+    """
+    return phone_rgba.rotate(angle_deg, expand=True,
+                             resample=Image.BICUBIC)
 
 
-def texte_centre(draw, texte, cx, y, font, couleur):
-    bb = draw.textbbox((0,0), texte, font=font)
-    tw = bb[2] - bb[0]
-    draw.text((cx - tw//2 - bb[0], y - bb[1]), texte, font=font, fill=couleur)
-    return y + bb[3] - bb[1]
-
-
-# ── Assemblage ───────────────────────────────────────────────────────────────
-def main():
-    verifier_path = VISUELS / "screenshot-3-verifier-alt.png"
-    rapport_path  = VISUELS / "screenshot-4-rapport-alt.png"
-
-    if not verifier_path.exists() or not rapport_path.exists():
-        sys.exit(f"❌  Fichiers introuvables dans {VISUELS}")
-
-    canvas = fond().convert("RGBA")
-    draw   = ImageDraw.Draw(canvas)
-
-    PHONE_H  = 460   # hauteur du téléphone dans le feature graphic
-    ANGLE    = 18    # degrés d'inclinaison
-
-    # — Téléphone gauche (écran vérifier, incliné vers la droite) —
-    ph_g = extraire_phone(verifier_path, PHONE_H)
-    ph_g_rot = rotation_avec_fond(ph_g, -ANGLE, VERT_VIF)   # top left = left tilt
-    # Position : émerge du bord gauche et du bas
-    pw_g, ph_g_h = ph_g_rot.size
-    x_g = -int(pw_g * 0.20)    # dépasse à gauche
-    y_g = H - ph_g_h + int(ph_g_h * 0.10)   # dépasse en bas
-    canvas.paste(ph_g_rot, (x_g, y_g), ph_g_rot)
-
-    # — Téléphone droit (écran rapport, incliné vers la gauche) —
-    ph_d = extraire_phone(rapport_path, PHONE_H)
-    ph_d_rot = rotation_avec_fond(ph_d, ANGLE, VERT_FOND)   # top right = right tilt
-    pw_d, ph_d_h = ph_d_rot.size
-    x_d = W - pw_d + int(pw_d * 0.20)   # dépasse à droite
-    y_d = H - ph_d_h + int(ph_d_h * 0.10)
-    canvas.paste(ph_d_rot, (x_d, y_d), ph_d_rot)
-
-    # Redessiner le draw après les pastes
+# ── Composition centrale ──────────────────────────────────────────────────────
+def compose_center(canvas: Image.Image, cx: int) -> None:
+    """
+    Dessine sur canvas : anneau lumineux + logo-icon + wordmark + tagline.
+    """
     draw = ImageDraw.Draw(canvas)
 
-    # — Logo centré —
+    # 1. Anneau lumineux derrière le logo (très subtil)
+    ring_layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    rd = ImageDraw.Draw(ring_layer)
+    ring_r = 150
+    ring_x, ring_y = cx, H // 2 - 10
+    for (r, a) in [(ring_r, 14), (ring_r - 30, 22), (ring_r - 70, 30)]:
+        rd.ellipse([ring_x - r, ring_y - r, ring_x + r, ring_y + r],
+                   fill=(*VERT_VIF, a))
+    ring_layer = ring_layer.filter(ImageFilter.GaussianBlur(radius=40))
+    canvas.alpha_composite(ring_layer)
+    draw = ImageDraw.Draw(canvas)   # rafraîchir le draw
+
+    # Position de départ (centrage vertical)
+    # Bloc total ≈ icon(56) + gap(10) + wordmark(60) + gap(14) + rule(1) + gap(12) + tagline(2×26)
+    BLOCK_H = 56 + 10 + 60 + 14 + 1 + 12 + 26 + 6 + 26
+    y_start = (H - BLOCK_H) // 2
+
+    y = y_start
+
+    # 2. Logo-icon (V dans cercle)
+    icon_size = 56
+    if LOGO_ICON.exists():
+        icon = Image.open(LOGO_ICON).convert("RGBA")
+        # Rendre blanc : remplacer la teinte verte par blanc
+        r, g, b, a = icon.split()
+        white = Image.new("L", icon.size, 255)
+        # Garder l'alpha, forcer RGB blanc
+        icon_white = Image.merge("RGBA", [white, white, white, a])
+        icon_white = icon_white.resize((icon_size, icon_size), Image.LANCZOS)
+        canvas.paste(icon_white, (cx - icon_size // 2, y), icon_white)
+
+    y += icon_size + 10
+
+    # 3. Wordmark (logo-light.png — version blanche)
+    wm_w = 240
+    if LOGO_LIGHT.exists():
+        logo = Image.open(LOGO_LIGHT).convert("RGBA")
+        r, g, b, a = logo.split()
+        white = Image.new("L", logo.size, 255)
+        logo_w = Image.merge("RGBA", [white, white, white, a])
+        wm_h = int(logo_w.height * wm_w / logo_w.width)
+        logo_w = logo_w.resize((wm_w, wm_h), Image.LANCZOS)
+        canvas.paste(logo_w, (cx - wm_w // 2, y), logo_w)
+        y += wm_h
+    else:
+        f_name = _font("InstrumentSans-ExtraBold.ttf", 68)
+        y = txt_center(draw, "Vérif'All", cx, y, f_name, BLANC)
+
+    y += 14
+
+    # 4. Séparateur fin
+    rule_w = 180
+    rule_color = (255, 255, 255, 80)
+    sep = Image.new("RGBA", (rule_w, 1), rule_color)
+    canvas.alpha_composite(sep, (cx - rule_w // 2, y))
+    draw = ImageDraw.Draw(canvas)
+    y += 1 + 12
+
+    # 5. Tagline (2 lignes, InstrumentSans-Bold 22px)
+    f_tag = _font("InstrumentSans-Bold.ttf", 22)
+    tag_color = (200, 238, 218, 195)   # blanc légèrement teinté vert-pale
+    for line in ["La boussole contre", "la désinformation numérique"]:
+        y = txt_center(draw, line, cx, y,
+                       f_tag, (*tag_color[:3], tag_color[3]))
+        y += 6
+
+
+# ── Assemblage principal ──────────────────────────────────────────────────────
+def main():
+    # Vérification fichiers sources
+    src_left  = VISUELS / "screenshot-3-verifier-alt.png"
+    src_right = VISUELS / "screenshot-4-rapport-alt.png"
+    for p in [src_left, src_right]:
+        if not p.exists():
+            sys.exit(f"❌  Introuvable : {p}")
+
+    PHONE_H = 480   # hauteur cible téléphone sur le feature graphic
+    TILT    = 16    # degrés d'inclinaison
+
+    # 1. Fond
+    canvas = make_background().convert("RGBA")
+
+    # 2. Téléphone gauche — incliné à droite (top vers la gauche, angle positif)
+    ph_l = extract_phone(src_left, PHONE_H)
+    ph_l = add_shadow(ph_l, blur=22, offset=(6, 20))
+    ph_l = tilt_phone(ph_l, +TILT)          # +angle = anti-horaire = top vers gauche
+    pw_l, ph_l_h = ph_l.size
+    # Positionné : déborde à gauche et en bas
+    x_l = -int(pw_l * 0.22)
+    y_l = H - ph_l_h + int(ph_l_h * 0.08)  # bottom 8% sous le canvas
+    canvas.alpha_composite(ph_l, (x_l, y_l))
+
+    # 3. Téléphone droit — incliné à gauche (top vers la droite, angle négatif)
+    ph_r = extract_phone(src_right, PHONE_H)
+    ph_r = add_shadow(ph_r, blur=22, offset=(-6, 20))
+    ph_r = tilt_phone(ph_r, -TILT)          # -angle = horaire = top vers droite
+    pw_r, ph_r_h = ph_r.size
+    x_r = W - pw_r + int(pw_r * 0.22)
+    y_r = H - ph_r_h + int(ph_r_h * 0.08)
+    canvas.alpha_composite(ph_r, (x_r, y_r))
+
+    # 4. Composition centrale (logo, wordmark, tagline)
     cx = W // 2
+    compose_center(canvas, cx)
 
-    # Essaye d'abord logo-light.png (fond blanc sur transparent = blanc sur vert)
-    logo_chargé = False
-    for logo_path in [
-        Path(__file__).parent.parent.parent /
-            "verifall_laravel/public/assets/images/logo-light.png",
-        Path(__file__).parent.parent.parent /
-            "verifall_laravel/public/assets/images/logo.png",
-    ]:
-        if logo_path.exists():
-            logo = Image.open(logo_path).convert("RGBA")
-            # Rendre les pixels sombres blancs (logo sur fond sombre)
-            r, g, b, a = logo.split()
-            # logo-light.png est déjà blanc ; logo.png est vert/sombre
-            logo_blanc = Image.merge("RGBA", [
-                Image.new("L", logo.size, 255),
-                Image.new("L", logo.size, 255),
-                Image.new("L", logo.size, 255),
-                a,
-            ])
-            target_w = 280
-            target_h = int(logo_blanc.height * target_w / logo_blanc.width)
-            logo_blanc = logo_blanc.resize((target_w, target_h), Image.LANCZOS)
-            y_logo = int(H * 0.20)
-            canvas.paste(logo_blanc, (cx - target_w//2, y_logo), logo_blanc)
-            y_slogan = y_logo + target_h + 16
-            logo_chargé = True
-            draw = ImageDraw.Draw(canvas)
-            break
-
-    if not logo_chargé:
-        f_titre = police(64, gras=True)
-        y_slogan = texte_centre(draw, "Vérif'All", cx, int(H * 0.20),
-                                f_titre, BLANC) + 12
-
-    # — Slogan —
-    f_slogan = police(32)
-    y_slogan = texte_centre(draw,
-        "La boussole contre la désinformation numérique",
-        cx, y_slogan, f_slogan, (200, 240, 218))
-
-    OUT.parent.mkdir(parents=True, exist_ok=True)
+    # 5. Export
+    ASSETS.mkdir(parents=True, exist_ok=True)
     canvas.convert("RGB").save(OUT, "PNG", optimize=True)
-    print(f"✅  {OUT}")
+    print(f"✅  {OUT}  ({OUT.stat().st_size // 1024} KB)")
 
 
 if __name__ == "__main__":
