@@ -30,7 +30,8 @@ BLANC        = (255, 255, 255)
 W, H = 1024, 500
 
 # Coordonnées exactes du cadre iPhone dans les screenshots 1080×1920
-PHONE_BOX = (230, 270, 870, 1810)   # x1, y1, x2, y2
+# y1=295 : juste sous les textes titre (y~155-285) — évite le saignement
+PHONE_BOX = (195, 295, 905, 1800)   # x1, y1, x2, y2  →  710×1505 px
 
 
 # ── Utilitaires police ────────────────────────────────────────────────────────
@@ -170,7 +171,7 @@ def compose_center(canvas: Image.Image, cx: int) -> None:
     y += icon_size + 10
 
     # 3. Wordmark (logo-light.png — version blanche)
-    wm_w = 240
+    wm_w = 210
     if LOGO_LIGHT.exists():
         logo = Image.open(LOGO_LIGHT).convert("RGBA")
         r, g, b, a = logo.split()
@@ -212,29 +213,29 @@ def main():
         if not p.exists():
             sys.exit(f"❌  Introuvable : {p}")
 
-    PHONE_H = 480   # hauteur cible téléphone sur le feature graphic
+    PHONE_H = 440   # hauteur cible téléphone — équilibre avec espace central
     TILT    = 16    # degrés d'inclinaison
 
     # 1. Fond
     canvas = make_background().convert("RGBA")
 
-    # 2. Téléphone gauche — incliné à droite (top vers la gauche, angle positif)
+    # 2. Téléphone gauche — incliné (top vers la gauche, angle positif PIL)
     ph_l = extract_phone(src_left, PHONE_H)
-    ph_l = add_shadow(ph_l, blur=22, offset=(6, 20))
-    ph_l = tilt_phone(ph_l, +TILT)          # +angle = anti-horaire = top vers gauche
+    ph_l = add_shadow(ph_l, blur=20, offset=(5, 18))
+    ph_l = tilt_phone(ph_l, +TILT)
     pw_l, ph_l_h = ph_l.size
-    # Positionné : déborde à gauche et en bas
-    x_l = -int(pw_l * 0.22)
-    y_l = H - ph_l_h + int(ph_l_h * 0.08)  # bottom 8% sous le canvas
+    # offset 0.18 : phone déborde légèrement à gauche, visible à 82%
+    x_l = -int(pw_l * 0.18)
+    y_l = H - ph_l_h + int(ph_l_h * 0.07)   # bottom 7% sous le canvas
     canvas.alpha_composite(ph_l, (x_l, y_l))
 
-    # 3. Téléphone droit — incliné à gauche (top vers la droite, angle négatif)
+    # 3. Téléphone droit — incliné (top vers la droite, angle négatif PIL)
     ph_r = extract_phone(src_right, PHONE_H)
-    ph_r = add_shadow(ph_r, blur=22, offset=(-6, 20))
-    ph_r = tilt_phone(ph_r, -TILT)          # -angle = horaire = top vers droite
+    ph_r = add_shadow(ph_r, blur=20, offset=(-5, 18))
+    ph_r = tilt_phone(ph_r, -TILT)
     pw_r, ph_r_h = ph_r.size
-    x_r = W - pw_r + int(pw_r * 0.22)
-    y_r = H - ph_r_h + int(ph_r_h * 0.08)
+    x_r = W - pw_r + int(pw_r * 0.18)
+    y_r = H - ph_r_h + int(ph_r_h * 0.07)
     canvas.alpha_composite(ph_r, (x_r, y_r))
 
     # 4. Composition centrale (logo, wordmark, tagline)
