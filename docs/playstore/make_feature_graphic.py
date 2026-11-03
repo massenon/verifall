@@ -205,26 +205,15 @@ def compose_center(canvas: Image.Image) -> None:
     canvas.alpha_composite(ring)
     draw = ImageDraw.Draw(canvas)
 
-    # Bloc vertical total pour centrage
-    icon_h   = 54
+    # Bloc vertical total pour centrage (sans icône)
     wm_w     = 206
     wm_h     = int(wm_w * 533/1600) if LOGO_LIGHT.exists() else 60
-    gap1, gap2, gap3 = 8, 14, 10
+    gap2     = 14
     tag_h    = 26 + 6 + 26          # 2 lignes tagline
     sep_h    = 12                   # séparateur + espace
-    total_h  = icon_h + gap1 + wm_h + gap2 + 1 + sep_h + tag_h
+    total_h  = wm_h + gap2 + 1 + sep_h + tag_h
     y_start  = (H - total_h) // 2
     y = y_start
-
-    # Icon (V blanc)
-    if LOGO_ICON.exists():
-        ico = Image.open(LOGO_ICON).convert("RGBA")
-        r, g, b, a = ico.split()
-        w255 = Image.new("L", ico.size, 255)
-        ico_w = Image.merge("RGBA", [w255, w255, w255, a])
-        ico_w = ico_w.resize((icon_h, icon_h), Image.LANCZOS)
-        canvas.paste(ico_w, (cx - icon_h//2, y), ico_w)
-    y += icon_h + gap1
 
     # Wordmark (logo-light blanc)
     if LOGO_LIGHT.exists():
