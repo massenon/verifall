@@ -81,16 +81,18 @@ Vérif All est développé par une équipe indépendante engagée pour la qualit
 
 ## Visuels requis
 
-Voir `docs/visuals/specs-visuels-playstore.md` pour les spécifications détaillées.
+Les 7 visuels sont livrés dans `verifall_flutter/docs/publication-play-store/visuels/`.
 
-| Visuel | Taille | Statut |
-|---|---|---|
-| Icône haute résolution | 512 × 512 px, PNG 32-bit | ⬜ À créer |
-| **Feature Graphic (bannière)** | **1 024 × 500 px, JPEG/PNG** | ✅ `docs/visuals/banner-playstore.html` |
-| Capture téléphone 1 — Accueil | 1 080 × 1 920 px | ⬜ À capturer |
-| Capture téléphone 2 — Résultat VRAI | 1 080 × 1 920 px | ⬜ À capturer |
-| Capture téléphone 3 — Résultat FAUX | 1 080 × 1 920 px | ⬜ À capturer |
-| Capture téléphone 4 — Réglages | 1 080 × 1 920 px | ⬜ À capturer |
+| Visuel | Fichier | Taille | Statut |
+|---|---|---|---|
+| Icône haute résolution | — | 512 × 512 px, PNG 32-bit | ⬜ À créer |
+| **Feature Graphic (bannière)** | `feature-graphic.png` | **1 024 × 500 px, PNG** | ✅ v3 — deux mobiles inclinés sur fond vert |
+| Capture 1 — Vérification | `01-verifier.png` | 1 080 × 1 920 px | ✅ |
+| Capture 2 — Tableau de bord | `02-tableau-de-bord.png` | 1 080 × 1 920 px | ✅ |
+| Capture 3 — Rapport | `03-rapport.png` | 1 080 × 1 920 px | ✅ |
+| Capture 4 — Accueil | `04-accueil.png` | 1 080 × 1 920 px | ✅ |
+| Capture 5 — Forum | `05-forum.png` | 1 080 × 1 920 px | ✅ |
+| Capture 6 — Hub opportunités | `06-hub-opportunites.png` | 1 080 × 1 920 px | ✅ |
 
 ---
 

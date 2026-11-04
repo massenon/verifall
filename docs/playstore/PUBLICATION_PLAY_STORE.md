@@ -55,9 +55,11 @@ est vrai aujourd'hui, pas ce qui est prévu.** Chaque affirmation de ce dossier 
   Android 8+ complète : `ic_launcher_foreground.png` par densité,
   `values/colors.xml`, `mipmap-anydpi-v26/ic_launcher.xml`) par le vrai
   logo-icône Vérif'All, tiré de `verifall_laravel/public/assets/images/logo-icon.png`.
-- **Les 6 visuels de la fiche (5 captures téléphone + feature graphic) sont
+- **Les 7 visuels de la fiche (6 captures téléphone + feature graphic) sont
   livrés** dans `visuels/` — voir `06-CAPTURES-ECRAN.md` pour leur provenance
-  exacte et comment les régénérer.
+  exacte et comment les régénérer. Fichiers : `01-verifier.png`,
+  `02-tableau-de-bord.png`, `03-rapport.png`, `04-accueil.png`,
+  `05-forum.png`, `06-hub-opportunites.png`, `feature-graphic.png` (bannière v3).
 
 ## Ce qui reste à faire, nommé
 
@@ -513,18 +515,19 @@ Il ne reproduit pas le texte de la politique — elle vit à un seul endroit,
 
 # Captures d'écran et visuels de la fiche Play Store
 
-## Livré — 6 fichiers dans `visuels/`
+## Livré — 7 fichiers dans `visuels/`
 
-| Fichier | Dimensions | Format | Poids |
-|---|---|---|---|
-| `screenshot-1-accueil.png` | 1080 × 1920 | PNG 24 bits, sans alpha | ~0,9 Mo — **montage** 3×2 (Vérification, Académie, Quiz, Certificat, Forum, Opportunités), pas le carrousel de connexion |
-| `screenshot-2-tableau-de-bord.png` | 1080 × 1920 | idem | ~0,9 Mo |
-| `screenshot-3-verifier.png` | 1080 × 1920 | idem | ~0,8 Mo |
-| `screenshot-4-rapport.png` | 1080 × 1920 | idem | ~0,9 Mo |
-| `screenshot-5-academie.png` | 1080 × 1920 | idem | ~0,9 Mo |
-| `feature-graphic.png` | 1024 × 500 | idem | ~0,3 Mo |
+| Fichier | Dimensions | Format | Poids | Écran capturé |
+|---|---|---|---|---|
+| `01-verifier.png` | 1080 × 1920 | PNG 24 bits, sans alpha | ~0,9 Mo | Page de vérification |
+| `02-tableau-de-bord.png` | 1080 × 1920 | idem | ~1,0 Mo | Tableau de bord |
+| `03-rapport.png` | 1080 × 1920 | idem | ~1,0 Mo | Rapport de vérification |
+| `04-accueil.png` | 1080 × 1920 | idem | ~0,9 Mo | Accueil |
+| `05-forum.png` | 1080 × 1920 | idem | ~1,0 Mo | Forum communautaire |
+| `06-hub-opportunites.png` | 1080 × 1920 | idem | ~1,0 Mo | Hub opportunités |
+| `feature-graphic.png` | 1024 × 500 | idem | ~0,3 Mo | Bannière Play Store — deux mobiles inclinés (v3) |
 
-Vérifié : chaque fichier est un vrai PNG 24 bits **sans** canal alpha (`System.Drawing.Image.PixelFormat` = `Format24bppRgb`), sous la limite de 8 Mo par image exigée par le magasin.
+Vérifié : chaque fichier est un vrai PNG 24 bits **sans** canal alpha, sous la limite de 8 Mo par image exigée par le magasin.
 
 ## D'où vient le contenu des téléphones
 
