@@ -80,11 +80,16 @@ class SelecteurDeType extends StatelessWidget {
   const SelecteurDeType({
     required this.choisi,
     required this.onChoisi,
+    required this.typesActifs,
     super.key,
   });
 
   final TypeContenu choisi;
   final ValueChanged<TypeContenu> onChoisi;
+
+  /// Les types activés par l'admin. Seuls ceux-ci sont affichés.
+  /// En repli (erreur réseau), l'appelant passe `TypeContenu.values`.
+  final List<TypeContenu> typesActifs;
 
   static const Map<TypeContenu, IconData> icones = <TypeContenu, IconData>{
     TypeContenu.texte: Icons.article_outlined,
@@ -104,7 +109,7 @@ class SelecteurDeType extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       childAspectRatio: 1.25,
       children: <Widget>[
-        for (final TypeContenu type in TypeContenu.values)
+        for (final TypeContenu type in typesActifs)
           _Tuile(
             type: type,
             selectionne: type == choisi,

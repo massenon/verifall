@@ -71,6 +71,28 @@ class _VerifyPageState extends ConsumerState<VerifyPage> {
     final bool envoiEnCours =
         ref.watch(soumissionProvider) is SoumissionEnCours;
 
+    // Les types activés par l'admin. Repli sur la liste complète si l'appel
+    // réseau est en cours ou a échoué — l'API refusera de toute façon un type
+    // désactivé avec une 422 explicite.
+    final List<TypeContenu> typesActifs =
+        ref.watch(modulesActifsProvider).valueOrNull ?? TypeContenu.values;
+
+    // Si le type en cours de saisie vient d'être désactivé par l'admin,
+    // on bascule silencieusement sur le premier type encore disponible.
+    ref.listen<AsyncValue<List<TypeContenu>>>(modulesActifsProvider, (
+      _,
+      AsyncValue<List<TypeContenu>> next,
+    ) {
+      final List<TypeContenu>? actifs = next.valueOrNull;
+      if (actifs == null || actifs.isEmpty) return;
+      final TypeContenu actuel = ref.read(verifyFormProvider).type;
+      if (!actifs.contains(actuel)) {
+        ref.read(verifyFormProvider.notifier).choisirLeType(actifs.first);
+        _saisie.clear();
+        setState(() => _erreur = null);
+      }
+    });
+
     ref.listen<EtatDeSoumission>(soumissionProvider, _reagir);
 
     return Scaffold(
@@ -106,6 +128,7 @@ class _VerifyPageState extends ConsumerState<VerifyPage> {
                 const SizedBox(height: VfSpacing.x10),
                 SelecteurDeType(
                   choisi: brouillon.type,
+                  typesActifs: typesActifs,
                   onChoisi: (TypeContenu type) {
                     ref.read(verifyFormProvider.notifier).choisirLeType(type);
                     _saisie.clear();

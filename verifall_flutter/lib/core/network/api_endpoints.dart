@@ -33,6 +33,7 @@ abstract final class ApiEndpoints {
   static const String export = '/me/export';
 
   // --- 10.3 Verifier --------------------------------------------------------
+  static const String configurationModules = '/configuration/modules';
   static const String uploads = '/uploads';
   static const String verifications = '/verifications';
   static const String myVerifications = '/me/verifications';
