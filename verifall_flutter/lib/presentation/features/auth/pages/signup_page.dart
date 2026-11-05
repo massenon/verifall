@@ -271,6 +271,16 @@ class _CarteConsentements extends StatelessWidget {
                 ? null
                 : (bool v) => controleur.majConsentement(newsletter: v),
           ),
+          _Consentement(
+            texte:
+                'J'autorise l'envoi de rapports de diagnostic anonymes pour '
+                'améliorer la stabilité de l'application.',
+            obligatoire: false,
+            valeur: etat.consentementTelemetrie,
+            onChanged: verrouille
+                ? null
+                : (bool v) => controleur.majConsentement(telemetrie: v),
+          ),
           const SizedBox(height: VfSpacing.x6),
           Text(
             'Chaque consentement est enregistré séparément, avec sa date. Vous '

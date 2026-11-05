@@ -148,7 +148,7 @@ final class ConstructeurDePrompt
      * des instructions ne doit pas pouvoir décider lui-même en combien de
      * claims il se décompose.
      */
-    public function pourExtraction(string $contenuBrut, ?string $contexte): string
+    public function pourExtraction(string $contenuBrut, ?string $contexte, ?TypeContenu $type = null): string
     {
         $chemin = resource_path(self::GABARIT_EXTRACTION);
 
@@ -156,9 +156,11 @@ final class ConstructeurDePrompt
             throw new RuntimeException('Gabarit de prompt introuvable : '.self::GABARIT_EXTRACTION);
         }
 
+        $consignesType = $type !== null ? $this->consignesExtractionDuType($type) : '';
+
         $prompt = str_replace(
-            ['{{CONSIGNES_DE_SECURITE}}', '{{DATE}}'],
-            [$this->consignesDeSecurite(), now()->locale('fr')->isoFormat('D MMMM YYYY')],
+            ['{{CONSIGNES_DE_SECURITE}}', '{{CONSIGNES_DU_TYPE}}', '{{DATE}}'],
+            [$this->consignesDeSecurite(), $consignesType, now()->locale('fr')->isoFormat('D MMMM YYYY')],
             File::get($chemin),
         );
 
@@ -304,10 +306,36 @@ final class ConstructeurDePrompt
      * vérification payée en unités parce qu'un fichier de prompt a été renommé
      * serait hors de proportion — le test `ConsignesDeTypeTest` garantit par
      * ailleurs que les cinq existent.
+     *
+     * Surcharge possible : si `types/{type}/analyse.md` existe, il prend le
+     * dessus sur `types/{type}.md` pour la phase d'analyse — même contenu de
+     * base, mais étendu avec les critères spécifiques au type (deepfake audio,
+     * détection de montage vidéo, etc.). Le fichier plat reste la référence de
+     * secours pour les types sans dossier dédié.
      */
     private function consignesDuType(TypeContenu $type): string
     {
+        $cheminEtendu = resource_path(self::CONSIGNES.$type->value.'/analyse.md');
+
+        if (File::exists($cheminEtendu)) {
+            return trim(File::get($cheminEtendu));
+        }
+
         $chemin = resource_path(self::CONSIGNES.$type->value.'.md');
+
+        return File::exists($chemin) ? trim(File::get($chemin)) : '';
+    }
+
+    /**
+     * Les consignes d'extraction propres au type de contenu.
+     *
+     * Optionnel : retourne une chaîne vide si aucun fichier spécifique
+     * n'existe pour ce type. Le gabarit d'extraction générique reste alors
+     * le seul guide.
+     */
+    public function consignesExtractionDuType(TypeContenu $type): string
+    {
+        $chemin = resource_path(self::CONSIGNES.$type->value.'/extraction.md');
 
         return File::exists($chemin) ? trim(File::get($chemin)) : '';
     }

@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'dart:async' show Timer, unawaited;
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,6 +20,29 @@ import '../../../../domain/usecases/verify/rythme_du_sondage.dart';
 import '../../../../core/state/riverpod_retry.dart';
 import '../../../../core/session/solde_unites.dart';
 import '../../../../core/network/local_data_purger.dart';
+
+// ═════════════════════════════════════════════════════════════════════════════
+// Configuration des modules — cache 60 s
+// ═════════════════════════════════════════════════════════════════════════════
+
+/// Les types de contenu activés par l'admin, **mis en cache 60 s**.
+///
+/// En cas d'erreur réseau le provider renvoie une exception : l'appelant doit
+/// tomber en repli sur `TypeContenu.values` pour ne pas bloquer l'écran.
+///
+/// POURQUOI `autoDispose` + `keepAlive` et non `keepAlive` seul : on veut que
+/// le cache expire 60 s après le dernier abonné, pas au bout de 60 s fixes.
+/// Un utilisateur qui quitte l'écran, revient immédiatement et repart vite
+/// ne déclenche ainsi qu'un seul appel réseau dans sa session.
+final FutureProvider<List<TypeContenu>> modulesActifsProvider =
+    FutureProvider.autoDispose<List<TypeContenu>>(
+  (Ref ref) async {
+    final KeepAliveLink link = ref.keepAlive();
+    Timer(const Duration(seconds: 60), link.close);
+    return ref.read(verificationRemoteSourceProvider).fetchModulesActifs();
+  },
+  retry: sansReessaiAutomatique,
+);
 
 // ═════════════════════════════════════════════════════════════════════════════
 // Écran 09 — le brouillon de saisie

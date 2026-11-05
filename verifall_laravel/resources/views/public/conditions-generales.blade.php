@@ -80,9 +80,11 @@
             <p class="text-sm text-body/70">
               {{ __('cgu.version_fait_foi') }}
               {{ __('cgu.voir_aussi') }}
-              <a href="{{ route('public.privacy') }}" class="text-primary">{{ __('cgu.politique_de_confidentialite') }}</a>
+              <a href="{{ route('public.privacy') }}" class="text-primary">{{ __('cgu.politique_de_confidentialite') }}</a>,
               {{ __('cgu.et') }}
-              <a href="{{ route('public.legal') }}" class="text-primary">{{ __('cgu.mentions_legales') }}</a>{{ __('cgu.point') }}
+              <a href="{{ route('public.legal') }}" class="text-primary">{{ __('cgu.mentions_legales') }}</a>
+              {{ __('cgu.et_la_page_de_suppression') }}
+              <a href="{{ route('public.account-deletion') }}" class="text-primary">{{ __('cgu.supprimer_mon_compte') }}</a>{{ __('cgu.point') }}
             </p>
           </div>
         </div>

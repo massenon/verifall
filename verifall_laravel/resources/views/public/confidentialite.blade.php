@@ -78,7 +78,7 @@
             <ul>
               <li>{!! __('confidentialite.acces_et_portabilite_depuis_votre_espace_citoyen') !!}</li>
               <li>{!! __('confidentialite.rectification_vos_informations_de_profil_se_modifient') !!}</li>
-              <li>{!! __('confidentialite.effacement_la_suppression_du_compte_se_demande') !!}</li>
+              <li>{!! __('confidentialite.effacement_la_suppression_du_compte_se_demande', ['lien_suppression' => '<a href="'.route('public.account-deletion').'" class="text-primary font-bold">'.__('confidentialite.lien_supprimer_mon_compte').'</a>']) !!}</li>
               <li>{!! __('confidentialite.opposition_et_retrait_du_consentement_le_desabonnement') !!}</li>
             </ul>
             <p>{{ __('confidentialite.ces_droits_s_exercent_a_l_adresse') }} {{ $legal->contactDonnees() ?? 'contact@verifall.com' }}{{ __('confidentialite.nous_repondons_dans_un_delai_raisonnable') }}</p>

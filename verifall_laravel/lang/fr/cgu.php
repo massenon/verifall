@@ -171,4 +171,6 @@ return [
     'politique_de_confidentialite' => 'politique de confidentialité',
     'et' => 'et les',
     'mentions_legales' => 'mentions légales',
+    'et_la_page_de_suppression' => 'et la',
+    'supprimer_mon_compte' => 'page de suppression de compte',
 ];

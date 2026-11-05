@@ -92,7 +92,7 @@ final class ExtractionDesAffirmations
      */
     private function appelerLeModele(SacDePreuves $entree): array
     {
-        $prompt = $this->prompts->pourExtraction($entree->affirmation, $entree->contexte);
+        $prompt = $this->prompts->pourExtraction($entree->affirmation, $entree->contexte, $entree->type);
         $parties = [['text' => $prompt], ...$this->partieFichier($entree)];
 
         /** @var list<string> $cles */

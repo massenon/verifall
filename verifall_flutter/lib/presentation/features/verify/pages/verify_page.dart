@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +18,6 @@ import '../../../shared/vf_app_bar.dart';
 import '../../../shared/vf_bottom_sheet.dart';
 import '../../../shared/vf_buttons.dart';
 import '../../../shared/vf_card.dart';
-import '../../../shared/vf_display.dart';
 import '../../../shared/vf_inputs.dart';
 import '../../../shared/vf_points_pill.dart';
 import '../../../shared/vf_toast.dart';
@@ -71,6 +71,28 @@ class _VerifyPageState extends ConsumerState<VerifyPage> {
     final bool envoiEnCours =
         ref.watch(soumissionProvider) is SoumissionEnCours;
 
+    // Les types activés par l'admin. Repli sur la liste complète si l'appel
+    // réseau est en cours ou a échoué — l'API refusera de toute façon un type
+    // désactivé avec une 422 explicite.
+    final List<TypeContenu> typesActifs =
+        ref.watch(modulesActifsProvider).valueOrNull ?? TypeContenu.values;
+
+    // Si le type en cours de saisie vient d'être désactivé par l'admin,
+    // on bascule silencieusement sur le premier type encore disponible.
+    ref.listen<AsyncValue<List<TypeContenu>>>(modulesActifsProvider, (
+      _,
+      AsyncValue<List<TypeContenu>> next,
+    ) {
+      final List<TypeContenu>? actifs = next.valueOrNull;
+      if (actifs == null || actifs.isEmpty) return;
+      final TypeContenu actuel = ref.read(verifyFormProvider).type;
+      if (!actifs.contains(actuel)) {
+        ref.read(verifyFormProvider.notifier).choisirLeType(actifs.first);
+        _saisie.clear();
+        setState(() => _erreur = null);
+      }
+    });
+
     ref.listen<EtatDeSoumission>(soumissionProvider, _reagir);
 
     return Scaffold(
@@ -106,6 +128,7 @@ class _VerifyPageState extends ConsumerState<VerifyPage> {
                 const SizedBox(height: VfSpacing.x10),
                 SelecteurDeType(
                   choisi: brouillon.type,
+                  typesActifs: typesActifs,
                   onChoisi: (TypeContenu type) {
                     ref.read(verifyFormProvider.notifier).choisirLeType(type);
                     _saisie.clear();
@@ -236,26 +259,10 @@ class _VerifyPageState extends ConsumerState<VerifyPage> {
           onChoisir: () => _choisirUnMedia(brouillon.type),
         );
       case TypeContenu.audio:
-        // L'IMPORT AUDIO N'EST PAS DISPONIBLE dans cette version, et l'ecran le
-        // dit plutot que d'ouvrir un selecteur qui n'existe pas. `image_picker`
-        // ne sait ouvrir ni un fichier audio ni un enregistreur ; les deux
-        // demandent une dependance que le socle ne declare pas, et « un besoin
-        // de modification du socle est une demande, pas une modification ».
-        // Voir docs/ARBITRAGES.md et le compte rendu de M2.
-        return VfEmptyState(
-          kind: VfEmptyKind.rienEncore,
-          icon: Icons.mic_off_rounded,
-          title: 'Import audio indisponible',
-          message:
-              'Cette version de l application ne sait pas encore ouvrir un '
-              'fichier audio. Les autres types de contenu restent analysables.',
-          action: VfGhostButton(
-            label: 'Analyser un texte a la place',
-            expanded: false,
-            onPressed: () => ref
-                .read(verifyFormProvider.notifier)
-                .choisirLeType(TypeContenu.texte),
-          ),
+        return ZoneDeDepot(
+          type: brouillon.type,
+          fichier: brouillon.fichier,
+          onChoisir: _choisirUnAudio,
         );
     }
   }
@@ -320,6 +327,44 @@ class _VerifyPageState extends ConsumerState<VerifyPage> {
     // scenario possible ».
     final ErreurDeSaisie? refus = ValiderLaSaisie.fichierChoisi(
       type.televersement!,
+      fichier,
+    );
+    if (!mounted) {
+      return;
+    }
+    if (refus != null) {
+      setState(() => _erreur = refus.message);
+      return;
+    }
+    setState(() => _erreur = null);
+    ref.read(verifyFormProvider.notifier).fichier(fichier);
+  }
+
+  /// Ouvre le sélecteur de fichier natif pour un fichier audio.
+  ///
+  /// `image_picker` ne gère ni fichiers audio ni enregistreur audio ; `file_picker`
+  /// couvre ce cas et expose les mêmes extensions que le contrat (§10.3).
+  Future<void> _choisirUnAudio() async {
+    final FilePickerResult? resultat = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: <String>['mp3', 'wav', 'ogg', 'm4a'],
+    );
+    if (resultat == null || resultat.files.isEmpty || !mounted) {
+      return;
+    }
+    final PlatformFile fichierPlatforme = resultat.files.first;
+    final String? chemin = fichierPlatforme.path;
+    if (chemin == null || !mounted) {
+      return;
+    }
+
+    final FichierChoisi fichier = await copierDansLeStockagePrive(
+      cheminSource: chemin,
+      nomAffiche: fichierPlatforme.name,
+    );
+
+    final ErreurDeSaisie? refus = ValiderLaSaisie.fichierChoisi(
+      TypeContenu.audio.televersement!,
       fichier,
     );
     if (!mounted) {

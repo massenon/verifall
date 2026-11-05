@@ -132,6 +132,7 @@ final class CatalogueDesReglages
             self::analytique(),
             self::api(),
             self::moteurs(),
+            self::modulesContenu(),
             self::securite(),
             self::certificats(),
         );
@@ -612,6 +613,43 @@ final class CatalogueDesReglages
             ),
             MoteurAnalyse::cases(),
         );
+    }
+
+    /**
+     * Interrupteurs par TYPE DE CONTENU — indépendants des moteurs.
+     *
+     * Les moteurs (Gemini, GPT…) ont leurs propres cases dans `moteurs()`.
+     * Ces cases-ci commandent un niveau au-dessus : elles décident si un type
+     * de fichier est PROPOSÉ sur l'écran de vérification, même quand le moteur
+     * sous-jacent est configuré.
+     *
+     * Audio et vidéo sont à zéro par défaut : ils dépendent du moteur de
+     * transcription, et activer la case sans clé configurée ouvre un onglet
+     * qui échoue. L'image est à un par défaut car le moteur de détection IA
+     * (`DetecteurIA`) fonctionne déjà. Texte et URL n'ont pas de case : ils
+     * ne dépendent d'aucun moteur externe et sont toujours disponibles.
+     *
+     * @return list<ReglageDefini>
+     */
+    private static function modulesContenu(): array
+    {
+        return [
+            new ReglageDefini('module_image_actif', "Activer l'analyse d'images", TypeDeReglage::Booleen,
+                self::GROUPE_MOTEURS, defaut: '1',
+                aide: "Ouvre l'onglet « Image » sur l'écran de vérification. Désactiver si le moteur de détection d'image n'est pas opérationnel."),
+
+            new ReglageDefini('module_audio_actif', "Activer l'analyse audio", TypeDeReglage::Booleen,
+                self::GROUPE_MOTEURS, defaut: '0',
+                aide: "Ouvre l'onglet « Audio » sur l'écran de vérification. Exige un moteur de transcription configuré (clé Whisper / OpenAI)."),
+
+            new ReglageDefini('module_video_actif', "Activer l'analyse vidéo", TypeDeReglage::Booleen,
+                self::GROUPE_MOTEURS, defaut: '0',
+                aide: "Ouvre l'onglet « Vidéo » sur l'écran de vérification. Exige un moteur de transcription configuré (clé Whisper / OpenAI)."),
+
+            new ReglageDefini('quota_media_journalier', 'Vérifications multimédia par jour (comptes gratuits)', TypeDeReglage::Nombre,
+                self::GROUPE_MOTEURS, defaut: '2',
+                aide: "Nombre de vérifications audio, vidéo ou image autorisées par jour pour un compte gratuit ou un visiteur. Les comptes premium ne sont pas limités par ce quota."),
+        ];
     }
 
     /**

@@ -98,6 +98,13 @@ return [
 
     'a_defaut_d_accord_competence_exclusive_est' => 'Failing agreement, exclusive jurisdiction is granted to the courts of Cotonou.',
 
+    '11_accessibilite_numerique' => '11. Digital accessibility',
+    'verifall_s_engage_a_rendre_son_site_accessible' => 'Vérif\'All is committed to making its website and mobile application accessible, in accordance with WCAG 2.1 Level AA guidelines.',
+    'etat_de_conformite_actuel' => 'Current conformance status: partially conformant. Improvement work is underway, in particular on text alternatives for images, colour contrasts in certain modules, and keyboard navigation in interactive forms.',
+    'pour_signaler_un_probleme_accessibilite' => 'To report an accessibility problem or request an accessible version of a piece of content, write to',
+    'accusé_reception_accessibilite' => '. We acknowledge receipt within 5 working days and handle your request within 30 days.',
+    'voie_de_recours_accessibilite' => 'Escalation: if you do not receive a response within that period, you may contact ARCEP Bénin or the Ombudsman of your country of residence.',
+
     'rejoignez_un_espace_d_information_transparent_et' => 'Join an information space that is transparent and secure.',
 
     'maintenant_que_vous_connaissez_nos_engagements_passez' => 'Now that you know what we commit to, take the next step.<br>Create your free account to use all our tools and take an active part in the fight against disinformation.',

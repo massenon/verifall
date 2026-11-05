@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Http\Api\V1\Controllers\AcademieController;
 use App\Http\Api\V1\Controllers\AuthentificationController;
+use App\Http\Api\V1\Controllers\ConfigurationController;
 use App\Http\Api\V1\Controllers\ForumController;
 use App\Http\Api\V1\Controllers\GamificationController;
 use App\Http\Api\V1\Controllers\HubController;
@@ -105,6 +106,9 @@ Route::prefix('api/v1')
                 Route::middleware('throttle:api-lecture')->group(function (): void {
                     Route::get('me', [MonCompteController::class, 'afficher'])->name('me.show');
                     Route::get('me/settings', [MonCompteController::class, 'reglages'])->name('me.settings');
+
+                    Route::get('configuration/modules', [ConfigurationController::class, 'modules'])
+                        ->name('configuration.modules');
                     Route::get('me/dashboard', [TableauDeBordController::class, 'accueil'])->name('me.dashboard');
                     Route::get('me/stats', [TableauDeBordController::class, 'statistiques'])->name('me.stats');
 

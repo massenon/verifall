@@ -218,6 +218,26 @@ class VerificationRemoteSource {
     );
   }
 
+  /// `GET /configuration/modules` — les types de contenu activés par l'admin.
+  ///
+  /// Texte et lien sont toujours vrais (aucun drapeau admin ne les commande).
+  /// Image, vidéo et audio reflètent les réglages `module_*_actif`.
+  ///
+  /// Le résultat est mis en cache 60 s par le provider appelant : un admin qui
+  /// désactive un module le voit répercuté sur le mobile dans la minute.
+  Future<List<TypeContenu>> fetchModulesActifs() async {
+    final ApiEnvelope enveloppe = await _client.get(
+      ApiEndpoints.configurationModules,
+    );
+    final Map<String, Object?> modules =
+        JsonReader(enveloppe.dataObject).objectOrNull('modules') ??
+        const <String, Object?>{};
+    return <TypeContenu>[
+      for (final TypeContenu type in TypeContenu.values)
+        if (modules[type.wireValue] == true) type,
+    ];
+  }
+
   /// `GET /tools` — **ni paginé, ni filtré côté client de curseur**.
   ///
   /// Les catégories viennent de `meta.categories` : « proposer une catégorie
